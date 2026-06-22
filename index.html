@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sistema de Gestão de Processos</title>
-
+  <h1> Teste </h1>
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -47,9 +47,8 @@
       margin-bottom: 20px;
     }
 
-    h2, h3 {
+    h3 {
       margin-top: 0;
-      color: #111827;
     }
 
     .grid-2 {
@@ -64,7 +63,7 @@
       }
     }
 
-    input, textarea, button, select {
+    input, textarea, button {
       width: 100%;
       padding: 11px 12px;
       margin-top: 8px;
@@ -85,22 +84,21 @@
       border: none;
       cursor: pointer;
       font-weight: 600;
-      transition: 0.2s;
     }
 
     button:hover {
-      opacity: 0.94;
+      opacity: 0.95;
     }
 
-    button.secondary {
+    .secondary {
       background: #475467;
     }
 
-    button.danger {
+    .danger {
       background: #b42318;
     }
 
-    button.success {
+    .success {
       background: #027a48;
     }
 
@@ -225,11 +223,11 @@
       <div class="grid-2">
         <div>
           <label for="email">E-mail</label>
-          <input type="email" id="email" placeholder="Digite seu e-mail" />
+          <input type="email" id="email" placeholder="Digite seu e-mail">
         </div>
         <div>
           <label for="senha">Senha</label>
-          <input type="password" id="senha" placeholder="Digite sua senha" />
+          <input type="password" id="senha" placeholder="Digite sua senha">
         </div>
       </div>
 
@@ -241,7 +239,7 @@
 
       <div class="status" id="statusLogin"></div>
       <div class="muted">
-        Para entrar, você precisa ter um usuário cadastrado no Firebase Authentication.
+        Para entrar, é necessário ter um usuário no Firebase Authentication.
       </div>
     </div>
   </div>
@@ -262,7 +260,8 @@
 
     <div class="card">
       <h3>Novo processo</h3>
-      <textarea id="entrada" placeholder="Cole o texto do processo aqui... Exemplo:
+      <textarea id="entrada" placeholder="Cole o texto do processo aqui...
+Exemplo:
 Processo nº 12345/2026
 Interessado(a): Maria Silva
 Assunto: Solicitação de revisão
@@ -270,7 +269,7 @@ Prazo: 10 dias"></textarea>
 
       <div class="btn-row">
         <button type="button" onclick="gerarTabela()">Gerar processo</button>
-        <input id="busca" placeholder="🔎 Buscar por processo, interessado, assunto, situação..." onkeyup="filtrar()" />
+        <input id="busca" placeholder="🔎 Buscar..." onkeyup="filtrar()">
       </div>
 
       <div class="btn-row">
@@ -279,7 +278,7 @@ Prazo: 10 dias"></textarea>
       </div>
 
       <div class="muted">
-        Dica: você pode editar diretamente as células da tabela. Ao sair da célula, o sistema salva automaticamente no Firestore.
+        Dica: edite a tabela diretamente. Ao sair da célula, o dado é salvo no Firestore.
       </div>
     </div>
 
@@ -312,7 +311,7 @@ Prazo: 10 dias"></textarea>
 
   <script>
     // =========================
-    // CONFIGURAÇÃO FIREBASE
+    // CONFIG FIREBASE
     // =========================
     const firebaseConfig = {
       apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
@@ -333,11 +332,9 @@ Prazo: 10 dias"></textarea>
     // =========================
     const loginBox = document.getElementById("loginBox");
     const appBox = document.getElementById("appBox");
-
     const emailInput = document.getElementById("email");
     const senhaInput = document.getElementById("senha");
     const statusLogin = document.getElementById("statusLogin");
-
     const entrada = document.getElementById("entrada");
     const busca = document.getElementById("busca");
     const tabela = document.getElementById("tabela");
@@ -349,7 +346,7 @@ Prazo: 10 dias"></textarea>
     let chart = null;
 
     // =========================
-    // AUTENTICAÇÃO
+    // AUTH STATE
     // =========================
     auth.onAuthStateChanged(async (user) => {
       if (user) {
@@ -365,7 +362,8 @@ Prazo: 10 dias"></textarea>
       }
     });
 
-    async function login() {
+    // Torna as funções globais para o onclick funcionar
+    window.login = async function () {
       try {
         const email = emailInput.value.trim();
         const senha = senhaInput.value;
@@ -382,9 +380,9 @@ Prazo: 10 dias"></textarea>
         console.error("Erro no login:", error);
         statusLogin.textContent = "Erro no login: " + traduzirErroFirebase(error);
       }
-    }
+    };
 
-    async function cadastrar() {
+    window.cadastrar = async function () {
       try {
         const email = emailInput.value.trim();
         const senha = senhaInput.value;
@@ -406,9 +404,9 @@ Prazo: 10 dias"></textarea>
         console.error("Erro ao cadastrar:", error);
         statusLogin.textContent = "Erro ao cadastrar: " + traduzirErroFirebase(error);
       }
-    }
+    };
 
-    async function resetarSenha() {
+    window.resetarSenha = async function () {
       try {
         const email = emailInput.value.trim();
 
@@ -423,19 +421,18 @@ Prazo: 10 dias"></textarea>
         console.error("Erro ao resetar senha:", error);
         statusLogin.textContent = "Erro ao enviar recuperação: " + traduzirErroFirebase(error);
       }
-    }
+    };
 
-    async function logout() {
+    window.logout = async function () {
       try {
         await auth.signOut();
       } catch (error) {
         alert("Erro ao sair: " + error.message);
       }
-    }
+    };
 
     function traduzirErroFirebase(error) {
       const code = error.code || "";
-
       if (code.includes("invalid-email")) return "e-mail inválido.";
       if (code.includes("missing-password")) return "senha não informada.";
       if (code.includes("email-already-in-use")) return "este e-mail já está cadastrado.";
@@ -444,14 +441,13 @@ Prazo: 10 dias"></textarea>
       if (code.includes("wrong-password")) return "senha incorreta.";
       if (code.includes("invalid-credential")) return "credenciais inválidas.";
       if (code.includes("too-many-requests")) return "muitas tentativas. Tente mais tarde.";
-
       return error.message || "erro desconhecido.";
     }
 
     // =========================
-    // CRUD DE PROCESSOS
+    // CRUD
     // =========================
-    async function gerarTabela() {
+    window.gerarTabela = async function () {
       try {
         const texto = entrada.value.trim();
 
@@ -484,7 +480,7 @@ Prazo: 10 dias"></textarea>
           data: new Date().toLocaleDateString("pt-BR"),
           situacao: "Adimplente",
           prazo: prazo,
-          criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+          criadoEm: new Date().toISOString()
         };
 
         const docRef = await db.collection("processos").add(registro);
@@ -499,7 +495,7 @@ Prazo: 10 dias"></textarea>
         console.error("Erro ao salvar processo:", error);
         alert("Erro ao salvar processo: " + error.message);
       }
-    }
+    };
 
     function extrairCampo(texto, regexList) {
       for (const regex of regexList) {
@@ -531,9 +527,7 @@ Prazo: 10 dias"></textarea>
           });
         });
 
-        // Mantém a ordem mais recente por último carregado e usa prepend para ficar em cima
         itens.forEach(item => adicionarLinha(item));
-
         atualizarContador();
         atualizarGrafico();
       } catch (error) {
@@ -560,7 +554,6 @@ Prazo: 10 dias"></textarea>
         </td>
       `;
 
-      // Salvar edição de cada célula no Firestore
       tr.querySelectorAll('td[contenteditable="true"]').forEach(td => {
         td.addEventListener("blur", async () => {
           const id = tr.dataset.id;
@@ -581,14 +574,12 @@ Prazo: 10 dias"></textarea>
         });
       });
 
-      // Insere no topo
       tbody.prepend(tr);
-
       atualizarContador();
       atualizarGrafico();
     }
 
-    async function remover(id) {
+    window.remover = async function (id) {
       if (!id) return;
 
       const confirmar = confirm("Deseja realmente excluir este processo?");
@@ -610,7 +601,7 @@ Prazo: 10 dias"></textarea>
         console.error("Erro ao excluir:", error);
         alert("Erro ao excluir: " + error.message);
       }
-    }
+    };
 
     function limparTabela() {
       tbody.innerHTML = "";
@@ -622,7 +613,7 @@ Prazo: 10 dias"></textarea>
     // =========================
     // FILTRO
     // =========================
-    function filtrar() {
+    window.filtrar = function () {
       const termo = busca.value.toLowerCase().trim();
 
       document.querySelectorAll("#tabela tbody tr").forEach(tr => {
@@ -632,12 +623,12 @@ Prazo: 10 dias"></textarea>
 
       atualizarContadorVisivel();
       atualizarGrafico();
-    }
+    };
 
     // =========================
-    // EXPORTAÇÕES
+    // EXPORTAÇÃO
     // =========================
-    function exportarExcel() {
+    window.exportarExcel = function () {
       if (!tbody.querySelector("tr")) {
         alert("Não há registros para exportar.");
         return;
@@ -647,9 +638,7 @@ Prazo: 10 dias"></textarea>
 
       const html = `
         <html>
-          <head>
-            <meta charset="UTF-8" />
-          </head>
+          <head><meta charset="UTF-8"></head>
           <body>
             <h2>Relatório de Processos</h2>
             ${tabelaExportacao}
@@ -666,23 +655,22 @@ Prazo: 10 dias"></textarea>
       link.download = "processos.xls";
       link.click();
       URL.revokeObjectURL(link.href);
-    }
+    };
 
-    function exportarPDF() {
+    window.exportarPDF = function () {
       if (!tbody.querySelector("tr")) {
         alert("Não há registros para exportar.");
         return;
       }
 
       const tabelaExportacao = obterHTMLTabelaExportacao();
-
       const janela = window.open("", "_blank");
 
       janela.document.write(`
         <html>
           <head>
             <title>Relatório de Processos</title>
-            <meta charset="UTF-8" />
+            <meta charset="UTF-8">
             <style>
               body { font-family: Arial, sans-serif; padding: 20px; color: #111; }
               h2 { margin-bottom: 16px; }
@@ -701,20 +689,16 @@ Prazo: 10 dias"></textarea>
       janela.document.close();
       janela.focus();
       janela.print();
-    }
+    };
 
     function obterHTMLTabelaExportacao() {
       const clone = tabela.cloneNode(true);
 
-      // Remove a coluna "Ações"
       clone.querySelectorAll("tr").forEach(tr => {
         const ultimaCelula = tr.lastElementChild;
-        if (ultimaCelula) {
-          ultimaCelula.remove();
-        }
+        if (ultimaCelula) ultimaCelula.remove();
       });
 
-      // Remove atributos contenteditable
       clone.querySelectorAll('[contenteditable="true"]').forEach(td => {
         td.removeAttribute("contenteditable");
       });
@@ -733,7 +717,6 @@ Prazo: 10 dias"></textarea>
         if (tr.style.display === "none") return;
 
         const situacao = (tr.children[4]?.innerText || "").toLowerCase().trim();
-
         if (situacao.includes("adimplente")) {
           adimplente++;
         } else if (situacao) {
@@ -741,9 +724,7 @@ Prazo: 10 dias"></textarea>
         }
       });
 
-      if (chart) {
-        chart.destroy();
-      }
+      if (chart) chart.destroy();
 
       chart = new Chart(graficoCanvas, {
         type: "bar",
@@ -760,25 +741,18 @@ Prazo: 10 dias"></textarea>
         options: {
           responsive: true,
           plugins: {
-            legend: {
-              display: false
-            }
+            legend: { display: false }
           },
           scales: {
             y: {
               beginAtZero: true,
-              ticks: {
-                precision: 0
-              }
+              ticks: { precision: 0 }
             }
           }
         }
       });
     }
 
-    // =========================
-    // CONTADORES
-    // =========================
     function atualizarContador() {
       const total = tbody.querySelectorAll("tr").length;
       contadorRegistros.textContent = `${total} registro(s)`;
@@ -792,9 +766,6 @@ Prazo: 10 dias"></textarea>
       contadorRegistros.textContent = `${visiveis} registro(s) visível(is)`;
     }
 
-    // =========================
-    // UTILITÁRIOS
-    // =========================
     function escapeHtml(texto) {
       return String(texto)
         .replace(/&/g, "&amp;")
@@ -804,13 +775,9 @@ Prazo: 10 dias"></textarea>
         .replace(/'/g, "&#039;");
     }
 
-    // Enter para login
     document.addEventListener("keydown", (e) => {
       if (!appBox.classList.contains("hidden")) return;
-
-      if (e.key === "Enter") {
-        login();
-      }
+      if (e.key === "Enter") login();
     });
   </script>
 </body>
