@@ -14,10 +14,13 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
+    * { box-sizing: border-box; }
+
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
       margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
       background: #f4f6f9;
+      color: #1f2937;
     }
 
     header {
@@ -26,36 +29,54 @@
       padding: 16px;
       text-align: center;
       font-size: 22px;
-      font-weight: bold;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .container {
-      padding: 20px;
       max-width: 1200px;
-      margin: auto;
+      margin: 20px auto;
+      padding: 0 16px;
     }
 
     .card {
       background: white;
+      border-radius: 12px;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
       margin-bottom: 20px;
     }
 
-    input, textarea, button {
+    h2, h3 {
+      margin-top: 0;
+      color: #111827;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    input, textarea, button, select {
       width: 100%;
-      padding: 10px;
+      padding: 11px 12px;
       margin-top: 8px;
-      box-sizing: border-box;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
       font-size: 14px;
+      font-family: inherit;
     }
 
     textarea {
-      min-height: 140px;
       resize: vertical;
+      min-height: 140px;
     }
 
     button {
@@ -64,17 +85,30 @@
       border: none;
       cursor: pointer;
       font-weight: 600;
+      transition: 0.2s;
     }
 
     button:hover {
-      opacity: 0.95;
+      opacity: 0.94;
+    }
+
+    button.secondary {
+      background: #475467;
+    }
+
+    button.danger {
+      background: #b42318;
+    }
+
+    button.success {
+      background: #027a48;
     }
 
     .btn-row {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
-      margin-top: 10px;
+      gap: 10px;
+      margin-top: 12px;
     }
 
     .btn-row button,
@@ -83,73 +117,99 @@
       min-width: 180px;
     }
 
-    .logout-btn {
-      background: #b42318;
-    }
-
-    table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    th {
-      background: #005ea2;
-      color: white;
-      text-align: left;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      vertical-align: top;
-      font-size: 14px;
-    }
-
-    td[contenteditable="true"] {
-      background: #fff8dc;
-    }
-
-    .acoes button {
-      width: auto;
-      padding: 6px 10px;
-      margin: 0;
-      background: #b42318;
-      border-radius: 4px;
-    }
-
-    canvas {
-      margin-top: 20px;
-      background: white;
-      padding: 10px;
-      border-radius: 8px;
-    }
-
     .hidden {
-      display: none;
+      display: none !important;
     }
 
     .status {
       margin-top: 10px;
-      color: #444;
       font-size: 14px;
+      color: #344054;
+    }
+
+    .muted {
+      color: #667085;
+      font-size: 13px;
+      margin-top: 8px;
     }
 
     .topbar {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
-    .small {
+    .user-box {
+      font-size: 14px;
+      color: #344054;
+      background: #f9fafb;
+      border: 1px solid #eaecf0;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      background: white;
+      min-width: 900px;
+    }
+
+    thead th {
+      background: #005ea2;
+      color: white;
+      text-align: left;
+      padding: 12px;
+      border: 1px solid #dbe4f0;
+      font-size: 14px;
+    }
+
+    tbody td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      vertical-align: top;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    td[contenteditable="true"] {
+      background: #fffdf2;
+    }
+
+    td[contenteditable="true"]:focus {
+      outline: 2px solid #84caff;
+      background: #fffbe6;
+    }
+
+    .acoes button {
+      width: auto;
+      padding: 8px 10px;
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
       font-size: 12px;
-      color: #666;
-      margin-top: 10px;
+      background: #eff8ff;
+      color: #175cd3;
+      border: 1px solid #b2ddff;
+    }
+
+    canvas {
+      margin-top: 16px;
+      max-height: 380px;
+      background: white;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -160,11 +220,29 @@
   <!-- LOGIN -->
   <div id="loginBox" class="container">
     <div class="card">
-      <h3>Login</h3>
-      <input type="email" id="email" placeholder="E-mail" />
-      <input type="password" id="senha" placeholder="Senha" />
-      <button onclick="login()">Entrar</button>
+      <h3>Acesso ao sistema</h3>
+
+      <div class="grid-2">
+        <div>
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="Digite seu e-mail" />
+        </div>
+        <div>
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" placeholder="Digite sua senha" />
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" onclick="login()">Entrar</button>
+        <button type="button" class="success" onclick="cadastrar()">Cadastrar usuário</button>
+        <button type="button" class="secondary" onclick="resetarSenha()">Esqueci a senha</button>
+      </div>
+
       <div class="status" id="statusLogin"></div>
+      <div class="muted">
+        Para entrar, você precisa ter um usuário cadastrado no Firebase Authentication.
+      </div>
     </div>
   </div>
 
@@ -172,42 +250,61 @@
   <div id="appBox" class="container hidden">
     <div class="card">
       <div class="topbar">
-        <h3 style="margin:0;">Painel de Processos</h3>
-        <button class="logout-btn" style="max-width:180px;" onclick="logout()">Sair</button>
-      </div>
-
-      <textarea id="entrada" placeholder="Cole o texto do processo aqui..."></textarea>
-
-      <div class="btn-row">
-        <button onclick="gerarTabela()">Gerar Processo</button>
-        <input id="busca" placeholder="🔎 Buscar..." onkeyup="filtrar()" />
-      </div>
-
-      <div class="btn-row">
-        <button onclick="exportarExcel()">Exportar Excel</button>
-        <button onclick="exportarPDF()">Exportar PDF</button>
-      </div>
-
-      <div class="small">
-        Dica: após editar qualquer célula da tabela, clique fora dela para salvar automaticamente no banco.
+        <div>
+          <h3 style="margin-bottom:6px;">Painel de Processos</h3>
+          <div class="user-box">
+            Usuário logado: <strong id="usuarioLogado">-</strong>
+          </div>
+        </div>
+        <button type="button" class="danger" style="max-width:180px;" onclick="logout()">Sair</button>
       </div>
     </div>
 
     <div class="card">
-      <table id="tabela" class="hidden">
-        <thead>
-          <tr>
-            <th>Processo</th>
-            <th>Interessado</th>
-            <th>Assunto</th>
-            <th>Data</th>
-            <th>Situação</th>
-            <th>Prazo</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <h3>Novo processo</h3>
+      <textarea id="entrada" placeholder="Cole o texto do processo aqui... Exemplo:
+Processo nº 12345/2026
+Interessado(a): Maria Silva
+Assunto: Solicitação de revisão
+Prazo: 10 dias"></textarea>
+
+      <div class="btn-row">
+        <button type="button" onclick="gerarTabela()">Gerar processo</button>
+        <input id="busca" placeholder="🔎 Buscar por processo, interessado, assunto, situação..." onkeyup="filtrar()" />
+      </div>
+
+      <div class="btn-row">
+        <button type="button" onclick="exportarExcel()">Exportar Excel</button>
+        <button type="button" onclick="exportarPDF()">Exportar PDF</button>
+      </div>
+
+      <div class="muted">
+        Dica: você pode editar diretamente as células da tabela. Ao sair da célula, o sistema salva automaticamente no Firestore.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="topbar">
+        <h3 style="margin:0;">Registros</h3>
+        <span class="pill" id="contadorRegistros">0 registro(s)</span>
+      </div>
+
+      <div class="table-wrap">
+        <table id="tabela" class="hidden">
+          <thead>
+            <tr>
+              <th>Processo</th>
+              <th>Interessado</th>
+              <th>Assunto</th>
+              <th>Data</th>
+              <th>Situação</th>
+              <th>Prazo</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
       <canvas id="grafico"></canvas>
     </div>
@@ -215,7 +312,7 @@
 
   <script>
     // =========================
-    // FIREBASE CONFIG
+    // CONFIGURAÇÃO FIREBASE
     // =========================
     const firebaseConfig = {
       apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
@@ -227,6 +324,7 @@
     };
 
     firebase.initializeApp(firebaseConfig);
+
     const auth = firebase.auth();
     const db = firebase.firestore();
 
@@ -235,21 +333,486 @@
     // =========================
     const loginBox = document.getElementById("loginBox");
     const appBox = document.getElementById("appBox");
-    const email = document.getElementById("email");
-    const senha = document.getElementById("senha");
+
+    const emailInput = document.getElementById("email");
+    const senhaInput = document.getElementById("senha");
+    const statusLogin = document.getElementById("statusLogin");
+
     const entrada = document.getElementById("entrada");
     const busca = document.getElementById("busca");
     const tabela = document.getElementById("tabela");
     const tbody = tabela.querySelector("tbody");
-    const statusLogin = document.getElementById("statusLogin");
     const graficoCanvas = document.getElementById("grafico");
+    const usuarioLogado = document.getElementById("usuarioLogado");
+    const contadorRegistros = document.getElementById("contadorRegistros");
 
     let chart = null;
 
     // =========================
-    // AUTH STATE
+    // AUTENTICAÇÃO
     // =========================
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         loginBox.classList.add("hidden");
         appBox.classList.remove("hidden");
+        usuarioLogado.textContent = user.email || "Usuário";
+        await carregar();
+      } else {
+        loginBox.classList.remove("hidden");
+        appBox.classList.add("hidden");
+        usuarioLogado.textContent = "-";
+        limparTabela();
+      }
+    });
+
+    async function login() {
+      try {
+        const email = emailInput.value.trim();
+        const senha = senhaInput.value;
+
+        if (!email || !senha) {
+          statusLogin.textContent = "Informe o e-mail e a senha.";
+          return;
+        }
+
+        statusLogin.textContent = "Entrando...";
+        await auth.signInWithEmailAndPassword(email, senha);
+        statusLogin.textContent = "";
+      } catch (error) {
+        console.error("Erro no login:", error);
+        statusLogin.textContent = "Erro no login: " + traduzirErroFirebase(error);
+      }
+    }
+
+    async function cadastrar() {
+      try {
+        const email = emailInput.value.trim();
+        const senha = senhaInput.value;
+
+        if (!email || !senha) {
+          statusLogin.textContent = "Informe o e-mail e a senha para cadastrar.";
+          return;
+        }
+
+        if (senha.length < 6) {
+          statusLogin.textContent = "A senha precisa ter pelo menos 6 caracteres.";
+          return;
+        }
+
+        statusLogin.textContent = "Cadastrando usuário...";
+        await auth.createUserWithEmailAndPassword(email, senha);
+        statusLogin.textContent = "Usuário cadastrado com sucesso.";
+      } catch (error) {
+        console.error("Erro ao cadastrar:", error);
+        statusLogin.textContent = "Erro ao cadastrar: " + traduzirErroFirebase(error);
+      }
+    }
+
+    async function resetarSenha() {
+      try {
+        const email = emailInput.value.trim();
+
+        if (!email) {
+          statusLogin.textContent = "Digite o e-mail para recuperação de senha.";
+          return;
+        }
+
+        await auth.sendPasswordResetEmail(email);
+        statusLogin.textContent = "E-mail de recuperação enviado com sucesso.";
+      } catch (error) {
+        console.error("Erro ao resetar senha:", error);
+        statusLogin.textContent = "Erro ao enviar recuperação: " + traduzirErroFirebase(error);
+      }
+    }
+
+    async function logout() {
+      try {
+        await auth.signOut();
+      } catch (error) {
+        alert("Erro ao sair: " + error.message);
+      }
+    }
+
+    function traduzirErroFirebase(error) {
+      const code = error.code || "";
+
+      if (code.includes("invalid-email")) return "e-mail inválido.";
+      if (code.includes("missing-password")) return "senha não informada.";
+      if (code.includes("email-already-in-use")) return "este e-mail já está cadastrado.";
+      if (code.includes("weak-password")) return "senha fraca. Use pelo menos 6 caracteres.";
+      if (code.includes("user-not-found")) return "usuário não encontrado.";
+      if (code.includes("wrong-password")) return "senha incorreta.";
+      if (code.includes("invalid-credential")) return "credenciais inválidas.";
+      if (code.includes("too-many-requests")) return "muitas tentativas. Tente mais tarde.";
+
+      return error.message || "erro desconhecido.";
+    }
+
+    // =========================
+    // CRUD DE PROCESSOS
+    // =========================
+    async function gerarTabela() {
+      try {
+        const texto = entrada.value.trim();
+
+        if (!texto) {
+          alert("Cole o texto do processo antes de gerar.");
+          return;
+        }
+
+        const processo = extrairCampo(texto, [
+          /Processo\s*(?:n[º°o]\s*)?:?\s*(.+)/i
+        ]);
+
+        const interessado = extrairCampo(texto, [
+          /Interessado\(a\)\s*:?\s*(.+)/i,
+          /Interessado\s*:?\s*(.+)/i
+        ]);
+
+        const assunto = extrairCampo(texto, [
+          /Assunto\s*:?\s*(.+)/i
+        ]);
+
+        const prazo = extrairCampo(texto, [
+          /Prazo\s*:?\s*(.+)/i
+        ]) || "-";
+
+        const registro = {
+          processo: processo || "",
+          interessado: interessado || "",
+          assunto: assunto || "",
+          data: new Date().toLocaleDateString("pt-BR"),
+          situacao: "Adimplente",
+          prazo: prazo,
+          criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        const docRef = await db.collection("processos").add(registro);
+
+        adicionarLinha({
+          id: docRef.id,
+          ...registro
+        });
+
+        entrada.value = "";
+      } catch (error) {
+        console.error("Erro ao salvar processo:", error);
+        alert("Erro ao salvar processo: " + error.message);
+      }
+    }
+
+    function extrairCampo(texto, regexList) {
+      for (const regex of regexList) {
+        const match = texto.match(regex);
+        if (match && match[1]) {
+          return match[1].split("\n")[0].trim();
+        }
+      }
+      return "";
+    }
+
+    async function carregar() {
+      try {
+        limparTabela();
+
+        const snapshot = await db.collection("processos").get();
+
+        if (snapshot.empty) {
+          atualizarContador();
+          atualizarGrafico();
+          return;
+        }
+
+        const itens = [];
+        snapshot.forEach((doc) => {
+          itens.push({
+            id: doc.id,
+            ...doc.data()
+          });
+        });
+
+        // Mantém a ordem mais recente por último carregado e usa prepend para ficar em cima
+        itens.forEach(item => adicionarLinha(item));
+
+        atualizarContador();
+        atualizarGrafico();
+      } catch (error) {
+        console.error("Erro ao carregar:", error);
+        alert("Erro ao carregar processos: " + error.message);
+      }
+    }
+
+    function adicionarLinha(dados) {
+      tabela.classList.remove("hidden");
+
+      const tr = document.createElement("tr");
+      tr.dataset.id = dados.id || "";
+
+      tr.innerHTML = `
+        <td contenteditable="true" data-campo="processo">${escapeHtml(dados.processo || "")}</td>
+        <td contenteditable="true" data-campo="interessado">${escapeHtml(dados.interessado || "")}</td>
+        <td contenteditable="true" data-campo="assunto">${escapeHtml(dados.assunto || "")}</td>
+        <td contenteditable="true" data-campo="data">${escapeHtml(dados.data || "")}</td>
+        <td contenteditable="true" data-campo="situacao">${escapeHtml(dados.situacao || "")}</td>
+        <td contenteditable="true" data-campo="prazo">${escapeHtml(dados.prazo || "")}</td>
+        <td class="acoes">
+          <button type="button" class="danger" onclick="remover('${dados.id || ""}')">Excluir</button>
+        </td>
+      `;
+
+      // Salvar edição de cada célula no Firestore
+      tr.querySelectorAll('td[contenteditable="true"]').forEach(td => {
+        td.addEventListener("blur", async () => {
+          const id = tr.dataset.id;
+          const campo = td.dataset.campo;
+          const valor = td.innerText.trim();
+
+          if (!id || !campo) return;
+
+          try {
+            await db.collection("processos").doc(id).update({
+              [campo]: valor
+            });
+            atualizarGrafico();
+          } catch (error) {
+            console.error("Erro ao atualizar campo:", error);
+            alert("Erro ao atualizar registro: " + error.message);
+          }
+        });
+      });
+
+      // Insere no topo
+      tbody.prepend(tr);
+
+      atualizarContador();
+      atualizarGrafico();
+    }
+
+    async function remover(id) {
+      if (!id) return;
+
+      const confirmar = confirm("Deseja realmente excluir este processo?");
+      if (!confirmar) return;
+
+      try {
+        await db.collection("processos").doc(id).delete();
+
+        const linha = document.querySelector(`tr[data-id="${id}"]`);
+        if (linha) linha.remove();
+
+        if (!tbody.querySelector("tr")) {
+          tabela.classList.add("hidden");
+        }
+
+        atualizarContador();
+        atualizarGrafico();
+      } catch (error) {
+        console.error("Erro ao excluir:", error);
+        alert("Erro ao excluir: " + error.message);
+      }
+    }
+
+    function limparTabela() {
+      tbody.innerHTML = "";
+      tabela.classList.add("hidden");
+      atualizarContador();
+      atualizarGrafico();
+    }
+
+    // =========================
+    // FILTRO
+    // =========================
+    function filtrar() {
+      const termo = busca.value.toLowerCase().trim();
+
+      document.querySelectorAll("#tabela tbody tr").forEach(tr => {
+        const texto = tr.innerText.toLowerCase();
+        tr.style.display = texto.includes(termo) ? "" : "none";
+      });
+
+      atualizarContadorVisivel();
+      atualizarGrafico();
+    }
+
+    // =========================
+    // EXPORTAÇÕES
+    // =========================
+    function exportarExcel() {
+      if (!tbody.querySelector("tr")) {
+        alert("Não há registros para exportar.");
+        return;
+      }
+
+      const tabelaExportacao = obterHTMLTabelaExportacao();
+
+      const html = `
+        <html>
+          <head>
+            <meta charset="UTF-8" />
+          </head>
+          <body>
+            <h2>Relatório de Processos</h2>
+            ${tabelaExportacao}
+          </body>
+        </html>
+      `;
+
+      const blob = new Blob([html], {
+        type: "application/vnd.ms-excel"
+      });
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "processos.xls";
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+
+    function exportarPDF() {
+      if (!tbody.querySelector("tr")) {
+        alert("Não há registros para exportar.");
+        return;
+      }
+
+      const tabelaExportacao = obterHTMLTabelaExportacao();
+
+      const janela = window.open("", "_blank");
+
+      janela.document.write(`
+        <html>
+          <head>
+            <title>Relatório de Processos</title>
+            <meta charset="UTF-8" />
+            <style>
+              body { font-family: Arial, sans-serif; padding: 20px; color: #111; }
+              h2 { margin-bottom: 16px; }
+              table { width: 100%; border-collapse: collapse; }
+              th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; }
+              th { background: #eaeaea; }
+            </style>
+          </head>
+          <body>
+            <h2>Relatório de Processos</h2>
+            ${tabelaExportacao}
+          </body>
+        </html>
+      `);
+
+      janela.document.close();
+      janela.focus();
+      janela.print();
+    }
+
+    function obterHTMLTabelaExportacao() {
+      const clone = tabela.cloneNode(true);
+
+      // Remove a coluna "Ações"
+      clone.querySelectorAll("tr").forEach(tr => {
+        const ultimaCelula = tr.lastElementChild;
+        if (ultimaCelula) {
+          ultimaCelula.remove();
+        }
+      });
+
+      // Remove atributos contenteditable
+      clone.querySelectorAll('[contenteditable="true"]').forEach(td => {
+        td.removeAttribute("contenteditable");
+      });
+
+      return clone.outerHTML;
+    }
+
+    // =========================
+    // GRÁFICO
+    // =========================
+    function atualizarGrafico() {
+      let adimplente = 0;
+      let outros = 0;
+
+      document.querySelectorAll("#tabela tbody tr").forEach(tr => {
+        if (tr.style.display === "none") return;
+
+        const situacao = (tr.children[4]?.innerText || "").toLowerCase().trim();
+
+        if (situacao.includes("adimplente")) {
+          adimplente++;
+        } else if (situacao) {
+          outros++;
+        }
+      });
+
+      if (chart) {
+        chart.destroy();
+      }
+
+      chart = new Chart(graficoCanvas, {
+        type: "bar",
+        data: {
+          labels: ["Adimplente", "Outros"],
+          datasets: [{
+            label: "Quantidade",
+            data: [adimplente, outros],
+            backgroundColor: ["#12b76a", "#f79009"],
+            borderColor: ["#079455", "#dc6803"],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // =========================
+    // CONTADORES
+    // =========================
+    function atualizarContador() {
+      const total = tbody.querySelectorAll("tr").length;
+      contadorRegistros.textContent = `${total} registro(s)`;
+    }
+
+    function atualizarContadorVisivel() {
+      const visiveis = Array.from(tbody.querySelectorAll("tr"))
+        .filter(tr => tr.style.display !== "none")
+        .length;
+
+      contadorRegistros.textContent = `${visiveis} registro(s) visível(is)`;
+    }
+
+    // =========================
+    // UTILITÁRIOS
+    // =========================
+    function escapeHtml(texto) {
+      return String(texto)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Enter para login
+    document.addEventListener("keydown", (e) => {
+      if (!appBox.classList.contains("hidden")) return;
+
+      if (e.key === "Enter") {
+        login();
+      }
+    });
+  </script>
+</body>
+</html>
+``
