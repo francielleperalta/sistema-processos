@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sistema de Gestão de Processos</title>
-  <h1> Teste </h1>
+
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -15,14 +15,12 @@
 
   <style>
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
       background: #f4f6f9;
       color: #1f2937;
     }
-
     header {
       background: #005ea2;
       color: white;
@@ -32,13 +30,11 @@
       font-weight: 700;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
-
     .container {
-      max-width: 1200px;
+      max-width: 1380px;
       margin: 20px auto;
       padding: 0 16px;
     }
-
     .card {
       background: white;
       border-radius: 12px;
@@ -46,24 +42,17 @@
       box-shadow: 0 2px 12px rgba(0,0,0,0.08);
       margin-bottom: 20px;
     }
-
-    h3 {
-      margin-top: 0;
-    }
-
-    .grid-2 {
+    h3 { margin-top: 0; }
+    .grid-2, .grid-3 {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
     }
-
-    @media (max-width: 768px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 900px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
     }
-
-    input, textarea, button {
+    input, textarea, button, select {
       width: 100%;
       padding: 11px 12px;
       margin-top: 8px;
@@ -72,12 +61,10 @@
       font-size: 14px;
       font-family: inherit;
     }
-
     textarea {
       resize: vertical;
       min-height: 140px;
     }
-
     button {
       background: #005ea2;
       color: white;
@@ -85,52 +72,32 @@
       cursor: pointer;
       font-weight: 600;
     }
-
-    button:hover {
-      opacity: 0.95;
-    }
-
-    .secondary {
-      background: #475467;
-    }
-
-    .danger {
-      background: #b42318;
-    }
-
-    .success {
-      background: #027a48;
-    }
-
+    button:hover { opacity: 0.95; }
+    .secondary { background: #475467; }
+    .danger { background: #b42318; }
+    .success { background: #027a48; }
+    .warning { background: #b54708; }
     .btn-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 12px;
     }
-
-    .btn-row button,
-    .btn-row input {
+    .btn-row button, .btn-row input, .btn-row select {
       flex: 1;
       min-width: 180px;
     }
-
-    .hidden {
-      display: none !important;
-    }
-
+    .hidden { display: none !important; }
     .status {
       margin-top: 10px;
       font-size: 14px;
       color: #344054;
     }
-
     .muted {
       color: #667085;
       font-size: 13px;
       margin-top: 8px;
     }
-
     .topbar {
       display: flex;
       align-items: center;
@@ -138,7 +105,6 @@
       gap: 12px;
       flex-wrap: wrap;
     }
-
     .user-box {
       font-size: 14px;
       color: #344054;
@@ -147,19 +113,33 @@
       padding: 8px 12px;
       border-radius: 8px;
     }
-
-    .table-wrap {
-      overflow-x: auto;
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
     }
-
+    .tab-btn {
+      width: auto;
+      min-width: 140px;
+      padding: 10px 16px;
+      background: #e7eef7;
+      color: #144a75;
+      border: 1px solid #c7d7ea;
+    }
+    .tab-btn.active {
+      background: #005ea2;
+      color: white;
+      border-color: #005ea2;
+    }
+    .table-wrap { overflow-x: auto; }
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 16px;
       background: white;
-      min-width: 900px;
+      min-width: 1250px;
     }
-
     thead th {
       background: #005ea2;
       color: white;
@@ -168,7 +148,6 @@
       border: 1px solid #dbe4f0;
       font-size: 14px;
     }
-
     tbody td {
       border: 1px solid #e5e7eb;
       padding: 10px;
@@ -176,23 +155,17 @@
       font-size: 14px;
       background: #fff;
     }
-
-    td[contenteditable="true"] {
-      background: #fffdf2;
-    }
-
+    td[contenteditable="true"] { background: #fffdf2; }
     td[contenteditable="true"]:focus {
       outline: 2px solid #84caff;
       background: #fffbe6;
     }
-
     .acoes button {
       width: auto;
       padding: 8px 10px;
       margin: 0;
       font-size: 13px;
     }
-
     .pill {
       display: inline-block;
       padding: 4px 8px;
@@ -202,9 +175,69 @@
       color: #175cd3;
       border: 1px solid #b2ddff;
     }
-
+    .dias-ok { color: #027a48; font-weight: 600; }
+    .dias-hoje, .dias-vencendo { color: #b54708; font-weight: 700; }
+    .dias-atrasado { color: #b42318; font-weight: 700; }
+    .status-sem-prazo { color: #475467; font-style: italic; }
+    .data-final-input {
+      width: 165px;
+      min-width: 165px;
+      margin-top: 0;
+      padding: 8px;
+    }
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .checkbox-wrap input {
+      width: auto;
+      margin: 0;
+    }
+    .alertas {
+      border-left: 4px solid #b54708;
+      background: #fffaeb;
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-top: 12px;
+      color: #7a2e0b;
+    }
+    .alertas ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 1100px) {
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .kpis { grid-template-columns: 1fr; }
+    }
+    .kpi {
+      background: #fff;
+      border: 1px solid #eaecf0;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .kpi .label { font-size: 13px; color: #667085; }
+    .kpi .value { font-size: 28px; font-weight: 700; margin-top: 6px; }
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 900px) {
+      .chart-grid { grid-template-columns: 1fr; }
+    }
     canvas {
-      margin-top: 16px;
+      margin-top: 10px;
       max-height: 380px;
       background: white;
       border-radius: 8px;
@@ -215,11 +248,9 @@
 
   <header>🏛️ Sistema de Gestão de Processos</header>
 
-  <!-- LOGIN -->
   <div id="loginBox" class="container">
     <div class="card">
       <h3>Acesso ao sistema</h3>
-
       <div class="grid-2">
         <div>
           <label for="email">E-mail</label>
@@ -230,106 +261,161 @@
           <input type="password" id="senha" placeholder="Digite sua senha">
         </div>
       </div>
-
       <div class="btn-row">
         <button type="button" onclick="login()">Entrar</button>
         <button type="button" class="success" onclick="cadastrar()">Cadastrar usuário</button>
         <button type="button" class="secondary" onclick="resetarSenha()">Esqueci a senha</button>
       </div>
-
       <div class="status" id="statusLogin"></div>
       <div class="muted">
-        Para entrar, é necessário ter um usuário no Firebase Authentication.
+        Para entrar, é necessário ter um usuário cadastrado no Firebase Authentication.
       </div>
     </div>
   </div>
 
-  <!-- APP -->
   <div id="appBox" class="container hidden">
     <div class="card">
       <div class="topbar">
         <div>
           <h3 style="margin-bottom:6px;">Painel de Processos</h3>
-          <div class="user-box">
-            Usuário logado: <strong id="usuarioLogado">-</strong>
-          </div>
+          <div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong></div>
         </div>
-        <button type="button" class="danger" style="max-width:180px;" onclick="logout()">Sair</button>
+        <div class="btn-row" style="margin-top:0;">
+          <button type="button" class="secondary" style="max-width:240px;" onclick="solicitarPermissaoNotificacao()">Ativar avisos do navegador</button>
+          <button type="button" class="danger" style="max-width:180px;" onclick="logout()">Sair</button>
+        </div>
       </div>
     </div>
 
     <div class="card">
-      <h3>Novo processo</h3>
-      <textarea id="entrada" placeholder="Cole o texto do processo aqui...
-Exemplo:
+      <div class="tabs">
+        <button type="button" id="tabProcessosBtn" class="tab-btn active" onclick="abrirAba('processos')">Processos</button>
+        <button type="button" id="tabDashboardBtn" class="tab-btn" onclick="abrirAba('dashboard')">Dashboard</button>
+      </div>
+
+      <div id="abaProcessos">
+        <h3>Novo processo</h3>
+        <textarea id="entrada" placeholder="Cole o texto do processo aqui...
+Exemplo 1:
 Processo nº 12345/2026
 Interessado(a): Maria Silva
 Assunto: Solicitação de revisão
-Prazo: 10 dias"></textarea>
+Prazo: 10 dias
 
-      <div class="btn-row">
-        <button type="button" onclick="gerarTabela()">Gerar processo</button>
-        <input id="busca" placeholder="🔎 Buscar..." onkeyup="filtrar()">
+Exemplo 2:
+Processo nº 999/2026
+Interessado(a): João Pereira
+Assunto: Recurso
+Data Final: 30/06/2026
+Gerência: GECONT"></textarea>
+
+        <div class="grid-3">
+          <div>
+            <label for="gerenciaManual">Gerência</label>
+            <select id="gerenciaManual">
+              <option value="">Selecione...</option>
+            </select>
+          </div>
+          <div>
+            <label for="dataFinalManual">Data Final</label>
+            <input type="date" id="dataFinalManual">
+          </div>
+          <div>
+            <label for="limiteVencendo">Avisar quando faltar</label>
+            <select id="limiteVencendo" onchange="atualizarTudoNaTela()">
+              <option value="1">1 dia</option>
+              <option value="2">2 dias</option>
+              <option value="3" selected>3 dias</option>
+              <option value="5">5 dias</option>
+              <option value="7">7 dias</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="checkbox-wrap">
+          <input type="checkbox" id="semPrazoManual" onchange="alternarSemPrazoManual()">
+          Processo sem prazo definido
+        </label>
+
+        <div class="btn-row">
+          <button type="button" onclick="gerarTabela()">Gerar processo</button>
+          <input id="busca" placeholder="🔎 Buscar por processo, interessado, assunto, situação ou gerência..." onkeyup="filtrar()">
+        </div>
+
+        <div class="btn-row">
+          <button type="button" onclick="exportarExcel()">Exportar Excel</button>
+          <button type="button" onclick="exportarPDF()">Exportar PDF</button>
+        </div>
+
+        <div class="muted">
+          Você pode cadastrar processo <strong>sem prazo</strong>, escolher a <strong>gerência</strong>, e o sistema destaca automaticamente processos <strong>vencidos</strong> ou <strong>vencendo</strong>. O aviso do navegador só funciona com a página aberta e após permitir notificações.
+        </div>
+
+        <div id="alertasPrazo" class="alertas hidden"></div>
+
+        <div class="topbar" style="margin-top:16px;">
+          <h3 style="margin:0;">Registros</h3>
+          <span class="pill" id="contadorRegistros">0 registro(s)</span>
+        </div>
+
+        <div class="table-wrap">
+          <table id="tabela" class="hidden">
+            <thead>
+              <tr>
+                <th>Processo</th>
+                <th>Interessado</th>
+                <th>Assunto</th>
+                <th>Data</th>
+                <th>Situação</th>
+                <th>Gerência</th>
+                <th>Data Final</th>
+                <th>Dias Restantes</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="btn-row">
-        <button type="button" onclick="exportarExcel()">Exportar Excel</button>
-        <button type="button" onclick="exportarPDF()">Exportar PDF</button>
+      <div id="abaDashboard" class="hidden">
+        <h3>Dashboard</h3>
+        <div class="kpis">
+          <div class="kpi"><div class="label">Total de processos</div><div class="value" id="kpiTotal">0</div></div>
+          <div class="kpi"><div class="label">Sem prazo</div><div class="value" id="kpiSemPrazo">0</div></div>
+          <div class="kpi"><div class="label">Vencendo</div><div class="value" id="kpiVencendo">0</div></div>
+          <div class="kpi"><div class="label">Atrasados</div><div class="value" id="kpiAtrasados">0</div></div>
+        </div>
+        <div class="chart-grid">
+          <div class="card" style="margin-bottom:0;">
+            <h3 style="font-size:18px;">Processos por situação</h3>
+            <canvas id="graficoSituacao"></canvas>
+          </div>
+          <div class="card" style="margin-bottom:0;">
+            <h3 style="font-size:18px;">Processos por gerência</h3>
+            <canvas id="graficoGerencia"></canvas>
+          </div>
+        </div>
       </div>
-
-      <div class="muted">
-        Dica: edite a tabela diretamente. Ao sair da célula, o dado é salvo no Firestore.
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="topbar">
-        <h3 style="margin:0;">Registros</h3>
-        <span class="pill" id="contadorRegistros">0 registro(s)</span>
-      </div>
-
-      <div class="table-wrap">
-        <table id="tabela" class="hidden">
-          <thead>
-            <tr>
-              <th>Processo</th>
-              <th>Interessado</th>
-              <th>Assunto</th>
-              <th>Data</th>
-              <th>Situação</th>
-              <th>Prazo</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-
-      <canvas id="grafico"></canvas>
     </div>
   </div>
 
   <script>
-    // =========================
-    // CONFIG FIREBASE
-    // =========================
     const firebaseConfig = {
-      apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
-      authDomain: "meu-sistema-processos.firebaseapp.com",
-      projectId: "meu-sistema-processos",
-      storageBucket: "meu-sistema-processos.firebasestorage.app",
-      messagingSenderId: "773592641691",
-      appId: "1:773592641691:web:8d07e9e83e293f0017d63e"
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_PROJETO.firebaseapp.com",
+      projectId: "SEU_PROJECT_ID",
+      storageBucket: "SEU_PROJETO.appspot.com",
+      messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+      appId: "SEU_APP_ID"
     };
 
     firebase.initializeApp(firebaseConfig);
-
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // =========================
-    // ELEMENTOS
-    // =========================
+    const GERENCIAS = ["GCGC", "GESTD", "GGDP", "GECONT", "GEOF", "GEMOP", "GEINFRA", "GPI", "GEAAL", "GECG"];
+
     const loginBox = document.getElementById("loginBox");
     const appBox = document.getElementById("appBox");
     const emailInput = document.getElementById("email");
@@ -339,15 +425,25 @@ Prazo: 10 dias"></textarea>
     const busca = document.getElementById("busca");
     const tabela = document.getElementById("tabela");
     const tbody = tabela.querySelector("tbody");
-    const graficoCanvas = document.getElementById("grafico");
     const usuarioLogado = document.getElementById("usuarioLogado");
     const contadorRegistros = document.getElementById("contadorRegistros");
+    const alertasPrazo = document.getElementById("alertasPrazo");
+    const gerenciaManual = document.getElementById("gerenciaManual");
+    const dataFinalManual = document.getElementById("dataFinalManual");
+    const semPrazoManual = document.getElementById("semPrazoManual");
+    const limiteVencendo = document.getElementById("limiteVencendo");
 
-    let chart = null;
+    let chartSituacao = null;
+    let chartGerencia = null;
+    let chavesNotificadas = new Set();
 
-    // =========================
-    // AUTH STATE
-    // =========================
+    GERENCIAS.forEach(g => {
+      const option = document.createElement('option');
+      option.value = g;
+      option.textContent = g;
+      gerenciaManual.appendChild(option);
+    });
+
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         loginBox.classList.add("hidden");
@@ -362,17 +458,14 @@ Prazo: 10 dias"></textarea>
       }
     });
 
-    // Torna as funções globais para o onclick funcionar
     window.login = async function () {
       try {
         const email = emailInput.value.trim();
         const senha = senhaInput.value;
-
         if (!email || !senha) {
           statusLogin.textContent = "Informe o e-mail e a senha.";
           return;
         }
-
         statusLogin.textContent = "Entrando...";
         await auth.signInWithEmailAndPassword(email, senha);
         statusLogin.textContent = "";
@@ -386,17 +479,14 @@ Prazo: 10 dias"></textarea>
       try {
         const email = emailInput.value.trim();
         const senha = senhaInput.value;
-
         if (!email || !senha) {
           statusLogin.textContent = "Informe o e-mail e a senha para cadastrar.";
           return;
         }
-
         if (senha.length < 6) {
           statusLogin.textContent = "A senha precisa ter pelo menos 6 caracteres.";
           return;
         }
-
         statusLogin.textContent = "Cadastrando usuário...";
         await auth.createUserWithEmailAndPassword(email, senha);
         statusLogin.textContent = "Usuário cadastrado com sucesso.";
@@ -409,12 +499,10 @@ Prazo: 10 dias"></textarea>
     window.resetarSenha = async function () {
       try {
         const email = emailInput.value.trim();
-
         if (!email) {
           statusLogin.textContent = "Digite o e-mail para recuperação de senha.";
           return;
         }
-
         await auth.sendPasswordResetEmail(email);
         statusLogin.textContent = "E-mail de recuperação enviado com sucesso.";
       } catch (error) {
@@ -444,198 +532,396 @@ Prazo: 10 dias"></textarea>
       return error.message || "erro desconhecido.";
     }
 
-    // =========================
-    // CRUD
-    // =========================
-    window.gerarTabela = async function () {
-      try {
-        const texto = entrada.value.trim();
+    function hojeISO() {
+      const hoje = new Date();
+      const offset = hoje.getTimezoneOffset();
+      return new Date(hoje.getTime() - offset * 60000).toISOString().split("T")[0];
+    }
 
-        if (!texto) {
-          alert("Cole o texto do processo antes de gerar.");
-          return;
-        }
+    function adicionarDias(dataISO, dias) {
+      if (!dataISO || isNaN(dias)) return "";
+      const data = new Date(dataISO + "T00:00:00");
+      data.setDate(data.getDate() + dias);
+      return data.toISOString().split("T")[0];
+    }
 
-        const processo = extrairCampo(texto, [
-          /Processo\s*(?:n[º°o]\s*)?:?\s*(.+)/i
-        ]);
+    function calcularDiasRestantes(dataFinalISO) {
+      if (!dataFinalISO) return null;
+      const hoje = new Date();
+      hoje.setHours(0,0,0,0);
+      const dataFinal = new Date(dataFinalISO + "T00:00:00");
+      dataFinal.setHours(0,0,0,0);
+      const diffMs = dataFinal - hoje;
+      return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    }
 
-        const interessado = extrairCampo(texto, [
-          /Interessado\(a\)\s*:?\s*(.+)/i,
-          /Interessado\s*:?\s*(.+)/i
-        ]);
+    function textoDiasRestantes(dias) {
+      if (dias === null || dias === undefined || dias === "") return "Sem prazo";
+      if (dias > 0) return `${dias} dia(s)`;
+      if (dias === 0) return "Vence hoje";
+      return `Atrasado ${Math.abs(dias)} dia(s)`;
+    }
 
-        const assunto = extrairCampo(texto, [
-          /Assunto\s*:?\s*(.+)/i
-        ]);
+    function classeDiasRestantes(dias) {
+      const limite = parseInt(limiteVencendo.value, 10) || 3;
+      if (dias === null || dias === undefined || dias === "") return "status-sem-prazo";
+      if (dias < 0) return "dias-atrasado";
+      if (dias === 0) return "dias-hoje";
+      if (dias <= limite) return "dias-vencendo";
+      return "dias-ok";
+    }
 
-        const prazo = extrairCampo(texto, [
-          /Prazo\s*:?\s*(.+)/i
-        ]) || "-";
+    function converterBRparaISO(dataBR) {
+      if (!dataBR) return "";
+      const limpo = dataBR.trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(limpo)) return limpo;
+      const match = limpo.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if (!match) return "";
+      const [, dia, mes, ano] = match;
+      return `${ano}-${mes}-${dia}`;
+    }
 
-        const registro = {
-          processo: processo || "",
-          interessado: interessado || "",
-          assunto: assunto || "",
-          data: new Date().toLocaleDateString("pt-BR"),
-          situacao: "Adimplente",
-          prazo: prazo,
-          criadoEm: new Date().toISOString()
-        };
-
-        const docRef = await db.collection("processos").add(registro);
-
-        adicionarLinha({
-          id: docRef.id,
-          ...registro
-        });
-
-        entrada.value = "";
-      } catch (error) {
-        console.error("Erro ao salvar processo:", error);
-        alert("Erro ao salvar processo: " + error.message);
-      }
-    };
+    function formatarDataISOparaBR(dataISO) {
+      if (!dataISO) return "Sem prazo";
+      const [ano, mes, dia] = dataISO.split("-");
+      return `${dia}/${mes}/${ano}`;
+    }
 
     function extrairCampo(texto, regexList) {
       for (const regex of regexList) {
         const match = texto.match(regex);
-        if (match && match[1]) {
-          return match[1].split("\n")[0].trim();
-        }
+        if (match && match[1]) return match[1].split("\n")[0].trim();
       }
       return "";
     }
 
-    async function carregar() {
+    function extrairDataFinalOuPrazo(texto) {
+      if (/sem\s*prazo/i.test(texto)) return "";
+      const dataFinalTexto = extrairCampo(texto, [
+        /Data\s*Final\s*:?\s*(.+)/i,
+        /Prazo\s*Final\s*:?\s*(.+)/i
+      ]);
+      if (dataFinalTexto) {
+        const iso = converterBRparaISO(dataFinalTexto);
+        if (iso) return iso;
+      }
+      const prazoDiasTexto = extrairCampo(texto, [
+        /Prazo\s*:?\s*(\d+)\s*dias?/i
+      ]);
+      if (prazoDiasTexto) {
+        const dias = parseInt(prazoDiasTexto, 10);
+        if (!isNaN(dias)) return adicionarDias(hojeISO(), dias);
+      }
+      return "";
+    }
+
+    function extrairGerencia(texto) {
+      const gerenciaExtraida = extrairCampo(texto, [
+        /Ger[eê]ncia\s*:?\s*(.+)/i,
+        /Encaminhado\s*para\s*:?\s*(.+)/i
+      ]).toUpperCase();
+      return GERENCIAS.includes(gerenciaExtraida) ? gerenciaExtraida : "";
+    }
+
+    function alternarSemPrazoInputDaLinha(inputDate, tdDias) {
+      const semPrazo = inputDate.dataset.semPrazo === 'true';
+      inputDate.disabled = semPrazo;
+      if (semPrazo) {
+        inputDate.value = '';
+        tdDias.textContent = 'Sem prazo';
+        tdDias.className = 'dias-restantes status-sem-prazo';
+      }
+    }
+
+    window.alternarSemPrazoManual = function () {
+      if (semPrazoManual.checked) {
+        dataFinalManual.value = '';
+        dataFinalManual.disabled = true;
+      } else {
+        dataFinalManual.disabled = false;
+      }
+    };
+
+    window.abrirAba = function (aba) {
+      const abaProcessos = document.getElementById('abaProcessos');
+      const abaDashboard = document.getElementById('abaDashboard');
+      const btnP = document.getElementById('tabProcessosBtn');
+      const btnD = document.getElementById('tabDashboardBtn');
+
+      if (aba === 'dashboard') {
+        abaProcessos.classList.add('hidden');
+        abaDashboard.classList.remove('hidden');
+        btnP.classList.remove('active');
+        btnD.classList.add('active');
+        atualizarDashboard();
+      } else {
+        abaProcessos.classList.remove('hidden');
+        abaDashboard.classList.add('hidden');
+        btnP.classList.add('active');
+        btnD.classList.remove('active');
+      }
+    };
+
+    window.solicitarPermissaoNotificacao = async function () {
+      if (!('Notification' in window)) {
+        alert('Seu navegador não suporta notificações.');
+        return;
+      }
+      const status = await Notification.requestPermission();
+      if (status === 'granted') {
+        alert('Avisos do navegador ativados.');
+        verificarAlertasPrazo(true);
+      } else {
+        alert('Permissão de notificação não concedida.');
+      }
+    };
+
+    window.gerarTabela = async function () {
       try {
-        limparTabela();
+        const texto = entrada.value.trim();
+        const processo = extrairCampo(texto, [/Processo\s*(?:n[º°o]\s*)?:?\s*(.+)/i]);
+        const interessado = extrairCampo(texto, [
+          /Interessado\(a\)\s*:?\s*(.+)/i,
+          /Interessado\s*:?\s*(.+)/i
+        ]);
+        const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]);
 
-        const snapshot = await db.collection("processos").get();
+        const dataFinalTexto = semPrazoManual.checked ? '' : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
+        const gerenciaTexto = gerenciaManual.value || extrairGerencia(texto);
 
-        if (snapshot.empty) {
-          atualizarContador();
-          atualizarGrafico();
+        if (!processo && !interessado && !assunto && !texto) {
+          alert('Preencha pelo menos um dado do processo.');
           return;
         }
 
+        const registro = {
+          processo: processo || '',
+          interessado: interessado || '',
+          assunto: assunto || '',
+          data: new Date().toLocaleDateString('pt-BR'),
+          situacao: 'Adimplente',
+          gerencia: gerenciaTexto || '',
+          dataFinal: dataFinalTexto || '',
+          semPrazo: !dataFinalTexto,
+          criadoEm: new Date().toISOString()
+        };
+
+        const docRef = await db.collection('processos').add(registro);
+        adicionarLinha({ id: docRef.id, ...registro });
+
+        entrada.value = '';
+        gerenciaManual.value = '';
+        semPrazoManual.checked = false;
+        dataFinalManual.disabled = false;
+        dataFinalManual.value = '';
+      } catch (error) {
+        console.error('Erro ao salvar processo:', error);
+        alert('Erro ao salvar processo: ' + error.message);
+      }
+    };
+
+    async function carregar() {
+      try {
+        limparTabela();
+        const snapshot = await db.collection('processos').get();
+        if (snapshot.empty) {
+          atualizarTudoNaTela();
+          return;
+        }
         const itens = [];
         snapshot.forEach((doc) => {
+          const dados = doc.data();
           itens.push({
             id: doc.id,
-            ...doc.data()
+            processo: dados.processo || '',
+            interessado: dados.interessado || '',
+            assunto: dados.assunto || '',
+            data: dados.data || '',
+            situacao: dados.situacao || '',
+            gerencia: dados.gerencia || '',
+            dataFinal: dados.dataFinal || '',
+            semPrazo: !!dados.semPrazo || !dados.dataFinal
           });
         });
-
         itens.forEach(item => adicionarLinha(item));
-        atualizarContador();
-        atualizarGrafico();
+        atualizarTudoNaTela();
       } catch (error) {
-        console.error("Erro ao carregar:", error);
-        alert("Erro ao carregar processos: " + error.message);
+        console.error('Erro ao carregar:', error);
+        alert('Erro ao carregar processos: ' + error.message);
       }
     }
 
     function adicionarLinha(dados) {
-      tabela.classList.remove("hidden");
+      tabela.classList.remove('hidden');
+      const dias = dados.semPrazo ? null : calcularDiasRestantes(dados.dataFinal || '');
+      const classeDias = classeDiasRestantes(dias);
+      const textoDias = dados.semPrazo ? 'Sem prazo' : textoDiasRestantes(dias);
 
-      const tr = document.createElement("tr");
-      tr.dataset.id = dados.id || "";
-
+      const tr = document.createElement('tr');
+      tr.dataset.id = dados.id || '';
       tr.innerHTML = `
-        <td contenteditable="true" data-campo="processo">${escapeHtml(dados.processo || "")}</td>
-        <td contenteditable="true" data-campo="interessado">${escapeHtml(dados.interessado || "")}</td>
-        <td contenteditable="true" data-campo="assunto">${escapeHtml(dados.assunto || "")}</td>
-        <td contenteditable="true" data-campo="data">${escapeHtml(dados.data || "")}</td>
-        <td contenteditable="true" data-campo="situacao">${escapeHtml(dados.situacao || "")}</td>
-        <td contenteditable="true" data-campo="prazo">${escapeHtml(dados.prazo || "")}</td>
-        <td class="acoes">
-          <button type="button" class="danger" onclick="remover('${dados.id || ""}')">Excluir</button>
+        <td contenteditable="true" data-campo="processo">${escapeHtml(dados.processo || '')}</td>
+        <td contenteditable="true" data-campo="interessado">${escapeHtml(dados.interessado || '')}</td>
+        <td contenteditable="true" data-campo="assunto">${escapeHtml(dados.assunto || '')}</td>
+        <td contenteditable="true" data-campo="data">${escapeHtml(dados.data || '')}</td>
+        <td contenteditable="true" data-campo="situacao">${escapeHtml(dados.situacao || '')}</td>
+        <td>
+          <select data-campo="gerencia">
+            <option value="">Selecione...</option>
+            ${GERENCIAS.map(g => `<option value="${g}" ${dados.gerencia === g ? 'selected' : ''}>${g}</option>`).join('')}
+          </select>
         </td>
+        <td>
+          <input type="date" class="data-final-input" data-campo="dataFinal" value="${escapeHtml(dados.dataFinal || '')}" ${dados.semPrazo ? 'disabled' : ''}>
+          <label class="checkbox-wrap" style="margin-top:8px;">
+            <input type="checkbox" data-campo="semPrazo" ${dados.semPrazo ? 'checked' : ''}>
+            Sem prazo
+          </label>
+        </td>
+        <td class="dias-restantes ${classeDias}">${escapeHtml(textoDias)}</td>
+        <td class="acoes"><button type="button" class="danger" onclick="remover('${dados.id || ''}')">Excluir</button></td>
       `;
 
       tr.querySelectorAll('td[contenteditable="true"]').forEach(td => {
-        td.addEventListener("blur", async () => {
+        td.addEventListener('blur', async () => {
           const id = tr.dataset.id;
           const campo = td.dataset.campo;
           const valor = td.innerText.trim();
-
           if (!id || !campo) return;
-
           try {
-            await db.collection("processos").doc(id).update({
-              [campo]: valor
-            });
-            atualizarGrafico();
+            await db.collection('processos').doc(id).update({ [campo]: valor });
+            atualizarTudoNaTela();
           } catch (error) {
-            console.error("Erro ao atualizar campo:", error);
-            alert("Erro ao atualizar registro: " + error.message);
+            console.error('Erro ao atualizar campo:', error);
+            alert('Erro ao atualizar registro: ' + error.message);
           }
         });
       });
 
+      const selectGerencia = tr.querySelector('select[data-campo="gerencia"]');
+      selectGerencia.addEventListener('change', async () => {
+        const id = tr.dataset.id;
+        if (!id) return;
+        try {
+          await db.collection('processos').doc(id).update({ gerencia: selectGerencia.value });
+          atualizarTudoNaTela();
+        } catch (error) {
+          console.error('Erro ao atualizar gerência:', error);
+          alert('Erro ao salvar gerência: ' + error.message);
+        }
+      });
+
+      const inputDataFinal = tr.querySelector('input[data-campo="dataFinal"]');
+      const checkboxSemPrazo = tr.querySelector('input[data-campo="semPrazo"]');
+      const tdDias = tr.querySelector('.dias-restantes');
+
+      checkboxSemPrazo.addEventListener('change', async () => {
+        const id = tr.dataset.id;
+        const semPrazo = checkboxSemPrazo.checked;
+        inputDataFinal.disabled = semPrazo;
+        if (semPrazo) inputDataFinal.value = '';
+        const diasAtualizados = semPrazo ? null : calcularDiasRestantes(inputDataFinal.value);
+        tdDias.textContent = semPrazo ? 'Sem prazo' : textoDiasRestantes(diasAtualizados);
+        tdDias.className = 'dias-restantes ' + classeDiasRestantes(diasAtualizados);
+        if (!id) return;
+        try {
+          await db.collection('processos').doc(id).update({
+            semPrazo: semPrazo,
+            dataFinal: semPrazo ? '' : inputDataFinal.value
+          });
+          atualizarTudoNaTela();
+        } catch (error) {
+          console.error('Erro ao atualizar sem prazo:', error);
+          alert('Erro ao salvar alteração: ' + error.message);
+        }
+      });
+
+      inputDataFinal.addEventListener('change', async () => {
+        const id = tr.dataset.id;
+        const valor = inputDataFinal.value;
+        checkboxSemPrazo.checked = !valor;
+        inputDataFinal.disabled = false;
+        const diasAtualizados = valor ? calcularDiasRestantes(valor) : null;
+        tdDias.textContent = valor ? textoDiasRestantes(diasAtualizados) : 'Sem prazo';
+        tdDias.className = 'dias-restantes ' + classeDiasRestantes(diasAtualizados);
+        if (!id) return;
+        try {
+          await db.collection('processos').doc(id).update({
+            dataFinal: valor,
+            semPrazo: !valor
+          });
+          atualizarTudoNaTela();
+        } catch (error) {
+          console.error('Erro ao atualizar data final:', error);
+          alert('Erro ao salvar data final: ' + error.message);
+        }
+      });
+
       tbody.prepend(tr);
-      atualizarContador();
-      atualizarGrafico();
     }
 
     window.remover = async function (id) {
       if (!id) return;
-
-      const confirmar = confirm("Deseja realmente excluir este processo?");
+      const confirmar = confirm('Deseja realmente excluir este processo?');
       if (!confirmar) return;
-
       try {
-        await db.collection("processos").doc(id).delete();
-
+        await db.collection('processos').doc(id).delete();
         const linha = document.querySelector(`tr[data-id="${id}"]`);
         if (linha) linha.remove();
-
-        if (!tbody.querySelector("tr")) {
-          tabela.classList.add("hidden");
-        }
-
-        atualizarContador();
-        atualizarGrafico();
+        if (!tbody.querySelector('tr')) tabela.classList.add('hidden');
+        atualizarTudoNaTela();
       } catch (error) {
-        console.error("Erro ao excluir:", error);
-        alert("Erro ao excluir: " + error.message);
+        console.error('Erro ao excluir:', error);
+        alert('Erro ao excluir: ' + error.message);
       }
     };
 
     function limparTabela() {
-      tbody.innerHTML = "";
-      tabela.classList.add("hidden");
-      atualizarContador();
-      atualizarGrafico();
+      tbody.innerHTML = '';
+      tabela.classList.add('hidden');
+      atualizarTudoNaTela();
     }
 
-    // =========================
-    // FILTRO
-    // =========================
     window.filtrar = function () {
       const termo = busca.value.toLowerCase().trim();
-
-      document.querySelectorAll("#tabela tbody tr").forEach(tr => {
+      document.querySelectorAll('#tabela tbody tr').forEach(tr => {
         const texto = tr.innerText.toLowerCase();
-        tr.style.display = texto.includes(termo) ? "" : "none";
+        tr.style.display = texto.includes(termo) ? '' : 'none';
       });
-
       atualizarContadorVisivel();
-      atualizarGrafico();
+      atualizarDashboard();
+      verificarAlertasPrazo(false);
     };
 
-    // =========================
-    // EXPORTAÇÃO
-    // =========================
+    function obterDadosDaTabela(visiveisApenas = false) {
+      return Array.from(document.querySelectorAll('#tabela tbody tr'))
+        .filter(tr => !visiveisApenas || tr.style.display !== 'none')
+        .map(tr => {
+          const selectGerencia = tr.querySelector('select[data-campo="gerencia"]');
+          const inputDataFinal = tr.querySelector('input[data-campo="dataFinal"]');
+          const semPrazo = tr.querySelector('input[data-campo="semPrazo"]').checked;
+          const dataFinal = semPrazo ? '' : (inputDataFinal.value || '');
+          return {
+            id: tr.dataset.id,
+            processo: tr.children[0]?.innerText?.trim() || '',
+            interessado: tr.children[1]?.innerText?.trim() || '',
+            assunto: tr.children[2]?.innerText?.trim() || '',
+            data: tr.children[3]?.innerText?.trim() || '',
+            situacao: tr.children[4]?.innerText?.trim() || '',
+            gerencia: selectGerencia?.value || '',
+            dataFinal,
+            semPrazo,
+            diasRestantes: semPrazo ? null : calcularDiasRestantes(dataFinal)
+          };
+        });
+    }
+
     window.exportarExcel = function () {
-      if (!tbody.querySelector("tr")) {
-        alert("Não há registros para exportar.");
+      if (!tbody.querySelector('tr')) {
+        alert('Não há registros para exportar.');
         return;
       }
-
       const tabelaExportacao = obterHTMLTabelaExportacao();
-
       const html = `
         <html>
           <head><meta charset="UTF-8"></head>
@@ -645,27 +931,21 @@ Prazo: 10 dias"></textarea>
           </body>
         </html>
       `;
-
-      const blob = new Blob([html], {
-        type: "application/vnd.ms-excel"
-      });
-
-      const link = document.createElement("a");
+      const blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+      const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = "processos.xls";
+      link.download = 'processos.xls';
       link.click();
       URL.revokeObjectURL(link.href);
     };
 
     window.exportarPDF = function () {
-      if (!tbody.querySelector("tr")) {
-        alert("Não há registros para exportar.");
+      if (!tbody.querySelector('tr')) {
+        alert('Não há registros para exportar.');
         return;
       }
-
       const tabelaExportacao = obterHTMLTabelaExportacao();
-      const janela = window.open("", "_blank");
-
+      const janela = window.open('', '_blank');
       janela.document.write(`
         <html>
           <head>
@@ -685,101 +965,195 @@ Prazo: 10 dias"></textarea>
           </body>
         </html>
       `);
-
       janela.document.close();
       janela.focus();
       janela.print();
     };
 
     function obterHTMLTabelaExportacao() {
-      const clone = tabela.cloneNode(true);
+      const dados = obterDadosDaTabela(false);
+      const linhas = dados.map(d => `
+        <tr>
+          <td>${escapeHtml(d.processo)}</td>
+          <td>${escapeHtml(d.interessado)}</td>
+          <td>${escapeHtml(d.assunto)}</td>
+          <td>${escapeHtml(d.data)}</td>
+          <td>${escapeHtml(d.situacao)}</td>
+          <td>${escapeHtml(d.gerencia || '')}</td>
+          <td>${escapeHtml(d.semPrazo ? 'Sem prazo' : formatarDataISOparaBR(d.dataFinal))}</td>
+          <td>${escapeHtml(d.semPrazo ? 'Sem prazo' : textoDiasRestantes(d.diasRestantes))}</td>
+        </tr>
+      `).join('');
 
-      clone.querySelectorAll("tr").forEach(tr => {
-        const ultimaCelula = tr.lastElementChild;
-        if (ultimaCelula) ultimaCelula.remove();
-      });
-
-      clone.querySelectorAll('[contenteditable="true"]').forEach(td => {
-        td.removeAttribute("contenteditable");
-      });
-
-      return clone.outerHTML;
+      return `
+        <table>
+          <thead>
+            <tr>
+              <th>Processo</th>
+              <th>Interessado</th>
+              <th>Assunto</th>
+              <th>Data</th>
+              <th>Situação</th>
+              <th>Gerência</th>
+              <th>Data Final</th>
+              <th>Dias Restantes</th>
+            </tr>
+          </thead>
+          <tbody>${linhas}</tbody>
+        </table>
+      `;
     }
 
-    // =========================
-    // GRÁFICO
-    // =========================
-    function atualizarGrafico() {
-      let adimplente = 0;
-      let outros = 0;
+    function atualizarContador() {
+      const total = tbody.querySelectorAll('tr').length;
+      contadorRegistros.textContent = `${total} registro(s)`;
+    }
 
-      document.querySelectorAll("#tabela tbody tr").forEach(tr => {
-        if (tr.style.display === "none") return;
+    function atualizarContadorVisivel() {
+      const visiveis = Array.from(tbody.querySelectorAll('tr')).filter(tr => tr.style.display !== 'none').length;
+      contadorRegistros.textContent = `${visiveis} registro(s) visível(is)`;
+    }
 
-        const situacao = (tr.children[4]?.innerText || "").toLowerCase().trim();
-        if (situacao.includes("adimplente")) {
-          adimplente++;
-        } else if (situacao) {
-          outros++;
-        }
+    function verificarAlertasPrazo(enviarNotificacao = false) {
+      const dados = obterDadosDaTabela(true);
+      const limite = parseInt(limiteVencendo.value, 10) || 3;
+      const itens = dados.filter(d => !d.semPrazo && d.diasRestantes !== null && d.diasRestantes <= limite);
+
+      if (!itens.length) {
+        alertasPrazo.classList.add('hidden');
+        alertasPrazo.innerHTML = '';
+        return;
+      }
+
+      const lista = itens.map(d => {
+        const status = d.diasRestantes < 0
+          ? `atrasado há ${Math.abs(d.diasRestantes)} dia(s)`
+          : d.diasRestantes === 0
+            ? 'vence hoje'
+            : `vence em ${d.diasRestantes} dia(s)`;
+        return `<li><strong>${escapeHtml(d.processo || '(sem número)')}</strong> — ${escapeHtml(d.assunto || 'Sem assunto')} — ${escapeHtml(d.gerencia || 'Sem gerência')} — ${status}</li>`;
+      }).join('');
+
+      alertasPrazo.innerHTML = `
+        <strong>Avisos de prazo</strong>
+        <div>Processos vencendo ou vencidos considerando o limite de ${limite} dia(s):</div>
+        <ul>${lista}</ul>
+      `;
+      alertasPrazo.classList.remove('hidden');
+
+      if (enviarNotificacao && 'Notification' in window && Notification.permission === 'granted') {
+        itens.forEach(d => {
+          const chave = `${d.id}-${d.diasRestantes}`;
+          if (chavesNotificadas.has(chave)) return;
+          chavesNotificadas.add(chave);
+          const corpo = d.diasRestantes < 0
+            ? `${d.processo || 'Processo'} está atrasado há ${Math.abs(d.diasRestantes)} dia(s).`
+            : d.diasRestantes === 0
+              ? `${d.processo || 'Processo'} vence hoje.`
+              : `${d.processo || 'Processo'} vence em ${d.diasRestantes} dia(s).`;
+          new Notification('Aviso de prazo', { body: corpo });
+        });
+      }
+    }
+
+    function atualizarDashboard() {
+      const dados = obterDadosDaTabela(true);
+      const total = dados.length;
+      const semPrazo = dados.filter(d => d.semPrazo).length;
+      const limite = parseInt(limiteVencendo.value, 10) || 3;
+      const vencendo = dados.filter(d => !d.semPrazo && d.diasRestantes !== null && d.diasRestantes >= 0 && d.diasRestantes <= limite).length;
+      const atrasados = dados.filter(d => !d.semPrazo && d.diasRestantes !== null && d.diasRestantes < 0).length;
+
+      document.getElementById('kpiTotal').textContent = total;
+      document.getElementById('kpiSemPrazo').textContent = semPrazo;
+      document.getElementById('kpiVencendo').textContent = vencendo;
+      document.getElementById('kpiAtrasados').textContent = atrasados;
+
+      const situacaoMap = { Adimplente: 0, Outros: 0 };
+      dados.forEach(d => {
+        const s = (d.situacao || '').toLowerCase();
+        if (s.includes('adimplente')) situacaoMap.Adimplente += 1;
+        else situacaoMap.Outros += 1;
       });
 
-      if (chart) chart.destroy();
+      const gerenciaMap = {};
+      GERENCIAS.forEach(g => gerenciaMap[g] = 0);
+      gerenciaMap['Sem gerência'] = 0;
+      dados.forEach(d => {
+        const g = d.gerencia && GERENCIAS.includes(d.gerencia) ? d.gerencia : 'Sem gerência';
+        gerenciaMap[g] += 1;
+      });
 
-      chart = new Chart(graficoCanvas, {
-        type: "bar",
+      const ctxSituacao = document.getElementById('graficoSituacao');
+      const ctxGerencia = document.getElementById('graficoGerencia');
+      if (chartSituacao) chartSituacao.destroy();
+      if (chartGerencia) chartGerencia.destroy();
+
+      chartSituacao = new Chart(ctxSituacao, {
+        type: 'bar',
         data: {
-          labels: ["Adimplente", "Outros"],
+          labels: Object.keys(situacaoMap),
           datasets: [{
-            label: "Quantidade",
-            data: [adimplente, outros],
-            backgroundColor: ["#12b76a", "#f79009"],
-            borderColor: ["#079455", "#dc6803"],
+            label: 'Quantidade',
+            data: Object.values(situacaoMap),
+            backgroundColor: ['#12b76a', '#f79009'],
+            borderColor: ['#079455', '#dc6803'],
             borderWidth: 1
           }]
         },
         options: {
           responsive: true,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: { precision: 0 }
-            }
-          }
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+      });
+
+      chartGerencia = new Chart(ctxGerencia, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(gerenciaMap),
+          datasets: [{
+            label: 'Processos',
+            data: Object.values(gerenciaMap),
+            backgroundColor: '#005ea2',
+            borderColor: '#004a82',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
         }
       });
     }
 
-    function atualizarContador() {
-      const total = tbody.querySelectorAll("tr").length;
-      contadorRegistros.textContent = `${total} registro(s)`;
-    }
-
-    function atualizarContadorVisivel() {
-      const visiveis = Array.from(tbody.querySelectorAll("tr"))
-        .filter(tr => tr.style.display !== "none")
-        .length;
-
-      contadorRegistros.textContent = `${visiveis} registro(s) visível(is)`;
+    function atualizarTudoNaTela() {
+      if (!tbody.querySelector('tr')) {
+        atualizarContador();
+        atualizarDashboard();
+        verificarAlertasPrazo(false);
+        return;
+      }
+      atualizarContador();
+      if (busca.value.trim()) atualizarContadorVisivel();
+      atualizarDashboard();
+      verificarAlertasPrazo(true);
     }
 
     function escapeHtml(texto) {
       return String(texto)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
 
-    document.addEventListener("keydown", (e) => {
-      if (!appBox.classList.contains("hidden")) return;
-      if (e.key === "Enter") login();
+    document.addEventListener('keydown', (e) => {
+      if (!appBox.classList.contains('hidden')) return;
+      if (e.key === 'Enter') login();
     });
   </script>
 </body>
 </html>
-``
