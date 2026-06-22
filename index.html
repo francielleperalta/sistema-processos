@@ -1,219 +1,255 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistema de Processos</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Gestão de Processos</title>
 
-<!-- Firebase -->
-https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.jsscript>
-https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.jsscript>
-https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.jsscript>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
 
-<!-- Chart -->
-https://cdn.jsdelivr.net/npm/chart.jsscript>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<style>
-body { font-family: Segoe UI; margin: 0; background: #f4f6f9; }
-header { background: #005ea2; color: white; padding: 15px; text-align: center; }
-.container { padding: 20px; }
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f9;
+    }
 
-input, textarea, button {
-  width: 100%; padding: 10px; margin-top: 5px;
-}
+    header {
+      background: #005ea2;
+      color: white;
+      padding: 16px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
 
-button {
-  background: #005ea2;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
 
-table {
-  width: 100%; margin-top: 20px; border-collapse: collapse;
-  background: white;
-}
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
 
-th, td { border: 1px solid #ddd; padding: 10px; }
-td[contenteditable] { background: #fff8dc; }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
 
-canvas { margin-top: 20px; }
-</style>
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    button {
+      background: #005ea2;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      opacity: 0.95;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .btn-row button,
+    .btn-row input {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .logout-btn {
+      background: #b42318;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th {
+      background: #005ea2;
+      color: white;
+      text-align: left;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    td[contenteditable="true"] {
+      background: #fff8dc;
+    }
+
+    .acoes button {
+      width: auto;
+      padding: 6px 10px;
+      margin: 0;
+      background: #b42318;
+      border-radius: 4px;
+    }
+
+    canvas {
+      margin-top: 20px;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .status {
+      margin-top: 10px;
+      color: #444;
+      font-size: 14px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .small {
+      font-size: 12px;
+      color: #666;
+      margin-top: 10px;
+    }
+  </style>
 </head>
-
 <body>
 
-<header>🏛️ Sistema de Gestão de Processos</header>
+  <header>🏛️ Sistema de Gestão de Processos</header>
 
-<!-- LOGIN -->
-<div id="login" class="container">
-  <h3>Login</h3>
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="senha" placeholder="Senha">
-  <button onclick="login()">Entrar</button>
-</div>
+  <!-- LOGIN -->
+  <div id="loginBox" class="container">
+    <div class="card">
+      <h3>Login</h3>
+      <input type="email" id="email" placeholder="E-mail" />
+      <input type="password" id="senha" placeholder="Senha" />
+      <button onclick="login()">Entrar</button>
+      <div class="status" id="statusLogin"></div>
+    </div>
+  </div>
 
-<!-- SISTEMA -->
-<div id="app" class="container" style="display:none;">
+  <!-- APP -->
+  <div id="appBox" class="container hidden">
+    <div class="card">
+      <div class="topbar">
+        <h3 style="margin:0;">Painel de Processos</h3>
+        <button class="logout-btn" style="max-width:180px;" onclick="logout()">Sair</button>
+      </div>
 
-<textarea id="entrada" placeholder="Cole o texto..."></textarea>
-<button onclick="gerarTabela()">Gerar</button>
+      <textarea id="entrada" placeholder="Cole o texto do processo aqui..."></textarea>
 
-<input id="busca" placeholder="🔎 Buscar..." onkeyup="filtrar()">
+      <div class="btn-row">
+        <button onclick="gerarTabela()">Gerar Processo</button>
+        <input id="busca" placeholder="🔎 Buscar..." onkeyup="filtrar()" />
+      </div>
 
-<button onclick="exportarExcel()">Excel</button>
-<button onclick="exportarPDF()">PDF</button>
+      <div class="btn-row">
+        <button onclick="exportarExcel()">Exportar Excel</button>
+        <button onclick="exportarPDF()">Exportar PDF</button>
+      </div>
 
-<table id="tabela" style="display:none;">
-<thead>
-<tr>
-<th>Processo</th>
-<th>Interessado</th>
-<th>Assunto</th>
-<th>Data</th>
-<th>Situação</th>
-<th>Prazo</th>
-<th>Ações</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
+      <div class="small">
+        Dica: após editar qualquer célula da tabela, clique fora dela para salvar automaticamente no banco.
+      </div>
+    </div>
 
-<canvas id="grafico"></canvas>
+    <div class="card">
+      <table id="tabela" class="hidden">
+        <thead>
+          <tr>
+            <th>Processo</th>
+            <th>Interessado</th>
+            <th>Assunto</th>
+            <th>Data</th>
+            <th>Situação</th>
+            <th>Prazo</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
 
-</div>
+      <canvas id="grafico"></canvas>
+    </div>
+  </div>
 
-<script>
-// 🔥 CONFIG FIREBASE (SUBSTITUIR)
-const firebaseConfig = {
-  apiKey: "SUA_CHAVE",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  projectId: "SEU_PROJETO"
-};
+  <script>
+    // =========================
+    // FIREBASE CONFIG
+    // =========================
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
+      authDomain: "meu-sistema-processos.firebaseapp.com",
+      projectId: "meu-sistema-processos",
+      storageBucket: "meu-sistema-processos.firebasestorage.app",
+      messagingSenderId: "773592641691",
+      appId: "1:773592641691:web:8d07e9e83e293f0017d63e"
+    };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-// LOGIN
-function login() {
-  firebase.auth().signInWithEmailAndPassword(
-    email.value, senha.value
-  ).then(() => {
-    login.style.display = "none";
-    app.style.display = "block";
-    carregar();
-  }).catch(() => alert("Erro login"));
-}
+    // =========================
+    // ELEMENTOS
+    // =========================
+    const loginBox = document.getElementById("loginBox");
+    const appBox = document.getElementById("appBox");
+    const email = document.getElementById("email");
+    const senha = document.getElementById("senha");
+    const entrada = document.getElementById("entrada");
+    const busca = document.getElementById("busca");
+    const tabela = document.getElementById("tabela");
+    const tbody = tabela.querySelector("tbody");
+    const statusLogin = document.getElementById("statusLogin");
+    const graficoCanvas = document.getElementById("grafico");
 
-// GERAR
-function gerarTabela() {
-  const texto = entrada.value;
+    let chart = null;
 
-  const processo = texto.match(/Processo nº\s*(.*)/i)?.[1] || "";
-  const interessado = texto.match(/Interessado\(a\):\s*(.*)/i)?.[1] || "";
-  const assunto = texto.match(/Assunto:\s*(.*)/i)?.[1] || "";
-
-  const hoje = new Date().toLocaleDateString();
-
-  adicionarLinha({ processo, interessado, assunto, data: hoje, situacao: "Adimplente", prazo: "-" });
-}
-
-// ADD LINHA
-function adicionarLinha(d) {
-  const tr = document.createElement("tr");
-
-  tr.innerHTML = `
-  <td contenteditable>${d.processo}</td>
-  <td contenteditable>${d.interessado}</td>
-  <td contenteditable>${d.assunto}</td>
-  <td contenteditable>${d.data}</td>
-  <td contenteditable>${d.situacao}</td>
-  <td contenteditable>${d.prazo}</td>
-  <td><button onclick="remover(this)">X</button></td>
-  `;
-
-  tabela.querySelector("tbody").prepend(tr);
-  tabela.style.display = "table";
-
-  salvarBanco(d);
-  atualizarGrafico();
-}
-
-// EXCLUIR
-function remover(btn) {
-  if (confirm("Excluir?")) {
-    btn.closest("tr").remove();
-    atualizarGrafico();
-  }
-}
-
-// FILTRO
-function filtrar() {
-  let f = busca.value.toLowerCase();
-  document.querySelectorAll("tbody tr").forEach(tr => {
-    tr.style.display = tr.innerText.toLowerCase().includes(f) ? "" : "none";
-  });
-}
-
-// SALVAR NO BANCO
-function salvarBanco(d) {
-  db.collection("processos").add(d);
-}
-
-// CARREGAR
-function carregar() {
-  db.collection("processos").get().then(snapshot => {
-    snapshot.forEach(doc => {
-      adicionarLinha(doc.data());
-    });
-  });
-}
-
-// EXCEL
-function exportarExcel() {
-  let html = tabela.outerHTML;
-  let blob = new Blob([html], {type:"application/vnd.ms-excel"});
-  let a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="processos.xls";
-  a.click();
-}
-
-// PDF
-function exportarPDF() {
-  let w = window.open("");
-  w.document.write(tabela.outerHTML);
-  w.print();
-}
-
-// GRÁFICO
-let chart;
-function atualizarGrafico() {
-  let ok = 0, pend = 0;
-
-  document.querySelectorAll("tbody tr").forEach(tr => {
-    let s = tr.children[4].innerText.toLowerCase();
-    if (s.includes("adimplente")) ok++;
-    else pend++;
-  });
-
-  if(chart) chart.destroy();
-
-  chart = new Chart(grafico, {
-    type: 'bar',
-    data: {
-      labels: ["Adimplente","Outros"],
-      datasets: [{
-        data: [ok, pend],
-        backgroundColor: ["green","orange"]
-      }]
-    }
-  });
-}
-
-// AUTO UPDATE
-document.addEventListener("input", () => atualizarGrafico());
-</script>
-
-</body>
-</html>
+    // =========================
+    // AUTH STATE
+    // =========================
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        loginBox.classList.add("hidden");
+        appBox.classList.remove("hidden");
