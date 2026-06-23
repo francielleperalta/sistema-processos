@@ -1,9 +1,9 @@
-<index.html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema de Gestão de Processos — Premium</title>
+  <title>Sistema de Gestão de Processos</title>
 
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -520,243 +520,12 @@
     .toast.success { border-left-color: var(--success); }
     .toast.error { border-left-color: var(--danger); }
     .toast.warning { border-left-color: var(--warning); }
-  
-
-    /* ===== PREMIUM OVERRIDES ===== */
-    :root {
-      --bg: #f3f6fb;
-      --surface: #ffffff;
-      --surface-soft: #f8fbff;
-      --text: #182230;
-      --muted: #667085;
-      --border: #e6eaf2;
-      --primary: #155eef;
-      --primary-dark: #0b4bc4;
-      --primary-soft: #eef4ff;
-      --success: #039855;
-      --warning: #dc6803;
-      --danger: #d92d20;
-      --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
-      --shadow-soft: 0 6px 18px rgba(16, 24, 40, 0.06);
-      --radius: 22px;
-      --radius-sm: 14px;
-    }
-
-    body {
-      background:
-        radial-gradient(circle at top left, rgba(21, 94, 239, 0.05), transparent 28%),
-        radial-gradient(circle at top right, rgba(3, 152, 85, 0.04), transparent 24%),
-        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(8px);
-      background: linear-gradient(120deg, rgba(11,75,196,.96) 0%, rgba(21,94,239,.96) 100%);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-
-    .card {
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-    }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at right top, rgba(21,94,239,.10), transparent 26%),
-        linear-gradient(135deg, #ffffff 0%, #f7faff 55%, #eef4ff 100%);
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: auto -40px -60px auto;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(21,94,239,.15) 0%, rgba(21,94,239,0) 70%);
-      pointer-events: none;
-    }
-
-    .topbar {
-      gap: 18px;
-      align-items: center;
-    }
-
-    .toolbar {
-      gap: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .user-box {
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-      box-shadow: var(--shadow-soft);
-      border-color: #e8eef7;
-    }
-
-    .section-title {
-      font-size: 19px;
-      letter-spacing: .1px;
-      margin-bottom: 14px;
-    }
-
-    .box-soft, .filtros-box {
-      background: linear-gradient(180deg, #fcfdff 0%, #f8fbff 100%);
-      border: 1px solid #edf2fa;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
-    }
-
-    .composer {
-      gap: 22px;
-    }
-
-    .filters-wrap {
-      gap: 18px;
-    }
-
-    .filters-top, .filters-bottom {
-      gap: 14px;
-    }
-
-    input, textarea, select {
-      border-radius: 14px;
-      border-color: #d8dde7;
-      background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
-    }
-
-    button {
-      border-radius: 14px;
-      min-height: 44px;
-    }
-
-    .chip {
-      border-radius: 999px;
-      box-shadow: 0 1px 0 rgba(16,24,40,.03);
-    }
-
-    .metric {
-      border-radius: 20px;
-      box-shadow: var(--shadow-soft);
-      padding: 20px;
-    }
-
-    .metric .value {
-      font-size: 32px;
-    }
-
-    .stats-strip {
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .counter-pill {
-      box-shadow: 0 1px 0 rgba(16,24,40,.03);
-      background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
-    }
-
-    .table-wrap {
-      border-radius: 18px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    thead th {
-      background: linear-gradient(180deg, #1d67c8 0%, #155eef 100%);
-    }
-
-    tbody td {
-      line-height: 1.45;
-    }
-
-    tbody tr.main-row {
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-
-    tbody tr.main-row:hover {
-      transform: scale(1.001);
-    }
-
-    .acoes button {
-      border-radius: 12px;
-      min-height: auto;
-    }
-
-    .dashboard-grid {
-      gap: 22px;
-    }
-
-    .charts-stack, .sidebar-cards {
-      gap: 20px;
-    }
-
-    .chart-card {
-      position: relative;
-      overflow: hidden;
-      background:
-        linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-    }
-    .chart-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #60a5fa 0%, #155eef 100%);
-      opacity: .95;
-    }
-
-    .drawer, .modal {
-      border-radius: 22px 0 0 22px;
-    }
-    .modal {
-      border-radius: 22px;
-    }
-
-    .drawer-box, .detail-mini {
-      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-    }
-
-    .toast {
-      border-radius: 14px;
-      box-shadow: 0 10px 24px rgba(16,24,40,.12);
-    }
-
-    .quick-help {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 18px;
-    }
-    .quick-help .help-item {
-      padding: 14px;
-      border: 1px solid #eaecf0;
-      border-radius: 16px;
-      background: linear-gradient(180deg,#ffffff 0%, #f9fbff 100%);
-      box-shadow: var(--shadow-soft);
-    }
-    .quick-help .help-item strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-    }
-    .quick-help .help-item span {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-    @media (max-width: 1000px) {
-      .quick-help { grid-template-columns: 1fr; }
-    }
-
   </style>
 </head>
 <body>
   <header>
     <h1>🏛️ Sistema de Gestão de Processos</h1>
-    <p>Interface premium, limpa e orientada a produtividade</p>
+    <p>Visão clara por área, prazos e responsáveis</p>
   </header>
 
   <div class="toasts" id="toasts"></div>
@@ -795,28 +564,13 @@
           <div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong></div>
         </div>
         <div class="toolbar">
-          <button type="button" class="secondary" style="width:auto; min-width:220px;" id="btnNotificacao">Ativar avisos</button>
+          <button type="button" class="secondary" style="width:auto; min-width:220px;" id="btnNotificacao">Ativar notificações</button>
           <button type="button" class="danger" style="width:auto; min-width:140px;" id="btnSair">Sair</button>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <div class="quick-help">
-        <div class="help-item">
-          <strong>1. Cadastre ou cole um processo</strong>
-          <span>Use o campo de texto para colar informações ou preencha os campos laterais para complementar rapidamente.</span>
-        </div>
-        <div class="help-item">
-          <strong>2. Filtre com clareza</strong>
-          <span>Busque por palavra-chave e refine por área, gerência, situação ou prazo sem lotar a tela de informações.</span>
-        </div>
-        <div class="help-item">
-          <strong>3. Acompanhe prioridades</strong>
-          <span>O painel executivo destaca vencimentos, atrasos, SGI e ranking de unidades para decisão mais rápida.</span>
-        </div>
-      </div>
-
       <div class="tabs">
         <button type="button" id="tabProcessosBtn" class="tab-btn active">Processos</button>
         <button type="button" id="tabDashboardBtn" class="tab-btn">Dashboard</button>
@@ -867,7 +621,7 @@ Gerência: GECONT"></textarea>
         </div>
 
         <div class="btn-row" style="margin-top:18px;">
-          <button type="button" id="btnGerarProcesso">Cadastrar processo</button>
+          <button type="button" id="btnGerarProcesso">Salvar processo</button>
           <button type="button" class="outline" id="btnLimparFormulario">Limpar formulário</button>
           <button type="button" id="btnExportarExcelVisiveis">Exportar Excel</button>
           <button type="button" id="btnExportarPDFVisiveis">Exportar PDF</button>
@@ -1111,15 +865,14 @@ Gerência: GECONT"></textarea>
 
   <script>
     const firebaseConfig = {
-       apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
-        authDomain: "meu-sistema-processos.firebaseapp.com",
-        databaseURL: "https://meu-sistema-processos-default-rtdb.firebaseio.com",
-        projectId: "meu-sistema-processos",
-        storageBucket: "meu-sistema-processos.firebasestorage.app",
-        messagingSenderId: "773592641691",
-        appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
-        measurementId: "G-68LQKR6HK0"
-      
+      apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
+      authDomain: "meu-sistema-processos.firebaseapp.com",
+      databaseURL: "https://meu-sistema-processos-default-rtdb.firebaseio.com",
+      projectId: "meu-sistema-processos",
+      storageBucket: "meu-sistema-processos.firebasestorage.app",
+      messagingSenderId: "773592641691",
+      appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
+      measurementId: "G-68LQKR6HK0"
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
@@ -1731,7 +1484,7 @@ Gerência: GECONT"></textarea>
 
     async function gerarProcesso() {
       try {
-        setLoading(btnGerarProcesso, true, "Cadastrar processo");
+        setLoading(btnGerarProcesso, true, "Salvar processo");
         mostrarMensagem("Salvando processo...", "info");
         const texto = entrada.value.trim();
         const processo = normalizarProcesso(extrairCampo(texto, [/Processo\s*(?:n[º°o]\s*)?:?\s*(.+)/i]).trim());
@@ -1775,7 +1528,7 @@ Gerência: GECONT"></textarea>
         mostrarMensagem("Erro ao salvar processo: " + error.message, "error");
         toast("Erro ao salvar processo.", "error");
       } finally {
-        setLoading(btnGerarProcesso, false, "Cadastrar processo");
+        setLoading(btnGerarProcesso, false, "Salvar processo");
       }
     }
 
@@ -2237,238 +1990,7 @@ Gerência: GECONT"></textarea>
       const dados = obterDadosExportacao(apenasVisiveis);
       if (!dados.length) return toast("Não há registros para exportar.", "warning");
       const janela = window.open("", "_blank");
-      janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }
-
-    /* ===== PREMIUM OVERRIDES ===== */
-    :root {
-      --bg: #f3f6fb;
-      --surface: #ffffff;
-      --surface-soft: #f8fbff;
-      --text: #182230;
-      --muted: #667085;
-      --border: #e6eaf2;
-      --primary: #155eef;
-      --primary-dark: #0b4bc4;
-      --primary-soft: #eef4ff;
-      --success: #039855;
-      --warning: #dc6803;
-      --danger: #d92d20;
-      --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
-      --shadow-soft: 0 6px 18px rgba(16, 24, 40, 0.06);
-      --radius: 22px;
-      --radius-sm: 14px;
-    }
-
-    body {
-      background:
-        radial-gradient(circle at top left, rgba(21, 94, 239, 0.05), transparent 28%),
-        radial-gradient(circle at top right, rgba(3, 152, 85, 0.04), transparent 24%),
-        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(8px);
-      background: linear-gradient(120deg, rgba(11,75,196,.96) 0%, rgba(21,94,239,.96) 100%);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-
-    .card {
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-    }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at right top, rgba(21,94,239,.10), transparent 26%),
-        linear-gradient(135deg, #ffffff 0%, #f7faff 55%, #eef4ff 100%);
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: auto -40px -60px auto;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(21,94,239,.15) 0%, rgba(21,94,239,0) 70%);
-      pointer-events: none;
-    }
-
-    .topbar {
-      gap: 18px;
-      align-items: center;
-    }
-
-    .toolbar {
-      gap: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .user-box {
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-      box-shadow: var(--shadow-soft);
-      border-color: #e8eef7;
-    }
-
-    .section-title {
-      font-size: 19px;
-      letter-spacing: .1px;
-      margin-bottom: 14px;
-    }
-
-    .box-soft, .filtros-box {
-      background: linear-gradient(180deg, #fcfdff 0%, #f8fbff 100%);
-      border: 1px solid #edf2fa;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
-    }
-
-    .composer {
-      gap: 22px;
-    }
-
-    .filters-wrap {
-      gap: 18px;
-    }
-
-    .filters-top, .filters-bottom {
-      gap: 14px;
-    }
-
-    input, textarea, select {
-      border-radius: 14px;
-      border-color: #d8dde7;
-      background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
-    }
-
-    button {
-      border-radius: 14px;
-      min-height: 44px;
-    }
-
-    .chip {
-      border-radius: 999px;
-      box-shadow: 0 1px 0 rgba(16,24,40,.03);
-    }
-
-    .metric {
-      border-radius: 20px;
-      box-shadow: var(--shadow-soft);
-      padding: 20px;
-    }
-
-    .metric .value {
-      font-size: 32px;
-    }
-
-    .stats-strip {
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .counter-pill {
-      box-shadow: 0 1px 0 rgba(16,24,40,.03);
-      background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
-    }
-
-    .table-wrap {
-      border-radius: 18px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    thead th {
-      background: linear-gradient(180deg, #1d67c8 0%, #155eef 100%);
-    }
-
-    tbody td {
-      line-height: 1.45;
-    }
-
-    tbody tr.main-row {
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-
-    tbody tr.main-row:hover {
-      transform: scale(1.001);
-    }
-
-    .acoes button {
-      border-radius: 12px;
-      min-height: auto;
-    }
-
-    .dashboard-grid {
-      gap: 22px;
-    }
-
-    .charts-stack, .sidebar-cards {
-      gap: 20px;
-    }
-
-    .chart-card {
-      position: relative;
-      overflow: hidden;
-      background:
-        linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-    }
-    .chart-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #60a5fa 0%, #155eef 100%);
-      opacity: .95;
-    }
-
-    .drawer, .modal {
-      border-radius: 22px 0 0 22px;
-    }
-    .modal {
-      border-radius: 22px;
-    }
-
-    .drawer-box, .detail-mini {
-      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-    }
-
-    .toast {
-      border-radius: 14px;
-      box-shadow: 0 10px 24px rgba(16,24,40,.12);
-    }
-
-    .quick-help {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 18px;
-    }
-    .quick-help .help-item {
-      padding: 14px;
-      border: 1px solid #eaecf0;
-      border-radius: 16px;
-      background: linear-gradient(180deg,#ffffff 0%, #f9fbff 100%);
-      box-shadow: var(--shadow-soft);
-    }
-    .quick-help .help-item strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-    }
-    .quick-help .help-item span {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-    @media (max-width: 1000px) {
-      .quick-help { grid-template-columns: 1fr; }
-    }
-
-  </style></head><body><h2>Relatório de Processos</h2><div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
+      janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }</style></head><body><h2>Relatório de Processos</h2><div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
       janela.document.close();
       janela.focus();
       janela.print();
