@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema de Gestão de Processos</title>
+  <title>Sistema de Gestão de Processos - Dinâmico</title>
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
@@ -16,15 +16,34 @@
   <style>
     * { box-sizing: border-box; }
 
+    :root {
+      --primary: #005ea2;
+      --primary-dark: #004a82;
+      --bg: #f4f6f9;
+      --text: #1f2937;
+      --muted: #667085;
+      --border: #e5e7eb;
+      --card: #ffffff;
+      --danger: #b42318;
+      --warning: #b54708;
+      --success: #027a48;
+      --gray: #475467;
+      --blue-soft: #eff8ff;
+      --green-soft: #ecfdf3;
+      --yellow-soft: #fffaeb;
+      --red-soft: #fef3f2;
+      --neutral-soft: #f8fafc;
+    }
+
     body {
       margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
-      background: #f4f6f9;
-      color: #1f2937;
+      background: var(--bg);
+      color: var(--text);
     }
 
     header {
-      background: #005ea2;
+      background: var(--primary);
       color: white;
       padding: 16px;
       text-align: center;
@@ -34,36 +53,39 @@
     }
 
     .container {
-      max-width: 1600px;
+      max-width: 1680px;
       margin: 20px auto;
       padding: 0 16px;
     }
 
     .card {
-      background: white;
-      border-radius: 12px;
+      background: var(--card);
+      border-radius: 14px;
       padding: 20px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.08);
       margin-bottom: 20px;
     }
 
-    h3, h4 { margin-top: 0; }
+    .hidden { display: none !important; }
 
-    .grid-2, .grid-3, .grid-4 {
+    h2,h3,h4 { margin-top: 0; }
+
+    .grid-2, .grid-3, .grid-4, .grid-5 {
       display: grid;
       gap: 12px;
     }
-
     .grid-2 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
     .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid-5 { grid-template-columns: repeat(5, 1fr); }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1280px) {
+      .grid-5 { grid-template-columns: repeat(3, 1fr); }
       .grid-4 { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 900px) {
-      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
     }
 
     input, textarea, button, select {
@@ -74,7 +96,7 @@
       border-radius: 8px;
       font-size: 14px;
       font-family: inherit;
-      background: #fff;
+      background: white;
     }
 
     input:disabled, select:disabled, textarea:disabled {
@@ -85,11 +107,11 @@
 
     textarea {
       resize: vertical;
-      min-height: 140px;
+      min-height: 130px;
     }
 
     button {
-      background: #005ea2;
+      background: var(--primary);
       color: white;
       border: none;
       cursor: pointer;
@@ -103,12 +125,12 @@
       cursor: not-allowed;
     }
 
-    .secondary { background: #475467; }
-    .danger { background: #b42318; }
-    .success { background: #027a48; }
-    .warning { background: #b54708; }
+    .secondary { background: var(--gray); }
+    .success { background: var(--success); }
+    .danger { background: var(--danger); }
+    .warning { background: var(--warning); }
     .light { background: #e7eef7; color: #144a75; }
-    .outline { background: white; color: #344054; border: 1px solid #d0d5dd; }
+    .outline { background: white; border: 1px solid #d0d5dd; color: #344054; }
 
     .btn-row {
       display: flex;
@@ -120,20 +142,6 @@
     .btn-row button, .btn-row input, .btn-row select {
       flex: 1;
       min-width: 180px;
-    }
-
-    .hidden { display: none !important; }
-
-    .status {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #344054;
-    }
-
-    .muted {
-      color: #667085;
-      font-size: 13px;
-      margin-top: 8px;
     }
 
     .topbar {
@@ -162,7 +170,7 @@
 
     .tab-btn {
       width: auto;
-      min-width: 140px;
+      min-width: 160px;
       padding: 10px 16px;
       background: #e7eef7;
       color: #144a75;
@@ -170,9 +178,51 @@
     }
 
     .tab-btn.active {
-      background: #005ea2;
+      background: var(--primary);
       color: white;
-      border-color: #005ea2;
+      border-color: var(--primary);
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .feedback {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      border: 1px solid transparent;
+    }
+    .feedback-info {
+      background: #eff8ff;
+      color: #175cd3;
+      border-color: #b2ddff;
+    }
+    .feedback-success {
+      background: #ecfdf3;
+      color: #027a48;
+      border-color: #abefc6;
+    }
+    .feedback-error {
+      background: #fef3f2;
+      color: #b42318;
+      border-color: #fecdca;
+    }
+    .feedback-warning {
+      background: #fffaeb;
+      color: #b54708;
+      border-color: #fedf89;
+    }
+
+    .filtros-box {
+      background: #f9fafb;
+      border: 1px solid #eaecf0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
     }
 
     .section-title {
@@ -182,78 +232,106 @@
       color: #101828;
     }
 
-    .table-wrap {
-      overflow: auto;
-      max-height: 72vh;
-      border-radius: 10px;
-      border: 1px solid #eaecf0;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      min-width: 1650px;
-    }
-
-    thead th {
-      position: sticky;
-      top: 0;
-      z-index: 3;
-      background: #005ea2;
-      color: white;
-      text-align: left;
-      padding: 12px;
-      border: 1px solid #dbe4f0;
-      font-size: 14px;
-      white-space: nowrap;
-    }
-
-    tbody td {
-      border: 1px solid #e5e7eb;
-      padding: 10px;
-      vertical-align: top;
-      font-size: 14px;
-      background: #fff;
-    }
-
-    td[contenteditable="true"] {
-      background: #fffdf2;
-    }
-
-    td[contenteditable="true"]:focus {
-      outline: 2px solid #84caff;
-      background: #fffbe6;
-    }
-
-    .acoes button {
-      width: auto;
-      padding: 8px 10px;
-      margin: 0;
-      font-size: 13px;
-    }
-
-    .pill {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 12px;
-      background: #eff8ff;
-      color: #175cd3;
-      border: 1px solid #b2ddff;
-    }
-
-    .checkbox-wrap {
+    .chips {
       display: flex;
-      align-items: center;
       gap: 8px;
-      margin-top: 10px;
-      font-size: 14px;
+      flex-wrap: wrap;
+      margin-top: 12px;
     }
 
-    .checkbox-wrap input {
+    .chip {
       width: auto;
-      margin: 0;
+      border: 1px solid #d0d5dd;
+      background: white;
+      color: #344054;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0;
+    }
+
+    .chip.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .kpis, .summary-cards {
+      display: grid;
+      gap: 12px;
+    }
+
+    .kpis { grid-template-columns: repeat(6, 1fr); margin-bottom: 12px; }
+    .summary-cards { grid-template-columns: repeat(5, 1fr); margin: 14px 0; }
+
+    @media (max-width: 1350px) {
+      .kpis { grid-template-columns: repeat(3, 1fr); }
+      .summary-cards { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 800px) {
+      .kpis, .summary-cards { grid-template-columns: 1fr; }
+    }
+
+    .kpi, .summary-card {
+      background: white;
+      border: 1px solid #eaecf0;
+      border-radius: 12px;
+      padding: 16px;
+      transition: 0.15s ease;
+    }
+
+    .summary-card {
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+
+    .summary-card.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(0,94,162,0.12);
+    }
+
+    .kpi .label, .summary-card .label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .kpi .value, .summary-card .value {
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    .summary-card small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 1200px) {
+      .chart-grid { grid-template-columns: 1fr; }
+    }
+
+    canvas {
+      margin-top: 10px;
+      max-height: 360px;
+      background: white;
+      border-radius: 8px;
     }
 
     .alertas {
@@ -270,71 +348,122 @@
       padding: 0;
     }
 
-    .kpis {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 12px;
-      margin-bottom: 12px;
+    .pill {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #eff8ff;
+      color: #175cd3;
+      border: 1px solid #b2ddff;
     }
 
-    @media (max-width: 1300px) {
-      .kpis { grid-template-columns: repeat(3, 1fr); }
+    .small-text {
+      font-size: 12px;
+      color: var(--muted);
     }
 
-    @media (max-width: 800px) {
-      .kpis { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 500px) {
-      .kpis { grid-template-columns: 1fr; }
-    }
-
-    .kpi {
-      background: #fff;
+    .table-wrap {
+      overflow: auto;
+      max-height: 72vh;
+      border-radius: 10px;
       border: 1px solid #eaecf0;
-      border-radius: 12px;
-      padding: 16px;
-    }
-
-    .kpi .label {
-      font-size: 13px;
-      color: #667085;
-    }
-
-    .kpi .value {
-      font-size: 28px;
-      font-weight: 700;
-      margin-top: 6px;
-    }
-
-    .chart-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-    }
-
-    @media (max-width: 1200px) {
-      .chart-grid { grid-template-columns: 1fr; }
-    }
-
-    canvas {
-      margin-top: 10px;
-      max-height: 380px;
       background: white;
-      border-radius: 8px;
     }
 
-    .data-final-input {
-      width: 165px;
-      min-width: 165px;
-      margin-top: 0;
-      padding: 8px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1700px;
+      background: white;
     }
 
-    .dias-ok { color: #027a48; font-weight: 600; }
-    .dias-hoje, .dias-vencendo { color: #b54708; font-weight: 700; }
-    .dias-atrasado { color: #b42318; font-weight: 700; }
-    .status-sem-prazo { color: #475467; font-style: italic; }
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background: var(--primary);
+      color: white;
+      text-align: left;
+      padding: 12px;
+      border: 1px solid #dbe4f0;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    tbody td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      vertical-align: top;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    tbody tr.main-row {
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    tbody tr.main-row:hover td {
+      background: #f8fbff;
+    }
+
+    tr.linha-atrasada td { background: #fff6f6; }
+    tr.linha-vencendo td, tr.linha-hoje td { background: #fffaf0; }
+    tr.linha-sem-prazo td { background: #fafafa; }
+
+    tr.row-updated td {
+      animation: pulseSaved 1.1s ease;
+    }
+
+    @keyframes pulseSaved {
+      0% { background: #d1fadf; }
+      100% { background: inherit; }
+    }
+
+    .detail-row td {
+      background: #fcfcfd !important;
+      padding: 0;
+    }
+
+    .row-details-box {
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      border-top: 1px dashed #ddd;
+    }
+
+    @media (max-width: 900px) {
+      .row-details-box { grid-template-columns: 1fr; }
+    }
+
+    .detail-mini {
+      background: white;
+      border: 1px solid #eaecf0;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 13px;
+    }
+
+    .detail-mini .tt {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .acoes button {
+      width: auto;
+      margin: 0;
+      padding: 7px 10px;
+      font-size: 12px;
+    }
 
     .badge {
       display: inline-block;
@@ -376,49 +505,55 @@
       border-color: #d0d5dd;
     }
 
-    .feedback {
-      margin-top: 12px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      border: 1px solid transparent;
-    }
-
-    .feedback-info {
-      background: #eff8ff;
-      color: #175cd3;
-      border-color: #b2ddff;
-    }
-
-    .feedback-success {
-      background: #ecfdf3;
-      color: #027a48;
-      border-color: #abefc6;
-    }
-
-    .feedback-error {
-      background: #fef3f2;
-      color: #b42318;
-      border-color: #fecdca;
-    }
-
-    .feedback-warning {
-      background: #fffaeb;
-      color: #b54708;
-      border-color: #fedf89;
-    }
-
-    .filtros-box {
-      background: #f9fafb;
-      border: 1px solid #eaecf0;
-      border-radius: 12px;
-      padding: 16px;
-      margin-top: 16px;
-    }
-
-    .small-text {
+    .badge-situacao {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
       font-size: 12px;
-      color: #667085;
+      font-weight: 700;
+      border: 1px solid #d0d5dd;
+      background: #f8fafc;
+      color: #344054;
+      white-space: nowrap;
+    }
+
+    .badge-situacao.concluido { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
+    .badge-situacao.pendente { background: #fffaeb; color: #b54708; border-color: #fedf89; }
+    .badge-situacao.andamento { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
+    .badge-situacao.arquivado { background: #f2f4f7; color: #475467; border-color: #d0d5dd; }
+    .badge-situacao.suspenso { background: #faf5ff; color: #7a3e9d; border-color: #e9d7fe; }
+
+    .counter-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .counter-pill {
+      background: white;
+      border: 1px solid #eaecf0;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: #344054;
+    }
+
+    .no-results {
+      margin-top: 14px;
+      padding: 14px;
+      border: 1px dashed #d0d5dd;
+      border-radius: 10px;
+      background: #fcfcfd;
+      color: #475467;
+      text-align: center;
+    }
+
+    mark.search-mark {
+      background: #fff3bf;
+      color: inherit;
+      padding: 0 2px;
+      border-radius: 2px;
     }
 
     .loading-inline {
@@ -432,48 +567,172 @@
       width: 14px;
       height: 14px;
       border: 2px solid #d0d5dd;
-      border-top-color: #005ea2;
+      border-top-color: var(--primary);
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
 
-    .no-results {
-      margin-top: 14px;
-      padding: 14px;
-      border: 1px dashed #d0d5dd;
-      border-radius: 10px;
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 1000;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(440px, 92vw);
+      height: 100vh;
+      background: white;
+      box-shadow: -6px 0 30px rgba(0,0,0,0.18);
+      z-index: 1001;
+      overflow-y: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .drawer-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+    }
+
+    .drawer-close {
+      width: auto;
+      margin: 0;
+      padding: 8px 12px;
+      background: #f2f4f7;
+      color: #344054;
+      border: 1px solid #d0d5dd;
+    }
+
+    .drawer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .drawer-box {
       background: #fcfcfd;
-      color: #475467;
-      text-align: center;
+      border: 1px solid #eaecf0;
+      border-radius: 12px;
+      padding: 12px;
     }
 
-    .ultima-alteracao {
+    .drawer-box .label {
       font-size: 12px;
-      color: #667085;
-      line-height: 1.4;
+      color: var(--muted);
+      margin-bottom: 4px;
     }
 
-    tr.linha-atrasada td {
-      background: #fff6f6;
+    .drawer-box .value {
+      font-size: 14px;
+      color: #101828;
+      word-break: break-word;
     }
 
-    tr.linha-vencendo td, tr.linha-hoje td {
-      background: #fffaf0;
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
     }
 
-    tr.linha-sem-prazo td {
-      background: #fafafa;
+    .modal {
+      width: min(760px, 100%);
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.20);
+      padding: 20px;
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    .modal-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .modal-close {
+      width: auto;
+      margin: 0;
+      padding: 8px 12px;
+      background: #f2f4f7;
+      color: #344054;
+      border: 1px solid #d0d5dd;
+    }
+
+    .toasts {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1200;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: min(360px, calc(100vw - 32px));
+    }
+
+    .toast {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      padding: 12px 14px;
+      border-left: 5px solid var(--primary);
+      animation: toastIn 0.25s ease;
+      font-size: 14px;
+    }
+
+    .toast.success { border-left-color: var(--success); }
+    .toast.error { border-left-color: var(--danger); }
+    .toast.warning { border-left-color: var(--warning); }
+    .toast.info { border-left-color: var(--primary); }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .expand-btn {
+      width: auto;
+      padding: 6px 8px;
+      margin: 0;
+      background: #f2f4f7;
+      color: #344054;
+      border: 1px solid #d0d5dd;
+    }
+
+    .sortable {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .sortable small {
+      opacity: 0.8;
+      font-weight: 400;
+      margin-left: 4px;
     }
   </style>
 </head>
 <body>
-
   <header>🏛️ Sistema de Gestão de Processos</header>
 
+  <div class="toasts" id="toasts"></div>
+
+  <!-- LOGIN -->
   <div id="loginBox" class="container">
     <div class="card">
       <h3>Acesso ao sistema</h3>
@@ -481,11 +740,11 @@
       <div class="grid-2">
         <div>
           <label for="email">E-mail</label>
-          <input type="email" id="email" placeholder="Digite seu e-mail">
+          <input type="email" id="email" placeholder="Digite seu e-mail" />
         </div>
         <div>
           <label for="senha">Senha</label>
-          <input type="password" id="senha" placeholder="Digite sua senha">
+          <input type="password" id="senha" placeholder="Digite sua senha" />
         </div>
       </div>
 
@@ -495,7 +754,7 @@
         <button type="button" class="secondary" id="btnResetar">Esqueci a senha</button>
       </div>
 
-      <div class="status" id="statusLogin"></div>
+      <div id="statusLogin" class="feedback hidden"></div>
 
       <div class="muted">
         Para entrar, é necessário ter um usuário cadastrado no Firebase Authentication.
@@ -503,6 +762,7 @@
     </div>
   </div>
 
+  <!-- APP -->
   <div id="appBox" class="container hidden">
     <div class="card">
       <div class="topbar">
@@ -512,7 +772,7 @@
         </div>
 
         <div class="btn-row" style="margin-top:0;">
-          <button type="button" class="secondary" style="max-width:250px;" id="btnNotificacao">
+          <button type="button" class="secondary" style="max-width:240px;" id="btnNotificacao">
             Ativar avisos do navegador
           </button>
           <button type="button" class="danger" style="max-width:180px;" id="btnSair">Sair</button>
@@ -526,6 +786,7 @@
         <button type="button" id="tabDashboardBtn" class="tab-btn">Dashboard</button>
       </div>
 
+      <!-- ABA PROCESSOS -->
       <div id="abaProcessos">
         <h3>Novo processo</h3>
 
@@ -559,7 +820,7 @@ Gerência: GECONT"></textarea>
 
           <div>
             <label for="dataFinalManual">Data Final</label>
-            <input type="date" id="dataFinalManual">
+            <input type="date" id="dataFinalManual" />
           </div>
 
           <div>
@@ -575,14 +836,14 @@ Gerência: GECONT"></textarea>
         </div>
 
         <label class="checkbox-wrap">
-          <input type="checkbox" id="semPrazoManual">
+          <input type="checkbox" id="semPrazoManual" />
           Processo sem prazo definido
         </label>
 
         <div class="btn-row">
           <button type="button" id="btnGerarProcesso">Gerar processo</button>
           <button type="button" class="outline" id="btnLimparFormulario">Limpar formulário</button>
-          <input id="busca" placeholder="🔎 Buscar por processo, interessado, assunto, situação, prazo ou gerência...">
+          <input id="busca" placeholder="🔎 Buscar por processo, interessado, assunto, situação, prazo ou gerência..." />
         </div>
 
         <div class="btn-row">
@@ -595,15 +856,25 @@ Gerência: GECONT"></textarea>
         <div id="mensagemSistema" class="hidden"></div>
 
         <div class="muted">
-          O sistema separa <strong>situação operacional</strong> do <strong>status de prazo</strong>.
-          O status do prazo é calculado automaticamente como:
-          <strong>No prazo</strong>, <strong>Vence hoje</strong>, <strong>Vencendo</strong>, <strong>Atrasado</strong> ou <strong>Sem prazo</strong>.
+          Agora o sistema conta com cartões clicáveis, filtros rápidos em chips, ações instantâneas,
+          painel lateral de detalhes, modal de edição e destaques visuais automáticos.
         </div>
 
+        <!-- CHIPS -->
+        <div class="chips" id="chipsRapidos">
+          <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Atrasado">Atrasados</button>
+          <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vence hoje">Vence hoje</button>
+          <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vencendo">Vencendo</button>
+          <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Sem prazo">Sem prazo</button>
+          <button type="button" class="chip" data-chip-type="situacao" data-chip-value="Concluído">Concluídos</button>
+          <button type="button" class="chip" data-chip-type="situacao" data-chip-value="Pendente">Pendentes</button>
+        </div>
+
+        <!-- FILTROS -->
         <div class="filtros-box">
           <div class="section-title">Filtros e ordenação</div>
 
-          <div class="grid-4">
+          <div class="grid-5">
             <div>
               <label for="filtroGerencia">Filtrar por gerência</label>
               <select id="filtroGerencia">
@@ -638,18 +909,6 @@ Gerência: GECONT"></textarea>
                 <option value="Sem prazo">Sem prazo</option>
               </select>
             </div>
-          </div>
-
-          <div class="grid-4" style="margin-top:12px;">
-            <div>
-              <label for="filtroDataInicial">Data final de</label>
-              <input type="date" id="filtroDataInicial">
-            </div>
-
-            <div>
-              <label for="filtroDataFinal">Data final até</label>
-              <input type="date" id="filtroDataFinal">
-            </div>
 
             <div>
               <label for="ordenacao">Ordenar por</label>
@@ -662,29 +921,75 @@ Gerência: GECONT"></textarea>
                 <option value="diasRestantesAsc">Dias restantes</option>
               </select>
             </div>
+          </div>
+
+          <div class="grid-4" style="margin-top:12px;">
+            <div>
+              <label for="filtroDataInicial">Data final de</label>
+              <input type="date" id="filtroDataInicial" />
+            </div>
+
+            <div>
+              <label for="filtroDataFinal">Data final até</label>
+              <input type="date" id="filtroDataFinal" />
+            </div>
 
             <div style="display:flex;align-items:flex-end;">
               <label class="checkbox-wrap" style="margin-top:0;">
-                <input type="checkbox" id="filtroAtrasados">
+                <input type="checkbox" id="filtroAtrasados" />
                 Mostrar somente atrasados
               </label>
             </div>
-          </div>
 
-          <div class="btn-row">
-            <button type="button" class="light" id="btnLimparFiltros">Limpar filtros</button>
+            <div style="display:flex;align-items:flex-end;">
+              <button type="button" class="light" id="btnLimparFiltros">Limpar filtros</button>
+            </div>
           </div>
 
           <div class="small-text">
-            Os indicadores do dashboard e os alertas de prazo consideram os registros atualmente visíveis após os filtros aplicados.
+            O dashboard, os alertas e os resumos instantâneos consideram os registros atualmente visíveis após os filtros aplicados.
           </div>
         </div>
 
+        <!-- ALERTAS -->
         <div id="alertasPrazo" class="alertas hidden"></div>
 
-        <div class="topbar" style="margin-top:16px;">
-          <h3 style="margin:0;">Registros</h3>
-          <span class="pill" id="contadorRegistros">0 registro(s)</span>
+        <!-- CARDS CLICÁVEIS -->
+        <div class="summary-cards" id="summaryCards">
+          <div class="summary-card" data-summary-type="" data-summary-value="">
+            <div class="label">Mostrando</div>
+            <div class="value" id="sumMostrando">0</div>
+            <small>Registros visíveis</small>
+          </div>
+          <div class="summary-card" data-summary-type="statusPrazo" data-summary-value="Atrasado">
+            <div class="label">Atrasados</div>
+            <div class="value" id="sumAtrasados">0</div>
+            <small>Clique para filtrar</small>
+          </div>
+          <div class="summary-card" data-summary-type="statusPrazo" data-summary-value="Vence hoje">
+            <div class="label">Vence hoje</div>
+            <div class="value" id="sumHoje">0</div>
+            <small>Clique para filtrar</small>
+          </div>
+          <div class="summary-card" data-summary-type="statusPrazo" data-summary-value="Sem prazo">
+            <div class="label">Sem prazo</div>
+            <div class="value" id="sumSemPrazo">0</div>
+            <small>Clique para filtrar</small>
+          </div>
+          <div class="summary-card" data-summary-type="situacao" data-summary-value="Concluído">
+            <div class="label">Concluídos</div>
+            <div class="value" id="sumConcluidos">0</div>
+            <small>Clique para filtrar</small>
+          </div>
+        </div>
+
+        <!-- RESUMO INSTANTÂNEO -->
+        <div class="counter-strip">
+          <span class="counter-pill" id="contadorRegistros">0 registro(s)</span>
+          <span class="counter-pill" id="counterAtrasados">Atrasados: 0</span>
+          <span class="counter-pill" id="counterHoje">Vence hoje: 0</span>
+          <span class="counter-pill" id="counterVencendo">Vencendo: 0</span>
+          <span class="counter-pill" id="counterSemPrazo">Sem prazo: 0</span>
         </div>
 
         <div id="noResults" class="no-results hidden">
@@ -695,49 +1000,69 @@ Gerência: GECONT"></textarea>
           <table id="tabela" class="hidden">
             <thead>
               <tr>
-                <th>Processo</th>
+                <th style="width:55px;">Detalhe</th>
+                <th class="sortable" data-sort="processoAsc">Processo <small>⇅</small></th>
                 <th>Interessado</th>
                 <th>Assunto</th>
                 <th>Data de Cadastro</th>
                 <th>Situação</th>
-                <th>Gerência</th>
-                <th>Data Final</th>
+                <th class="sortable" data-sort="gerenciaAsc">Gerência <small>⇅</small></th>
+                <th class="sortable" data-sort="dataFinalAsc">Data Final <small>⇅</small></th>
                 <th>Status do Prazo</th>
-                <th>Dias Restantes</th>
+                <th class="sortable" data-sort="diasRestantesAsc">Dias Restantes <small>⇅</small></th>
                 <th>Última alteração</th>
-                <th>Ações</th>
+                <th>Ações rápidas</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody id="tbodyProcessos"></tbody>
           </table>
         </div>
       </div>
 
+      <!-- ABA DASHBOARD -->
       <div id="abaDashboard" class="hidden">
         <h3>Dashboard</h3>
 
-        <div class="kpis">
-          <div class="kpi"><div class="label">Total de processos</div><div class="value" id="kpiTotal">0</div></div>
-          <div class="kpi"><div class="label">Sem prazo</div><div class="value" id="kpiSemPrazo">0</div></div>
-          <div class="kpi"><div class="label">Vencendo</div><div class="value" id="kpiVencendo">0</div></div>
-          <div class="kpi"><div class="label">Atrasados</div><div class="value" id="kpiAtrasados">0</div></div>
-          <div class="kpi"><div class="label">Concluídos</div><div class="value" id="kpiConcluidos">0</div></div>
-          <div class="kpi"><div class="label">Pendentes</div><div class="value" id="kpiPendentes">0</div></div>
+        <div class="kpis" id="dashboardKpis">
+          <div class="kpi summary-card" data-summary-type="" data-summary-value="">
+            <div class="label">Total de processos</div>
+            <div class="value" id="kpiTotal">0</div>
+          </div>
+          <div class="kpi summary-card" data-summary-type="statusPrazo" data-summary-value="Sem prazo">
+            <div class="label">Sem prazo</div>
+            <div class="value" id="kpiSemPrazo">0</div>
+          </div>
+          <div class="kpi summary-card" data-summary-type="statusPrazo" data-summary-value="Vencendo">
+            <div class="label">Vencendo</div>
+            <div class="value" id="kpiVencendo">0</div>
+          </div>
+          <div class="kpi summary-card" data-summary-type="statusPrazo" data-summary-value="Atrasado">
+            <div class="label">Atrasados</div>
+            <div class="value" id="kpiAtrasados">0</div>
+          </div>
+          <div class="kpi summary-card" data-summary-type="situacao" data-summary-value="Concluído">
+            <div class="label">Concluídos</div>
+            <div class="value" id="kpiConcluidos">0</div>
+          </div>
+          <div class="kpi summary-card" data-summary-type="situacao" data-summary-value="Pendente">
+            <div class="label">Pendentes</div>
+            <div class="value" id="kpiPendentes">0</div>
+          </div>
         </div>
 
         <div class="chart-grid">
           <div class="card" style="margin-bottom:0;">
-            <h3 style="font-size:18px;">Processos por situação</h3>
+            <h4 style="font-size:18px;">Processos por situação</h4>
             <canvas id="graficoSituacao"></canvas>
           </div>
 
           <div class="card" style="margin-bottom:0;">
-            <h3 style="font-size:18px;">Processos por gerência</h3>
+            <h4 style="font-size:18px;">Processos por gerência</h4>
             <canvas id="graficoGerencia"></canvas>
           </div>
 
           <div class="card" style="margin-bottom:0;">
-            <h3 style="font-size:18px;">Status de prazo</h3>
+            <h4 style="font-size:18px;">Status de prazo</h4>
             <canvas id="graficoPrazo"></canvas>
           </div>
         </div>
@@ -745,20 +1070,100 @@ Gerência: GECONT"></textarea>
     </div>
   </div>
 
+  <!-- DRAWER -->
+  <div id="drawerOverlay" class="drawer-overlay hidden"></div>
+  <aside id="drawer" class="drawer hidden">
+    <div class="drawer-head">
+      <div>
+        <h3 style="margin-bottom:6px;">Detalhes do processo</h3>
+        <div class="muted" id="drawerSubtitulo">Selecione um registro</div>
+      </div>
+      <button type="button" class="drawer-close" id="btnFecharDrawer">Fechar</button>
+    </div>
+
+    <div id="drawerConteudo" class="drawer-grid"></div>
+
+    <div class="btn-row">
+      <button type="button" id="drawerBtnEditar">Editar</button>
+      <button type="button" class="warning" id="drawerBtnPendente">Pendente</button>
+      <button type="button" class="success" id="drawerBtnConcluir">Concluir</button>
+      <button type="button" class="secondary" id="drawerBtnArquivar">Arquivar</button>
+      <button type="button" class="danger" id="drawerBtnExcluir">Excluir</button>
+    </div>
+  </aside>
+
+  <!-- MODAL -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h3 style="margin-bottom:6px;">Editar processo</h3>
+          <div class="muted" id="modalSubtitulo">Atualize os dados do processo</div>
+        </div>
+        <button type="button" class="modal-close" id="btnFecharModal">Fechar</button>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label for="editProcesso">Processo</label>
+          <input type="text" id="editProcesso" />
+        </div>
+        <div>
+          <label for="editInteressado">Interessado</label>
+          <input type="text" id="editInteressado" />
+        </div>
+      </div>
+
+      <div>
+        <label for="editAssunto">Assunto</label>
+        <textarea id="editAssunto" style="min-height:100px;"></textarea>
+      </div>
+
+      <div class="grid-4">
+        <div>
+          <label for="editSituacao">Situação</label>
+          <select id="editSituacao"></select>
+        </div>
+
+        <div>
+          <label for="editGerencia">Gerência</label>
+          <select id="editGerencia">
+            <option value="">Selecione...</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="editDataFinal">Data final</label>
+          <input type="date" id="editDataFinal" />
+        </div>
+
+        <div style="display:flex;align-items:flex-end;">
+          <label class="checkbox-wrap" style="margin-top:0;">
+            <input type="checkbox" id="editSemPrazo" />
+            Sem prazo
+          </label>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" id="btnSalvarEdicao">Salvar alterações</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    /*
-      IMPORTANTE:
-      Substitua pelas credenciais reais do seu projeto Firebase.
-    */
+    /* ==========================
+       CONFIGURAÇÃO FIREBASE
+    ========================== */
     const firebaseConfig = {
-        apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
-        authDomain: "meu-sistema-processos.firebaseapp.com",
-        databaseURL: "https://meu-sistema-processos-default-rtdb.firebaseio.com",
-        projectId: "meu-sistema-processos",
-        storageBucket: "meu-sistema-processos.firebasestorage.app",
-        messagingSenderId: "773592641691",
-        appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
-        measurementId: "G-68LQKR6HK0"
+      apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
+      authDomain: "meu-sistema-processos.firebaseapp.com",
+      databaseURL: "https://meu-sistema-processos-default-rtdb.firebaseio.com",
+      projectId: "meu-sistema-processos",
+      storageBucket: "meu-sistema-processos.firebasestorage.app",
+      messagingSenderId: "773592641691",
+      appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
+      measurementId: "G-68LQKR6HK0"
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -792,18 +1197,24 @@ Gerência: GECONT"></textarea>
       "Sem prazo"
     ];
 
-    const ORDENACOES = {
-      DATA_FINAL_ASC: "dataFinalAsc",
-      PROCESSO_ASC: "processoAsc",
-      INTERESSADO_ASC: "interessadoAsc",
-      GERENCIA_ASC: "gerenciaAsc",
-      DIAS_RESTANTES_ASC: "diasRestantesAsc"
+    const STORAGE_KEYS = {
+      filtros: "sgp_dynamic_filters_v1",
+      aba: "sgp_dynamic_aba_v1"
     };
 
-    const STORAGE_KEYS = {
-      filtros: "sgp_filtros_v22",
-      aba: "sgp_aba_v22"
-    };
+    /* ==========================
+       ESTADO
+    ========================== */
+    let allItems = [];
+    let filteredItems = [];
+    let chartSituacao = null;
+    let chartGerencia = null;
+    let chartPrazo = null;
+    let unsubscribeSnapshot = null;
+    let expandedIds = new Set();
+    let selectedDrawerId = null;
+    let editingId = null;
+    let chavesNotificadas = new Set();
 
     /* ==========================
        ELEMENTOS
@@ -813,61 +1224,95 @@ Gerência: GECONT"></textarea>
     const emailInput = document.getElementById("email");
     const senhaInput = document.getElementById("senha");
     const statusLogin = document.getElementById("statusLogin");
-    const entrada = document.getElementById("entrada");
-    const busca = document.getElementById("busca");
-    const tabela = document.getElementById("tabela");
-    const tbody = tabela.querySelector("tbody");
-    const usuarioLogado = document.getElementById("usuarioLogado");
-    const contadorRegistros = document.getElementById("contadorRegistros");
-    const alertasPrazo = document.getElementById("alertasPrazo");
-    const gerenciaManual = document.getElementById("gerenciaManual");
-    const situacaoManual = document.getElementById("situacaoManual");
-    const dataFinalManual = document.getElementById("dataFinalManual");
-    const semPrazoManual = document.getElementById("semPrazoManual");
-    const limiteVencendo = document.getElementById("limiteVencendo");
-    const mensagemSistema = document.getElementById("mensagemSistema");
-    const noResults = document.getElementById("noResults");
-
-    const filtroGerencia = document.getElementById("filtroGerencia");
-    const filtroSituacao = document.getElementById("filtroSituacao");
-    const filtroPrazo = document.getElementById("filtroPrazo");
-    const filtroStatusPrazo = document.getElementById("filtroStatusPrazo");
-    const filtroAtrasados = document.getElementById("filtroAtrasados");
-    const filtroDataInicial = document.getElementById("filtroDataInicial");
-    const filtroDataFinal = document.getElementById("filtroDataFinal");
-    const ordenacao = document.getElementById("ordenacao");
 
     const btnEntrar = document.getElementById("btnEntrar");
     const btnCadastrar = document.getElementById("btnCadastrar");
     const btnResetar = document.getElementById("btnResetar");
     const btnSair = document.getElementById("btnSair");
+    const btnNotificacao = document.getElementById("btnNotificacao");
+
+    const usuarioLogado = document.getElementById("usuarioLogado");
+
+    const tabProcessosBtn = document.getElementById("tabProcessosBtn");
+    const tabDashboardBtn = document.getElementById("tabDashboardBtn");
+    const abaProcessos = document.getElementById("abaProcessos");
+    const abaDashboard = document.getElementById("abaDashboard");
+
+    const entrada = document.getElementById("entrada");
+    const gerenciaManual = document.getElementById("gerenciaManual");
+    const situacaoManual = document.getElementById("situacaoManual");
+    const dataFinalManual = document.getElementById("dataFinalManual");
+    const semPrazoManual = document.getElementById("semPrazoManual");
+    const limiteVencendo = document.getElementById("limiteVencendo");
     const btnGerarProcesso = document.getElementById("btnGerarProcesso");
     const btnLimparFormulario = document.getElementById("btnLimparFormulario");
+    const mensagemSistema = document.getElementById("mensagemSistema");
+
+    const busca = document.getElementById("busca");
+    const filtroGerencia = document.getElementById("filtroGerencia");
+    const filtroSituacao = document.getElementById("filtroSituacao");
+    const filtroPrazo = document.getElementById("filtroPrazo");
+    const filtroStatusPrazo = document.getElementById("filtroStatusPrazo");
+    const filtroDataInicial = document.getElementById("filtroDataInicial");
+    const filtroDataFinal = document.getElementById("filtroDataFinal");
+    const filtroAtrasados = document.getElementById("filtroAtrasados");
+    const ordenacao = document.getElementById("ordenacao");
+    const btnLimparFiltros = document.getElementById("btnLimparFiltros");
+
     const btnExportarExcelTodos = document.getElementById("btnExportarExcelTodos");
     const btnExportarExcelVisiveis = document.getElementById("btnExportarExcelVisiveis");
     const btnExportarPDFTodos = document.getElementById("btnExportarPDFTodos");
     const btnExportarPDFVisiveis = document.getElementById("btnExportarPDFVisiveis");
-    const btnLimparFiltros = document.getElementById("btnLimparFiltros");
-    const btnNotificacao = document.getElementById("btnNotificacao");
 
-    const abaProcessos = document.getElementById("abaProcessos");
-    const abaDashboard = document.getElementById("abaDashboard");
-    const tabProcessosBtn = document.getElementById("tabProcessosBtn");
-    const tabDashboardBtn = document.getElementById("tabDashboardBtn");
+    const alertasPrazo = document.getElementById("alertasPrazo");
+    const tabela = document.getElementById("tabela");
+    const tbodyProcessos = document.getElementById("tbodyProcessos");
+    const noResults = document.getElementById("noResults");
 
-    let chartSituacao = null;
-    let chartGerencia = null;
-    let chartPrazo = null;
-    let chavesNotificadas = new Set();
-    let unsubscribeSnapshot = null;
+    const contadorRegistros = document.getElementById("contadorRegistros");
+    const counterAtrasados = document.getElementById("counterAtrasados");
+    const counterHoje = document.getElementById("counterHoje");
+    const counterVencendo = document.getElementById("counterVencendo");
+    const counterSemPrazo = document.getElementById("counterSemPrazo");
+
+    const sumMostrando = document.getElementById("sumMostrando");
+    const sumAtrasados = document.getElementById("sumAtrasados");
+    const sumHoje = document.getElementById("sumHoje");
+    const sumSemPrazo = document.getElementById("sumSemPrazo");
+    const sumConcluidos = document.getElementById("sumConcluidos");
+
+    const drawerOverlay = document.getElementById("drawerOverlay");
+    const drawer = document.getElementById("drawer");
+    const btnFecharDrawer = document.getElementById("btnFecharDrawer");
+    const drawerSubtitulo = document.getElementById("drawerSubtitulo");
+    const drawerConteudo = document.getElementById("drawerConteudo");
+    const drawerBtnEditar = document.getElementById("drawerBtnEditar");
+    const drawerBtnPendente = document.getElementById("drawerBtnPendente");
+    const drawerBtnConcluir = document.getElementById("drawerBtnConcluir");
+    const drawerBtnArquivar = document.getElementById("drawerBtnArquivar");
+    const drawerBtnExcluir = document.getElementById("drawerBtnExcluir");
+
+    const modalOverlay = document.getElementById("modalOverlay");
+    const btnFecharModal = document.getElementById("btnFecharModal");
+    const modalSubtitulo = document.getElementById("modalSubtitulo");
+    const editProcesso = document.getElementById("editProcesso");
+    const editInteressado = document.getElementById("editInteressado");
+    const editAssunto = document.getElementById("editAssunto");
+    const editSituacao = document.getElementById("editSituacao");
+    const editGerencia = document.getElementById("editGerencia");
+    const editDataFinal = document.getElementById("editDataFinal");
+    const editSemPrazo = document.getElementById("editSemPrazo");
+    const btnSalvarEdicao = document.getElementById("btnSalvarEdicao");
+
+    const toasts = document.getElementById("toasts");
 
     /* ==========================
        INICIALIZAÇÃO
     ========================== */
-    preencherSelectsFixos();
-    registrarEventos();
-    carregarFiltrosDoStorage();
+    preencherSelects();
+    restaurarFiltros();
     aplicarAbaSalva();
+    registrarEventos();
 
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -883,83 +1328,163 @@ Gerência: GECONT"></textarea>
         loginBox.classList.remove("hidden");
         appBox.classList.add("hidden");
         usuarioLogado.textContent = "-";
-        limparTabela();
+        allItems = [];
+        filteredItems = [];
+        renderEverything();
       }
     });
 
-    function preencherSelectsFixos() {
-      GERENCIAS.forEach(g => {
-        const opForm = document.createElement("option");
-        opForm.value = g;
-        opForm.textContent = g;
-        gerenciaManual.appendChild(opForm);
+    // Atualização visual periódica dos prazos
+    setInterval(() => {
+      if (!appBox.classList.contains("hidden")) {
+        renderEverything(false);
+      }
+    }, 60 * 1000);
 
-        const opFiltro = document.createElement("option");
-        opFiltro.value = g;
-        opFiltro.textContent = g;
-        filtroGerencia.appendChild(opFiltro);
-      });
-
-      STATUS_OPERACIONAIS.forEach(status => {
-        const opForm = document.createElement("option");
-        opForm.value = status;
-        opForm.textContent = status;
-        situacaoManual.appendChild(opForm);
-
-        const opFiltro = document.createElement("option");
-        opFiltro.value = status;
-        opFiltro.textContent = status;
-        filtroSituacao.appendChild(opFiltro);
-      });
-
-      situacaoManual.value = "Em análise";
-    }
-
+    /* ==========================
+       EVENTOS
+    ========================== */
     function registrarEventos() {
       btnEntrar.addEventListener("click", login);
       btnCadastrar.addEventListener("click", cadastrar);
       btnResetar.addEventListener("click", resetarSenha);
       btnSair.addEventListener("click", logout);
+      btnNotificacao.addEventListener("click", solicitarPermissaoNotificacao);
+
+      tabProcessosBtn.addEventListener("click", () => abrirAba("processos"));
+      tabDashboardBtn.addEventListener("click", () => abrirAba("dashboard"));
+
+      semPrazoManual.addEventListener("change", () => {
+        dataFinalManual.disabled = semPrazoManual.checked;
+        if (semPrazoManual.checked) dataFinalManual.value = "";
+      });
+
+      editSemPrazo.addEventListener("change", () => {
+        editDataFinal.disabled = editSemPrazo.checked;
+        if (editSemPrazo.checked) editDataFinal.value = "";
+      });
+
       btnGerarProcesso.addEventListener("click", gerarProcesso);
       btnLimparFormulario.addEventListener("click", limparFormulario);
+      btnSalvarEdicao.addEventListener("click", salvarEdicao);
+
+      btnFecharModal.addEventListener("click", fecharModal);
+      modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) fecharModal();
+      });
+
+      btnFecharDrawer.addEventListener("click", fecharDrawer);
+      drawerOverlay.addEventListener("click", fecharDrawer);
+
+      drawerBtnEditar.addEventListener("click", () => {
+        if (selectedDrawerId) abrirModalEdicao(selectedDrawerId);
+      });
+      drawerBtnPendente.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Pendente"));
+      drawerBtnConcluir.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Concluído"));
+      drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
+      drawerBtnExcluir.addEventListener("click", () => remover(selectedDrawerId));
+
+      busca.addEventListener("input", aplicarFiltrosEOrdenacao);
+      filtroGerencia.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroSituacao.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroPrazo.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroStatusPrazo.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroDataInicial.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroDataFinal.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroAtrasados.addEventListener("change", aplicarFiltrosEOrdenacao);
+      ordenacao.addEventListener("change", aplicarFiltrosEOrdenacao);
+
+      [busca, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao, limiteVencendo]
+        .forEach(el => {
+          const evt = el.type === "checkbox" ? "change" : "input";
+          el.addEventListener(evt, salvarFiltros);
+        });
+
+      limiteVencendo.addEventListener("change", () => {
+        renderEverything();
+      });
+
+      btnLimparFiltros.addEventListener("click", limparFiltros);
 
       btnExportarExcelTodos.addEventListener("click", () => exportarExcel(false));
       btnExportarExcelVisiveis.addEventListener("click", () => exportarExcel(true));
       btnExportarPDFTodos.addEventListener("click", () => exportarPDF(false));
       btnExportarPDFVisiveis.addEventListener("click", () => exportarPDF(true));
 
-      btnLimparFiltros.addEventListener("click", limparFiltros);
-      btnNotificacao.addEventListener("click", solicitarPermissaoNotificacao);
-
-      const filtrosParaSalvar = [
-        busca, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo,
-        filtroAtrasados, filtroDataInicial, filtroDataFinal, ordenacao, limiteVencendo
-      ];
-
-      busca.addEventListener("keyup", aplicarFiltrosEOrdenacao);
-      filtroGerencia.addEventListener("change", aplicarFiltrosEOrdenacao);
-      filtroSituacao.addEventListener("change", aplicarFiltrosEOrdenacao);
-      filtroPrazo.addEventListener("change", aplicarFiltrosEOrdenacao);
-      filtroStatusPrazo.addEventListener("change", aplicarFiltrosEOrdenacao);
-      filtroAtrasados.addEventListener("change", aplicarFiltrosEOrdenacao);
-      filtroDataInicial.addEventListener("change", aplicarFiltrosEOrdenacao);
-      filtroDataFinal.addEventListener("change", aplicarFiltrosEOrdenacao);
-      ordenacao.addEventListener("change", aplicarFiltrosEOrdenacao);
-      limiteVencendo.addEventListener("change", () => {
-        salvarFiltrosNoStorage();
-        atualizarTodasAsLinhas();
-        aplicarFiltrosEOrdenacao();
+      document.getElementById("chipsRapidos").addEventListener("click", (e) => {
+        const chip = e.target.closest(".chip");
+        if (!chip) return;
+        aplicarChip(chip);
       });
 
-      filtrosParaSalvar.forEach(el => {
-        const evento = el.type === "checkbox" ? "change" : (el.tagName === "INPUT" && el.type !== "date" ? "keyup" : "change");
-        el.addEventListener(evento, salvarFiltrosNoStorage);
+      document.addEventListener("click", (e) => {
+        const summary = e.target.closest(".summary-card");
+        if (summary && summary.dataset.summaryType !== undefined) {
+          const parentInDrawer = summary.closest(".drawer");
+          const parentInModal = summary.closest(".modal");
+          if (parentInDrawer || parentInModal) return;
+          aplicarResumoClicavel(summary);
+        }
       });
 
-      semPrazoManual.addEventListener("change", alternarSemPrazoManual);
+      tbodyProcessos.addEventListener("click", async (e) => {
+        const target = e.target;
+        const btn = target.closest("button");
+        const row = target.closest("tr.main-row");
+        if (!row) return;
 
-      tabProcessosBtn.addEventListener("click", () => abrirAba("processos"));
-      tabDashboardBtn.addEventListener("click", () => abrirAba("dashboard"));
+        const id = row.dataset.id;
+        if (!id) return;
+
+        if (btn) {
+          const action = btn.dataset.action;
+          if (action === "expand") {
+            e.stopPropagation();
+            toggleExpand(id);
+            return;
+          }
+          if (action === "view") {
+            e.stopPropagation();
+            abrirDrawer(id);
+            return;
+          }
+          if (action === "edit") {
+            e.stopPropagation();
+            abrirModalEdicao(id);
+            return;
+          }
+          if (action === "pendente") {
+            e.stopPropagation();
+            alterarSituacaoRapida(id, "Pendente");
+            return;
+          }
+          if (action === "concluir") {
+            e.stopPropagation();
+            alterarSituacaoRapida(id, "Concluído");
+            return;
+          }
+          if (action === "arquivar") {
+            e.stopPropagation();
+            alterarSituacaoRapida(id, "Arquivado");
+            return;
+          }
+          if (action === "delete") {
+            e.stopPropagation();
+            remover(id);
+            return;
+          }
+        }
+
+        abrirDrawer(id);
+      });
+
+      document.querySelectorAll("th.sortable").forEach(th => {
+        th.addEventListener("click", () => {
+          ordenacao.value = th.dataset.sort || "";
+          salvarFiltros();
+          aplicarFiltrosEOrdenacao();
+        });
+      });
 
       document.addEventListener("keydown", (e) => {
         if (!appBox.classList.contains("hidden")) return;
@@ -968,26 +1493,22 @@ Gerência: GECONT"></textarea>
     }
 
     /* ==========================
-       AUTH
+       AUTENTICAÇÃO
     ========================== */
     async function login() {
       try {
         const email = emailInput.value.trim();
         const senha = senhaInput.value;
-
         if (!email || !senha) {
-          statusLogin.textContent = "Informe o e-mail e a senha.";
-          return;
+          return mostrarStatusLogin("Informe o e-mail e a senha.", "warning");
         }
-
         setLoading(btnEntrar, true, "Entrar");
-        statusLogin.innerHTML = '<span class="loading-inline">Entrando...</span>';
-
+        mostrarStatusLogin("Entrando...", "info");
         await auth.signInWithEmailAndPassword(email, senha);
-        statusLogin.textContent = "";
+        mostrarStatusLogin("", "info", true);
       } catch (error) {
-        console.error("Erro no login:", error);
-        statusLogin.textContent = "Erro no login: " + traduzirErroFirebase(error);
+        console.error(error);
+        mostrarStatusLogin("Erro no login: " + traduzirErroFirebase(error), "error");
       } finally {
         setLoading(btnEntrar, false, "Entrar");
       }
@@ -997,25 +1518,19 @@ Gerência: GECONT"></textarea>
       try {
         const email = emailInput.value.trim();
         const senha = senhaInput.value;
-
         if (!email || !senha) {
-          statusLogin.textContent = "Informe o e-mail e a senha para cadastrar.";
-          return;
+          return mostrarStatusLogin("Informe o e-mail e a senha para cadastrar.", "warning");
         }
-
         if (senha.length < 6) {
-          statusLogin.textContent = "A senha precisa ter pelo menos 6 caracteres.";
-          return;
+          return mostrarStatusLogin("A senha precisa ter pelo menos 6 caracteres.", "warning");
         }
-
         setLoading(btnCadastrar, true, "Cadastrar usuário");
-        statusLogin.innerHTML = '<span class="loading-inline">Cadastrando usuário...</span>';
-
+        mostrarStatusLogin("Cadastrando usuário...", "info");
         await auth.createUserWithEmailAndPassword(email, senha);
-        statusLogin.textContent = "Usuário cadastrado com sucesso.";
+        mostrarStatusLogin("Usuário cadastrado com sucesso.", "success");
       } catch (error) {
-        console.error("Erro ao cadastrar:", error);
-        statusLogin.textContent = "Erro ao cadastrar: " + traduzirErroFirebase(error);
+        console.error(error);
+        mostrarStatusLogin("Erro ao cadastrar: " + traduzirErroFirebase(error), "error");
       } finally {
         setLoading(btnCadastrar, false, "Cadastrar usuário");
       }
@@ -1024,18 +1539,15 @@ Gerência: GECONT"></textarea>
     async function resetarSenha() {
       try {
         const email = emailInput.value.trim();
-
         if (!email) {
-          statusLogin.textContent = "Digite o e-mail para recuperação de senha.";
-          return;
+          return mostrarStatusLogin("Digite o e-mail para recuperação de senha.", "warning");
         }
-
         setLoading(btnResetar, true, "Esqueci a senha");
         await auth.sendPasswordResetEmail(email);
-        statusLogin.textContent = "E-mail de recuperação enviado com sucesso.";
+        mostrarStatusLogin("E-mail de recuperação enviado com sucesso.", "success");
       } catch (error) {
-        console.error("Erro ao resetar senha:", error);
-        statusLogin.textContent = "Erro ao enviar recuperação: " + traduzirErroFirebase(error);
+        console.error(error);
+        mostrarStatusLogin("Erro ao enviar recuperação: " + traduzirErroFirebase(error), "error");
       } finally {
         setLoading(btnResetar, false, "Esqueci a senha");
       }
@@ -1045,7 +1557,8 @@ Gerência: GECONT"></textarea>
       try {
         await auth.signOut();
       } catch (error) {
-        alert("Erro ao sair: " + error.message);
+        console.error(error);
+        toast("Erro ao sair: " + error.message, "error");
       }
     }
 
@@ -1062,8 +1575,18 @@ Gerência: GECONT"></textarea>
       return error.message || "erro desconhecido.";
     }
 
+    function mostrarStatusLogin(texto, tipo = "info", esconder = false) {
+      if (esconder || !texto) {
+        statusLogin.className = "feedback hidden";
+        statusLogin.textContent = "";
+        return;
+      }
+      statusLogin.className = `feedback feedback-${tipo}`;
+      statusLogin.textContent = texto;
+    }
+
     /* ==========================
-       UTILS
+       UI HELPERS
     ========================== */
     function setLoading(botao, carregando, textoOriginal = "Salvar") {
       if (!botao) return;
@@ -1072,9 +1595,7 @@ Gerência: GECONT"></textarea>
     }
 
     function mostrarMensagem(texto, tipo = "info") {
-      mensagemSistema.className = "";
-      mensagemSistema.classList.add("feedback");
-      mensagemSistema.classList.add(`feedback-${tipo}`);
+      mensagemSistema.className = `feedback feedback-${tipo}`;
       mensagemSistema.textContent = texto;
       mensagemSistema.classList.remove("hidden");
 
@@ -1085,6 +1606,60 @@ Gerência: GECONT"></textarea>
       }, 3500);
     }
 
+    function toast(texto, tipo = "info") {
+      const div = document.createElement("div");
+      div.className = `toast ${tipo}`;
+      div.textContent = texto;
+      toasts.appendChild(div);
+      setTimeout(() => div.remove(), 3300);
+    }
+
+    function escapeHtml(texto) {
+      return String(texto ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function escaparRegex(texto) {
+      return String(texto).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    function highlightText(texto, termo) {
+      const safe = escapeHtml(texto || "");
+      if (!termo) return safe;
+      const termoEscapado = escaparRegex(termo.trim());
+      if (!termoEscapado) return safe;
+      const regex = new RegExp(`(${termoEscapado})`, "gi");
+      return safe.replace(regex, '<mark class="search-mark">$1</mark>');
+    }
+
+    function abrirAba(aba) {
+      if (aba === "dashboard") {
+        abaProcessos.classList.add("hidden");
+        abaDashboard.classList.remove("hidden");
+        tabProcessosBtn.classList.remove("active");
+        tabDashboardBtn.classList.add("active");
+        localStorage.setItem(STORAGE_KEYS.aba, "dashboard");
+        renderDashboard(filteredItems);
+      } else {
+        abaProcessos.classList.remove("hidden");
+        abaDashboard.classList.add("hidden");
+        tabProcessosBtn.classList.add("active");
+        tabDashboardBtn.classList.remove("active");
+        localStorage.setItem(STORAGE_KEYS.aba, "processos");
+      }
+    }
+
+    function aplicarAbaSalva() {
+      abrirAba(localStorage.getItem(STORAGE_KEYS.aba) || "processos");
+    }
+
+    /* ==========================
+       UTILITÁRIAS DE DATA / NEGÓCIO
+    ========================== */
     function hojeISO() {
       const hoje = new Date();
       const offset = hoje.getTimezoneOffset();
@@ -1126,87 +1701,6 @@ Gerência: GECONT"></textarea>
       return "dias-ok";
     }
 
-    function normalizarProcesso(valor) {
-      return String(valor || "")
-        .trim()
-        .replace(/\s+/g, " ")
-        .replace(/\s*\/\s*/g, "/")
-        .toUpperCase();
-    }
-
-    function converterBRparaISO(dataBR) {
-      if (!dataBR) return "";
-      const limpo = dataBR.trim();
-      if (/^\d{4}-\d{2}-\d{2}$/.test(limpo)) return limpo;
-
-      const match = limpo.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-      if (!match) return "";
-      const [, dia, mes, ano] = match;
-      return `${ano}-${mes}-${dia}`;
-    }
-
-    function formatarDataISOparaBR(dataISO) {
-      if (!dataISO) return "Sem prazo";
-      const [ano, mes, dia] = dataISO.split("-");
-      return `${dia}/${mes}/${ano}`;
-    }
-
-    function formatarDataHora(timestampOuDate) {
-      if (!timestampOuDate) return "-";
-      const data = timestampOuDate instanceof Date
-        ? timestampOuDate
-        : (timestampOuDate.toDate ? timestampOuDate.toDate() : new Date(timestampOuDate));
-
-      if (isNaN(data.getTime())) return "-";
-
-      return data.toLocaleString("pt-BR", {
-        dateStyle: "short",
-        timeStyle: "short"
-      });
-    }
-
-    function extrairCampo(texto, regexList) {
-      for (const regex of regexList) {
-        const match = texto.match(regex);
-        if (match && match[1]) return match[1].split("\n")[0].trim();
-      }
-      return "";
-    }
-
-    function extrairDataFinalOuPrazo(texto) {
-      if (/sem\s*prazo/i.test(texto)) return "";
-
-      const dataFinalTexto = extrairCampo(texto, [
-        /Data\s*Final\s*:?\s*(.+)/i,
-        /Prazo\s*Final\s*:?\s*(.+)/i
-      ]);
-
-      if (dataFinalTexto) {
-        const iso = converterBRparaISO(dataFinalTexto);
-        if (iso) return iso;
-      }
-
-      const prazoDiasTexto = extrairCampo(texto, [
-        /Prazo\s*:?\s*(\d+)\s*dias?/i
-      ]);
-
-      if (prazoDiasTexto) {
-        const dias = parseInt(prazoDiasTexto, 10);
-        if (!isNaN(dias)) return adicionarDias(hojeISO(), dias);
-      }
-
-      return "";
-    }
-
-    function extrairGerencia(texto) {
-      const gerenciaExtraida = extrairCampo(texto, [
-        /Ger[eê]ncia\s*:?\s*(.+)/i,
-        /Encaminhado\s*para\s*:?\s*(.+)/i
-      ]).toUpperCase();
-
-      return GERENCIAS.includes(gerenciaExtraida) ? gerenciaExtraida : "";
-    }
-
     function obterStatusPrazo(dataFinalISO, semPrazo = false) {
       if (semPrazo || !dataFinalISO) return "Sem prazo";
 
@@ -1243,6 +1737,16 @@ Gerência: GECONT"></textarea>
       return `<span class="badge ${classe}">${texto}</span>`;
     }
 
+    function classeSituacaoBadge(situacao) {
+      const s = (situacao || "").toLowerCase();
+      if (s.includes("conclu")) return "concluido";
+      if (s.includes("pendente")) return "pendente";
+      if (s.includes("andamento")) return "andamento";
+      if (s.includes("arquiv")) return "arquivado";
+      if (s.includes("suspenso")) return "suspenso";
+      return "";
+    }
+
     function obterClasseLinha(statusPrazo) {
       if (statusPrazo === "Atrasado") return "linha-atrasada";
       if (statusPrazo === "Vencendo") return "linha-vencendo";
@@ -1251,90 +1755,154 @@ Gerência: GECONT"></textarea>
       return "";
     }
 
-    function escapeHtml(texto) {
-      return String(texto)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    function normalizarProcesso(valor) {
+      return String(valor || "")
+        .trim()
+        .replace(/\s+/g, " ")
+        .replace(/\s*\/\s*/g, "/")
+        .toUpperCase();
     }
 
-    function abrirAba(aba) {
-      if (aba === "dashboard") {
-        abaProcessos.classList.add("hidden");
-        abaDashboard.classList.remove("hidden");
-        tabProcessosBtn.classList.remove("active");
-        tabDashboardBtn.classList.add("active");
-        localStorage.setItem(STORAGE_KEYS.aba, "dashboard");
-        atualizarDashboard();
-      } else {
-        abaProcessos.classList.remove("hidden");
-        abaDashboard.classList.add("hidden");
-        tabProcessosBtn.classList.add("active");
-        tabDashboardBtn.classList.remove("active");
-        localStorage.setItem(STORAGE_KEYS.aba, "processos");
+    function converterBRparaISO(dataBR) {
+      if (!dataBR) return "";
+      const limpo = dataBR.trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(limpo)) return limpo;
+      const match = limpo.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if (!match) return "";
+      const [, dia, mes, ano] = match;
+      return `${ano}-${mes}-${dia}`;
+    }
+
+    function formatarDataISOparaBR(dataISO) {
+      if (!dataISO) return "Sem prazo";
+      const [ano, mes, dia] = dataISO.split("-");
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    function formatarDataHora(valor) {
+      if (!valor) return "-";
+      const data = valor?.toDate ? valor.toDate() : (valor instanceof Date ? valor : new Date(valor));
+      if (isNaN(data.getTime())) return "-";
+      return data.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+    }
+
+    /* ==========================
+       EXTRAÇÃO AUTOMÁTICA
+    ========================== */
+    function extrairCampo(texto, regexList) {
+      for (const regex of regexList) {
+        const match = texto.match(regex);
+        if (match && match[1]) return match[1].split("\n")[0].trim();
       }
+      return "";
     }
 
-    function aplicarAbaSalva() {
-      const abaSalva = localStorage.getItem(STORAGE_KEYS.aba) || "processos";
-      abrirAba(abaSalva);
-    }
-
-    function alternarSemPrazoManual() {
-      if (semPrazoManual.checked) {
-        dataFinalManual.value = "";
-        dataFinalManual.disabled = true;
-      } else {
-        dataFinalManual.disabled = false;
+    function extrairDataFinalOuPrazo(texto) {
+      if (/sem\s*prazo/i.test(texto)) return "";
+      const dataFinalTexto = extrairCampo(texto, [
+        /Data\s*Final\s*:?\s*(.+)/i,
+        /Prazo\s*Final\s*:?\s*(.+)/i
+      ]);
+      if (dataFinalTexto) {
+        const iso = converterBRparaISO(dataFinalTexto);
+        if (iso) return iso;
       }
+      const prazoDiasTexto = extrairCampo(texto, [
+        /Prazo\s*:?\s*(\d+)\s*dias?/i
+      ]);
+      if (prazoDiasTexto) {
+        const dias = parseInt(prazoDiasTexto, 10);
+        if (!isNaN(dias)) return adicionarDias(hojeISO(), dias);
+      }
+      return "";
     }
 
-    function limparFormulario() {
-      entrada.value = "";
-      gerenciaManual.value = "";
+    function extrairGerencia(texto) {
+      const gerenciaExtraida = extrairCampo(texto, [
+        /Ger[eê]ncia\s*:?\s*(.+)/i,
+        /Encaminhado\s*para\s*:?\s*(.+)/i
+      ]).toUpperCase();
+      return GERENCIAS.includes(gerenciaExtraida) ? gerenciaExtraida : "";
+    }
+
+    /* ==========================
+       PREENCHIMENTO DOS SELECTS
+    ========================== */
+    function preencherSelects() {
+      GERENCIAS.forEach(g => {
+        const op1 = document.createElement("option");
+        op1.value = g;
+        op1.textContent = g;
+        gerenciaManual.appendChild(op1);
+
+        const op2 = document.createElement("option");
+        op2.value = g;
+        op2.textContent = g;
+        filtroGerencia.appendChild(op2);
+
+        const op3 = document.createElement("option");
+        op3.value = g;
+        op3.textContent = g;
+        editGerencia.appendChild(op3);
+      });
+
+      STATUS_OPERACIONAIS.forEach(s => {
+        const op1 = document.createElement("option");
+        op1.value = s;
+        op1.textContent = s;
+        situacaoManual.appendChild(op1);
+
+        const op2 = document.createElement("option");
+        op2.value = s;
+        op2.textContent = s;
+        filtroSituacao.appendChild(op2);
+
+        const op3 = document.createElement("option");
+        op3.value = s;
+        op3.textContent = s;
+        editSituacao.appendChild(op3);
+      });
+
       situacaoManual.value = "Em análise";
-      dataFinalManual.value = "";
-      semPrazoManual.checked = false;
-      dataFinalManual.disabled = false;
-      mostrarMensagem("Formulário limpo.", "info");
+      editSituacao.value = "Em análise";
     }
 
-    function salvarFiltrosNoStorage() {
+    /* ==========================
+       STORAGE
+    ========================== */
+    function salvarFiltros() {
       const payload = {
         busca: busca.value,
         filtroGerencia: filtroGerencia.value,
         filtroSituacao: filtroSituacao.value,
         filtroPrazo: filtroPrazo.value,
         filtroStatusPrazo: filtroStatusPrazo.value,
-        filtroAtrasados: filtroAtrasados.checked,
         filtroDataInicial: filtroDataInicial.value,
         filtroDataFinal: filtroDataFinal.value,
+        filtroAtrasados: filtroAtrasados.checked,
         ordenacao: ordenacao.value,
         limiteVencendo: limiteVencendo.value
       };
       localStorage.setItem(STORAGE_KEYS.filtros, JSON.stringify(payload));
     }
 
-    function carregarFiltrosDoStorage() {
+    function restaurarFiltros() {
       try {
         const bruto = localStorage.getItem(STORAGE_KEYS.filtros);
         if (!bruto) return;
         const payload = JSON.parse(bruto);
-
         busca.value = payload.busca || "";
         filtroGerencia.value = payload.filtroGerencia || "";
         filtroSituacao.value = payload.filtroSituacao || "";
         filtroPrazo.value = payload.filtroPrazo || "";
         filtroStatusPrazo.value = payload.filtroStatusPrazo || "";
-        filtroAtrasados.checked = !!payload.filtroAtrasados;
         filtroDataInicial.value = payload.filtroDataInicial || "";
         filtroDataFinal.value = payload.filtroDataFinal || "";
+        filtroAtrasados.checked = !!payload.filtroAtrasados;
         ordenacao.value = payload.ordenacao || "";
         limiteVencendo.value = payload.limiteVencendo || "3";
       } catch (e) {
-        console.warn("Não foi possível restaurar os filtros:", e);
+        console.warn("Falha ao restaurar filtros:", e);
       }
     }
 
@@ -1342,65 +1910,46 @@ Gerência: GECONT"></textarea>
        FIRESTORE
     ========================== */
     function iniciarEscutaProcessos() {
-      try {
-        if (unsubscribeSnapshot) unsubscribeSnapshot();
+      if (unsubscribeSnapshot) unsubscribeSnapshot();
 
-        limparTabelaVisual();
-        contadorRegistros.textContent = "Carregando...";
-
-        unsubscribeSnapshot = db.collection(COLLECTION_PROCESSOS)
-          .onSnapshot((snapshot) => {
-            limparTabelaVisual();
-
-            if (snapshot.empty) {
-              atualizarTudoNaTela();
-              mostrarMensagem("Nenhum processo cadastrado até o momento.", "info");
-              return;
-            }
-
-            const itens = [];
-            snapshot.forEach((doc) => {
-              const dados = doc.data();
-              itens.push({
-                id: doc.id,
-                processo: dados.processo || "",
-                processoNormalizado: dados.processoNormalizado || normalizarProcesso(dados.processo || ""),
-                interessado: dados.interessado || "",
-                assunto: dados.assunto || "",
-                dataCadastro: dados.dataCadastro || "",
-                dataCadastroISO: dados.dataCadastroISO || "",
-                situacao: dados.situacao || "Em análise",
-                gerencia: dados.gerencia || "",
-                dataFinal: dados.dataFinal || "",
-                semPrazo: !!dados.semPrazo || !dados.dataFinal,
-                criadoEm: dados.criadoEm || null,
-                criadoPor: dados.criadoPor || "",
-                alteradoEm: dados.alteradoEm || null,
-                alteradoPor: dados.alteradoPor || ""
-              });
+      unsubscribeSnapshot = db.collection(COLLECTION_PROCESSOS)
+        .onSnapshot((snapshot) => {
+          allItems = [];
+          snapshot.forEach((doc) => {
+            const dados = doc.data();
+            allItems.push({
+              id: doc.id,
+              processo: dados.processo || "",
+              processoNormalizado: dados.processoNormalizado || normalizarProcesso(dados.processo || ""),
+              interessado: dados.interessado || "",
+              assunto: dados.assunto || "",
+              dataCadastro: dados.dataCadastro || "",
+              dataCadastroISO: dados.dataCadastroISO || "",
+              situacao: dados.situacao || "Em análise",
+              gerencia: dados.gerencia || "",
+              dataFinal: dados.dataFinal || "",
+              semPrazo: !!dados.semPrazo || !dados.dataFinal,
+              criadoEm: dados.criadoEm || null,
+              criadoPor: dados.criadoPor || "",
+              alteradoEm: dados.alteradoEm || null,
+              alteradoPor: dados.alteradoPor || ""
             });
-
-            itens.sort((a, b) => (b.dataCadastroISO || "").localeCompare(a.dataCadastroISO || ""));
-            itens.forEach(adicionarLinha);
-            aplicarFiltrosEOrdenacao();
-          }, (error) => {
-            console.error("Erro ao escutar coleção:", error);
-            mostrarMensagem("Erro ao carregar processos em tempo real.", "error");
           });
-      } catch (error) {
-        console.error("Erro ao iniciar escuta:", error);
-        mostrarMensagem("Erro ao iniciar carregamento dos processos.", "error");
-      }
+
+          allItems.sort((a, b) => (b.dataCadastroISO || "").localeCompare(a.dataCadastroISO || ""));
+          renderEverything();
+        }, (error) => {
+          console.error(error);
+          mostrarMensagem("Erro ao carregar processos em tempo real.", "error");
+          toast("Erro ao escutar coleção de processos.", "error");
+        });
     }
 
     async function existeProcessoDuplicado(processoNormalizado, ignorarId = null) {
       if (!processoNormalizado) return false;
-
       const snapshot = await db.collection(COLLECTION_PROCESSOS)
         .where("processoNormalizado", "==", processoNormalizado)
         .get();
-
-      if (snapshot.empty) return false;
 
       let duplicado = false;
       snapshot.forEach(doc => {
@@ -1408,6 +1957,15 @@ Gerência: GECONT"></textarea>
       });
 
       return duplicado;
+    }
+
+    async function atualizarDocumento(id, dadosAtualizados) {
+      const usuario = auth.currentUser;
+      await db.collection(COLLECTION_PROCESSOS).doc(id).update({
+        ...dadosAtualizados,
+        alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
+        alteradoPor: usuario?.email || ""
+      });
     }
 
     async function gerarProcesso() {
@@ -1425,25 +1983,22 @@ Gerência: GECONT"></textarea>
         ]);
 
         const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]);
-        const dataFinalTexto = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
-        const gerenciaTexto = gerenciaManual.value || extrairGerencia(texto);
-        const situacaoTexto = situacaoManual.value || "Em análise";
+        const dataFinal = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
+        const gerencia = gerenciaManual.value || extrairGerencia(texto);
+        const situacao = situacaoManual.value || "Em análise";
 
         if (!processo && !interessado && !assunto && !texto) {
-          mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
-          return;
+          return mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
         }
 
         if (processo) {
           const duplicado = await existeProcessoDuplicado(processo);
           if (duplicado) {
-            mostrarMensagem("Já existe um processo cadastrado com esse número.", "error");
-            return;
+            return mostrarMensagem("Já existe um processo cadastrado com esse número.", "error");
           }
         }
 
         const user = auth.currentUser;
-
         const registro = {
           processo: processo || "",
           processoNormalizado: processo || "",
@@ -1451,10 +2006,10 @@ Gerência: GECONT"></textarea>
           assunto: assunto || "",
           dataCadastro: new Date().toLocaleDateString("pt-BR"),
           dataCadastroISO: hojeISO(),
-          situacao: situacaoTexto,
-          gerencia: gerenciaTexto || "",
-          dataFinal: dataFinalTexto || "",
-          semPrazo: !dataFinalTexto,
+          situacao,
+          gerencia: gerencia || "",
+          dataFinal: dataFinal || "",
+          semPrazo: !dataFinal,
           criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
           criadoPor: user?.email || "",
           alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
@@ -1464,418 +2019,290 @@ Gerência: GECONT"></textarea>
         await db.collection(COLLECTION_PROCESSOS).add(registro);
         limparFormulario();
         mostrarMensagem("Processo cadastrado com sucesso.", "success");
+        toast("Processo cadastrado com sucesso.", "success");
       } catch (error) {
-        console.error("Erro ao salvar processo:", error);
+        console.error(error);
         mostrarMensagem("Erro ao salvar processo: " + error.message, "error");
+        toast("Erro ao salvar processo.", "error");
       } finally {
         setLoading(btnGerarProcesso, false, "Gerar processo");
       }
     }
 
-    async function atualizarDocumento(id, dadosAtualizados) {
-      const usuario = auth.currentUser;
+    async function salvarEdicao() {
+      if (!editingId) return;
 
-      await db.collection(COLLECTION_PROCESSOS).doc(id).update({
-        ...dadosAtualizados,
-        alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
-        alteradoPor: usuario?.email || ""
-      });
+      try {
+        setLoading(btnSalvarEdicao, true, "Salvar alterações");
+
+        const processoNormalizado = normalizarProcesso(editProcesso.value);
+        if (processoNormalizado) {
+          const duplicado = await existeProcessoDuplicado(processoNormalizado, editingId);
+          if (duplicado) {
+            toast("Já existe outro processo com esse número.", "error");
+            return;
+          }
+        }
+
+        await atualizarDocumento(editingId, {
+          processo: processoNormalizado,
+          processoNormalizado,
+          interessado: editInteressado.value.trim(),
+          assunto: editAssunto.value.trim(),
+          situacao: editSituacao.value,
+          gerencia: editGerencia.value,
+          dataFinal: editSemPrazo.checked ? "" : (editDataFinal.value || ""),
+          semPrazo: editSemPrazo.checked || !editDataFinal.value
+        });
+
+        fecharModal();
+        toast("Registro atualizado com sucesso.", "success");
+
+        const row = document.querySelector(`tr.main-row[data-id="${editingId}"]`);
+        if (row) animarLinha(row);
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao salvar alterações.", "error");
+      } finally {
+        setLoading(btnSalvarEdicao, false, "Salvar alterações");
+      }
+    }
+
+    async function alterarSituacaoRapida(id, situacao) {
+      if (!id) return;
+      try {
+        await atualizarDocumento(id, { situacao });
+        toast(`Situação atualizada para "${situacao}".`, "success");
+        const row = document.querySelector(`tr.main-row[data-id="${id}"]`);
+        if (row) animarLinha(row);
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao atualizar situação.", "error");
+      }
     }
 
     async function remover(id) {
       if (!id) return;
-
       const confirmar = confirm("Deseja realmente excluir este processo?");
       if (!confirmar) return;
-
       try {
         await db.collection(COLLECTION_PROCESSOS).doc(id).delete();
-        mostrarMensagem("Processo excluído com sucesso.", "success");
+        toast("Processo excluído com sucesso.", "success");
+        if (selectedDrawerId === id) fecharDrawer();
       } catch (error) {
-        console.error("Erro ao excluir:", error);
-        mostrarMensagem("Erro ao excluir: " + error.message, "error");
+        console.error(error);
+        toast("Erro ao excluir registro.", "error");
       }
     }
 
     /* ==========================
-       TABELA
+       RENDERIZAÇÃO
     ========================== */
-    function adicionarLinha(dados) {
-      tabela.classList.remove("hidden");
-
-      const tr = document.createElement("tr");
-      tr.dataset.id = dados.id || "";
-      tr.dataset.alteradoPor = dados.alteradoPor || "";
-      tr.dataset.alteradoEm = dados.alteradoEm && dados.alteradoEm.toDate
-        ? dados.alteradoEm.toDate().toISOString()
-        : (dados.alteradoEm instanceof Date ? dados.alteradoEm.toISOString() : "");
-      tr.dataset.processoNormalizado = dados.processoNormalizado || normalizarProcesso(dados.processo || "");
-
-      const dias = dados.semPrazo ? null : calcularDiasRestantes(dados.dataFinal || "");
-      const classeDias = classeDiasRestantes(dias);
-      const statusPrazo = obterStatusPrazo(dados.dataFinal || "", !!dados.semPrazo);
-
-      tr.className = obterClasseLinha(statusPrazo);
-
-      tr.innerHTML = `
-        <td contenteditable="true" data-campo="processo">${escapeHtml(dados.processo || "")}</td>
-        <td contenteditable="true" data-campo="interessado">${escapeHtml(dados.interessado || "")}</td>
-        <td contenteditable="true" data-campo="assunto">${escapeHtml(dados.assunto || "")}</td>
-        <td>${escapeHtml(dados.dataCadastro || "")}</td>
-        <td>
-          <select data-campo="situacao">
-            ${STATUS_OPERACIONAIS.map(s => `
-              <option value="${escapeHtml(s)}" ${dados.situacao === s ? "selected" : ""}>${escapeHtml(s)}</option>
-            `).join("")}
-          </select>
-        </td>
-        <td>
-          <select data-campo="gerencia">
-            <option value="">Selecione...</option>
-            ${GERENCIAS.map(g => `
-              <option value="${g}" ${dados.gerencia === g ? "selected" : ""}>${g}</option>
-            `).join("")}
-          </select>
-        </td>
-        <td>
-          <input type="date" class="data-final-input" data-campo="dataFinal" value="${escapeHtml(dados.dataFinal || "")}" ${dados.semPrazo ? "disabled" : ""}>
-          <label class="checkbox-wrap" style="margin-top:8px;">
-            <input type="checkbox" data-campo="semPrazo" ${dados.semPrazo ? "checked" : ""}>
-            Sem prazo
-          </label>
-        </td>
-        <td class="status-prazo">${gerarBadgePrazo(dados.dataFinal || "", !!dados.semPrazo)}</td>
-        <td class="dias-restantes ${classeDias}">${escapeHtml(dados.semPrazo ? "Sem prazo" : textoDiasRestantes(dias))}</td>
-        <td class="ultima-alteracao">
-          <div><strong>${escapeHtml(dados.alteradoPor || "-")}</strong></div>
-          <div>${escapeHtml(formatarDataHora(dados.alteradoEm || null))}</div>
-        </td>
-        <td class="acoes">
-          <button type="button" class="danger" data-acao="excluir">Excluir</button>
-        </td>
-      `;
-
-      registrarEventosDaLinha(tr);
-      tbody.prepend(tr);
+    function renderEverything(notificar = true) {
+      filteredItems = getFilteredItems();
+      renderTable(filteredItems);
+      renderResumo(filteredItems);
+      renderAlertas(filteredItems, notificar);
+      renderDashboard(filteredItems);
+      atualizarCardsAtivos();
+      atualizarDrawerSeAberto();
     }
 
-    function registrarEventosDaLinha(tr) {
-      const id = tr.dataset.id;
-
-      tr.querySelectorAll('td[contenteditable="true"]').forEach(td => {
-        td.addEventListener("blur", async () => {
-          const campo = td.dataset.campo;
-          if (!id || !campo) return;
-
-          try {
-            let valor = td.innerText.trim();
-
-            if (campo === "processo") {
-              valor = normalizarProcesso(valor);
-
-              if (valor) {
-                const duplicado = await existeProcessoDuplicado(valor, id);
-                if (duplicado) {
-                  mostrarMensagem("Já existe outro processo com esse número. Alteração cancelada.", "error");
-                  return;
-                }
-              }
-
-              td.innerText = valor;
-              tr.dataset.processoNormalizado = valor;
-
-              await atualizarDocumento(id, {
-                processo: valor,
-                processoNormalizado: valor
-              });
-            } else {
-              await atualizarDocumento(id, { [campo]: valor });
-            }
-
-            mostrarMensagem("Registro atualizado com sucesso.", "success");
-          } catch (error) {
-            console.error("Erro ao atualizar campo:", error);
-            mostrarMensagem("Erro ao atualizar registro: " + error.message, "error");
-          }
-        });
-      });
-
-      const selectSituacao = tr.querySelector('select[data-campo="situacao"]');
-      selectSituacao.addEventListener("change", async () => {
-        try {
-          await atualizarDocumento(id, { situacao: selectSituacao.value });
-          mostrarMensagem("Situação atualizada com sucesso.", "success");
-        } catch (error) {
-          console.error("Erro ao atualizar situação:", error);
-          mostrarMensagem("Erro ao atualizar situação: " + error.message, "error");
-        }
-      });
-
-      const selectGerencia = tr.querySelector('select[data-campo="gerencia"]');
-      selectGerencia.addEventListener("change", async () => {
-        try {
-          await atualizarDocumento(id, { gerencia: selectGerencia.value });
-          mostrarMensagem("Gerência atualizada com sucesso.", "success");
-        } catch (error) {
-          console.error("Erro ao atualizar gerência:", error);
-          mostrarMensagem("Erro ao salvar gerência: " + error.message, "error");
-        }
-      });
-
-      const inputDataFinal = tr.querySelector('input[data-campo="dataFinal"]');
-      const checkboxSemPrazo = tr.querySelector('input[data-campo="semPrazo"]');
-
-      checkboxSemPrazo.addEventListener("change", async () => {
-        try {
-          const semPrazo = checkboxSemPrazo.checked;
-          inputDataFinal.disabled = semPrazo;
-          if (semPrazo) inputDataFinal.value = "";
-
-          atualizarLinhaPrazo(tr);
-
-          await atualizarDocumento(id, {
-            semPrazo,
-            dataFinal: semPrazo ? "" : inputDataFinal.value
-          });
-
-          mostrarMensagem("Prazo atualizado com sucesso.", "success");
-        } catch (error) {
-          console.error("Erro ao atualizar sem prazo:", error);
-          mostrarMensagem("Erro ao salvar alteração: " + error.message, "error");
-        }
-      });
-
-      inputDataFinal.addEventListener("change", async () => {
-        try {
-          const valor = inputDataFinal.value;
-          checkboxSemPrazo.checked = !valor;
-          inputDataFinal.disabled = false;
-
-          atualizarLinhaPrazo(tr);
-
-          await atualizarDocumento(id, {
-            dataFinal: valor,
-            semPrazo: !valor
-          });
-
-          mostrarMensagem("Data final atualizada com sucesso.", "success");
-        } catch (error) {
-          console.error("Erro ao atualizar data final:", error);
-          mostrarMensagem("Erro ao salvar data final: " + error.message, "error");
-        }
-      });
-
-      const btnExcluir = tr.querySelector('button[data-acao="excluir"]');
-      btnExcluir.addEventListener("click", () => remover(id));
-    }
-
-    function atualizarLinhaPrazo(tr) {
-      const inputDataFinal = tr.querySelector('input[data-campo="dataFinal"]');
-      const checkboxSemPrazo = tr.querySelector('input[data-campo="semPrazo"]');
-      const tdStatusPrazo = tr.querySelector(".status-prazo");
-      const tdDias = tr.querySelector(".dias-restantes");
-
-      const semPrazo = checkboxSemPrazo.checked;
-      const dataFinal = semPrazo ? "" : (inputDataFinal.value || "");
-      const dias = semPrazo ? null : calcularDiasRestantes(dataFinal);
-      const statusPrazo = obterStatusPrazo(dataFinal, semPrazo);
-
-      tdStatusPrazo.innerHTML = gerarBadgePrazo(dataFinal, semPrazo);
-      tdDias.textContent = semPrazo ? "Sem prazo" : textoDiasRestantes(dias);
-      tdDias.className = "dias-restantes " + classeDiasRestantes(dias);
-
-      tr.classList.remove("linha-atrasada", "linha-vencendo", "linha-hoje", "linha-sem-prazo");
-      const classeLinha = obterClasseLinha(statusPrazo);
-      if (classeLinha) tr.classList.add(classeLinha);
-    }
-
-    function atualizarTodasAsLinhas() {
-      Array.from(tbody.querySelectorAll("tr")).forEach(tr => atualizarLinhaPrazo(tr));
-    }
-
-    function limparTabelaVisual() {
-      tbody.innerHTML = "";
-      tabela.classList.add("hidden");
-      noResults.classList.add("hidden");
-    }
-
-    function limparTabela() {
-      limparTabelaVisual();
-      atualizarTudoNaTela();
-    }
-
-    /* ==========================
-       FILTROS
-    ========================== */
-    function limparFiltros() {
-      busca.value = "";
-      filtroGerencia.value = "";
-      filtroSituacao.value = "";
-      filtroPrazo.value = "";
-      filtroStatusPrazo.value = "";
-      filtroAtrasados.checked = false;
-      filtroDataInicial.value = "";
-      filtroDataFinal.value = "";
-      ordenacao.value = "";
-      salvarFiltrosNoStorage();
-      aplicarFiltrosEOrdenacao();
-      mostrarMensagem("Filtros limpos.", "info");
-    }
-
-    function obterDadosDaLinha(tr) {
-      const selectGerencia = tr.querySelector('select[data-campo="gerencia"]');
-      const selectSituacao = tr.querySelector('select[data-campo="situacao"]');
-      const inputDataFinal = tr.querySelector('input[data-campo="dataFinal"]');
-      const semPrazo = tr.querySelector('input[data-campo="semPrazo"]').checked;
-
-      const dataFinal = semPrazo ? "" : (inputDataFinal?.value || "");
-      const diasRestantes = semPrazo ? null : calcularDiasRestantes(dataFinal);
-      const statusPrazo = obterStatusPrazo(dataFinal, semPrazo);
-
-      return {
-        id: tr.dataset.id,
-        processo: tr.children[0]?.innerText?.trim() || "",
-        processoNormalizado: tr.dataset.processoNormalizado || normalizarProcesso(tr.children[0]?.innerText?.trim() || ""),
-        interessado: tr.children[1]?.innerText?.trim() || "",
-        assunto: tr.children[2]?.innerText?.trim() || "",
-        dataCadastro: tr.children[3]?.innerText?.trim() || "",
-        situacao: selectSituacao?.value || "",
-        gerencia: selectGerencia?.value || "",
-        dataFinal,
-        semPrazo,
-        diasRestantes,
-        statusPrazo,
-        alteradoPor: tr.dataset.alteradoPor || "",
-        alteradoEm: tr.dataset.alteradoEm || ""
-      };
-    }
-
-    function aplicarFiltrosEOrdenacao() {
-      const termoBusca = busca.value.toLowerCase().trim();
+    function getFilteredItems() {
+      const termo = busca.value.toLowerCase().trim();
       const gerencia = filtroGerencia.value;
       const situacao = filtroSituacao.value;
       const prazo = filtroPrazo.value;
       const statusPrazoFiltro = filtroStatusPrazo.value;
-      const somenteAtrasados = filtroAtrasados.checked;
       const dataInicial = filtroDataInicial.value;
       const dataFinal = filtroDataFinal.value;
-      const tipoOrdenacao = ordenacao.value;
+      const somenteAtrasados = filtroAtrasados.checked;
+      const ordem = ordenacao.value;
 
-      let linhas = Array.from(tbody.querySelectorAll("tr"));
+      let itens = allItems.map(item => ({
+        ...item,
+        diasRestantes: item.semPrazo ? null : calcularDiasRestantes(item.dataFinal),
+        statusPrazo: obterStatusPrazo(item.dataFinal, item.semPrazo)
+      }));
 
-      linhas.forEach(tr => {
-        const dados = obterDadosDaLinha(tr);
-        const textoLinha = [
-          dados.processo,
-          dados.interessado,
-          dados.assunto,
-          dados.situacao,
-          dados.gerencia,
-          dados.statusPrazo
+      itens = itens.filter(item => {
+        const textoBusca = [
+          item.processo,
+          item.interessado,
+          item.assunto,
+          item.situacao,
+          item.gerencia,
+          item.statusPrazo
         ].join(" ").toLowerCase();
 
-        let visivel = true;
-
-        if (termoBusca && !textoLinha.includes(termoBusca)) visivel = false;
-        if (gerencia && dados.gerencia !== gerencia) visivel = false;
-        if (situacao && dados.situacao !== situacao) visivel = false;
-        if (prazo === "comPrazo" && dados.semPrazo) visivel = false;
-        if (prazo === "semPrazo" && !dados.semPrazo) visivel = false;
-        if (statusPrazoFiltro && dados.statusPrazo !== statusPrazoFiltro) visivel = false;
-        if (somenteAtrasados && dados.statusPrazo !== "Atrasado") visivel = false;
-
-        if (dataInicial) {
-          if (dados.semPrazo || !dados.dataFinal || dados.dataFinal < dataInicial) visivel = false;
-        }
-
-        if (dataFinal) {
-          if (dados.semPrazo || !dados.dataFinal || dados.dataFinal > dataFinal) visivel = false;
-        }
-
-        tr.style.display = visivel ? "" : "none";
+        if (termo && !textoBusca.includes(termo)) return false;
+        if (gerencia && item.gerencia !== gerencia) return false;
+        if (situacao && item.situacao !== situacao) return false;
+        if (prazo === "comPrazo" && item.semPrazo) return false;
+        if (prazo === "semPrazo" && !item.semPrazo) return false;
+        if (statusPrazoFiltro && item.statusPrazo !== statusPrazoFiltro) return false;
+        if (somenteAtrasados && item.statusPrazo !== "Atrasado") return false;
+        if (dataInicial && (item.semPrazo || !item.dataFinal || item.dataFinal < dataInicial)) return false;
+        if (dataFinal && (item.semPrazo || !item.dataFinal || item.dataFinal > dataFinal)) return false;
+        return true;
       });
 
-      const visiveis = linhas.filter(tr => tr.style.display !== "none");
-      const ocultas = linhas.filter(tr => tr.style.display === "none");
-
-      visiveis.sort((a, b) => {
-        const da = obterDadosDaLinha(a);
-        const dbb = obterDadosDaLinha(b);
-
-        if (tipoOrdenacao === ORDENACOES.DATA_FINAL_ASC) {
-          return (da.dataFinal || "9999-12-31").localeCompare(dbb.dataFinal || "9999-12-31");
-        }
-
-        if (tipoOrdenacao === ORDENACOES.PROCESSO_ASC) {
-          return da.processo.localeCompare(dbb.processo, "pt-BR", { sensitivity: "base" });
-        }
-
-        if (tipoOrdenacao === ORDENACOES.INTERESSADO_ASC) {
-          return da.interessado.localeCompare(dbb.interessado, "pt-BR", { sensitivity: "base" });
-        }
-
-        if (tipoOrdenacao === ORDENACOES.GERENCIA_ASC) {
-          return da.gerencia.localeCompare(dbb.gerencia, "pt-BR", { sensitivity: "base" });
-        }
-
-        if (tipoOrdenacao === ORDENACOES.DIAS_RESTANTES_ASC) {
-          const va = da.semPrazo ? Number.MAX_SAFE_INTEGER : da.diasRestantes;
-          const vb = dbb.semPrazo ? Number.MAX_SAFE_INTEGER : dbb.diasRestantes;
+      if (ordem === "dataFinalAsc") {
+        itens.sort((a, b) => (a.dataFinal || "9999-12-31").localeCompare(b.dataFinal || "9999-12-31"));
+      } else if (ordem === "processoAsc") {
+        itens.sort((a, b) => (a.processo || "").localeCompare(b.processo || "", "pt-BR", { sensitivity: "base" }));
+      } else if (ordem === "interessadoAsc") {
+        itens.sort((a, b) => (a.interessado || "").localeCompare(b.interessado || "", "pt-BR", { sensitivity: "base" }));
+      } else if (ordem === "gerenciaAsc") {
+        itens.sort((a, b) => (a.gerencia || "").localeCompare(b.gerencia || "", "pt-BR", { sensitivity: "base" }));
+      } else if (ordem === "diasRestantesAsc") {
+        itens.sort((a, b) => {
+          const va = a.semPrazo ? Number.MAX_SAFE_INTEGER : a.diasRestantes;
+          const vb = b.semPrazo ? Number.MAX_SAFE_INTEGER : b.diasRestantes;
           return va - vb;
-        }
+        });
+      }
 
-        return 0;
-      });
-
-      [...visiveis, ...ocultas].forEach(tr => tbody.appendChild(tr));
-
-      salvarFiltrosNoStorage();
-      atualizarTudoNaTela();
+      return itens;
     }
 
-    /* ==========================
-       CONTADOR / ALERTAS / DASHBOARD
-    ========================== */
-    function atualizarContador() {
-      const total = tbody.querySelectorAll("tr").length;
-      const visiveis = Array.from(tbody.querySelectorAll("tr"))
-        .filter(tr => tr.style.display !== "none").length;
+    function renderTable(itens) {
+      const termo = busca.value.trim();
 
-      contadorRegistros.textContent = `${visiveis} de ${total} registro(s)`;
-      noResults.classList.toggle("hidden", !(total > 0 && visiveis === 0));
-    }
-
-    function obterDadosDaTabela(visiveisApenas = false) {
-      return Array.from(tbody.querySelectorAll("tr"))
-        .filter(tr => !visiveisApenas || tr.style.display !== "none")
-        .map(obterDadosDaLinha);
-    }
-
-    function verificarAlertasPrazo(enviarNotificacao = false) {
-      const dados = obterDadosDaTabela(true);
-      const limite = parseInt(limiteVencendo.value, 10) || 3;
-
-      const itens = dados.filter(d =>
-        !d.semPrazo &&
-        d.diasRestantes !== null &&
-        d.diasRestantes <= limite &&
-        !["Concluído", "Arquivado"].includes(d.situacao)
-      );
+      if (!allItems.length) {
+        tabela.classList.add("hidden");
+        noResults.classList.add("hidden");
+        tbodyProcessos.innerHTML = "";
+        return;
+      }
 
       if (!itens.length) {
+        tabela.classList.add("hidden");
+        noResults.classList.remove("hidden");
+        tbodyProcessos.innerHTML = "";
+        return;
+      }
+
+      noResults.classList.add("hidden");
+      tabela.classList.remove("hidden");
+
+      const html = itens.map(item => {
+        const statusPrazo = item.statusPrazo;
+        const classeLinha = obterClasseLinha(statusPrazo);
+        const classeSituacao = classeSituacaoBadge(item.situacao);
+
+        const processoTxt = highlightText(item.processo || "", termo);
+        const interessadoTxt = highlightText(item.interessado || "", termo);
+        const assuntoTxt = highlightText(item.assunto || "", termo);
+        const gerenciaTxt = highlightText(item.gerencia || "", termo);
+
+        const mainRow = `
+          <tr class="main-row ${classeLinha}" data-id="${item.id}">
+            <td>
+              <button type="button" class="expand-btn" data-action="expand">${expandedIds.has(item.id) ? "−" : "+"}</button>
+            </td>
+            <td>${processoTxt || "<span class='muted'>(sem número)</span>"}</td>
+            <td>${interessadoTxt || "-"}</td>
+            <td>${assuntoTxt || "-"}</td>
+            <td>${escapeHtml(item.dataCadastro || "-")}</td>
+            <td><span class="badge-situacao ${classeSituacao}">${escapeHtml(item.situacao || "-")}</span></td>
+            <td>${gerenciaTxt || "-"}</td>
+            <td>${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</td>
+            <td>${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</td>
+            <td class="${classeDiasRestantes(item.diasRestantes)}">${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(item.diasRestantes))}</td>
+            <td>
+              <div><strong>${escapeHtml(item.alteradoPor || "-")}</strong></div>
+              <div class="small-text">${escapeHtml(formatarDataHora(item.alteradoEm))}</div>
+            </td>
+            <td>
+              <div class="acoes">
+                <button type="button" data-action="view">Ver</button>
+                <button type="button" class="secondary" data-action="edit">Editar</button>
+                <button type="button" class="warning" data-action="pendente">Pendente</button>
+                <button type="button" class="success" data-action="concluir">Concluir</button>
+                <button type="button" class="light" data-action="arquivar">Arquivar</button>
+                <button type="button" class="danger" data-action="delete">Excluir</button>
+              </div>
+            </td>
+          </tr>
+        `;
+
+        const detailRow = `
+          <tr class="detail-row ${expandedIds.has(item.id) ? "" : "hidden"}" data-detail-for="${item.id}">
+            <td colspan="12">
+              <div class="row-details-box">
+                <div class="detail-mini">
+                  <div class="tt">Criado por</div>
+                  <div>${escapeHtml(item.criadoPor || "-")}</div>
+                </div>
+                <div class="detail-mini">
+                  <div class="tt">Criado em</div>
+                  <div>${escapeHtml(formatarDataHora(item.criadoEm))}</div>
+                </div>
+                <div class="detail-mini">
+                  <div class="tt">Última alteração</div>
+                  <div>${escapeHtml(formatarDataHora(item.alteradoEm))}</div>
+                </div>
+                <div class="detail-mini">
+                  <div class="tt">Status do prazo</div>
+                  <div>${escapeHtml(item.statusPrazo)}</div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+
+        return mainRow + detailRow;
+      }).join("");
+
+      tbodyProcessos.innerHTML = html;
+    }
+
+    function renderResumo(itens) {
+      const totalVisiveis = itens.length;
+      const atrasados = itens.filter(i => i.statusPrazo === "Atrasado").length;
+      const hoje = itens.filter(i => i.statusPrazo === "Vence hoje").length;
+      const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
+      const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
+      const concluidos = itens.filter(i => i.situacao === "Concluído").length;
+
+      contadorRegistros.textContent = `${totalVisiveis} de ${allItems.length} registro(s)`;
+      counterAtrasados.textContent = `Atrasados: ${atrasados}`;
+      counterHoje.textContent = `Vence hoje: ${hoje}`;
+      counterVencendo.textContent = `Vencendo: ${vencendo}`;
+      counterSemPrazo.textContent = `Sem prazo: ${semPrazo}`;
+
+      sumMostrando.textContent = totalVisiveis;
+      sumAtrasados.textContent = atrasados;
+      sumHoje.textContent = hoje;
+      sumSemPrazo.textContent = semPrazo;
+      sumConcluidos.textContent = concluidos;
+    }
+
+    function renderAlertas(itens, enviarNotificacao = false) {
+      const limite = parseInt(limiteVencendo.value, 10) || 3;
+
+      const alertaveis = itens.filter(i =>
+        !i.semPrazo &&
+        i.diasRestantes !== null &&
+        i.diasRestantes <= limite &&
+        !["Concluído", "Arquivado"].includes(i.situacao)
+      );
+
+      if (!alertaveis.length) {
         alertasPrazo.classList.add("hidden");
         alertasPrazo.innerHTML = "";
         return;
       }
 
-      const lista = itens.map(d => {
-        const status = d.diasRestantes < 0
-          ? `atrasado há ${Math.abs(d.diasRestantes)} dia(s)`
-          : d.diasRestantes === 0
+      const lista = alertaveis.map(i => {
+        const status = i.diasRestantes < 0
+          ? `atrasado há ${Math.abs(i.diasRestantes)} dia(s)`
+          : i.diasRestantes === 0
             ? "vence hoje"
-            : `vence em ${d.diasRestantes} dia(s)`;
+            : `vence em ${i.diasRestantes} dia(s)`;
 
-        return `<li><strong>${escapeHtml(d.processo || "(sem número)")}</strong> — ${escapeHtml(d.assunto || "Sem assunto")} — ${escapeHtml(d.gerencia || "Sem gerência")} — ${escapeHtml(status)}</li>`;
+        return `<li><strong>${escapeHtml(i.processo || "(sem número)")}</strong> — ${escapeHtml(i.assunto || "Sem assunto")} — ${escapeHtml(i.gerencia || "Sem gerência")} — ${escapeHtml(status)}</li>`;
       }).join("");
 
       alertasPrazo.innerHTML = `
@@ -1886,32 +2313,29 @@ Gerência: GECONT"></textarea>
       alertasPrazo.classList.remove("hidden");
 
       if (enviarNotificacao && "Notification" in window && Notification.permission === "granted") {
-        itens.forEach(d => {
-          const chave = `${d.id}-${d.diasRestantes}`;
+        alertaveis.forEach(i => {
+          const chave = `${i.id}-${i.diasRestantes}`;
           if (chavesNotificadas.has(chave)) return;
           chavesNotificadas.add(chave);
 
-          const corpo = d.diasRestantes < 0
-            ? `${d.processo || "Processo"} está atrasado há ${Math.abs(d.diasRestantes)} dia(s).`
-            : d.diasRestantes === 0
-              ? `${d.processo || "Processo"} vence hoje.`
-              : `${d.processo || "Processo"} vence em ${d.diasRestantes} dia(s).`;
+          const corpo = i.diasRestantes < 0
+            ? `${i.processo || "Processo"} está atrasado há ${Math.abs(i.diasRestantes)} dia(s).`
+            : i.diasRestantes === 0
+              ? `${i.processo || "Processo"} vence hoje.`
+              : `${i.processo || "Processo"} vence em ${i.diasRestantes} dia(s).`;
 
           new Notification("Aviso de prazo", { body: corpo });
         });
       }
     }
 
-    function atualizarDashboard() {
-      const dados = obterDadosDaTabela(true);
-      const total = dados.length;
-      const semPrazo = dados.filter(d => d.semPrazo).length;
-
-      const limite = parseInt(limiteVencendo.value, 10) || 3;
-      const vencendo = dados.filter(d => !d.semPrazo && d.diasRestantes !== null && d.diasRestantes >= 0 && d.diasRestantes <= limite).length;
-      const atrasados = dados.filter(d => !d.semPrazo && d.diasRestantes !== null && d.diasRestantes < 0).length;
-      const concluidos = dados.filter(d => d.situacao === "Concluído").length;
-      const pendentes = dados.filter(d => d.situacao === "Pendente").length;
+    function renderDashboard(itens) {
+      const total = itens.length;
+      const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
+      const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
+      const atrasados = itens.filter(i => i.statusPrazo === "Atrasado").length;
+      const concluidos = itens.filter(i => i.situacao === "Concluído").length;
+      const pendentes = itens.filter(i => i.situacao === "Pendente").length;
 
       document.getElementById("kpiTotal").textContent = total;
       document.getElementById("kpiSemPrazo").textContent = semPrazo;
@@ -1922,23 +2346,22 @@ Gerência: GECONT"></textarea>
 
       const situacaoMap = {};
       STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0);
-      dados.forEach(d => {
-        const s = STATUS_OPERACIONAIS.includes(d.situacao) ? d.situacao : "Em análise";
-        situacaoMap[s] += 1;
+      itens.forEach(i => {
+        situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1;
       });
 
       const gerenciaMap = {};
       GERENCIAS.forEach(g => gerenciaMap[g] = 0);
       gerenciaMap["Sem gerência"] = 0;
-      dados.forEach(d => {
-        const g = d.gerencia && GERENCIAS.includes(d.gerencia) ? d.gerencia : "Sem gerência";
+      itens.forEach(i => {
+        const g = i.gerencia && GERENCIAS.includes(i.gerencia) ? i.gerencia : "Sem gerência";
         gerenciaMap[g] += 1;
       });
 
       const prazoMap = {};
       STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0);
-      dados.forEach(d => {
-        prazoMap[d.statusPrazo] = (prazoMap[d.statusPrazo] || 0) + 1;
+      itens.forEach(i => {
+        prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1;
       });
 
       const ctxSituacao = document.getElementById("graficoSituacao");
@@ -1956,10 +2379,7 @@ Gerência: GECONT"></textarea>
           datasets: [{
             label: "Quantidade",
             data: Object.values(situacaoMap),
-            backgroundColor: [
-              "#3b82f6", "#f59e0b", "#06b6d4",
-              "#10b981", "#6b7280", "#8b5cf6"
-            ],
+            backgroundColor: ["#3b82f6","#f59e0b","#06b6d4","#10b981","#6b7280","#8b5cf6"],
             borderWidth: 1
           }]
         },
@@ -1995,43 +2415,256 @@ Gerência: GECONT"></textarea>
           labels: Object.keys(prazoMap),
           datasets: [{
             data: Object.values(prazoMap),
-            backgroundColor: [
-              "#12b76a", "#f79009", "#fdb022", "#f04438", "#98a2b3"
-            ],
+            backgroundColor: ["#12b76a","#f79009","#fdb022","#f04438","#98a2b3"],
             borderWidth: 1
           }]
         },
-        options: {
-          responsive: true
-        }
+        options: { responsive: true }
       });
     }
 
-    function atualizarTudoNaTela() {
-      atualizarContador();
-      atualizarDashboard();
-      verificarAlertasPrazo(true);
+    function atualizarCardsAtivos() {
+      document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
 
-      if (!tbody.querySelector("tr")) {
-        tabela.classList.add("hidden");
-        noResults.classList.add("hidden");
+      const fSituacao = filtroSituacao.value;
+      const fStatusPrazo = filtroStatusPrazo.value;
+
+      document.querySelectorAll(".summary-card[data-summary-type='situacao']").forEach(card => {
+        if (card.dataset.summaryValue === fSituacao) card.classList.add("active");
+      });
+
+      document.querySelectorAll(".summary-card[data-summary-type='statusPrazo']").forEach(card => {
+        if (card.dataset.summaryValue === fStatusPrazo) card.classList.add("active");
+      });
+    }
+
+    function animarLinha(row) {
+      row.classList.add("row-updated");
+      setTimeout(() => row.classList.remove("row-updated"), 1200);
+    }
+
+    /* ==========================
+       INTERAÇÕES DINÂMICAS
+    ========================== */
+    function toggleExpand(id) {
+      if (expandedIds.has(id)) expandedIds.delete(id);
+      else expandedIds.add(id);
+      renderTable(filteredItems);
+    }
+
+    function aplicarChip(chip) {
+      const type = chip.dataset.chipType;
+      const value = chip.dataset.chipValue;
+      const wasActive = chip.classList.contains("active");
+
+      document.querySelectorAll(`.chip[data-chip-type="${type}"]`).forEach(c => c.classList.remove("active"));
+
+      if (wasActive) {
+        if (type === "statusPrazo") filtroStatusPrazo.value = "";
+        if (type === "situacao") filtroSituacao.value = "";
       } else {
-        tabela.classList.remove("hidden");
+        chip.classList.add("active");
+        if (type === "statusPrazo") filtroStatusPrazo.value = value;
+        if (type === "situacao") filtroSituacao.value = value;
       }
+
+      salvarFiltros();
+      aplicarFiltrosEOrdenacao();
+    }
+
+    function aplicarResumoClicavel(card) {
+      const type = card.dataset.summaryType;
+      const value = card.dataset.summaryValue;
+
+      abrirAba("processos");
+
+      if (!type) {
+        limparFiltros(false);
+        return;
+      }
+
+      if (type === "situacao") {
+        filtroSituacao.value = (filtroSituacao.value === value) ? "" : value;
+      }
+
+      if (type === "statusPrazo") {
+        filtroStatusPrazo.value = (filtroStatusPrazo.value === value) ? "" : value;
+      }
+
+      salvarFiltros();
+      aplicarFiltrosEOrdenacao();
+    }
+
+    function aplicarFiltrosEOrdenacao() {
+      document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
+
+      if (filtroStatusPrazo.value) {
+        const chip = document.querySelector(`.chip[data-chip-type="statusPrazo"][data-chip-value="${CSS.escape(filtroStatusPrazo.value)}"]`);
+        if (chip) chip.classList.add("active");
+      }
+      if (filtroSituacao.value) {
+        const chip = document.querySelector(`.chip[data-chip-type="situacao"][data-chip-value="${CSS.escape(filtroSituacao.value)}"]`);
+        if (chip) chip.classList.add("active");
+      }
+
+      salvarFiltros();
+      renderEverything();
+    }
+
+    function limparFiltros(mostrarToast = true) {
+      busca.value = "";
+      filtroGerencia.value = "";
+      filtroSituacao.value = "";
+      filtroPrazo.value = "";
+      filtroStatusPrazo.value = "";
+      filtroDataInicial.value = "";
+      filtroDataFinal.value = "";
+      filtroAtrasados.checked = false;
+      ordenacao.value = "";
+      document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
+      salvarFiltros();
+      renderEverything();
+      if (mostrarToast) toast("Filtros limpos.", "info");
+    }
+
+    function limparFormulario() {
+      entrada.value = "";
+      gerenciaManual.value = "";
+      situacaoManual.value = "Em análise";
+      dataFinalManual.value = "";
+      semPrazoManual.checked = false;
+      dataFinalManual.disabled = false;
+      mostrarMensagem("Formulário limpo.", "info");
+    }
+
+    /* ==========================
+       DRAWER
+    ========================== */
+    function abrirDrawer(id) {
+      selectedDrawerId = id;
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+
+      const statusPrazo = obterStatusPrazo(item.dataFinal, item.semPrazo);
+
+      drawerSubtitulo.textContent = item.processo || "(sem número)";
+      drawerConteudo.innerHTML = `
+        <div class="drawer-box">
+          <div class="label">Processo</div>
+          <div class="value">${escapeHtml(item.processo || "-")}</div>
+        </div>
+        <div class="drawer-box">
+          <div class="label">Interessado</div>
+          <div class="value">${escapeHtml(item.interessado || "-")}</div>
+        </div>
+        <div class="drawer-box">
+          <div class="label">Assunto</div>
+          <div class="value">${escapeHtml(item.assunto || "-")}</div>
+        </div>
+        <div class="drawer-box">
+          <div class="label">Situação</div>
+          <div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></div>
+        </div>
+        <div class="drawer-box">
+          <div class="label">Gerência</div>
+          <div class="value">${escapeHtml(item.gerencia || "-")}</div>
+        </div>
+        <div class="drawer-box">
+          <div class="label">Data final</div>
+          <div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</div>
+        </div>
+        <div class="drawer-box">
+          <div class="label">Status do prazo</div>
+          <div class="value">${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</div>
+        </div>
+        <div class="drawer-box">
+          <div class="label">Dias restantes</div>
+          <div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(calcularDiasRestantes(item.dataFinal)))}</div>
+        </div>
+        <div class="drawer-box">
+          <div class="label">Criado por</div>
+          <div class="value">${escapeHtml(item.criadoPor || "-")}</div>
+        </div>
+        <div class="drawer-box">
+          <div class="label">Criado em</div>
+          <div class="value">${escapeHtml(formatarDataHora(item.criadoEm))}</div>
+        </div>
+        <div class="drawer-box">
+          <div class="label">Última alteração por</div>
+          <div class="value">${escapeHtml(item.alteradoPor || "-")}</div>
+        </div>
+        <div class="drawer-box">
+          <div class="label">Última alteração em</div>
+          <div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div>
+        </div>
+      `;
+
+      drawerOverlay.classList.remove("hidden");
+      drawer.classList.remove("hidden");
+    }
+
+    function fecharDrawer() {
+      drawerOverlay.classList.add("hidden");
+      drawer.classList.add("hidden");
+      selectedDrawerId = null;
+    }
+
+    function atualizarDrawerSeAberto() {
+      if (!selectedDrawerId) return;
+      const existe = allItems.find(i => i.id === selectedDrawerId);
+      if (!existe) {
+        fecharDrawer();
+        return;
+      }
+      abrirDrawer(selectedDrawerId);
+    }
+
+    /* ==========================
+       MODAL
+    ========================== */
+    function abrirModalEdicao(id) {
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+
+      editingId = id;
+      modalSubtitulo.textContent = item.processo || "(sem número)";
+      editProcesso.value = item.processo || "";
+      editInteressado.value = item.interessado || "";
+      editAssunto.value = item.assunto || "";
+      editSituacao.value = item.situacao || "Em análise";
+      editGerencia.value = item.gerencia || "";
+      editDataFinal.value = item.dataFinal || "";
+      editSemPrazo.checked = !!item.semPrazo;
+      editDataFinal.disabled = !!item.semPrazo;
+
+      modalOverlay.classList.remove("hidden");
+    }
+
+    function fecharModal() {
+      modalOverlay.classList.add("hidden");
+      editingId = null;
     }
 
     /* ==========================
        EXPORTAÇÃO
     ========================== */
+    function obterDadosExportacao(apenasVisiveis = false) {
+      const origem = apenasVisiveis ? filteredItems : allItems;
+      return origem.map(i => ({
+        ...i,
+        diasRestantes: i.semPrazo ? null : calcularDiasRestantes(i.dataFinal),
+        statusPrazo: obterStatusPrazo(i.dataFinal, i.semPrazo)
+      }));
+    }
+
     function exportarExcel(apenasVisiveis = false) {
-      const dados = obterDadosDaTabela(apenasVisiveis);
+      const dados = obterDadosExportacao(apenasVisiveis);
 
       if (!dados.length) {
-        mostrarMensagem("Não há registros para exportar.", "warning");
-        return;
+        return toast("Não há registros para exportar.", "warning");
       }
 
-      const tabelaExportacao = obterHTMLTabelaExportacao(dados);
+      const htmlTabela = obterHTMLTabelaExportacao(dados);
 
       const html = `
         <html>
@@ -2039,7 +2672,7 @@ Gerência: GECONT"></textarea>
           <body>
             <h2>Relatório de Processos</h2>
             <div>${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>
-            ${tabelaExportacao}
+            ${htmlTabela}
           </body>
         </html>
       `;
@@ -2051,18 +2684,17 @@ Gerência: GECONT"></textarea>
       link.click();
       URL.revokeObjectURL(link.href);
 
-      mostrarMensagem("Exportação Excel concluída.", "success");
+      toast("Exportação Excel concluída.", "success");
     }
 
     function exportarPDF(apenasVisiveis = false) {
-      const dados = obterDadosDaTabela(apenasVisiveis);
+      const dados = obterDadosExportacao(apenasVisiveis);
 
       if (!dados.length) {
-        mostrarMensagem("Não há registros para exportar.", "warning");
-        return;
+        return toast("Não há registros para exportar.", "warning");
       }
 
-      const tabelaExportacao = obterHTMLTabelaExportacao(dados);
+      const htmlTabela = obterHTMLTabelaExportacao(dados);
       const janela = window.open("", "_blank");
 
       janela.document.write(`
@@ -2082,7 +2714,7 @@ Gerência: GECONT"></textarea>
           <body>
             <h2>Relatório de Processos</h2>
             <div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>
-            ${tabelaExportacao}
+            ${htmlTabela}
           </body>
         </html>
       `);
@@ -2091,7 +2723,7 @@ Gerência: GECONT"></textarea>
       janela.focus();
       janela.print();
 
-      mostrarMensagem("Exportação para impressão/PDF iniciada.", "success");
+      toast("Exportação para impressão/PDF iniciada.", "success");
     }
 
     function obterHTMLTabelaExportacao(dados) {
@@ -2106,7 +2738,7 @@ Gerência: GECONT"></textarea>
           <td>${escapeHtml(d.semPrazo ? "Sem prazo" : formatarDataISOparaBR(d.dataFinal))}</td>
           <td>${escapeHtml(d.statusPrazo)}</td>
           <td>${escapeHtml(d.semPrazo ? "Sem prazo" : textoDiasRestantes(d.diasRestantes))}</td>
-          <td>${escapeHtml(d.alteradoPor || "-")} - ${escapeHtml(d.alteradoEm ? formatarDataHora(d.alteradoEm) : "-")}</td>
+          <td>${escapeHtml(d.alteradoPor || "-")} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
         </tr>
       `).join("");
 
@@ -2136,17 +2768,15 @@ Gerência: GECONT"></textarea>
     ========================== */
     async function solicitarPermissaoNotificacao() {
       if (!("Notification" in window)) {
-        alert("Seu navegador não suporta notificações.");
-        return;
+        return alert("Seu navegador não suporta notificações.");
       }
 
       const status = await Notification.requestPermission();
-
       if (status === "granted") {
-        mostrarMensagem("Avisos do navegador ativados.", "success");
-        verificarAlertasPrazo(true);
+        toast("Avisos do navegador ativados.", "success");
+        renderAlertas(filteredItems, true);
       } else {
-        mostrarMensagem("Permissão de notificação não concedida.", "warning");
+        toast("Permissão de notificação não concedida.", "warning");
       }
     }
   </script>
