@@ -3,328 +3,327 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema de Gestão de Processos</title>
+  <title>Sistema de Gestão de Processos — Premium</title>
 
-  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
-
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     * { box-sizing: border-box; }
     :root {
-      --bg: #eef4f8;
+      --bg: #f5f7fb;
       --surface: #ffffff;
-      --surface-soft: #f8fbff;
-      --text: #152233;
+      --surface-soft: #fafcff;
+      --text: #1d2939;
       --muted: #667085;
-      --primary: #0b5cab;
-      --primary-dark: #084784;
-      --primary-soft: #eef5ff;
-      --success: #047857;
-      --warning: #c77700;
-      --danger: #c1121f;
-      --gray: #475467;
-      --border: #e5e7eb;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-      --radius: 18px;
+      --border: #e4e7ec;
+      --primary: #155eef;
+      --primary-dark: #0047ab;
+      --primary-soft: #eef4ff;
+      --success: #039855;
+      --warning: #dc6803;
+      --danger: #d92d20;
+      --shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+      --radius: 20px;
+      --radius-sm: 12px;
     }
 
     body {
       margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(180deg, #f7f9fc 0%, var(--bg) 100%);
+      background: linear-gradient(180deg, #f9fbff 0%, var(--bg) 100%);
       color: var(--text);
     }
 
     header {
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      color: white;
-      padding: 18px 16px;
+      background: linear-gradient(120deg, #0b3b91 0%, var(--primary) 100%);
+      color: #fff;
+      padding: 20px 16px;
       text-align: center;
-      font-size: 24px;
+      box-shadow: 0 10px 24px rgba(21, 94, 239, 0.22);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
       font-weight: 800;
-      box-shadow: 0 8px 24px rgba(11, 92, 171, 0.26);
       letter-spacing: 0.2px;
     }
 
+    header p {
+      margin: 6px 0 0;
+      opacity: 0.88;
+      font-size: 14px;
+    }
+
     .container {
-      max-width: 1720px;
-      margin: 20px auto;
-      padding: 0 16px 24px;
+      max-width: 1600px;
+      margin: 24px auto;
+      padding: 0 16px 28px;
     }
 
     .card {
       background: var(--surface);
+      border: 1px solid rgba(16, 24, 40, 0.05);
       border-radius: var(--radius);
-      border: 1px solid rgba(15, 23, 42, 0.05);
       box-shadow: var(--shadow);
-      padding: 20px;
+      padding: 22px;
       margin-bottom: 18px;
     }
 
     .hero {
-      background: linear-gradient(135deg, #f7fbff 0%, #ffffff 55%, #eef5ff 100%);
-      border: 1px solid #dbeafe;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 60%, #eef4ff 100%);
+      border-color: #dbe6ff;
     }
 
     .hidden { display: none !important; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .section-title { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
 
-    h2, h3, h4 { margin-top: 0; }
-    h3 { font-size: 22px; }
-    h4 { font-size: 18px; }
-
-    .topbar, .tabs, .chips, .btn-row, .counter-strip {
+    .topbar, .toolbar, .tabs, .chips, .stats-strip {
       display: flex;
-      flex-wrap: wrap;
       gap: 10px;
+      flex-wrap: wrap;
       align-items: center;
     }
 
-    .topbar {
-      justify-content: space-between;
-    }
+    .topbar { justify-content: space-between; }
 
-    .grid-2, .grid-3, .grid-4, .grid-5, .grid-6 {
+    .grid-2, .grid-3, .grid-4, .grid-5 {
       display: grid;
-      gap: 12px;
+      gap: 14px;
     }
     .grid-2 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
     .grid-4 { grid-template-columns: repeat(4, 1fr); }
     .grid-5 { grid-template-columns: repeat(5, 1fr); }
-    .grid-6 { grid-template-columns: repeat(6, 1fr); }
 
-    @media (max-width: 1400px) {
-      .grid-5, .grid-6 { grid-template-columns: repeat(3, 1fr); }
-      .grid-4 { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 980px) {
-      .grid-2, .grid-3, .grid-4, .grid-5, .grid-6 { grid-template-columns: 1fr; }
+    @media (max-width: 1280px) { .grid-5 { grid-template-columns: repeat(3, 1fr); } .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+      .topbar { flex-direction: column; align-items: stretch; }
     }
 
     input, textarea, select, button {
       width: 100%;
-      padding: 11px 12px;
-      margin-top: 8px;
-      border-radius: 10px;
-      border: 1px solid #d6dae1;
-      outline: none;
+      padding: 12px 13px;
+      border-radius: 12px;
+      border: 1px solid #d0d5dd;
       font-size: 14px;
       font-family: inherit;
-      background: white;
-      transition: .2s ease;
+      background: #fff;
+      transition: 0.2s ease;
+      outline: none;
+      margin-top: 8px;
     }
 
     input:focus, textarea:focus, select:focus {
-      border-color: #7cb3ff;
-      box-shadow: 0 0 0 4px rgba(11, 92, 171, .12);
+      border-color: #84adff;
+      box-shadow: 0 0 0 4px rgba(21, 94, 239, 0.12);
     }
 
-    input:disabled, textarea:disabled, select:disabled {
-      background: #f5f7fb;
+    textarea { resize: vertical; min-height: 130px; }
+
+    input:disabled, select:disabled, textarea:disabled {
+      background: #f8fafc;
       color: var(--muted);
-      cursor: not-allowed;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 130px;
     }
 
     button {
+      border: none;
+      color: white;
       cursor: pointer;
       font-weight: 700;
-      color: white;
-      border: none;
-      background: linear-gradient(180deg, #1670c5, var(--primary));
-      box-shadow: 0 8px 16px rgba(11, 92, 171, .14);
-      transition: .18s ease;
+      background: linear-gradient(180deg, #2e73ff 0%, var(--primary) 100%);
+      box-shadow: 0 8px 18px rgba(21, 94, 239, 0.14);
     }
 
     button:hover { transform: translateY(-1px); }
-    button:disabled { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+    button:disabled { opacity: 0.65; cursor: not-allowed; box-shadow: none; }
 
-    .secondary { background: linear-gradient(180deg, #667085, #475467); }
-    .success { background: linear-gradient(180deg, #10b981, var(--success)); }
-    .warning { background: linear-gradient(180deg, #f59e0b, var(--warning)); }
-    .danger { background: linear-gradient(180deg, #ef4444, var(--danger)); }
-    .light {
-      background: linear-gradient(180deg, #eef5ff, #dbeafe);
-      color: #0b4a88;
-      border: 1px solid #bfdbfe;
-      box-shadow: none;
-    }
-    .outline {
-      background: white;
-      color: #344054;
-      border: 1px solid #d0d5dd;
-      box-shadow: none;
-    }
+    .secondary { background: linear-gradient(180deg, #667085 0%, #475467 100%); }
+    .success { background: linear-gradient(180deg, #12b76a 0%, var(--success) 100%); }
+    .warning { background: linear-gradient(180deg, #f79009 0%, var(--warning) 100%); }
+    .danger { background: linear-gradient(180deg, #f04438 0%, var(--danger) 100%); }
+    .outline { background: #fff; color: #344054; border: 1px solid #d0d5dd; box-shadow: none; }
+    .light { background: linear-gradient(180deg, #f4f8ff 0%, #eaf1ff 100%); color: #114a9f; border: 1px solid #cdddff; box-shadow: none; }
+
     .tab-btn {
       width: auto;
-      min-width: 170px;
-      background: #edf3fb;
-      color: #144a75;
-      border: 1px solid #d7e7fb;
+      min-width: 160px;
+      background: #f4f7fb;
+      color: #344054;
+      border: 1px solid #dfe4ea;
       box-shadow: none;
+      margin-top: 0;
     }
+
     .tab-btn.active {
-      background: linear-gradient(180deg, #1c7dd6, var(--primary));
-      color: white;
-    }
-    .btn-row > * { flex: 1; min-width: 180px; }
-
-    .user-box {
-      background: #f9fafb;
-      border: 1px solid #eaecf0;
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-size: 14px;
-    }
-
-    .muted {
-      color: var(--muted);
-      font-size: 13px;
+      background: linear-gradient(180deg, #2e73ff 0%, var(--primary) 100%);
+      color: #fff;
+      border-color: transparent;
     }
 
     .feedback {
-      margin-top: 12px;
       padding: 12px;
-      border-radius: 10px;
-      border: 1px solid transparent;
+      border-radius: 12px;
       font-size: 14px;
+      border: 1px solid transparent;
+      margin-top: 12px;
     }
     .feedback.info { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
     .feedback.success { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
     .feedback.warning { background: #fffaeb; color: #b54708; border-color: #fedf89; }
     .feedback.error { background: #fef3f2; color: #b42318; border-color: #fecdca; }
 
-    .section-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 8px;
+    .user-box {
+      display: inline-flex;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #eaecf0;
+      background: #fcfcfd;
+      color: #344054;
+      font-size: 14px;
     }
 
-    .filtros-box {
-      background: linear-gradient(180deg, #f9fbff, #f7f9fc);
-      border: 1px solid #e4ebf5;
-      border-radius: 14px;
+    .composer {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 1100px) { .composer { grid-template-columns: 1fr; } }
+
+    .box-soft {
+      background: var(--surface-soft);
+      border: 1px solid #edf2f7;
+      border-radius: 16px;
       padding: 16px;
-      margin-top: 16px;
+    }
+
+    .filters-wrap {
+      display: grid;
+      gap: 16px;
+    }
+
+    .filters-top {
+      display: grid;
+      grid-template-columns: 1.4fr repeat(4, 1fr);
+      gap: 12px;
+      align-items: end;
+    }
+    .filters-bottom {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      align-items: end;
+    }
+    @media (max-width: 1300px) {
+      .filters-top, .filters-bottom { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 800px) {
+      .filters-top, .filters-bottom { grid-template-columns: 1fr; }
     }
 
     .chip {
       width: auto;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid #d0d5dd;
-      background: white;
-      color: #344054;
-      box-shadow: none;
       margin-top: 0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 700;
+      font-size: 13px;
+      background: #fff;
+      color: #344054;
+      border: 1px solid #d0d5dd;
+      box-shadow: none;
     }
     .chip.active {
-      background: linear-gradient(180deg, #1670c5, var(--primary));
-      color: white;
-      border-color: var(--primary);
+      color: #fff;
+      background: linear-gradient(180deg, #2e73ff 0%, var(--primary) 100%);
+      border-color: transparent;
     }
 
-    .kpis, .summary-cards {
+    .metric-grid {
       display: grid;
-      gap: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
     }
-    .kpis { grid-template-columns: repeat(6, 1fr); }
-    .summary-cards { grid-template-columns: repeat(6, 1fr); margin-top: 14px; }
-
-    @media (max-width: 1350px) {
-      .kpis, .summary-cards { grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 800px) {
-      .kpis, .summary-cards { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 1200px) { .metric-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 700px) { .metric-grid { grid-template-columns: 1fr; } }
 
     .metric {
-      background: white;
-      border: 1px solid #eaecf0;
-      border-radius: 16px;
-      padding: 16px;
       position: relative;
       overflow: hidden;
-      transition: .16s ease;
+      background: #fff;
+      border: 1px solid #eaecf0;
+      border-radius: 18px;
+      padding: 18px;
+      transition: 0.16s ease;
     }
     .metric::before {
       content: "";
       position: absolute;
-      top: 0; left: 0; right: 0;
+      left: 0; top: 0; right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #60a5fa, #1d4ed8);
+      background: linear-gradient(90deg, #60a5fa 0%, #1d4ed8 100%);
     }
-    .metric.amber::before { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
-    .metric.green::before { background: linear-gradient(90deg, #34d399, #059669); }
-    .metric.red::before { background: linear-gradient(90deg, #fb7185, #dc2626); }
-    .metric.slate::before { background: linear-gradient(90deg, #94a3b8, #475569); }
-    .metric:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(15, 23, 42, .08);
-    }
-    .metric .label { color: var(--muted); font-size: 13px; }
-    .metric .value { font-size: 30px; font-weight: 800; margin-top: 6px; }
-    .metric small { color: var(--muted); display: block; margin-top: 6px; }
-    .summary-card { cursor: pointer; }
-    .summary-card.active {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(11, 92, 171, .12);
-    }
+    .metric.green::before { background: linear-gradient(90deg, #34d399 0%, #059669 100%); }
+    .metric.amber::before { background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%); }
+    .metric.red::before { background: linear-gradient(90deg, #fb7185 0%, #dc2626 100%); }
+    .metric.slate::before { background: linear-gradient(90deg, #94a3b8 0%, #475569 100%); }
+    .metric:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(16,24,40,.08); }
+    .metric .label { font-size: 13px; color: var(--muted); }
+    .metric .value { font-size: 30px; font-weight: 800; margin-top: 8px; }
+    .metric small { display: block; margin-top: 8px; color: var(--muted); }
 
+    .stats-strip { margin-top: 14px; }
     .counter-pill {
-      background: white;
+      background: #fff;
       border: 1px solid #eaecf0;
       border-radius: 999px;
       padding: 8px 10px;
       font-size: 13px;
+      color: #344054;
     }
 
     .alertas {
-      border-left: 4px solid #b54708;
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 14px;
       background: #fffaeb;
-      padding: 12px 14px;
-      border-radius: 8px;
-      margin-top: 12px;
-      color: #7a2e0b;
+      border: 1px solid #fedf89;
+      color: #8a3204;
     }
     .alertas ul { margin: 8px 0 0 18px; padding: 0; }
 
     .table-wrap {
+      margin-top: 16px;
       overflow: auto;
       max-height: 72vh;
-      border-radius: 14px;
+      border-radius: 16px;
       border: 1px solid #eaecf0;
-      background: white;
+      background: #fff;
     }
-
     table {
       width: 100%;
+      min-width: 1750px;
       border-collapse: collapse;
-      min-width: 2100px;
       background: white;
     }
-
     thead th {
       position: sticky;
       top: 0;
       z-index: 3;
-      background: linear-gradient(180deg, #176ab7, var(--primary));
+      background: linear-gradient(180deg, #1d67c8 0%, var(--primary) 100%);
       color: white;
       text-align: left;
       padding: 12px;
       border: 1px solid #dbe4f0;
-      white-space: nowrap;
       font-size: 14px;
+      white-space: nowrap;
     }
     tbody td {
       border: 1px solid #e5e7eb;
@@ -341,22 +340,18 @@
       background: #fcfcfd !important;
       padding: 0;
     }
-
     .row-details-box {
       padding: 14px 16px;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
       border-top: 1px dashed #ddd;
     }
-    @media (max-width: 900px) {
-      .row-details-box { grid-template-columns: 1fr; }
-    }
-
+    @media (max-width: 900px) { .row-details-box { grid-template-columns: 1fr; } }
     .detail-mini {
       background: white;
       border: 1px solid #eaecf0;
-      border-radius: 10px;
+      border-radius: 11px;
       padding: 10px;
       font-size: 13px;
     }
@@ -377,8 +372,8 @@
 
     .expand-btn {
       width: auto;
-      padding: 6px 8px;
       margin: 0;
+      padding: 6px 8px;
       background: #f2f4f7;
       color: #344054;
       border: 1px solid #d0d5dd;
@@ -386,9 +381,9 @@
     }
 
     .sortable { cursor: pointer; user-select: none; }
-    .sortable small { opacity: .8; font-weight: 400; margin-left: 4px; }
+    .sortable small { opacity: .85; font-weight: 400; margin-left: 4px; }
 
-    .badge, .badge-situacao, .badge-etapa, .badge-area {
+    .badge, .badge-situacao, .badge-area {
       display: inline-block;
       padding: 5px 10px;
       border-radius: 999px;
@@ -396,41 +391,44 @@
       font-weight: 700;
       white-space: nowrap;
     }
+
     .badge-no-prazo { background: #ecfdf3; color: #027a48; border: 1px solid #abefc6; }
     .badge-vencendo { background: #fffaeb; color: #b54708; border: 1px solid #fedf89; }
     .badge-vence-hoje { background: #fff3e6; color: #b54708; border: 1px solid #f7b27a; }
     .badge-atrasado { background: #fef3f2; color: #b42318; border: 1px solid #fecdca; }
     .badge-sem-prazo { background: #f2f4f7; color: #475467; border: 1px solid #d0d5dd; }
 
-    .badge-situacao, .badge-etapa, .badge-area {
-      background: #f8fafc;
-      color: #344054;
-      border: 1px solid #d0d5dd;
-    }
-    .badge-situacao.concluido, .badge-etapa.concluido { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
+    .badge-situacao, .badge-area { background: #f8fafc; color: #344054; border: 1px solid #d0d5dd; }
+    .badge-situacao.concluido { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
     .badge-situacao.andamento { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
     .badge-situacao.pendente { background: #fff7ed; color: #c2410c; border-color: #fdba74; }
     .badge-situacao.arquivado { background: #f2f4f7; color: #344054; border-color: #d0d5dd; }
-    .badge-etapa.recebido { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
-    .badge-etapa.analise { background: #fff7ed; color: #c2410c; border-color: #fdba74; }
-    .badge-etapa.execucao { background: #fffaeb; color: #b54708; border-color: #fedf89; }
     .badge-area.sgi { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
 
-    .no-results {
-      margin-top: 14px;
-      padding: 14px;
-      border: 1px dashed #d0d5dd;
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 18px;
+    }
+    @media (max-width: 1200px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+    .charts-stack {
+      display: grid;
+      gap: 18px;
+    }
+    .chart-card {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+    canvas {
+      margin-top: 10px;
+      max-height: 360px;
+      background: white;
       border-radius: 10px;
-      background: #fcfcfd;
-      color: #475467;
-      text-align: center;
     }
 
-    mark.search-mark {
-      background: #fff3bf;
-      color: inherit;
-      padding: 0 2px;
-      border-radius: 2px;
+    .sidebar-cards {
+      display: grid;
+      gap: 18px;
     }
 
     .drawer-overlay, .modal-overlay {
@@ -449,8 +447,9 @@
 
     .drawer {
       position: fixed;
-      top: 0; right: 0;
-      width: min(480px, 94vw);
+      top: 0;
+      right: 0;
+      width: min(460px, 94vw);
       height: 100vh;
       background: white;
       box-shadow: -6px 0 30px rgba(0,0,0,.18);
@@ -461,14 +460,12 @@
       flex-direction: column;
       gap: 14px;
     }
-
     .drawer-head, .modal-header {
       display: flex;
-      justify-content: space-between;
       align-items: flex-start;
+      justify-content: space-between;
       gap: 12px;
     }
-
     .drawer-close, .modal-close {
       width: auto;
       margin: 0;
@@ -478,13 +475,11 @@
       border: 1px solid #d0d5dd;
       box-shadow: none;
     }
-
     .drawer-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 10px;
     }
-
     .drawer-box {
       background: #fcfcfd;
       border: 1px solid #eaecf0;
@@ -495,7 +490,7 @@
     .drawer-box .value { font-size: 14px; color: #101828; word-break: break-word; }
 
     .modal {
-      width: min(820px, 100%);
+      width: min(780px, 100%);
       background: white;
       border-radius: 16px;
       box-shadow: 0 10px 28px rgba(0,0,0,.20);
@@ -525,15 +520,252 @@
     .toast.success { border-left-color: var(--success); }
     .toast.error { border-left-color: var(--danger); }
     .toast.warning { border-left-color: var(--warning); }
+  
+
+    /* ===== PREMIUM OVERRIDES ===== */
+    :root {
+      --bg: #f3f6fb;
+      --surface: #ffffff;
+      --surface-soft: #f8fbff;
+      --text: #182230;
+      --muted: #667085;
+      --border: #e6eaf2;
+      --primary: #155eef;
+      --primary-dark: #0b4bc4;
+      --primary-soft: #eef4ff;
+      --success: #039855;
+      --warning: #dc6803;
+      --danger: #d92d20;
+      --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 6px 18px rgba(16, 24, 40, 0.06);
+      --radius: 22px;
+      --radius-sm: 14px;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(21, 94, 239, 0.05), transparent 28%),
+        radial-gradient(circle at top right, rgba(3, 152, 85, 0.04), transparent 24%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(120deg, rgba(11,75,196,.96) 0%, rgba(21,94,239,.96) 100%);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .card {
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at right top, rgba(21,94,239,.10), transparent 26%),
+        linear-gradient(135deg, #ffffff 0%, #f7faff 55%, #eef4ff 100%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(21,94,239,.15) 0%, rgba(21,94,239,0) 70%);
+      pointer-events: none;
+    }
+
+    .topbar {
+      gap: 18px;
+      align-items: center;
+    }
+
+    .toolbar {
+      gap: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .user-box {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      box-shadow: var(--shadow-soft);
+      border-color: #e8eef7;
+    }
+
+    .section-title {
+      font-size: 19px;
+      letter-spacing: .1px;
+      margin-bottom: 14px;
+    }
+
+    .box-soft, .filtros-box {
+      background: linear-gradient(180deg, #fcfdff 0%, #f8fbff 100%);
+      border: 1px solid #edf2fa;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+    }
+
+    .composer {
+      gap: 22px;
+    }
+
+    .filters-wrap {
+      gap: 18px;
+    }
+
+    .filters-top, .filters-bottom {
+      gap: 14px;
+    }
+
+    input, textarea, select {
+      border-radius: 14px;
+      border-color: #d8dde7;
+      background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+    }
+
+    button {
+      border-radius: 14px;
+      min-height: 44px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      box-shadow: 0 1px 0 rgba(16,24,40,.03);
+    }
+
+    .metric {
+      border-radius: 20px;
+      box-shadow: var(--shadow-soft);
+      padding: 20px;
+    }
+
+    .metric .value {
+      font-size: 32px;
+    }
+
+    .stats-strip {
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .counter-pill {
+      box-shadow: 0 1px 0 rgba(16,24,40,.03);
+      background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
+    }
+
+    .table-wrap {
+      border-radius: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    thead th {
+      background: linear-gradient(180deg, #1d67c8 0%, #155eef 100%);
+    }
+
+    tbody td {
+      line-height: 1.45;
+    }
+
+    tbody tr.main-row {
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    tbody tr.main-row:hover {
+      transform: scale(1.001);
+    }
+
+    .acoes button {
+      border-radius: 12px;
+      min-height: auto;
+    }
+
+    .dashboard-grid {
+      gap: 22px;
+    }
+
+    .charts-stack, .sidebar-cards {
+      gap: 20px;
+    }
+
+    .chart-card {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+    .chart-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #60a5fa 0%, #155eef 100%);
+      opacity: .95;
+    }
+
+    .drawer, .modal {
+      border-radius: 22px 0 0 22px;
+    }
+    .modal {
+      border-radius: 22px;
+    }
+
+    .drawer-box, .detail-mini {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .toast {
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(16,24,40,.12);
+    }
+
+    .quick-help {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .quick-help .help-item {
+      padding: 14px;
+      border: 1px solid #eaecf0;
+      border-radius: 16px;
+      background: linear-gradient(180deg,#ffffff 0%, #f9fbff 100%);
+      box-shadow: var(--shadow-soft);
+    }
+    .quick-help .help-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .quick-help .help-item span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    @media (max-width: 1000px) {
+      .quick-help { grid-template-columns: 1fr; }
+    }
+
   </style>
 </head>
 <body>
-  <header>🏛️ Sistema de Gestão de Processos</header>
+  <header>
+    <h1>🏛️ Sistema de Gestão de Processos</h1>
+    <p>Interface premium, limpa e orientada a produtividade</p>
+  </header>
+
   <div class="toasts" id="toasts"></div>
 
   <div id="loginBox" class="container">
     <div class="card hero">
-      <h3>Acesso ao sistema</h3>
+      <h3 style="margin-bottom:8px;">Acesso ao sistema</h3>
+      <div class="muted" style="margin-bottom:12px;">Entre com seu usuário do Firebase Authentication.</div>
+
       <div class="grid-2">
         <div>
           <label for="email">E-mail</label>
@@ -544,13 +776,14 @@
           <input type="password" id="senha" placeholder="Digite sua senha" />
         </div>
       </div>
+
       <div class="btn-row">
         <button type="button" id="btnEntrar">Entrar</button>
         <button type="button" class="success" id="btnCadastrar">Cadastrar usuário</button>
         <button type="button" class="secondary" id="btnResetar">Esqueci a senha</button>
       </div>
+
       <div id="statusLogin" class="feedback hidden"></div>
-      <div class="muted">Para entrar, é necessário ter um usuário cadastrado no Firebase Authentication.</div>
     </div>
   </div>
 
@@ -561,173 +794,195 @@
           <h3 style="margin-bottom:6px;">Painel de Processos</h3>
           <div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong></div>
         </div>
-        <div class="btn-row" style="margin-top:0;">
-          <button type="button" class="secondary" style="max-width:240px;" id="btnNotificacao">Ativar avisos do navegador</button>
-          <button type="button" class="danger" style="max-width:180px;" id="btnSair">Sair</button>
+        <div class="toolbar">
+          <button type="button" class="secondary" style="width:auto; min-width:220px;" id="btnNotificacao">Ativar avisos</button>
+          <button type="button" class="danger" style="width:auto; min-width:140px;" id="btnSair">Sair</button>
         </div>
       </div>
     </div>
 
     <div class="card">
+      <div class="quick-help">
+        <div class="help-item">
+          <strong>1. Cadastre ou cole um processo</strong>
+          <span>Use o campo de texto para colar informações ou preencha os campos laterais para complementar rapidamente.</span>
+        </div>
+        <div class="help-item">
+          <strong>2. Filtre com clareza</strong>
+          <span>Busque por palavra-chave e refine por área, gerência, situação ou prazo sem lotar a tela de informações.</span>
+        </div>
+        <div class="help-item">
+          <strong>3. Acompanhe prioridades</strong>
+          <span>O painel executivo destaca vencimentos, atrasos, SGI e ranking de unidades para decisão mais rápida.</span>
+        </div>
+      </div>
+
       <div class="tabs">
         <button type="button" id="tabProcessosBtn" class="tab-btn active">Processos</button>
         <button type="button" id="tabDashboardBtn" class="tab-btn">Dashboard</button>
       </div>
 
       <div id="abaProcessos">
-        <h3>Novo processo</h3>
-        <textarea id="entrada" placeholder="Cole o texto do processo aqui...
+        <div class="composer">
+          <div class="box-soft">
+            <div class="section-title">Novo processo</div>
+            <textarea id="entrada" placeholder="Cole o texto do processo aqui...
 
-Exemplo 1:
+Exemplo:
 Processo nº 12345/2026
 Interessado(a): Maria Silva
 Assunto: Solicitação de revisão
 Prazo: 10 dias
-
-Exemplo 2:
-Processo nº 999/2026
-Interessado(a): João Pereira
-Assunto: Recurso
-Data Final: 30/06/2026
 Gerência: GECONT"></textarea>
+          </div>
 
-        <div class="grid-4">
-          <div>
-            <label for="gerenciaManual">Gerência/Seção</label>
-            <select id="gerenciaManual"><option value="">Selecione...</option></select>
-          </div>
-          <div>
-            <label for="situacaoManual">Situação</label>
-            <select id="situacaoManual"></select>
-          </div>
-          <div>
-            <label for="dataFinalManual">Data final</label>
-            <input type="date" id="dataFinalManual" />
-          </div>
-          <div>
-            <label for="limiteVencendo">Avisar quando faltar</label>
-            <select id="limiteVencendo">
-              <option value="1">1 dia</option>
-              <option value="2">2 dias</option>
-              <option value="3" selected>3 dias</option>
-              <option value="5">5 dias</option>
-              <option value="7">7 dias</option>
-            </select>
+          <div class="box-soft">
+            <div class="section-title">Complementos</div>
+            <div class="grid-2">
+              <div>
+                <label for="gerenciaManual">Gerência/Seção</label>
+                <select id="gerenciaManual"><option value="">Selecione...</option></select>
+              </div>
+              <div>
+                <label for="situacaoManual">Situação</label>
+                <select id="situacaoManual"></select>
+              </div>
+              <div>
+                <label for="dataFinalManual">Data final</label>
+                <input type="date" id="dataFinalManual" />
+              </div>
+              <div>
+                <label for="limiteVencendo">Avisar quando faltar</label>
+                <select id="limiteVencendo">
+                  <option value="1">1 dia</option>
+                  <option value="2">2 dias</option>
+                  <option value="3" selected>3 dias</option>
+                  <option value="5">5 dias</option>
+                  <option value="7">7 dias</option>
+                </select>
+              </div>
+            </div>
+            <label style="display:block; margin-top:10px;"><input type="checkbox" id="semPrazoManual" /> Processo sem prazo definido</label>
           </div>
         </div>
 
-        <label><input type="checkbox" id="semPrazoManual" /> Processo sem prazo definido</label>
-
-        <div class="btn-row">
-          <button type="button" id="btnGerarProcesso">Gerar processo</button>
+        <div class="btn-row" style="margin-top:18px;">
+          <button type="button" id="btnGerarProcesso">Cadastrar processo</button>
           <button type="button" class="outline" id="btnLimparFormulario">Limpar formulário</button>
-          <input id="busca" placeholder="🔎 Buscar por processo, interessado, assunto, situação, etapa, área ou gerência..." />
-        </div>
-
-        <div class="btn-row">
-          <button type="button" id="btnExportarExcelTodos">Exportar Excel (todos)</button>
-          <button type="button" id="btnExportarExcelVisiveis">Exportar Excel (visíveis)</button>
-          <button type="button" id="btnExportarPDFTodos">Exportar PDF (todos)</button>
-          <button type="button" id="btnExportarPDFVisiveis">Exportar PDF (visíveis)</button>
+          <button type="button" id="btnExportarExcelVisiveis">Exportar Excel</button>
+          <button type="button" id="btnExportarPDFVisiveis">Exportar PDF</button>
         </div>
 
         <div id="mensagemSistema" class="hidden"></div>
-        <div class="muted">Sistema reorganizado para ficar mais claro: áreas, gerências/seções, etapas visíveis e dashboard separado para a SGI.</div>
 
-        <div class="chips" id="chipsRapidos">
-          <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Atrasado">Atrasados</button>
-          <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vence hoje">Vence hoje</button>
-          <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vencendo">Vencendo</button>
-          <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Sem prazo">Sem prazo</button>
-          <button type="button" class="chip" data-chip-type="situacao" data-chip-value="Concluído">Concluídos</button>
-          <button type="button" class="chip" data-chip-type="area" data-chip-value="Superintendência de Gestão Integrada (SGI)">SGI</button>
-          <button type="button" class="chip" data-chip-type="etapa" data-chip-value="Em execução">Em execução</button>
-        </div>
-
-        <div class="filtros-box">
-          <div class="section-title">Filtros e ordenação</div>
-          <div class="grid-6">
-            <div><label for="filtroArea">Filtrar por área</label><select id="filtroArea"><option value="">Todas</option></select></div>
-            <div><label for="filtroGerencia">Filtrar por gerência/seção</label><select id="filtroGerencia"><option value="">Todas</option></select></div>
-            <div><label for="filtroSituacao">Filtrar por situação</label><select id="filtroSituacao"><option value="">Todas</option></select></div>
-            <div><label for="filtroEtapa">Filtrar por etapa</label><select id="filtroEtapa"><option value="">Todas</option></select></div>
-            <div>
-              <label for="filtroPrazo">Prazo</label>
-              <select id="filtroPrazo">
-                <option value="">Todos</option>
-                <option value="comPrazo">Com prazo</option>
-                <option value="semPrazo">Sem prazo</option>
-              </select>
+        <div class="card" style="margin-top:18px; padding:18px; background:linear-gradient(180deg,#fbfdff 0%,#f8fbff 100%);">
+          <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
+          <div class="filters-wrap">
+            <div class="filters-top">
+              <div>
+                <label for="busca">Busca rápida</label>
+                <input id="busca" placeholder="Buscar por processo, interessado, assunto, área ou gerência..." />
+              </div>
+              <div>
+                <label for="filtroArea">Área</label>
+                <select id="filtroArea"><option value="">Todas</option></select>
+              </div>
+              <div>
+                <label for="filtroGerencia">Gerência/Seção</label>
+                <select id="filtroGerencia"><option value="">Todas</option></select>
+              </div>
+              <div>
+                <label for="filtroSituacao">Situação</label>
+                <select id="filtroSituacao"><option value="">Todas</option></select>
+              </div>
+              <div>
+                <label for="filtroStatusPrazo">Prazo</label>
+                <select id="filtroStatusPrazo">
+                  <option value="">Todos</option>
+                  <option value="No prazo">No prazo</option>
+                  <option value="Vence hoje">Vence hoje</option>
+                  <option value="Vencendo">Vencendo</option>
+                  <option value="Atrasado">Atrasado</option>
+                  <option value="Sem prazo">Sem prazo</option>
+                </select>
+              </div>
             </div>
-            <div>
-              <label for="filtroStatusPrazo">Status do prazo</label>
-              <select id="filtroStatusPrazo">
-                <option value="">Todos</option>
-                <option value="No prazo">No prazo</option>
-                <option value="Vence hoje">Vence hoje</option>
-                <option value="Vencendo">Vencendo</option>
-                <option value="Atrasado">Atrasado</option>
-                <option value="Sem prazo">Sem prazo</option>
-              </select>
+
+            <div class="filters-bottom">
+              <div>
+                <label for="filtroPrazo">Tipo de prazo</label>
+                <select id="filtroPrazo">
+                  <option value="">Todos</option>
+                  <option value="comPrazo">Com prazo</option>
+                  <option value="semPrazo">Sem prazo</option>
+                </select>
+              </div>
+              <div>
+                <label for="filtroDataInicial">Data final de</label>
+                <input type="date" id="filtroDataInicial" />
+              </div>
+              <div>
+                <label for="filtroDataFinal">Data final até</label>
+                <input type="date" id="filtroDataFinal" />
+              </div>
+              <div>
+                <label for="ordenacao">Ordenar por</label>
+                <select id="ordenacao">
+                  <option value="">Padrão</option>
+                  <option value="dataFinalAsc">Data final</option>
+                  <option value="processoAsc">Processo</option>
+                  <option value="interessadoAsc">Interessado</option>
+                  <option value="gerenciaAsc">Gerência</option>
+                  <option value="areaAsc">Área</option>
+                  <option value="diasRestantesAsc">Dias restantes</option>
+                </select>
+              </div>
+              <div>
+                <label style="display:block; margin-bottom:8px;">Ações</label>
+                <div class="toolbar">
+                  <label style="width:auto; white-space:nowrap;"><input type="checkbox" id="filtroAtrasados" /> só atrasados</label>
+                  <button type="button" class="light" id="btnLimparFiltros" style="width:auto; min-width:130px; margin-top:0;">Limpar</button>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="grid-5" style="margin-top:12px;">
-            <div><label for="filtroDataInicial">Data final de</label><input type="date" id="filtroDataInicial" /></div>
-            <div><label for="filtroDataFinal">Data final até</label><input type="date" id="filtroDataFinal" /></div>
-            <div>
-              <label for="ordenacao">Ordenar por</label>
-              <select id="ordenacao">
-                <option value="">Padrão</option>
-                <option value="dataFinalAsc">Data final</option>
-                <option value="processoAsc">Processo</option>
-                <option value="interessadoAsc">Interessado</option>
-                <option value="gerenciaAsc">Gerência</option>
-                <option value="areaAsc">Área</option>
-                <option value="diasRestantesAsc">Dias restantes</option>
-              </select>
-            </div>
-            <div style="display:flex;align-items:flex-end;"><label style="margin-top:0;"><input type="checkbox" id="filtroAtrasados" /> Mostrar somente atrasados</label></div>
-            <div style="display:flex;align-items:flex-end;"><button type="button" class="light" id="btnLimparFiltros">Limpar filtros</button></div>
+          <div class="chips" id="chipsRapidos" style="margin-top:16px;">
+            <button type="button" class="chip" data-chip-type="area" data-chip-value="Superintendência de Gestão Integrada (SGI)">SGI</button>
+            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Atrasado">Atrasados</button>
+            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vence hoje">Vence hoje</button>
+            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vencendo">Vencendo</button>
+            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Sem prazo">Sem prazo</button>
+            <button type="button" class="chip" data-chip-type="situacao" data-chip-value="Concluído">Concluídos</button>
           </div>
         </div>
 
         <div id="alertasPrazo" class="alertas hidden"></div>
 
-        <div class="summary-cards" id="summaryCards">
+        <div class="metric-grid" style="margin-top:18px;">
           <div class="metric summary-card" data-summary-type="" data-summary-value="">
             <div class="label">Mostrando</div>
             <div class="value" id="sumMostrando">0</div>
-            <small>Registros visíveis</small>
+            <small>registros visíveis</small>
           </div>
           <div class="metric summary-card" data-summary-type="area" data-summary-value="Superintendência de Gestão Integrada (SGI)">
             <div class="label">SGI</div>
             <div class="value" id="sumSGI">0</div>
-            <small>Clique para filtrar sua área</small>
+            <small>sua área</small>
           </div>
-          <div class="metric summary-card" data-summary-type="statusPrazo" data-summary-value="Atrasado">
+          <div class="metric summary-card amber" data-summary-type="statusPrazo" data-summary-value="Vencendo">
+            <div class="label">Vencendo</div>
+            <div class="value" id="sumVencendo">0</div>
+            <small>prioridade</small>
+          </div>
+          <div class="metric summary-card red" data-summary-type="statusPrazo" data-summary-value="Atrasado">
             <div class="label">Atrasados</div>
             <div class="value" id="sumAtrasados">0</div>
-            <small>Clique para filtrar</small>
-          </div>
-          <div class="metric summary-card" data-summary-type="statusPrazo" data-summary-value="Vence hoje">
-            <div class="label">Vence hoje</div>
-            <div class="value" id="sumHoje">0</div>
-            <small>Clique para filtrar</small>
-          </div>
-          <div class="metric summary-card" data-summary-type="statusPrazo" data-summary-value="Sem prazo">
-            <div class="label">Sem prazo</div>
-            <div class="value" id="sumSemPrazo">0</div>
-            <small>Clique para filtrar</small>
-          </div>
-          <div class="metric summary-card" data-summary-type="situacao" data-summary-value="Concluído">
-            <div class="label">Concluídos</div>
-            <div class="value" id="sumConcluidos">0</div>
-            <small>Clique para filtrar</small>
+            <small>ação imediata</small>
           </div>
         </div>
 
-        <div class="counter-strip">
+        <div class="stats-strip">
           <span class="counter-pill" id="contadorRegistros">0 registro(s)</span>
           <span class="counter-pill" id="counterAtrasados">Atrasados: 0</span>
           <span class="counter-pill" id="counterHoje">Vence hoje: 0</span>
@@ -746,16 +1001,15 @@ Gerência: GECONT"></textarea>
                 <th class="sortable" data-sort="processoAsc">Processo <small>⇅</small></th>
                 <th>Interessado</th>
                 <th>Assunto</th>
-                <th>Data de Cadastro</th>
+                <th>Data de cadastro</th>
                 <th>Situação</th>
-                <th>Etapa</th>
                 <th class="sortable" data-sort="areaAsc">Área <small>⇅</small></th>
                 <th class="sortable" data-sort="gerenciaAsc">Gerência/Seção <small>⇅</small></th>
-                <th class="sortable" data-sort="dataFinalAsc">Data Final <small>⇅</small></th>
-                <th>Status do Prazo</th>
-                <th class="sortable" data-sort="diasRestantesAsc">Dias Restantes <small>⇅</small></th>
+                <th class="sortable" data-sort="dataFinalAsc">Data final <small>⇅</small></th>
+                <th>Status do prazo</th>
+                <th class="sortable" data-sort="diasRestantesAsc">Dias restantes <small>⇅</small></th>
                 <th>Última alteração</th>
-                <th>Ações rápidas</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody id="tbodyProcessos"></tbody>
@@ -764,23 +1018,49 @@ Gerência: GECONT"></textarea>
       </div>
 
       <div id="abaDashboard" class="hidden">
-        <h3>Dashboard</h3>
-        <div class="kpis">
-          <div class="metric"><div class="label">Total de processos</div><div class="value" id="kpiTotal">0</div><small>Registros considerando os filtros atuais</small></div>
-          <div class="metric amber"><div class="label">Vencendo</div><div class="value" id="kpiVencendo">0</div><small>Dentro do alerta configurado</small></div>
-          <div class="metric red"><div class="label">Atrasados</div><div class="value" id="kpiAtrasados">0</div><small>Exigem prioridade</small></div>
-          <div class="metric green"><div class="label">Concluídos</div><div class="value" id="kpiConcluidos">0</div><small>Situação finalizada</small></div>
-          <div class="metric slate"><div class="label">Sem prazo</div><div class="value" id="kpiSemPrazo">0</div><small>Sem data final definida</small></div>
-          <div class="metric"><div class="label">Pendentes</div><div class="value" id="kpiPendentes">0</div><small>Precisam de acompanhamento</small></div>
-        </div>
+        <div class="dashboard-grid">
+          <div class="charts-stack">
+            <div class="card chart-card">
+              <h4>Visão geral de prazos</h4>
+              <div class="muted">Resumo dos processos visíveis por status de prazo.</div>
+              <canvas id="graficoPrazo"></canvas>
+            </div>
+            <div class="card chart-card">
+              <h4>Processos por área</h4>
+              <div class="muted">Distribuição entre SGI e demais áreas.</div>
+              <canvas id="graficoOutrasAreas"></canvas>
+            </div>
+            <div class="card chart-card">
+              <h4>Ranking de unidades</h4>
+              <div class="muted">Top 12 gerências / seções com mais processos.</div>
+              <canvas id="graficoGerencia"></canvas>
+            </div>
+          </div>
 
-        <div class="grid-2">
-          <div class="card"><h4>Processos por situação</h4><canvas id="graficoSituacao"></canvas></div>
-          <div class="card"><h4>Status de prazo</h4><canvas id="graficoPrazo"></canvas></div>
-          <div class="card"><h4>Fluxo por etapa</h4><canvas id="graficoFluxo"></canvas></div>
-          <div class="card"><h4>SGI — Gerências e Seções (siglas)</h4><canvas id="graficoSGI"></canvas></div>
-          <div class="card"><h4>Outras áreas</h4><canvas id="graficoOutrasAreas"></canvas></div>
-          <div class="card"><h4>Ranking geral por unidade</h4><canvas id="graficoGerencia"></canvas></div>
+          <div class="sidebar-cards">
+            <div class="card">
+              <h4>Painel executivo</h4>
+              <div class="metric-grid" style="grid-template-columns:1fr 1fr; margin-top:12px;">
+                <div class="metric"><div class="label">Total</div><div class="value" id="kpiTotal">0</div></div>
+                <div class="metric slate"><div class="label">Sem prazo</div><div class="value" id="kpiSemPrazo">0</div></div>
+                <div class="metric amber"><div class="label">Vencendo</div><div class="value" id="kpiVencendo">0</div></div>
+                <div class="metric red"><div class="label">Atrasados</div><div class="value" id="kpiAtrasados">0</div></div>
+                <div class="metric green"><div class="label">Concluídos</div><div class="value" id="kpiConcluidos">0</div></div>
+                <div class="metric"><div class="label">Pendentes</div><div class="value" id="kpiPendentes">0</div></div>
+              </div>
+            </div>
+
+            <div class="card chart-card">
+              <h4>Processos por situação</h4>
+              <canvas id="graficoSituacao"></canvas>
+            </div>
+
+            <div class="card chart-card">
+              <h4>SGI — gerências e seções</h4>
+              <div class="muted">Detalhamento rápido para sua área.</div>
+              <canvas id="graficoSGI"></canvas>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -800,7 +1080,6 @@ Gerência: GECONT"></textarea>
       <button type="button" id="drawerBtnEditar">Editar</button>
       <button type="button" class="warning" id="drawerBtnPendente">Pendente</button>
       <button type="button" class="success" id="drawerBtnConcluir">Concluir</button>
-      <button type="button" class="light" id="drawerBtnFluxo">➡ Etapa</button>
       <button type="button" class="secondary" id="drawerBtnArquivar">Arquivar</button>
       <button type="button" class="danger" id="drawerBtnExcluir">Excluir</button>
     </div>
@@ -820,19 +1099,19 @@ Gerência: GECONT"></textarea>
         <div><label for="editInteressado">Interessado</label><input type="text" id="editInteressado" /></div>
       </div>
       <div><label for="editAssunto">Assunto</label><textarea id="editAssunto" style="min-height:100px;"></textarea></div>
-      <div class="grid-4">
+      <div class="grid-3">
         <div><label for="editSituacao">Situação</label><select id="editSituacao"></select></div>
         <div><label for="editGerencia">Gerência/Seção</label><select id="editGerencia"><option value="">Selecione...</option></select></div>
         <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
-        <div style="display:flex;align-items:flex-end;"><label style="margin-top:0;"><input type="checkbox" id="editSemPrazo" /> Sem prazo</label></div>
       </div>
+      <label style="display:block; margin-top:10px;"><input type="checkbox" id="editSemPrazo" /> Sem prazo</label>
       <div class="btn-row"><button type="button" id="btnSalvarEdicao">Salvar alterações</button></div>
     </div>
   </div>
 
   <script>
     const firebaseConfig = {
-        apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
+       apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
         authDomain: "meu-sistema-processos.firebaseapp.com",
         databaseURL: "https://meu-sistema-processos-default-rtdb.firebaseio.com",
         projectId: "meu-sistema-processos",
@@ -840,8 +1119,8 @@ Gerência: GECONT"></textarea>
         messagingSenderId: "773592641691",
         appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
         measurementId: "G-68LQKR6HK0"
-      };
-
+      
+    };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
@@ -912,24 +1191,19 @@ Gerência: GECONT"></textarea>
       "Seção de Transporte": "SET"
     };
 
-    const SIGLAS_PARA_UNIDADE = Object.fromEntries(
-      Object.entries(ABREVIACOES_SGI).map(([nome, sigla]) => [sigla.toUpperCase(), nome])
-    );
-
+    const SIGLAS_PARA_UNIDADE = Object.fromEntries(Object.entries(ABREVIACOES_SGI).map(([nome, sigla]) => [sigla.toUpperCase(), nome]));
     const AREAS = Object.keys(ESTRUTURA_ORGANIZACIONAL);
     const TODAS_UNIDADES = Object.values(ESTRUTURA_ORGANIZACIONAL).flat();
 
     const COLLECTION_PROCESSOS = "processos";
     const STATUS_OPERACIONAIS = ["Em análise", "Pendente", "Em andamento", "Concluído", "Arquivado"];
     const STATUS_PRAZO_LIST = ["No prazo", "Vence hoje", "Vencendo", "Atrasado", "Sem prazo"];
-    const ETAPAS_PROCESSO = ["Recebido", "Em análise", "Em execução", "Concluído"];
-    const STORAGE_KEYS = { filtros: "sgp_filtros_v5", aba: "sgp_aba_v5" };
+    const STORAGE_KEYS = { filtros: "sgp_clean_filters_v1", aba: "sgp_clean_aba_v1" };
 
     let allItems = [];
     let filteredItems = [];
     let chartSituacao = null;
     let chartPrazo = null;
-    let chartFluxo = null;
     let chartSGI = null;
     let chartOutrasAreas = null;
     let chartGerencia = null;
@@ -968,7 +1242,6 @@ Gerência: GECONT"></textarea>
     const filtroArea = $("filtroArea");
     const filtroGerencia = $("filtroGerencia");
     const filtroSituacao = $("filtroSituacao");
-    const filtroEtapa = $("filtroEtapa");
     const filtroPrazo = $("filtroPrazo");
     const filtroStatusPrazo = $("filtroStatusPrazo");
     const filtroDataInicial = $("filtroDataInicial");
@@ -996,6 +1269,7 @@ Gerência: GECONT"></textarea>
     const sumHoje = $("sumHoje");
     const sumSemPrazo = $("sumSemPrazo");
     const sumConcluidos = $("sumConcluidos");
+    const sumVencendo = $("sumVencendo");
     const drawerOverlay = $("drawerOverlay");
     const drawer = $("drawer");
     const btnFecharDrawer = $("btnFecharDrawer");
@@ -1004,7 +1278,6 @@ Gerência: GECONT"></textarea>
     const drawerBtnEditar = $("drawerBtnEditar");
     const drawerBtnPendente = $("drawerBtnPendente");
     const drawerBtnConcluir = $("drawerBtnConcluir");
-    const drawerBtnFluxo = $("drawerBtnFluxo");
     const drawerBtnArquivar = $("drawerBtnArquivar");
     const drawerBtnExcluir = $("drawerBtnExcluir");
     const modalOverlay = $("modalOverlay");
@@ -1021,11 +1294,7 @@ Gerência: GECONT"></textarea>
     const toasts = $("toasts");
 
     function normalizarBusca(texto) {
-      return String(texto || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .trim();
+      return String(texto || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
     }
 
     function obterAreaPorUnidade(unidade) {
@@ -1055,15 +1324,6 @@ Gerência: GECONT"></textarea>
       if (s.includes("pendente")) return "pendente";
       if (s.includes("andamento") || s.includes("analise")) return "andamento";
       if (s.includes("arquivado")) return "arquivado";
-      return "";
-    }
-
-    function classeEtapaBadge(etapa) {
-      const e = normalizarBusca(etapa);
-      if (e.includes("recebido")) return "recebido";
-      if (e.includes("analise")) return "analise";
-      if (e.includes("execucao")) return "execucao";
-      if (e.includes("concluido")) return "concluido";
       return "";
     }
 
@@ -1122,9 +1382,9 @@ Gerência: GECONT"></textarea>
     function highlightText(texto, termo) {
       const safe = escapeHtml(texto || "");
       if (!termo) return safe;
-      const t = escaparRegex(termo.trim());
-      if (!t) return safe;
-      const regex = new RegExp(`(${t})`, "gi");
+      const termoEscapado = escaparRegex(termo.trim());
+      if (!termoEscapado) return safe;
+      const regex = new RegExp(`(${termoEscapado})`, "gi");
       return safe.replace(regex, '<mark class="search-mark">$1</mark>');
     }
 
@@ -1143,10 +1403,8 @@ Gerência: GECONT"></textarea>
 
     function calcDiasRestantes(dataFinalISO) {
       if (!dataFinalISO) return null;
-      const hoje = new Date();
-      hoje.setHours(0,0,0,0);
-      const dataFinal = new Date(dataFinalISO + "T00:00:00");
-      dataFinal.setHours(0,0,0,0);
+      const hoje = new Date(); hoje.setHours(0,0,0,0);
+      const dataFinal = new Date(dataFinalISO + "T00:00:00"); dataFinal.setHours(0,0,0,0);
       return Math.ceil((dataFinal - hoje) / (1000 * 60 * 60 * 24));
     }
 
@@ -1155,15 +1413,6 @@ Gerência: GECONT"></textarea>
       if (dias > 0) return `${dias} dia(s)`;
       if (dias === 0) return "Vence hoje";
       return `Atrasado ${Math.abs(dias)} dia(s)`;
-    }
-
-    function classeDiasRestantes(dias) {
-      const limite = parseInt(limiteVencendo.value, 10) || 3;
-      if (dias === null || dias === undefined || dias === "") return "status-sem-prazo";
-      if (dias < 0) return "dias-atrasado";
-      if (dias === 0) return "dias-hoje";
-      if (dias <= limite) return "dias-vencendo";
-      return "dias-ok";
     }
 
     function obterStatusPrazo(dataFinalISO, semPrazo = false) {
@@ -1195,11 +1444,7 @@ Gerência: GECONT"></textarea>
     }
 
     function normalizarProcesso(valor) {
-      return String(valor || "")
-        .trim()
-        .replace(/\s+/g, " ")
-        .replace(/\s*\/\s*/g, "/")
-        .toUpperCase();
+      return String(valor || "").trim().replace(/\s+/g, " ").replace(/\s*\/\s*/g, "/").toUpperCase();
     }
 
     function converterBRparaISO(dataBR) {
@@ -1234,10 +1479,7 @@ Gerência: GECONT"></textarea>
 
     function extrairDataFinalOuPrazo(texto) {
       if (/sem\s*prazo/i.test(texto)) return "";
-      const dataFinalTexto = extrairCampo(texto, [
-        /Data\s*Final\s*:?\s*(.+)/i,
-        /Prazo\s*Final\s*:?\s*(.+)/i
-      ]);
+      const dataFinalTexto = extrairCampo(texto, [/Data\s*Final\s*:?\s*(.+)/i, /Prazo\s*Final\s*:?\s*(.+)/i]);
       if (dataFinalTexto) {
         const iso = converterBRparaISO(dataFinalTexto);
         if (iso) return iso;
@@ -1251,11 +1493,7 @@ Gerência: GECONT"></textarea>
     }
 
     function extrairGerencia(texto) {
-      const valor = extrairCampo(texto, [
-        /Ger[eê]ncia\s*:?\s*(.+)/i,
-        /Se[cç][aã]o\s*:?\s*(.+)/i,
-        /Encaminhado\s*para\s*:?\s*(.+)/i
-      ]);
+      const valor = extrairCampo(texto, [/Ger[eê]ncia\s*:?\s*(.+)/i, /Se[cç][aã]o\s*:?\s*(.+)/i, /Encaminhado\s*para\s*:?\s*(.+)/i]);
       return resolverGerenciaPorTexto(valor);
     }
 
@@ -1280,7 +1518,6 @@ Gerência: GECONT"></textarea>
       situacaoManual.innerHTML = '';
       filtroSituacao.innerHTML = '<option value="">Todas</option>';
       editSituacao.innerHTML = '';
-      filtroEtapa.innerHTML = '<option value="">Todas</option>';
 
       AREAS.forEach(area => {
         const opArea = document.createElement("option");
@@ -1297,7 +1534,6 @@ Gerência: GECONT"></textarea>
           const nomeExibir = area === "Superintendência de Gestão Integrada (SGI)" && ABREVIACOES_SGI[unidade]
             ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
             : unidade;
-
           [g1, g2, g3].forEach(grupo => {
             const op = document.createElement("option");
             op.value = unidade;
@@ -1320,24 +1556,16 @@ Gerência: GECONT"></textarea>
         });
       });
 
-      ETAPAS_PROCESSO.forEach(e => {
-        const op = document.createElement("option");
-        op.value = e;
-        op.textContent = e;
-        filtroEtapa.appendChild(op);
-      });
-
       situacaoManual.value = "Em análise";
       editSituacao.value = "Em análise";
     }
 
     function salvarFiltros() {
-      const payload = {
+      localStorage.setItem(STORAGE_KEYS.filtros, JSON.stringify({
         busca: busca.value,
         filtroArea: filtroArea.value,
         filtroGerencia: filtroGerencia.value,
         filtroSituacao: filtroSituacao.value,
-        filtroEtapa: filtroEtapa.value,
         filtroPrazo: filtroPrazo.value,
         filtroStatusPrazo: filtroStatusPrazo.value,
         filtroDataInicial: filtroDataInicial.value,
@@ -1345,8 +1573,7 @@ Gerência: GECONT"></textarea>
         filtroAtrasados: filtroAtrasados.checked,
         ordenacao: ordenacao.value,
         limiteVencendo: limiteVencendo.value
-      };
-      localStorage.setItem(STORAGE_KEYS.filtros, JSON.stringify(payload));
+      }));
     }
 
     function restaurarFiltros() {
@@ -1358,7 +1585,6 @@ Gerência: GECONT"></textarea>
         filtroArea.value = p.filtroArea || "";
         filtroGerencia.value = p.filtroGerencia || "";
         filtroSituacao.value = p.filtroSituacao || "";
-        filtroEtapa.value = p.filtroEtapa || "";
         filtroPrazo.value = p.filtroPrazo || "";
         filtroStatusPrazo.value = p.filtroStatusPrazo || "";
         filtroDataInicial.value = p.filtroDataInicial || "";
@@ -1366,9 +1592,7 @@ Gerência: GECONT"></textarea>
         filtroAtrasados.checked = !!p.filtroAtrasados;
         ordenacao.value = p.ordenacao || "";
         limiteVencendo.value = p.limiteVencendo || "3";
-      } catch (e) {
-        console.warn("Falha ao restaurar filtros:", e);
-      }
+      } catch (e) { console.warn(e); }
     }
 
     function abrirAba(aba) {
@@ -1443,19 +1667,15 @@ Gerência: GECONT"></textarea>
     }
 
     async function logout() {
-      try {
-        await auth.signOut();
-      } catch (error) {
-        console.error(error);
-        toast("Erro ao sair: " + error.message, "error");
-      }
+      try { await auth.signOut(); }
+      catch (error) { console.error(error); toast("Erro ao sair: " + error.message, "error"); }
     }
 
     async function existeProcessoDuplicado(processoNormalizado, ignorarId = null) {
       if (!processoNormalizado) return false;
-      const snap = await db.collection(COLLECTION_PROCESSOS).where("processoNormalizado", "==", processoNormalizado).get();
+      const snapshot = await db.collection(COLLECTION_PROCESSOS).where("processoNormalizado", "==", processoNormalizado).get();
       let duplicado = false;
-      snap.forEach(doc => { if (doc.id !== ignorarId) duplicado = true; });
+      snapshot.forEach(doc => { if (doc.id !== ignorarId) duplicado = true; });
       return duplicado;
     }
 
@@ -1490,7 +1710,6 @@ Gerência: GECONT"></textarea>
             dataCadastro: dados.dataCadastro || "",
             dataCadastroISO: dados.dataCadastroISO || "",
             situacao: dados.situacao || "Em análise",
-            etapa: dados.etapa || "Recebido",
             gerencia: gerenciaNormalizada,
             area,
             dataFinal: dados.dataFinal || "",
@@ -1512,7 +1731,7 @@ Gerência: GECONT"></textarea>
 
     async function gerarProcesso() {
       try {
-        setLoading(btnGerarProcesso, true, "Gerar processo");
+        setLoading(btnGerarProcesso, true, "Cadastrar processo");
         mostrarMensagem("Salvando processo...", "info");
         const texto = entrada.value.trim();
         const processo = normalizarProcesso(extrairCampo(texto, [/Processo\s*(?:n[º°o]\s*)?:?\s*(.+)/i]).trim());
@@ -1520,8 +1739,8 @@ Gerência: GECONT"></textarea>
         const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]);
         const dataFinal = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
         const gerencia = resolverGerenciaPorTexto(gerenciaManual.value || extrairGerencia(texto));
-        const area = obterAreaPorUnidade(gerencia);
         const situacao = situacaoManual.value || "Em análise";
+        const area = obterAreaPorUnidade(gerencia);
 
         if (!processo && !interessado && !assunto && !texto) return mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
         if (processo) {
@@ -1530,7 +1749,7 @@ Gerência: GECONT"></textarea>
         }
 
         const user = auth.currentUser;
-        const registro = {
+        await db.collection(COLLECTION_PROCESSOS).add({
           processo: processo || "",
           processoNormalizado: processo || "",
           interessado: interessado || "",
@@ -1538,7 +1757,6 @@ Gerência: GECONT"></textarea>
           dataCadastro: new Date().toLocaleDateString("pt-BR"),
           dataCadastroISO: todayISO(),
           situacao,
-          etapa: "Recebido",
           area: area || "",
           gerencia: gerencia || "",
           dataFinal: dataFinal || "",
@@ -1547,9 +1765,8 @@ Gerência: GECONT"></textarea>
           criadoPor: user?.email || "",
           alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
           alteradoPor: user?.email || ""
-        };
+        });
 
-        await db.collection(COLLECTION_PROCESSOS).add(registro);
         limparFormulario();
         mostrarMensagem("Processo cadastrado com sucesso.", "success");
         toast("Processo cadastrado com sucesso.", "success");
@@ -1558,7 +1775,7 @@ Gerência: GECONT"></textarea>
         mostrarMensagem("Erro ao salvar processo: " + error.message, "error");
         toast("Erro ao salvar processo.", "error");
       } finally {
-        setLoading(btnGerarProcesso, false, "Gerar processo");
+        setLoading(btnGerarProcesso, false, "Cadastrar processo");
       }
     }
 
@@ -1604,28 +1821,6 @@ Gerência: GECONT"></textarea>
       }
     }
 
-    async function avancarEtapa(id) {
-      if (!id) return;
-      const item = allItems.find(i => i.id === id);
-      if (!item) return;
-      const atual = item.etapa || "Recebido";
-      const idx = ETAPAS_PROCESSO.indexOf(atual);
-      try {
-        if (idx < ETAPAS_PROCESSO.length - 1) {
-          const nova = ETAPAS_PROCESSO[idx + 1];
-          const patch = { etapa: nova };
-          if (nova === "Concluído") patch.situacao = "Concluído";
-          await atualizarDocumento(id, patch);
-          toast(`Processo avançou para: ${nova}`, "success");
-        } else {
-          toast("Processo já concluído", "info");
-        }
-      } catch (error) {
-        console.error(error);
-        toast("Erro ao avançar etapa.", "error");
-      }
-    }
-
     async function remover(id) {
       if (!id) return;
       if (!confirm("Deseja realmente excluir este processo?")) return;
@@ -1644,7 +1839,6 @@ Gerência: GECONT"></textarea>
       const area = filtroArea.value;
       const gerencia = filtroGerencia.value;
       const situacao = filtroSituacao.value;
-      const etapa = filtroEtapa.value;
       const prazo = filtroPrazo.value;
       const statusPrazoFiltro = filtroStatusPrazo.value;
       const dataInicial = filtroDataInicial.value;
@@ -1664,18 +1858,15 @@ Gerência: GECONT"></textarea>
           item.interessado,
           item.assunto,
           item.situacao,
-          item.etapa,
           item.area,
           item.gerencia,
           item.statusPrazo,
           nomeCurtoSGI(item.gerencia)
         ].join(" "));
-
         if (termo && !textoBusca.includes(termo)) return false;
         if (area && item.area !== area) return false;
         if (gerencia && item.gerencia !== gerencia) return false;
         if (situacao && item.situacao !== situacao) return false;
-        if (etapa && item.etapa !== etapa) return false;
         if (prazo === "comPrazo" && item.semPrazo) return false;
         if (prazo === "semPrazo" && !item.semPrazo) return false;
         if (statusPrazoFiltro && item.statusPrazo !== statusPrazoFiltro) return false;
@@ -1726,7 +1917,6 @@ Gerência: GECONT"></textarea>
             <td>${highlightText(item.assunto || "", termo) || "-"}</td>
             <td>${escapeHtml(item.dataCadastro || "-")}</td>
             <td><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></td>
-            <td><span class="badge-etapa ${classeEtapaBadge(item.etapa)}">${escapeHtml(item.etapa || "-")}</span></td>
             <td><span class="badge-area ${classeAreaBadge(item.area)}">${highlightText(item.area || "", termo) || "-"}</span></td>
             <td>${highlightText(unidadeExibida || "-", termo)}</td>
             <td>${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</td>
@@ -1739,19 +1929,17 @@ Gerência: GECONT"></textarea>
                 <button type="button" class="secondary" data-action="edit">Editar</button>
                 <button type="button" class="warning" data-action="pendente">Pendente</button>
                 <button type="button" class="success" data-action="concluir">Concluir</button>
-                <button type="button" class="light" data-action="fluxo">➡ Etapa</button>
                 <button type="button" class="danger" data-action="delete">Excluir</button>
               </div>
             </td>
           </tr>
           <tr class="detail-row ${expandedIds.has(item.id) ? "" : "hidden"}" data-detail-for="${item.id}">
-            <td colspan="14">
+            <td colspan="13">
               <div class="row-details-box">
                 <div class="detail-mini"><div class="tt">Área</div><div>${escapeHtml(item.area || "-")}</div></div>
                 <div class="detail-mini"><div class="tt">Criado por</div><div>${escapeHtml(item.criadoPor || "-")}</div></div>
                 <div class="detail-mini"><div class="tt">Criado em</div><div>${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
                 <div class="detail-mini"><div class="tt">Última alteração</div><div>${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
-                <div class="detail-mini"><div class="tt">Status do prazo</div><div>${escapeHtml(item.statusPrazo)}</div></div>
               </div>
             </td>
           </tr>
@@ -1764,8 +1952,9 @@ Gerência: GECONT"></textarea>
       const hoje = itens.filter(i => i.statusPrazo === "Vence hoje").length;
       const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
       const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
-      const concluidos = itens.filter(i => i.situacao === "Concluído").length;
       const sgi = itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").length;
+      const concluidos = itens.filter(i => i.situacao === "Concluído").length;
+
       contadorRegistros.textContent = `${itens.length} de ${allItems.length} registro(s)`;
       counterAtrasados.textContent = `Atrasados: ${atrasados}`;
       counterHoje.textContent = `Vence hoje: ${hoje}`;
@@ -1774,6 +1963,7 @@ Gerência: GECONT"></textarea>
       counterSGI.textContent = `SGI: ${sgi}`;
       sumMostrando.textContent = itens.length;
       sumSGI.textContent = sgi;
+      sumVencendo.textContent = vencendo;
       sumAtrasados.textContent = atrasados;
       sumHoje.textContent = hoje;
       sumSemPrazo.textContent = semPrazo;
@@ -1788,12 +1978,15 @@ Gerência: GECONT"></textarea>
         alertasPrazo.innerHTML = "";
         return;
       }
+
       const lista = alertaveis.map(i => {
         const status = i.diasRestantes < 0 ? `atrasado há ${Math.abs(i.diasRestantes)} dia(s)` : i.diasRestantes === 0 ? "vence hoje" : `vence em ${i.diasRestantes} dia(s)`;
         return `<li><strong>${escapeHtml(i.processo || "(sem número)")}</strong> — ${escapeHtml(i.assunto || "Sem assunto")} — ${escapeHtml(i.gerencia || "Sem gerência")} — ${escapeHtml(status)}</li>`;
       }).join("");
+
       alertasPrazo.innerHTML = `<strong>Avisos de prazo</strong><div>Processos vencendo ou vencidos considerando o limite de ${limite} dia(s):</div><ul>${lista}</ul>`;
       alertasPrazo.classList.remove("hidden");
+
       if (enviarNotificacao && "Notification" in window && Notification.permission === "granted") {
         alertaveis.forEach(i => {
           const chave = `${i.id}-${i.diasRestantes}`;
@@ -1806,7 +1999,7 @@ Gerência: GECONT"></textarea>
     }
 
     function destroyCharts() {
-      [chartSituacao, chartPrazo, chartFluxo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
+      [chartSituacao, chartPrazo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
     }
 
     function renderDashboard(itens) {
@@ -1819,85 +2012,53 @@ Gerência: GECONT"></textarea>
 
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
-      const fluxoMap = {}; ETAPAS_PROCESSO.forEach(s => fluxoMap[s] = 0); itens.forEach(i => fluxoMap[i.etapa] = (fluxoMap[i.etapa] || 0) + 1);
       const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
-      const mapOutras = {}; AREAS.filter(a => a !== "Superintendência de Gestão Integrada (SGI)").forEach(a => mapOutras[a] = 0); itens.filter(i => i.area !== "Superintendência de Gestão Integrada (SGI)").forEach(i => mapOutras[i.area] = (mapOutras[i.area] || 0) + 1);
-      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const unidade = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[unidade] = (geralMap[unidade] || 0) + 1; });
+      const mapAreas = {}; AREAS.forEach(a => mapAreas[a] = 0); itens.forEach(i => mapAreas[i.area] = (mapAreas[i.area] || 0) + 1);
+      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const key = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[key] = (geralMap[key] || 0) + 1; });
       const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
 
       destroyCharts();
 
-      chartSituacao = new Chart($("graficoSituacao"), {
-        type: "bar",
-        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#f59e0b", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 40 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
-      });
-
       chartPrazo = new Chart($("graficoPrazo"), {
         type: "doughnut",
-        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#12b76a", "#f79009", "#fdb022", "#f04438", "#98a2b3"] }] },
-        options: { responsive: true }
-      });
-
-      chartFluxo = new Chart($("graficoFluxo"), {
-        type: "doughnut",
-        data: { labels: Object.keys(fluxoMap), datasets: [{ data: Object.values(fluxoMap), backgroundColor: ["#60a5fa", "#fb923c", "#fbbf24", "#10b981"] }] },
-        options: { responsive: true }
-      });
-
-      chartSGI = new Chart($("graficoSGI"), {
-        type: "bar",
-        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#0b5cab", borderRadius: 10, maxBarThickness: 36 }] },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                title: (items) => Object.keys(mapSGI)[items[0].dataIndex],
-                label: (ctx) => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}`
-              }
-            }
-          },
-          scales: {
-            x: { beginAtZero: true, ticks: { precision: 0 } },
-            y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } }
-          }
-        }
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
       });
 
       chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
         type: "bar",
-        data: { labels: Object.keys(mapOutras), datasets: [{ data: Object.values(mapOutras), backgroundColor: ["#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a"], borderRadius: 10, maxBarThickness: 40 }] },
+        data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] },
         options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
       });
 
       chartGerencia = new Chart($("graficoGerencia"), {
         type: "bar",
-        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 40 }] },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, ticks: { precision: 0 } },
-            x: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } }
-          }
-        }
+        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } }
+      });
+
+      chartSituacao = new Chart($("graficoSituacao"), {
+        type: "bar",
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartSGI = new Chart($("graficoSGI"), {
+        type: "bar",
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } }
       });
     }
 
     function atualizarCardsAtivos() {
       document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
-      if (filtroSituacao.value) document.querySelectorAll(`.summary-card[data-summary-type='situacao'][data-summary-value='${CSS.escape(filtroSituacao.value)}']`).forEach(card => card.classList.add("active"));
-      if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
       if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(filtroArea.value)}']`).forEach(card => card.classList.add("active"));
-      if (filtroEtapa.value) document.querySelectorAll(`.summary-card[data-summary-type='etapa'][data-summary-value='${CSS.escape(filtroEtapa.value)}']`).forEach(card => card.classList.add("active"));
+      if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
     }
 
     function aplicarFiltrosVisuaisNosChips() {
       document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
-      [["statusPrazo", filtroStatusPrazo.value], ["situacao", filtroSituacao.value], ["area", filtroArea.value], ["etapa", filtroEtapa.value]].forEach(([tipo, valor]) => {
+      [["area", filtroArea.value], ["situacao", filtroSituacao.value], ["statusPrazo", filtroStatusPrazo.value]].forEach(([tipo, valor]) => {
         if (!valor) return;
         const chip = document.querySelector(`.chip[data-chip-type="${tipo}"][data-chip-value="${CSS.escape(valor)}"]`);
         if (chip) chip.classList.add("active");
@@ -1925,7 +2086,7 @@ Gerência: GECONT"></textarea>
       const type = chip.dataset.chipType;
       const value = chip.dataset.chipValue;
       const wasActive = chip.classList.contains("active");
-      const alvo = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : type === "area" ? filtroArea : filtroEtapa;
+      const alvo = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : filtroArea;
       alvo.value = wasActive ? "" : value;
       salvarFiltros();
       aplicarFiltrosEOrdenacao();
@@ -1936,8 +2097,8 @@ Gerência: GECONT"></textarea>
       const value = card.dataset.summaryValue;
       abrirAba("processos");
       if (!type) { limparFiltros(false); return; }
-      const alvo = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : type === "area" ? filtroArea : filtroEtapa;
-      alvo.value = alvo.value === value ? "" : value;
+      const alvo = type === "statusPrazo" ? filtroStatusPrazo : filtroArea;
+      alvo.value = (alvo.value === value) ? "" : value;
       salvarFiltros();
       aplicarFiltrosEOrdenacao();
     }
@@ -1952,7 +2113,6 @@ Gerência: GECONT"></textarea>
       filtroArea.value = "";
       filtroGerencia.value = "";
       filtroSituacao.value = "";
-      filtroEtapa.value = "";
       filtroPrazo.value = "";
       filtroStatusPrazo.value = "";
       filtroDataInicial.value = "";
@@ -1984,7 +2144,6 @@ Gerência: GECONT"></textarea>
         <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || "-")}</div></div>
         <div class="drawer-box"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || "-")}</div></div>
         <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></div></div>
-        <div class="drawer-box"><div class="label">Etapa</div><div class="value"><span class="badge-etapa ${classeEtapaBadge(item.etapa)}">${escapeHtml(item.etapa || "-")}</span></div></div>
         <div class="drawer-box"><div class="label">Área</div><div class="value"><span class="badge-area ${classeAreaBadge(item.area)}">${escapeHtml(item.area || "-")}</span></div></div>
         <div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || "-")}</div></div>
         <div class="drawer-box"><div class="label">Data final</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</div></div>
@@ -2050,7 +2209,6 @@ Gerência: GECONT"></textarea>
           <td>${escapeHtml(d.assunto)}</td>
           <td>${escapeHtml(d.dataCadastro)}</td>
           <td>${escapeHtml(d.situacao)}</td>
-          <td>${escapeHtml(d.etapa || "-")}</td>
           <td>${escapeHtml(d.area || "-")}</td>
           <td>${escapeHtml(d.gerencia || "")}</td>
           <td>${escapeHtml(d.semPrazo ? "Sem prazo" : formatarDataISOparaBR(d.dataFinal))}</td>
@@ -2059,7 +2217,7 @@ Gerência: GECONT"></textarea>
           <td>${escapeHtml(d.alteradoPor || "-")} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
         </tr>
       `).join("");
-      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data de Cadastro</th><th>Situação</th><th>Etapa</th><th>Área</th><th>Gerência/Seção</th><th>Data Final</th><th>Status do Prazo</th><th>Dias Restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
+      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data de Cadastro</th><th>Situação</th><th>Área</th><th>Gerência/Seção</th><th>Data Final</th><th>Status do Prazo</th><th>Dias Restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
     }
 
     function exportarExcel(apenasVisiveis = false) {
@@ -2079,7 +2237,238 @@ Gerência: GECONT"></textarea>
       const dados = obterDadosExportacao(apenasVisiveis);
       if (!dados.length) return toast("Não há registros para exportar.", "warning");
       const janela = window.open("", "_blank");
-      janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }</style></head><body><h2>Relatório de Processos</h2><div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
+      janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }
+
+    /* ===== PREMIUM OVERRIDES ===== */
+    :root {
+      --bg: #f3f6fb;
+      --surface: #ffffff;
+      --surface-soft: #f8fbff;
+      --text: #182230;
+      --muted: #667085;
+      --border: #e6eaf2;
+      --primary: #155eef;
+      --primary-dark: #0b4bc4;
+      --primary-soft: #eef4ff;
+      --success: #039855;
+      --warning: #dc6803;
+      --danger: #d92d20;
+      --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 6px 18px rgba(16, 24, 40, 0.06);
+      --radius: 22px;
+      --radius-sm: 14px;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(21, 94, 239, 0.05), transparent 28%),
+        radial-gradient(circle at top right, rgba(3, 152, 85, 0.04), transparent 24%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(120deg, rgba(11,75,196,.96) 0%, rgba(21,94,239,.96) 100%);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .card {
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at right top, rgba(21,94,239,.10), transparent 26%),
+        linear-gradient(135deg, #ffffff 0%, #f7faff 55%, #eef4ff 100%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(21,94,239,.15) 0%, rgba(21,94,239,0) 70%);
+      pointer-events: none;
+    }
+
+    .topbar {
+      gap: 18px;
+      align-items: center;
+    }
+
+    .toolbar {
+      gap: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .user-box {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      box-shadow: var(--shadow-soft);
+      border-color: #e8eef7;
+    }
+
+    .section-title {
+      font-size: 19px;
+      letter-spacing: .1px;
+      margin-bottom: 14px;
+    }
+
+    .box-soft, .filtros-box {
+      background: linear-gradient(180deg, #fcfdff 0%, #f8fbff 100%);
+      border: 1px solid #edf2fa;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+    }
+
+    .composer {
+      gap: 22px;
+    }
+
+    .filters-wrap {
+      gap: 18px;
+    }
+
+    .filters-top, .filters-bottom {
+      gap: 14px;
+    }
+
+    input, textarea, select {
+      border-radius: 14px;
+      border-color: #d8dde7;
+      background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+    }
+
+    button {
+      border-radius: 14px;
+      min-height: 44px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      box-shadow: 0 1px 0 rgba(16,24,40,.03);
+    }
+
+    .metric {
+      border-radius: 20px;
+      box-shadow: var(--shadow-soft);
+      padding: 20px;
+    }
+
+    .metric .value {
+      font-size: 32px;
+    }
+
+    .stats-strip {
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .counter-pill {
+      box-shadow: 0 1px 0 rgba(16,24,40,.03);
+      background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
+    }
+
+    .table-wrap {
+      border-radius: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    thead th {
+      background: linear-gradient(180deg, #1d67c8 0%, #155eef 100%);
+    }
+
+    tbody td {
+      line-height: 1.45;
+    }
+
+    tbody tr.main-row {
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    tbody tr.main-row:hover {
+      transform: scale(1.001);
+    }
+
+    .acoes button {
+      border-radius: 12px;
+      min-height: auto;
+    }
+
+    .dashboard-grid {
+      gap: 22px;
+    }
+
+    .charts-stack, .sidebar-cards {
+      gap: 20px;
+    }
+
+    .chart-card {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+    .chart-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #60a5fa 0%, #155eef 100%);
+      opacity: .95;
+    }
+
+    .drawer, .modal {
+      border-radius: 22px 0 0 22px;
+    }
+    .modal {
+      border-radius: 22px;
+    }
+
+    .drawer-box, .detail-mini {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .toast {
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(16,24,40,.12);
+    }
+
+    .quick-help {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .quick-help .help-item {
+      padding: 14px;
+      border: 1px solid #eaecf0;
+      border-radius: 16px;
+      background: linear-gradient(180deg,#ffffff 0%, #f9fbff 100%);
+      box-shadow: var(--shadow-soft);
+    }
+    .quick-help .help-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .quick-help .help-item span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    @media (max-width: 1000px) {
+      .quick-help { grid-template-columns: 1fr; }
+    }
+
+  </style></head><body><h2>Relatório de Processos</h2><div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
       janela.document.close();
       janela.focus();
       janela.print();
@@ -2098,7 +2487,7 @@ Gerência: GECONT"></textarea>
     }
 
     function destroyCharts() {
-      [chartSituacao, chartPrazo, chartFluxo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
+      [chartSituacao, chartPrazo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
     }
 
     function renderDashboard(itens) {
@@ -2111,361 +2500,53 @@ Gerência: GECONT"></textarea>
 
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
-      const fluxoMap = {}; ETAPAS_PROCESSO.forEach(s => fluxoMap[s] = 0); itens.forEach(i => fluxoMap[i.etapa] = (fluxoMap[i.etapa] || 0) + 1);
       const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
-      const mapOutras = {}; AREAS.filter(a => a !== "Superintendência de Gestão Integrada (SGI)").forEach(a => mapOutras[a] = 0); itens.filter(i => i.area !== "Superintendência de Gestão Integrada (SGI)").forEach(i => mapOutras[i.area] = (mapOutras[i.area] || 0) + 1);
-      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const unidade = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[unidade] = (geralMap[unidade] || 0) + 1; });
+      const mapAreas = {}; AREAS.forEach(a => mapAreas[a] = 0); itens.forEach(i => mapAreas[i.area] = (mapAreas[i.area] || 0) + 1);
+      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const key = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[key] = (geralMap[key] || 0) + 1; });
       const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
 
       destroyCharts();
 
-      chartSituacao = new Chart($("graficoSituacao"), {
-        type: "bar",
-        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#f59e0b", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 40 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
-      });
-
       chartPrazo = new Chart($("graficoPrazo"), {
         type: "doughnut",
-        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#12b76a", "#f79009", "#fdb022", "#f04438", "#98a2b3"] }] },
-        options: { responsive: true }
-      });
-
-      chartFluxo = new Chart($("graficoFluxo"), {
-        type: "doughnut",
-        data: { labels: Object.keys(fluxoMap), datasets: [{ data: Object.values(fluxoMap), backgroundColor: ["#60a5fa", "#fb923c", "#fbbf24", "#10b981"] }] },
-        options: { responsive: true }
-      });
-
-      chartSGI = new Chart($("graficoSGI"), {
-        type: "bar",
-        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#0b5cab", borderRadius: 10, maxBarThickness: 36 }] },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } },
-          scales: {
-            x: { beginAtZero: true, ticks: { precision: 0 } },
-            y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } }
-          }
-        }
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
       });
 
       chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
         type: "bar",
-        data: { labels: Object.keys(mapOutras), datasets: [{ data: Object.values(mapOutras), backgroundColor: ["#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a"], borderRadius: 10, maxBarThickness: 40 }] },
+        data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] },
         options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
       });
 
       chartGerencia = new Chart($("graficoGerencia"), {
         type: "bar",
-        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 40 }] },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, ticks: { precision: 0 } },
-            x: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } }
-          }
-        }
+        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } }
       });
-    }
-
-    function atualizarCardsAtivos() {
-      document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
-      if (filtroSituacao.value) document.querySelectorAll(`.summary-card[data-summary-type='situacao'][data-summary-value='${CSS.escape(filtroSituacao.value)}']`).forEach(card => card.classList.add("active"));
-      if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
-      if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(filtroArea.value)}']`).forEach(card => card.classList.add("active"));
-      if (filtroEtapa.value) document.querySelectorAll(`.summary-card[data-summary-type='etapa'][data-summary-value='${CSS.escape(filtroEtapa.value)}']`).forEach(card => card.classList.add("active"));
-    }
-
-    function aplicarFiltrosVisuaisNosChips() {
-      document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
-      [["statusPrazo", filtroStatusPrazo.value], ["situacao", filtroSituacao.value], ["area", filtroArea.value], ["etapa", filtroEtapa.value]].forEach(([tipo, valor]) => {
-        if (!valor) return;
-        const chip = document.querySelector(`.chip[data-chip-type="${tipo}"][data-chip-value="${CSS.escape(valor)}"]`);
-        if (chip) chip.classList.add("active");
-      });
-    }
-
-    function renderEverything(notificar = true) {
-      filteredItems = getFilteredItems();
-      renderTable(filteredItems);
-      renderResumo(filteredItems);
-      renderAlertas(filteredItems, notificar);
-      renderDashboard(filteredItems);
-      atualizarCardsAtivos();
-      atualizarDrawerSeAberto();
-      aplicarFiltrosVisuaisNosChips();
-    }
-
-    function toggleExpand(id) {
-      if (expandedIds.has(id)) expandedIds.delete(id);
-      else expandedIds.add(id);
-      renderTable(filteredItems);
-    }
-
-    function aplicarChip(chip) {
-      const type = chip.dataset.chipType;
-      const value = chip.dataset.chipValue;
-      const wasActive = chip.classList.contains("active");
-      const alvo = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : type === "area" ? filtroArea : filtroEtapa;
-      alvo.value = wasActive ? "" : value;
-      salvarFiltros();
-      aplicarFiltrosEOrdenacao();
-    }
-
-    function aplicarResumoClicavel(card) {
-      const type = card.dataset.summaryType;
-      const value = card.dataset.summaryValue;
-      abrirAba("processos");
-      if (!type) { limparFiltros(false); return; }
-      const alvo = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : type === "area" ? filtroArea : filtroEtapa;
-      alvo.value = alvo.value === value ? "" : value;
-      salvarFiltros();
-      aplicarFiltrosEOrdenacao();
-    }
-
-    function aplicarFiltrosEOrdenacao() {
-      salvarFiltros();
-      renderEverything();
-    }
-
-    function limparFiltros(mostrarToast = true) {
-      busca.value = "";
-      filtroArea.value = "";
-      filtroGerencia.value = "";
-      filtroSituacao.value = "";
-      filtroEtapa.value = "";
-      filtroPrazo.value = "";
-      filtroStatusPrazo.value = "";
-      filtroDataInicial.value = "";
-      filtroDataFinal.value = "";
-      filtroAtrasados.checked = false;
-      ordenacao.value = "";
-      salvarFiltros();
-      renderEverything();
-      if (mostrarToast) toast("Filtros limpos.", "info");
-    }
-
-    function limparFormulario() {
-      entrada.value = "";
-      gerenciaManual.value = "";
-      situacaoManual.value = "Em análise";
-      dataFinalManual.value = "";
-      semPrazoManual.checked = false;
-      dataFinalManual.disabled = false;
-      mostrarMensagem("Formulário limpo.", "info");
-    }
-
-    function abrirDrawer(id) {
-      selectedDrawerId = id;
-      const item = allItems.find(i => i.id === id);
-      if (!item) return;
-      drawerSubtitulo.textContent = item.processo || "(sem número)";
-      drawerConteudo.innerHTML = `
-        <div class="drawer-box"><div class="label">Processo</div><div class="value">${escapeHtml(item.processo || "-")}</div></div>
-        <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || "-")}</div></div>
-        <div class="drawer-box"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || "-")}</div></div>
-        <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></div></div>
-        <div class="drawer-box"><div class="label">Etapa</div><div class="value"><span class="badge-etapa ${classeEtapaBadge(item.etapa)}">${escapeHtml(item.etapa || "-")}</span></div></div>
-        <div class="drawer-box"><div class="label">Área</div><div class="value"><span class="badge-area ${classeAreaBadge(item.area)}">${escapeHtml(item.area || "-")}</span></div></div>
-        <div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || "-")}</div></div>
-        <div class="drawer-box"><div class="label">Data final</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</div></div>
-        <div class="drawer-box"><div class="label">Status do prazo</div><div class="value">${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</div></div>
-        <div class="drawer-box"><div class="label">Dias restantes</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(calcDiasRestantes(item.dataFinal)))}</div></div>
-        <div class="drawer-box"><div class="label">Criado por</div><div class="value">${escapeHtml(item.criadoPor || "-")}</div></div>
-        <div class="drawer-box"><div class="label">Criado em</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
-        <div class="drawer-box"><div class="label">Última alteração por</div><div class="value">${escapeHtml(item.alteradoPor || "-")}</div></div>
-        <div class="drawer-box"><div class="label">Última alteração em</div><div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
-      `;
-      drawerOverlay.classList.remove("hidden");
-      drawer.classList.remove("hidden");
-    }
-
-    function fecharDrawer() {
-      drawerOverlay.classList.add("hidden");
-      drawer.classList.add("hidden");
-      selectedDrawerId = null;
-    }
-
-    function atualizarDrawerSeAberto() {
-      if (!selectedDrawerId) return;
-      const item = allItems.find(i => i.id === selectedDrawerId);
-      if (!item) { fecharDrawer(); return; }
-      abrirDrawer(selectedDrawerId);
-    }
-
-    function abrirModalEdicao(id) {
-      const item = allItems.find(i => i.id === id);
-      if (!item) return;
-      editingId = id;
-      modalSubtitulo.textContent = item.processo || "(sem número)";
-      editProcesso.value = item.processo || "";
-      editInteressado.value = item.interessado || "";
-      editAssunto.value = item.assunto || "";
-      editSituacao.value = item.situacao || "Em análise";
-      editGerencia.value = item.gerencia || "";
-      editDataFinal.value = item.dataFinal || "";
-      editSemPrazo.checked = !!item.semPrazo;
-      editDataFinal.disabled = !!item.semPrazo;
-      modalOverlay.classList.remove("hidden");
-    }
-
-    function fecharModal() {
-      modalOverlay.classList.add("hidden");
-      editingId = null;
-    }
-
-    function obterDadosExportacao(apenasVisiveis = false) {
-      const origem = apenasVisiveis ? filteredItems : allItems;
-      return origem.map(i => ({
-        ...i,
-        diasRestantes: i.semPrazo ? null : calcDiasRestantes(i.dataFinal),
-        statusPrazo: obterStatusPrazo(i.dataFinal, i.semPrazo)
-      }));
-    }
-
-    function obterHTMLTabelaExportacao(dados) {
-      const linhas = dados.map(d => `
-        <tr>
-          <td>${escapeHtml(d.processo)}</td>
-          <td>${escapeHtml(d.interessado)}</td>
-          <td>${escapeHtml(d.assunto)}</td>
-          <td>${escapeHtml(d.dataCadastro)}</td>
-          <td>${escapeHtml(d.situacao)}</td>
-          <td>${escapeHtml(d.etapa || "-")}</td>
-          <td>${escapeHtml(d.area || "-")}</td>
-          <td>${escapeHtml(d.gerencia || "")}</td>
-          <td>${escapeHtml(d.semPrazo ? "Sem prazo" : formatarDataISOparaBR(d.dataFinal))}</td>
-          <td>${escapeHtml(d.statusPrazo)}</td>
-          <td>${escapeHtml(d.semPrazo ? "Sem prazo" : textoDiasRestantes(d.diasRestantes))}</td>
-          <td>${escapeHtml(d.alteradoPor || "-")} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
-        </tr>
-      `).join("");
-      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data de Cadastro</th><th>Situação</th><th>Etapa</th><th>Área</th><th>Gerência/Seção</th><th>Data Final</th><th>Status do Prazo</th><th>Dias Restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
-    }
-
-    function exportarExcel(apenasVisiveis = false) {
-      const dados = obterDadosExportacao(apenasVisiveis);
-      if (!dados.length) return toast("Não há registros para exportar.", "warning");
-      const html = `<html><head><meta charset="UTF-8"></head><body><h2>Relatório de Processos</h2><div>${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`;
-      const blob = new Blob([html], { type: "application/vnd.ms-excel" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = apenasVisiveis ? "processos_visiveis.xls" : "processos_todos.xls";
-      link.click();
-      URL.revokeObjectURL(link.href);
-      toast("Exportação Excel concluída.", "success");
-    }
-
-    function exportarPDF(apenasVisiveis = false) {
-      const dados = obterDadosExportacao(apenasVisiveis);
-      if (!dados.length) return toast("Não há registros para exportar.", "warning");
-      const janela = window.open("", "_blank");
-      janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }</style></head><body><h2>Relatório de Processos</h2><div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
-      janela.document.close();
-      janela.focus();
-      janela.print();
-      toast("Exportação para impressão/PDF iniciada.", "success");
-    }
-
-    async function solicitarPermissaoNotificacao() {
-      if (!("Notification" in window)) return alert("Seu navegador não suporta notificações.");
-      const status = await Notification.requestPermission();
-      if (status === "granted") {
-        toast("Avisos do navegador ativados.", "success");
-        renderAlertas(filteredItems, true);
-      } else {
-        toast("Permissão de notificação não concedida.", "warning");
-      }
-    }
-
-    function destroyCharts() {
-      [chartSituacao, chartPrazo, chartFluxo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
-    }
-
-    function renderDashboard(itens) {
-      $("kpiTotal").textContent = itens.length;
-      $("kpiSemPrazo").textContent = itens.filter(i => i.statusPrazo === "Sem prazo").length;
-      $("kpiVencendo").textContent = itens.filter(i => i.statusPrazo === "Vencendo").length;
-      $("kpiAtrasados").textContent = itens.filter(i => i.statusPrazo === "Atrasado").length;
-      $("kpiConcluidos").textContent = itens.filter(i => i.situacao === "Concluído").length;
-      $("kpiPendentes").textContent = itens.filter(i => i.situacao === "Pendente").length;
-
-      const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
-      const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
-      const fluxoMap = {}; ETAPAS_PROCESSO.forEach(s => fluxoMap[s] = 0); itens.forEach(i => fluxoMap[i.etapa] = (fluxoMap[i.etapa] || 0) + 1);
-      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
-      const mapOutras = {}; AREAS.filter(a => a !== "Superintendência de Gestão Integrada (SGI)").forEach(a => mapOutras[a] = 0); itens.filter(i => i.area !== "Superintendência de Gestão Integrada (SGI)").forEach(i => mapOutras[i.area] = (mapOutras[i.area] || 0) + 1);
-      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const unidade = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[unidade] = (geralMap[unidade] || 0) + 1; });
-      const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
-
-      destroyCharts();
 
       chartSituacao = new Chart($("graficoSituacao"), {
         type: "bar",
-        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#f59e0b", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 40 }] },
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] },
         options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
-      });
-
-      chartPrazo = new Chart($("graficoPrazo"), {
-        type: "doughnut",
-        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#12b76a", "#f79009", "#fdb022", "#f04438", "#98a2b3"] }] },
-        options: { responsive: true }
-      });
-
-      chartFluxo = new Chart($("graficoFluxo"), {
-        type: "doughnut",
-        data: { labels: Object.keys(fluxoMap), datasets: [{ data: Object.values(fluxoMap), backgroundColor: ["#60a5fa", "#fb923c", "#fbbf24", "#10b981"] }] },
-        options: { responsive: true }
       });
 
       chartSGI = new Chart($("graficoSGI"), {
         type: "bar",
-        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#0b5cab", borderRadius: 10, maxBarThickness: 36 }] },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } },
-          scales: {
-            x: { beginAtZero: true, ticks: { precision: 0 } },
-            y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } }
-          }
-        }
-      });
-
-      chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
-        type: "bar",
-        data: { labels: Object.keys(mapOutras), datasets: [{ data: Object.values(mapOutras), backgroundColor: ["#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a"], borderRadius: 10, maxBarThickness: 40 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
-      });
-
-      chartGerencia = new Chart($("graficoGerencia"), {
-        type: "bar",
-        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 40 }] },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, ticks: { precision: 0 } },
-            x: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } }
-          }
-        }
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } }
       });
     }
 
     function atualizarCardsAtivos() {
       document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
-      if (filtroSituacao.value) document.querySelectorAll(`.summary-card[data-summary-type='situacao'][data-summary-value='${CSS.escape(filtroSituacao.value)}']`).forEach(card => card.classList.add("active"));
-      if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
       if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(filtroArea.value)}']`).forEach(card => card.classList.add("active"));
-      if (filtroEtapa.value) document.querySelectorAll(`.summary-card[data-summary-type='etapa'][data-summary-value='${CSS.escape(filtroEtapa.value)}']`).forEach(card => card.classList.add("active"));
+      if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
     }
 
     function aplicarFiltrosVisuaisNosChips() {
       document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
-      [["statusPrazo", filtroStatusPrazo.value], ["situacao", filtroSituacao.value], ["area", filtroArea.value], ["etapa", filtroEtapa.value]].forEach(([tipo, valor]) => {
+      [["area", filtroArea.value], ["situacao", filtroSituacao.value], ["statusPrazo", filtroStatusPrazo.value]].forEach(([tipo, valor]) => {
         if (!valor) return;
         const chip = document.querySelector(`.chip[data-chip-type="${tipo}"][data-chip-value="${CSS.escape(valor)}"]`);
         if (chip) chip.classList.add("active");
@@ -2491,8 +2572,16 @@ Gerência: GECONT"></textarea>
       btnNotificacao.addEventListener("click", solicitarPermissaoNotificacao);
       tabProcessosBtn.addEventListener("click", () => abrirAba("processos"));
       tabDashboardBtn.addEventListener("click", () => abrirAba("dashboard"));
-      semPrazoManual.addEventListener("change", () => { dataFinalManual.disabled = semPrazoManual.checked; if (semPrazoManual.checked) dataFinalManual.value = ""; });
-      editSemPrazo.addEventListener("change", () => { editDataFinal.disabled = editSemPrazo.checked; if (editSemPrazo.checked) editDataFinal.value = ""; });
+
+      semPrazoManual.addEventListener("change", () => {
+        dataFinalManual.disabled = semPrazoManual.checked;
+        if (semPrazoManual.checked) dataFinalManual.value = "";
+      });
+      editSemPrazo.addEventListener("change", () => {
+        editDataFinal.disabled = editSemPrazo.checked;
+        if (editSemPrazo.checked) editDataFinal.value = "";
+      });
+
       btnGerarProcesso.addEventListener("click", gerarProcesso);
       btnLimparFormulario.addEventListener("click", limparFormulario);
       btnSalvarEdicao.addEventListener("click", salvarEdicao);
@@ -2503,14 +2592,14 @@ Gerência: GECONT"></textarea>
       drawerBtnEditar.addEventListener("click", () => { if (selectedDrawerId) abrirModalEdicao(selectedDrawerId); });
       drawerBtnPendente.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Pendente"));
       drawerBtnConcluir.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Concluído"));
-      drawerBtnFluxo.addEventListener("click", () => { if (selectedDrawerId) avancarEtapa(selectedDrawerId); });
       drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
       drawerBtnExcluir.addEventListener("click", () => remover(selectedDrawerId));
 
-      [busca, filtroArea, filtroGerencia, filtroSituacao, filtroEtapa, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao].forEach(el => {
+      [busca, filtroArea, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao].forEach(el => {
         const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input");
         el.addEventListener(evt, aplicarFiltrosEOrdenacao);
       });
+
       limiteVencendo.addEventListener("change", () => { salvarFiltros(); renderEverything(); });
       btnLimparFiltros.addEventListener("click", limparFiltros);
       btnExportarExcelTodos.addEventListener("click", () => exportarExcel(false));
@@ -2520,8 +2609,7 @@ Gerência: GECONT"></textarea>
 
       $("chipsRapidos").addEventListener("click", (e) => {
         const chip = e.target.closest(".chip");
-        if (!chip) return;
-        aplicarChip(chip);
+        if (chip) aplicarChip(chip);
       });
 
       document.addEventListener("click", (e) => {
@@ -2544,7 +2632,6 @@ Gerência: GECONT"></textarea>
           if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
           if (action === "pendente") { e.stopPropagation(); alterarSituacaoRapida(id, "Pendente"); return; }
           if (action === "concluir") { e.stopPropagation(); alterarSituacaoRapida(id, "Concluído"); return; }
-          if (action === "fluxo") { e.stopPropagation(); avancarEtapa(id); return; }
           if (action === "delete") { e.stopPropagation(); remover(id); return; }
         }
         abrirDrawer(id);
@@ -2577,7 +2664,10 @@ Gerência: GECONT"></textarea>
         usuarioLogado.textContent = user.email || "Usuário";
         iniciarEscutaProcessos();
       } else {
-        if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
+        if (unsubscribeSnapshot) {
+          unsubscribeSnapshot();
+          unsubscribeSnapshot = null;
+        }
         loginBox.classList.remove("hidden");
         appBox.classList.add("hidden");
         usuarioLogado.textContent = "-";
