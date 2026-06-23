@@ -1,13 +1,16 @@
-<!DOCTYPE html>
+<index.html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema de Gestão de Processos — Gestão Integrada</title>
+  <title>Sistema de Gestão de Processos</title>
 
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -16,168 +19,394 @@
       --bg: #eef4f8;
       --surface: #ffffff;
       --surface-soft: #f8fbff;
-      --text: #122033;
+      --text: #152233;
       --muted: #667085;
       --primary: #0b5cab;
       --primary-dark: #084784;
-      --primary-soft: #eff6ff;
+      --primary-soft: #eef5ff;
       --success: #047857;
       --warning: #c77700;
       --danger: #c1121f;
+      --gray: #475467;
       --border: #e5e7eb;
       --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
       --radius: 18px;
     }
+
     body {
       margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
       background: linear-gradient(180deg, #f7f9fc 0%, var(--bg) 100%);
       color: var(--text);
     }
+
     header {
       background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      color: #fff;
-      padding: 20px 16px;
+      color: white;
+      padding: 18px 16px;
       text-align: center;
       font-size: 24px;
       font-weight: 800;
-      box-shadow: 0 8px 22px rgba(11, 92, 171, 0.28);
+      box-shadow: 0 8px 24px rgba(11, 92, 171, 0.26);
+      letter-spacing: 0.2px;
     }
-    .container { max-width: 1720px; margin: 20px auto; padding: 0 16px 24px; }
+
+    .container {
+      max-width: 1720px;
+      margin: 20px auto;
+      padding: 0 16px 24px;
+    }
+
     .card {
       background: var(--surface);
-      border: 1px solid rgba(15,23,42,.05);
       border-radius: var(--radius);
+      border: 1px solid rgba(15, 23, 42, 0.05);
       box-shadow: var(--shadow);
       padding: 20px;
       margin-bottom: 18px;
     }
+
     .hero {
-      background: linear-gradient(135deg, #f7fbff 0%, #ffffff 60%, #eef5ff 100%);
+      background: linear-gradient(135deg, #f7fbff 0%, #ffffff 55%, #eef5ff 100%);
       border: 1px solid #dbeafe;
     }
+
     .hidden { display: none !important; }
-    .topbar, .wrap-row, .btn-row, .tabs, .chips, .counter-strip { display: flex; gap: 10px; flex-wrap: wrap; }
-    .topbar { justify-content: space-between; align-items: center; }
-    .grid-2, .grid-3, .grid-4, .grid-5, .grid-6 { display: grid; gap: 12px; }
+
+    h2, h3, h4 { margin-top: 0; }
+    h3 { font-size: 22px; }
+    h4 { font-size: 18px; }
+
+    .topbar, .tabs, .chips, .btn-row, .counter-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .topbar {
+      justify-content: space-between;
+    }
+
+    .grid-2, .grid-3, .grid-4, .grid-5, .grid-6 {
+      display: grid;
+      gap: 12px;
+    }
     .grid-2 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
     .grid-4 { grid-template-columns: repeat(4, 1fr); }
     .grid-5 { grid-template-columns: repeat(5, 1fr); }
     .grid-6 { grid-template-columns: repeat(6, 1fr); }
-    @media (max-width: 1400px) { .grid-6, .grid-5 { grid-template-columns: repeat(3, 1fr); } .grid-4 { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 980px) { .grid-2, .grid-3, .grid-4, .grid-5, .grid-6 { grid-template-columns: 1fr; } }
+
+    @media (max-width: 1400px) {
+      .grid-5, .grid-6 { grid-template-columns: repeat(3, 1fr); }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 980px) {
+      .grid-2, .grid-3, .grid-4, .grid-5, .grid-6 { grid-template-columns: 1fr; }
+    }
 
     input, textarea, select, button {
       width: 100%;
       padding: 11px 12px;
-      font-size: 14px;
-      font-family: inherit;
+      margin-top: 8px;
       border-radius: 10px;
       border: 1px solid #d6dae1;
-      background: #fff;
-      transition: .2s ease;
       outline: none;
-      margin-top: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      background: white;
+      transition: .2s ease;
     }
+
     input:focus, textarea:focus, select:focus {
       border-color: #7cb3ff;
       box-shadow: 0 0 0 4px rgba(11, 92, 171, .12);
     }
-    textarea { resize: vertical; min-height: 130px; }
+
+    input:disabled, textarea:disabled, select:disabled {
+      background: #f5f7fb;
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
     button {
       cursor: pointer;
       font-weight: 700;
-      color: #fff;
+      color: white;
       border: none;
       background: linear-gradient(180deg, #1670c5, var(--primary));
-      box-shadow: 0 8px 16px rgba(11, 92, 171, .16);
+      box-shadow: 0 8px 16px rgba(11, 92, 171, .14);
+      transition: .18s ease;
     }
+
     button:hover { transform: translateY(-1px); }
-    button:disabled { opacity: .65; cursor: not-allowed; box-shadow: none; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
     .secondary { background: linear-gradient(180deg, #667085, #475467); }
     .success { background: linear-gradient(180deg, #10b981, var(--success)); }
     .warning { background: linear-gradient(180deg, #f59e0b, var(--warning)); }
     .danger { background: linear-gradient(180deg, #ef4444, var(--danger)); }
-    .light { background: linear-gradient(180deg, #eef5ff, #dbeafe); color: #0b4a88; border: 1px solid #bfdbfe; box-shadow: none; }
-    .outline { background: #fff; color: #344054; border: 1px solid #d0d5dd; box-shadow: none; }
-    .tab-btn { width: auto; min-width: 170px; box-shadow: none; background: #edf3fb; color: #144a75; border: 1px solid #d7e7fb; }
-    .tab-btn.active { color: #fff; background: linear-gradient(180deg, #1c7dd6, var(--primary)); }
+    .light {
+      background: linear-gradient(180deg, #eef5ff, #dbeafe);
+      color: #0b4a88;
+      border: 1px solid #bfdbfe;
+      box-shadow: none;
+    }
+    .outline {
+      background: white;
+      color: #344054;
+      border: 1px solid #d0d5dd;
+      box-shadow: none;
+    }
+    .tab-btn {
+      width: auto;
+      min-width: 170px;
+      background: #edf3fb;
+      color: #144a75;
+      border: 1px solid #d7e7fb;
+      box-shadow: none;
+    }
+    .tab-btn.active {
+      background: linear-gradient(180deg, #1c7dd6, var(--primary));
+      color: white;
+    }
+    .btn-row > * { flex: 1; min-width: 180px; }
 
-    .muted { color: var(--muted); font-size: 13px; }
-    .user-box { background: #f9fafb; border: 1px solid #eaecf0; padding: 8px 12px; border-radius: 10px; }
-    .feedback { padding: 12px; border-radius: 10px; border: 1px solid transparent; margin-top: 12px; }
+    .user-box {
+      background: #f9fafb;
+      border: 1px solid #eaecf0;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .feedback {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-size: 14px;
+    }
     .feedback.info { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
     .feedback.success { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
     .feedback.warning { background: #fffaeb; color: #b54708; border-color: #fedf89; }
     .feedback.error { background: #fef3f2; color: #b42318; border-color: #fecdca; }
 
-    .chip { width: auto; border-radius: 999px; padding: 8px 12px; background: #fff; color: #344054; border: 1px solid #d0d5dd; box-shadow: none; margin-top: 0; }
-    .chip.active { background: linear-gradient(180deg, #1670c5, var(--primary)); color: #fff; border-color: var(--primary); }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
 
-    .kpis, .summary-cards { display: grid; gap: 12px; }
-    .kpis { grid-template-columns: repeat(6,1fr); }
-    .summary-cards { grid-template-columns: repeat(6,1fr); margin-top: 14px; }
-    @media (max-width: 1350px) { .kpis, .summary-cards { grid-template-columns: repeat(3,1fr); } }
-    @media (max-width: 800px) { .kpis, .summary-cards { grid-template-columns: 1fr; } }
+    .filtros-box {
+      background: linear-gradient(180deg, #f9fbff, #f7f9fc);
+      border: 1px solid #e4ebf5;
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .chip {
+      width: auto;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #d0d5dd;
+      background: white;
+      color: #344054;
+      box-shadow: none;
+      margin-top: 0;
+    }
+    .chip.active {
+      background: linear-gradient(180deg, #1670c5, var(--primary));
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .kpis, .summary-cards {
+      display: grid;
+      gap: 12px;
+    }
+    .kpis { grid-template-columns: repeat(6, 1fr); }
+    .summary-cards { grid-template-columns: repeat(6, 1fr); margin-top: 14px; }
+
+    @media (max-width: 1350px) {
+      .kpis, .summary-cards { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 800px) {
+      .kpis, .summary-cards { grid-template-columns: 1fr; }
+    }
 
     .metric {
-      position: relative; overflow: hidden;
-      background: #fff; border: 1px solid #eaecf0; border-radius: 16px; padding: 16px;
-      transition: .15s ease;
+      background: white;
+      border: 1px solid #eaecf0;
+      border-radius: 16px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: .16s ease;
     }
     .metric::before {
-      content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 4px;
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
       background: linear-gradient(90deg, #60a5fa, #1d4ed8);
     }
     .metric.amber::before { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
     .metric.green::before { background: linear-gradient(90deg, #34d399, #059669); }
     .metric.red::before { background: linear-gradient(90deg, #fb7185, #dc2626); }
     .metric.slate::before { background: linear-gradient(90deg, #94a3b8, #475569); }
-    .metric:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15,23,42,.08); }
+    .metric:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, .08);
+    }
     .metric .label { color: var(--muted); font-size: 13px; }
     .metric .value { font-size: 30px; font-weight: 800; margin-top: 6px; }
     .metric small { color: var(--muted); display: block; margin-top: 6px; }
     .summary-card { cursor: pointer; }
-    .summary-card.active { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(11,92,171,.12); }
+    .summary-card.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(11, 92, 171, .12);
+    }
 
-    .counter-pill { background: #fff; border: 1px solid #eaecf0; padding: 8px 10px; border-radius: 999px; font-size: 13px; }
-    .alertas { border-left: 4px solid #b54708; background: #fffaeb; padding: 12px 14px; border-radius: 8px; margin-top: 12px; color: #7a2e0b; }
+    .counter-pill {
+      background: white;
+      border: 1px solid #eaecf0;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    .alertas {
+      border-left: 4px solid #b54708;
+      background: #fffaeb;
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-top: 12px;
+      color: #7a2e0b;
+    }
     .alertas ul { margin: 8px 0 0 18px; padding: 0; }
 
-    .table-wrap { overflow: auto; max-height: 72vh; border-radius: 14px; border: 1px solid #eaecf0; background: #fff; }
-    table { width: 100%; border-collapse: collapse; min-width: 2100px; background: #fff; }
-    thead th {
-      position: sticky; top: 0; z-index: 3;
-      background: linear-gradient(180deg, #176ab7, var(--primary));
-      color: #fff; text-align: left; padding: 12px; border: 1px solid #dbe4f0; white-space: nowrap;
+    .table-wrap {
+      overflow: auto;
+      max-height: 72vh;
+      border-radius: 14px;
+      border: 1px solid #eaecf0;
+      background: white;
     }
-    tbody td { border: 1px solid #e5e7eb; padding: 10px; vertical-align: top; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 2100px;
+      background: white;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background: linear-gradient(180deg, #176ab7, var(--primary));
+      color: white;
+      text-align: left;
+      padding: 12px;
+      border: 1px solid #dbe4f0;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+    tbody td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      vertical-align: top;
+      font-size: 14px;
+    }
     tbody tr.main-row:hover td { background: #f8fbff; }
     tr.linha-atrasada td { background: #fff6f6; }
     tr.linha-vencendo td, tr.linha-hoje td { background: #fffaf0; }
     tr.linha-sem-prazo td { background: #fafafa; }
-    .detail-row td { background: #fcfcfd !important; padding: 0; }
-    .row-details-box { padding: 14px 16px; display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; border-top: 1px dashed #ddd; }
-    @media (max-width: 900px) { .row-details-box { grid-template-columns: 1fr; } }
-    .detail-mini { background: #fff; border: 1px solid #eaecf0; border-radius: 10px; padding: 10px; font-size: 13px; }
+
+    .detail-row td {
+      background: #fcfcfd !important;
+      padding: 0;
+    }
+
+    .row-details-box {
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      border-top: 1px dashed #ddd;
+    }
+    @media (max-width: 900px) {
+      .row-details-box { grid-template-columns: 1fr; }
+    }
+
+    .detail-mini {
+      background: white;
+      border: 1px solid #eaecf0;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 13px;
+    }
     .detail-mini .tt { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
 
-    .acoes { display: flex; gap: 6px; flex-wrap: wrap; }
-    .acoes button { width: auto; margin: 0; padding: 7px 10px; font-size: 12px; box-shadow: none; }
-    .expand-btn { width: auto; padding: 6px 8px; margin: 0; background: #f2f4f7; color: #344054; border: 1px solid #d0d5dd; box-shadow: none; }
+    .acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .acoes button {
+      width: auto;
+      margin: 0;
+      padding: 7px 10px;
+      font-size: 12px;
+      box-shadow: none;
+    }
+
+    .expand-btn {
+      width: auto;
+      padding: 6px 8px;
+      margin: 0;
+      background: #f2f4f7;
+      color: #344054;
+      border: 1px solid #d0d5dd;
+      box-shadow: none;
+    }
+
     .sortable { cursor: pointer; user-select: none; }
     .sortable small { opacity: .8; font-weight: 400; margin-left: 4px; }
 
     .badge, .badge-situacao, .badge-etapa, .badge-area {
-      display: inline-block; white-space: nowrap; border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 700;
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
     }
     .badge-no-prazo { background: #ecfdf3; color: #027a48; border: 1px solid #abefc6; }
     .badge-vencendo { background: #fffaeb; color: #b54708; border: 1px solid #fedf89; }
     .badge-vence-hoje { background: #fff3e6; color: #b54708; border: 1px solid #f7b27a; }
     .badge-atrasado { background: #fef3f2; color: #b42318; border: 1px solid #fecdca; }
     .badge-sem-prazo { background: #f2f4f7; color: #475467; border: 1px solid #d0d5dd; }
-    .badge-situacao, .badge-etapa, .badge-area { background: #f8fafc; color: #344054; border: 1px solid #d0d5dd; }
+
+    .badge-situacao, .badge-etapa, .badge-area {
+      background: #f8fafc;
+      color: #344054;
+      border: 1px solid #d0d5dd;
+    }
     .badge-situacao.concluido, .badge-etapa.concluido { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
     .badge-situacao.andamento { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
     .badge-situacao.pendente { background: #fff7ed; color: #c2410c; border-color: #fdba74; }
@@ -187,26 +416,112 @@
     .badge-etapa.execucao { background: #fffaeb; color: #b54708; border-color: #fedf89; }
     .badge-area.sgi { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
 
-    .no-results { margin-top: 14px; padding: 14px; border: 1px dashed #d0d5dd; border-radius: 10px; background: #fcfcfd; color: #475467; text-align: center; }
-    mark.search-mark { background: #fff3bf; color: inherit; padding: 0 2px; border-radius: 2px; }
-
-    .drawer-overlay, .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); }
-    .drawer-overlay { z-index: 1000; }
-    .modal-overlay { z-index: 1100; display: flex; align-items: center; justify-content: center; padding: 16px; }
-    .drawer {
-      position: fixed; top: 0; right: 0; width: min(480px,94vw); height: 100vh; background: #fff;
-      box-shadow: -6px 0 30px rgba(0,0,0,.18); z-index: 1001; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 14px;
+    .no-results {
+      margin-top: 14px;
+      padding: 14px;
+      border: 1px dashed #d0d5dd;
+      border-radius: 10px;
+      background: #fcfcfd;
+      color: #475467;
+      text-align: center;
     }
-    .drawer-head, .modal-header { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
-    .drawer-close, .modal-close { width:auto; margin:0; padding:8px 12px; background:#f2f4f7; color:#344054; border:1px solid #d0d5dd; box-shadow:none; }
-    .drawer-grid { display:grid; grid-template-columns:1fr; gap:10px; }
-    .drawer-box { background:#fcfcfd; border:1px solid #eaecf0; border-radius:12px; padding:12px; }
-    .drawer-box .label { font-size:12px; color:var(--muted); margin-bottom:4px; }
-    .drawer-box .value { font-size:14px; color:#101828; word-break:break-word; }
-    .modal { width:min(820px,100%); background:#fff; border-radius:16px; box-shadow:0 10px 28px rgba(0,0,0,.20); padding:20px; max-height:90vh; overflow-y:auto; }
 
-    .toasts { position: fixed; top: 16px; right: 16px; z-index: 1200; display: flex; flex-direction: column; gap: 10px; width: min(360px, calc(100vw - 32px)); }
-    .toast { background:#fff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.12); padding:12px 14px; border-left:5px solid var(--primary); font-size:14px; }
+    mark.search-mark {
+      background: #fff3bf;
+      color: inherit;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    .drawer-overlay, .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.35);
+    }
+    .drawer-overlay { z-index: 1000; }
+    .modal-overlay {
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0; right: 0;
+      width: min(480px, 94vw);
+      height: 100vh;
+      background: white;
+      box-shadow: -6px 0 30px rgba(0,0,0,.18);
+      z-index: 1001;
+      overflow-y: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .drawer-head, .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .drawer-close, .modal-close {
+      width: auto;
+      margin: 0;
+      padding: 8px 12px;
+      background: #f2f4f7;
+      color: #344054;
+      border: 1px solid #d0d5dd;
+      box-shadow: none;
+    }
+
+    .drawer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .drawer-box {
+      background: #fcfcfd;
+      border: 1px solid #eaecf0;
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .drawer-box .label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .drawer-box .value { font-size: 14px; color: #101828; word-break: break-word; }
+
+    .modal {
+      width: min(820px, 100%);
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.20);
+      padding: 20px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .toasts {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1200;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: min(360px, calc(100vw - 32px));
+    }
+    .toast {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      padding: 12px 14px;
+      border-left: 5px solid var(--primary);
+      font-size: 14px;
+    }
     .toast.success { border-left-color: var(--success); }
     .toast.error { border-left-color: var(--danger); }
     .toast.warning { border-left-color: var(--warning); }
@@ -317,7 +632,7 @@ Gerência: GECONT"></textarea>
         </div>
 
         <div id="mensagemSistema" class="hidden"></div>
-        <div class="muted">Estrutura organizada por <strong>área → gerência/seção</strong>, com separação da SGI no dashboard, workflow por etapa e visual aprimorado.</div>
+        <div class="muted">Sistema reorganizado para ficar mais claro: áreas, gerências/seções, etapas visíveis e dashboard separado para a SGI.</div>
 
         <div class="chips" id="chipsRapidos">
           <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Atrasado">Atrasados</button>
@@ -356,6 +671,7 @@ Gerência: GECONT"></textarea>
               </select>
             </div>
           </div>
+
           <div class="grid-5" style="margin-top:12px;">
             <div><label for="filtroDataInicial">Data final de</label><input type="date" id="filtroDataInicial" /></div>
             <div><label for="filtroDataFinal">Data final até</label><input type="date" id="filtroDataFinal" /></div>
@@ -449,7 +765,6 @@ Gerência: GECONT"></textarea>
 
       <div id="abaDashboard" class="hidden">
         <h3>Dashboard</h3>
-
         <div class="kpis">
           <div class="metric"><div class="label">Total de processos</div><div class="value" id="kpiTotal">0</div><small>Registros considerando os filtros atuais</small></div>
           <div class="metric amber"><div class="label">Vencendo</div><div class="value" id="kpiVencendo">0</div><small>Dentro do alerta configurado</small></div>
@@ -517,16 +832,16 @@ Gerência: GECONT"></textarea>
 
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
-      authDomain: "meu-sistema-processos.firebaseapp.com",
-      databaseURL: "https://meu-sistema-processos-default-rtdb.firebaseio.com",
-      projectId: "meu-sistema-processos",
-      storageBucket: "meu-sistema-processos.firebasestorage.app",
-      messagingSenderId: "773592641691",
-      appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
-      measurementId: "G-68LQKR6HK0"
-    };
-    
+        apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
+        authDomain: "meu-sistema-processos.firebaseapp.com",
+        databaseURL: "https://meu-sistema-processos-default-rtdb.firebaseio.com",
+        projectId: "meu-sistema-processos",
+        storageBucket: "meu-sistema-processos.firebasestorage.app",
+        messagingSenderId: "773592641691",
+        appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
+        measurementId: "G-68LQKR6HK0"
+      };
+
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
@@ -596,7 +911,11 @@ Gerência: GECONT"></textarea>
       "Seção de Contratos": "SEC",
       "Seção de Transporte": "SET"
     };
-    const SIGLAS_PARA_UNIDADE = Object.fromEntries(Object.entries(ABREVIACOES_SGI).map(([nome, sigla]) => [sigla.toUpperCase(), nome]));
+
+    const SIGLAS_PARA_UNIDADE = Object.fromEntries(
+      Object.entries(ABREVIACOES_SGI).map(([nome, sigla]) => [sigla.toUpperCase(), nome])
+    );
+
     const AREAS = Object.keys(ESTRUTURA_ORGANIZACIONAL);
     const TODAS_UNIDADES = Object.values(ESTRUTURA_ORGANIZACIONAL).flat();
 
@@ -604,7 +923,7 @@ Gerência: GECONT"></textarea>
     const STATUS_OPERACIONAIS = ["Em análise", "Pendente", "Em andamento", "Concluído", "Arquivado"];
     const STATUS_PRAZO_LIST = ["No prazo", "Vence hoje", "Vencendo", "Atrasado", "Sem prazo"];
     const ETAPAS_PROCESSO = ["Recebido", "Em análise", "Em execução", "Concluído"];
-    const STORAGE_KEYS = { filtros: "sgp_dynamic_filters_v4", aba: "sgp_dynamic_aba_v4" };
+    const STORAGE_KEYS = { filtros: "sgp_filtros_v5", aba: "sgp_aba_v5" };
 
     let allItems = [];
     let filteredItems = [];
@@ -702,89 +1021,244 @@ Gerência: GECONT"></textarea>
     const toasts = $("toasts");
 
     function normalizarBusca(texto) {
-      return String(texto || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+      return String(texto || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
     }
+
     function obterAreaPorUnidade(unidade) {
-      for (const [area, unidades] of Object.entries(ESTRUTURA_ORGANIZACIONAL)) if (unidades.includes(unidade)) return area;
+      for (const [area, unidades] of Object.entries(ESTRUTURA_ORGANIZACIONAL)) {
+        if (unidades.includes(unidade)) return area;
+      }
       return "Outras áreas";
     }
-    function nomeCurtoSGI(unidade) { return ABREVIACOES_SGI[unidade] || unidade; }
+
+    function nomeCurtoSGI(unidade) {
+      return ABREVIACOES_SGI[unidade] || unidade;
+    }
+
     function resolverGerenciaPorTexto(texto) {
       const bruto = String(texto || "").trim();
       if (!bruto) return "";
       if (TODAS_UNIDADES.includes(bruto)) return bruto;
       const sigla = bruto.toUpperCase();
       if (SIGLAS_PARA_UNIDADE[sigla]) return SIGLAS_PARA_UNIDADE[sigla];
-      const n = normalizarBusca(bruto);
-      return TODAS_UNIDADES.find(u => normalizarBusca(u) === n) || "";
+      const alvoNorm = normalizarBusca(bruto);
+      return TODAS_UNIDADES.find(u => normalizarBusca(u) === alvoNorm) || "";
     }
-    function classeSituacaoBadge(s) {
-      const v = normalizarBusca(s);
-      if (v.includes("concluido")) return "concluido";
-      if (v.includes("pendente")) return "pendente";
-      if (v.includes("andamento") || v.includes("analise")) return "andamento";
-      if (v.includes("arquivado")) return "arquivado";
+
+    function classeSituacaoBadge(situacao) {
+      const s = normalizarBusca(situacao);
+      if (s.includes("concluido")) return "concluido";
+      if (s.includes("pendente")) return "pendente";
+      if (s.includes("andamento") || s.includes("analise")) return "andamento";
+      if (s.includes("arquivado")) return "arquivado";
       return "";
     }
-    function classeEtapaBadge(s) {
-      const v = normalizarBusca(s);
-      if (v.includes("recebido")) return "recebido";
-      if (v.includes("analise")) return "analise";
-      if (v.includes("execucao")) return "execucao";
-      if (v.includes("concluido")) return "concluido";
+
+    function classeEtapaBadge(etapa) {
+      const e = normalizarBusca(etapa);
+      if (e.includes("recebido")) return "recebido";
+      if (e.includes("analise")) return "analise";
+      if (e.includes("execucao")) return "execucao";
+      if (e.includes("concluido")) return "concluido";
       return "";
     }
-    function classeAreaBadge(area) { return area === "Superintendência de Gestão Integrada (SGI)" ? "sgi" : ""; }
-    function setLoading(btn, on, txt) { if (!btn) return; btn.disabled = on; btn.textContent = on ? "Processando..." : txt; }
-    function todayISO() { const d = new Date(); const off = d.getTimezoneOffset(); return new Date(d.getTime() - off*60000).toISOString().split("T")[0]; }
-    function addDays(iso, dias) { if (!iso) return ""; const d = new Date(iso + "T00:00:00"); d.setDate(d.getDate() + dias); return d.toISOString().split("T")[0]; }
+
+    function classeAreaBadge(area) {
+      return area === "Superintendência de Gestão Integrada (SGI)" ? "sgi" : "";
+    }
+
+    function setLoading(botao, carregando, textoOriginal = "Salvar") {
+      if (!botao) return;
+      botao.disabled = carregando;
+      botao.textContent = carregando ? "Processando..." : textoOriginal;
+    }
+
+    function mostrarStatusLogin(texto, tipo = "info", esconder = false) {
+      if (esconder || !texto) {
+        statusLogin.className = "feedback hidden";
+        statusLogin.textContent = "";
+        return;
+      }
+      statusLogin.className = `feedback ${tipo}`;
+      statusLogin.textContent = texto;
+    }
+
+    function mostrarMensagem(texto, tipo = "info") {
+      mensagemSistema.className = `feedback ${tipo}`;
+      mensagemSistema.textContent = texto;
+      mensagemSistema.classList.remove("hidden");
+      clearTimeout(mensagemSistema._timer);
+      mensagemSistema._timer = setTimeout(() => {
+        mensagemSistema.classList.add("hidden");
+        mensagemSistema.textContent = "";
+      }, 3500);
+    }
+
+    function toast(texto, tipo = "info") {
+      const div = document.createElement("div");
+      div.className = `toast ${tipo}`;
+      div.textContent = texto;
+      toasts.appendChild(div);
+      setTimeout(() => div.remove(), 3300);
+    }
+
+    function escapeHtml(texto) {
+      return String(texto ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function escaparRegex(texto) {
+      return String(texto).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    function highlightText(texto, termo) {
+      const safe = escapeHtml(texto || "");
+      if (!termo) return safe;
+      const t = escaparRegex(termo.trim());
+      if (!t) return safe;
+      const regex = new RegExp(`(${t})`, "gi");
+      return safe.replace(regex, '<mark class="search-mark">$1</mark>');
+    }
+
+    function todayISO() {
+      const hoje = new Date();
+      const offset = hoje.getTimezoneOffset();
+      return new Date(hoje.getTime() - offset * 60000).toISOString().split("T")[0];
+    }
+
+    function addDays(dataISO, dias) {
+      if (!dataISO) return "";
+      const data = new Date(dataISO + "T00:00:00");
+      data.setDate(data.getDate() + dias);
+      return data.toISOString().split("T")[0];
+    }
+
     function calcDiasRestantes(dataFinalISO) {
       if (!dataFinalISO) return null;
-      const hoje = new Date(); hoje.setHours(0,0,0,0);
-      const fim = new Date(dataFinalISO + "T00:00:00"); fim.setHours(0,0,0,0);
-      return Math.ceil((fim - hoje) / (1000*60*60*24));
+      const hoje = new Date();
+      hoje.setHours(0,0,0,0);
+      const dataFinal = new Date(dataFinalISO + "T00:00:00");
+      dataFinal.setHours(0,0,0,0);
+      return Math.ceil((dataFinal - hoje) / (1000 * 60 * 60 * 24));
     }
-    function textoDiasRestantes(d) { if (d === null || d === undefined || d === "") return "Sem prazo"; if (d > 0) return `${d} dia(s)`; if (d === 0) return "Vence hoje"; return `Atrasado ${Math.abs(d)} dia(s)`; }
-    function classeDiasRestantes(d) { const limite = parseInt(limiteVencendo.value,10) || 3; if (d === null || d === undefined || d === "") return "status-sem-prazo"; if (d < 0) return "dias-atrasado"; if (d === 0) return "dias-hoje"; if (d <= limite) return "dias-vencendo"; return "dias-ok"; }
-    function obterStatusPrazo(dataFinalISO, semPrazo = false) { if (semPrazo || !dataFinalISO) return "Sem prazo"; const d = calcDiasRestantes(dataFinalISO); const limite = parseInt(limiteVencendo.value,10) || 3; if (d < 0) return "Atrasado"; if (d === 0) return "Vence hoje"; if (d <= limite) return "Vencendo"; return "No prazo"; }
+
+    function textoDiasRestantes(dias) {
+      if (dias === null || dias === undefined || dias === "") return "Sem prazo";
+      if (dias > 0) return `${dias} dia(s)`;
+      if (dias === 0) return "Vence hoje";
+      return `Atrasado ${Math.abs(dias)} dia(s)`;
+    }
+
+    function classeDiasRestantes(dias) {
+      const limite = parseInt(limiteVencendo.value, 10) || 3;
+      if (dias === null || dias === undefined || dias === "") return "status-sem-prazo";
+      if (dias < 0) return "dias-atrasado";
+      if (dias === 0) return "dias-hoje";
+      if (dias <= limite) return "dias-vencendo";
+      return "dias-ok";
+    }
+
+    function obterStatusPrazo(dataFinalISO, semPrazo = false) {
+      if (semPrazo || !dataFinalISO) return "Sem prazo";
+      const dias = calcDiasRestantes(dataFinalISO);
+      const limite = parseInt(limiteVencendo.value, 10) || 3;
+      if (dias < 0) return "Atrasado";
+      if (dias === 0) return "Vence hoje";
+      if (dias <= limite) return "Vencendo";
+      return "No prazo";
+    }
+
     function gerarBadgePrazo(dataFinalISO, semPrazo = false) {
-      const status = obterStatusPrazo(dataFinalISO, semPrazo); const d = semPrazo ? null : calcDiasRestantes(dataFinalISO);
-      if (status === "No prazo") return `<span class="badge badge-no-prazo">Faltam ${d} dia(s)</span>`;
-      if (status === "Vencendo") return `<span class="badge badge-vencendo">Vence em ${d} dia(s)</span>`;
+      const status = obterStatusPrazo(dataFinalISO, semPrazo);
+      const dias = semPrazo ? null : calcDiasRestantes(dataFinalISO);
+      if (status === "No prazo") return `<span class="badge badge-no-prazo">Faltam ${dias} dia(s)</span>`;
+      if (status === "Vencendo") return `<span class="badge badge-vencendo">Vence em ${dias} dia(s)</span>`;
       if (status === "Vence hoje") return `<span class="badge badge-vence-hoje">Vence hoje</span>`;
-      if (status === "Atrasado") return `<span class="badge badge-atrasado">Atrasado ${Math.abs(d)} dia(s)</span>`;
+      if (status === "Atrasado") return `<span class="badge badge-atrasado">Atrasado ${Math.abs(dias)} dia(s)</span>`;
       return `<span class="badge badge-sem-prazo">Sem prazo</span>`;
     }
-    function obterClasseLinha(status) { if (status === "Atrasado") return "linha-atrasada"; if (status === "Vencendo") return "linha-vencendo"; if (status === "Vence hoje") return "linha-hoje"; if (status === "Sem prazo") return "linha-sem-prazo"; return ""; }
-    function mostrarStatusLogin(texto, tipo = "info", esconder = false) {
-      if (esconder || !texto) { statusLogin.className = "feedback hidden"; statusLogin.textContent = ""; return; }
-      statusLogin.className = `feedback ${tipo}`; statusLogin.textContent = texto;
-    }
-    function mostrarMensagem(texto, tipo = "info") {
-      mensagemSistema.className = `feedback ${tipo}`; mensagemSistema.textContent = texto; mensagemSistema.classList.remove("hidden");
-      clearTimeout(mensagemSistema._timer);
-      mensagemSistema._timer = setTimeout(() => { mensagemSistema.classList.add("hidden"); mensagemSistema.textContent = ""; }, 3500);
-    }
-    function toast(texto, tipo = "info") {
-      const div = document.createElement("div"); div.className = `toast ${tipo}`; div.textContent = texto; toasts.appendChild(div); setTimeout(() => div.remove(), 3300);
-    }
-    function escapeHtml(texto) { return String(texto ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&#039;"); }
-    function escaparRegex(texto) { return String(texto).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
-    function highlightText(texto, termo) { const safe = escapeHtml(texto || ""); if (!termo) return safe; const t = escaparRegex(termo.trim()); if (!t) return safe; return safe.replace(new RegExp(`(${t})`, "gi"), '<mark class="search-mark">$1</mark>'); }
-    function normalizarProcesso(v) { return String(v || "").trim().replace(/\s+/g, " ").replace(/\s*\/\s*/g, "/").toUpperCase(); }
-    function converterBRparaISO(dataBR) { if (!dataBR) return ""; const limpo = dataBR.trim(); if (/^\d{4}-\d{2}-\d{2}$/.test(limpo)) return limpo; const m = limpo.match(/^(\d{2})\/(\d{2})\/(\d{4})$/); return m ? `${m[3]}-${m[2]}-${m[1]}` : ""; }
-    function formatarDataISOparaBR(iso) { if (!iso) return "Sem prazo"; const [a,m,d] = iso.split("-"); return `${d}/${m}/${a}`; }
-    function formatarDataHora(v) { if (!v) return "-"; const d = v?.toDate ? v.toDate() : (v instanceof Date ? v : new Date(v)); return isNaN(d.getTime()) ? "-" : d.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" }); }
-    function extrairCampo(texto, regexList) { for (const regex of regexList) { const m = texto.match(regex); if (m && m[1]) return m[1].split("\n")[0].trim(); } return ""; }
-    function extrairDataFinalOuPrazo(texto) {
-      if (/sem\s*prazo/i.test(texto)) return "";
-      const dataFinalTxt = extrairCampo(texto, [/Data\s*Final\s*:?\s*(.+)/i, /Prazo\s*Final\s*:?\s*(.+)/i]);
-      if (dataFinalTxt) { const iso = converterBRparaISO(dataFinalTxt); if (iso) return iso; }
-      const diasTxt = extrairCampo(texto, [/Prazo\s*:?\s*(\d+)\s*dias?/i]);
-      if (diasTxt) { const dias = parseInt(diasTxt,10); if (!isNaN(dias)) return addDays(todayISO(), dias); }
+
+    function obterClasseLinha(statusPrazo) {
+      if (statusPrazo === "Atrasado") return "linha-atrasada";
+      if (statusPrazo === "Vencendo") return "linha-vencendo";
+      if (statusPrazo === "Vence hoje") return "linha-hoje";
+      if (statusPrazo === "Sem prazo") return "linha-sem-prazo";
       return "";
     }
-    function extrairGerencia(texto) { const g = extrairCampo(texto, [/Ger[eê]ncia\s*:?\s*(.+)/i, /Se[cç][aã]o\s*:?\s*(.+)/i, /Encaminhado\s*para\s*:?\s*(.+)/i]); return resolverGerenciaPorTexto(g); }
+
+    function normalizarProcesso(valor) {
+      return String(valor || "")
+        .trim()
+        .replace(/\s+/g, " ")
+        .replace(/\s*\/\s*/g, "/")
+        .toUpperCase();
+    }
+
+    function converterBRparaISO(dataBR) {
+      if (!dataBR) return "";
+      const limpo = dataBR.trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(limpo)) return limpo;
+      const match = limpo.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if (!match) return "";
+      return `${match[3]}-${match[2]}-${match[1]}`;
+    }
+
+    function formatarDataISOparaBR(dataISO) {
+      if (!dataISO) return "Sem prazo";
+      const [ano, mes, dia] = dataISO.split("-");
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    function formatarDataHora(valor) {
+      if (!valor) return "-";
+      const data = valor?.toDate ? valor.toDate() : (valor instanceof Date ? valor : new Date(valor));
+      if (isNaN(data.getTime())) return "-";
+      return data.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+    }
+
+    function extrairCampo(texto, regexList) {
+      for (const regex of regexList) {
+        const match = texto.match(regex);
+        if (match && match[1]) return match[1].split("\n")[0].trim();
+      }
+      return "";
+    }
+
+    function extrairDataFinalOuPrazo(texto) {
+      if (/sem\s*prazo/i.test(texto)) return "";
+      const dataFinalTexto = extrairCampo(texto, [
+        /Data\s*Final\s*:?\s*(.+)/i,
+        /Prazo\s*Final\s*:?\s*(.+)/i
+      ]);
+      if (dataFinalTexto) {
+        const iso = converterBRparaISO(dataFinalTexto);
+        if (iso) return iso;
+      }
+      const prazoDiasTexto = extrairCampo(texto, [/Prazo\s*:?\s*(\d+)\s*dias?/i]);
+      if (prazoDiasTexto) {
+        const dias = parseInt(prazoDiasTexto, 10);
+        if (!isNaN(dias)) return addDays(todayISO(), dias);
+      }
+      return "";
+    }
+
+    function extrairGerencia(texto) {
+      const valor = extrairCampo(texto, [
+        /Ger[eê]ncia\s*:?\s*(.+)/i,
+        /Se[cç][aã]o\s*:?\s*(.+)/i,
+        /Encaminhado\s*para\s*:?\s*(.+)/i
+      ]);
+      return resolverGerenciaPorTexto(valor);
+    }
+
     function traduzirErroFirebase(error) {
       const code = error.code || "";
       if (code.includes("invalid-email")) return "e-mail inválido.";
@@ -809,90 +1283,182 @@ Gerência: GECONT"></textarea>
       filtroEtapa.innerHTML = '<option value="">Todas</option>';
 
       AREAS.forEach(area => {
-        const opArea = document.createElement("option"); opArea.value = area; opArea.textContent = area; filtroArea.appendChild(opArea);
-        const g1 = document.createElement("optgroup"); const g2 = document.createElement("optgroup"); const g3 = document.createElement("optgroup");
+        const opArea = document.createElement("option");
+        opArea.value = area;
+        opArea.textContent = area;
+        filtroArea.appendChild(opArea);
+
+        const g1 = document.createElement("optgroup");
+        const g2 = document.createElement("optgroup");
+        const g3 = document.createElement("optgroup");
         g1.label = area; g2.label = area; g3.label = area;
+
         ESTRUTURA_ORGANIZACIONAL[area].forEach(unidade => {
-          const exibir = area === "Superintendência de Gestão Integrada (SGI)" && ABREVIACOES_SGI[unidade] ? `${unidade} (${ABREVIACOES_SGI[unidade]})` : unidade;
-          [g1,g2,g3].forEach(g => { const op = document.createElement("option"); op.value = unidade; op.textContent = exibir; g.appendChild(op); });
+          const nomeExibir = area === "Superintendência de Gestão Integrada (SGI)" && ABREVIACOES_SGI[unidade]
+            ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
+            : unidade;
+
+          [g1, g2, g3].forEach(grupo => {
+            const op = document.createElement("option");
+            op.value = unidade;
+            op.textContent = nomeExibir;
+            grupo.appendChild(op);
+          });
         });
-        gerenciaManual.appendChild(g1); filtroGerencia.appendChild(g2); editGerencia.appendChild(g3);
+
+        gerenciaManual.appendChild(g1);
+        filtroGerencia.appendChild(g2);
+        editGerencia.appendChild(g3);
       });
 
       STATUS_OPERACIONAIS.forEach(s => {
-        [situacaoManual, filtroSituacao, editSituacao].forEach(sel => { const op = document.createElement("option"); op.value = s; op.textContent = s; sel.appendChild(op); });
+        [situacaoManual, filtroSituacao, editSituacao].forEach(sel => {
+          const op = document.createElement("option");
+          op.value = s;
+          op.textContent = s;
+          sel.appendChild(op);
+        });
       });
-      ETAPAS_PROCESSO.forEach(e => { const op = document.createElement("option"); op.value = e; op.textContent = e; filtroEtapa.appendChild(op); });
+
+      ETAPAS_PROCESSO.forEach(e => {
+        const op = document.createElement("option");
+        op.value = e;
+        op.textContent = e;
+        filtroEtapa.appendChild(op);
+      });
+
       situacaoManual.value = "Em análise";
       editSituacao.value = "Em análise";
     }
 
     function salvarFiltros() {
-      localStorage.setItem(STORAGE_KEYS.filtros, JSON.stringify({
-        busca: busca.value, filtroArea: filtroArea.value, filtroGerencia: filtroGerencia.value, filtroSituacao: filtroSituacao.value,
-        filtroEtapa: filtroEtapa.value, filtroPrazo: filtroPrazo.value, filtroStatusPrazo: filtroStatusPrazo.value,
-        filtroDataInicial: filtroDataInicial.value, filtroDataFinal: filtroDataFinal.value, filtroAtrasados: filtroAtrasados.checked,
-        ordenacao: ordenacao.value, limiteVencendo: limiteVencendo.value
-      }));
+      const payload = {
+        busca: busca.value,
+        filtroArea: filtroArea.value,
+        filtroGerencia: filtroGerencia.value,
+        filtroSituacao: filtroSituacao.value,
+        filtroEtapa: filtroEtapa.value,
+        filtroPrazo: filtroPrazo.value,
+        filtroStatusPrazo: filtroStatusPrazo.value,
+        filtroDataInicial: filtroDataInicial.value,
+        filtroDataFinal: filtroDataFinal.value,
+        filtroAtrasados: filtroAtrasados.checked,
+        ordenacao: ordenacao.value,
+        limiteVencendo: limiteVencendo.value
+      };
+      localStorage.setItem(STORAGE_KEYS.filtros, JSON.stringify(payload));
     }
+
     function restaurarFiltros() {
       try {
-        const p = JSON.parse(localStorage.getItem(STORAGE_KEYS.filtros) || "{}");
-        busca.value = p.busca || ""; filtroArea.value = p.filtroArea || ""; filtroGerencia.value = p.filtroGerencia || ""; filtroSituacao.value = p.filtroSituacao || "";
-        filtroEtapa.value = p.filtroEtapa || ""; filtroPrazo.value = p.filtroPrazo || ""; filtroStatusPrazo.value = p.filtroStatusPrazo || "";
-        filtroDataInicial.value = p.filtroDataInicial || ""; filtroDataFinal.value = p.filtroDataFinal || ""; filtroAtrasados.checked = !!p.filtroAtrasados;
-        ordenacao.value = p.ordenacao || ""; limiteVencendo.value = p.limiteVencendo || "3";
-      } catch(e) { console.warn(e); }
+        const bruto = localStorage.getItem(STORAGE_KEYS.filtros);
+        if (!bruto) return;
+        const p = JSON.parse(bruto);
+        busca.value = p.busca || "";
+        filtroArea.value = p.filtroArea || "";
+        filtroGerencia.value = p.filtroGerencia || "";
+        filtroSituacao.value = p.filtroSituacao || "";
+        filtroEtapa.value = p.filtroEtapa || "";
+        filtroPrazo.value = p.filtroPrazo || "";
+        filtroStatusPrazo.value = p.filtroStatusPrazo || "";
+        filtroDataInicial.value = p.filtroDataInicial || "";
+        filtroDataFinal.value = p.filtroDataFinal || "";
+        filtroAtrasados.checked = !!p.filtroAtrasados;
+        ordenacao.value = p.ordenacao || "";
+        limiteVencendo.value = p.limiteVencendo || "3";
+      } catch (e) {
+        console.warn("Falha ao restaurar filtros:", e);
+      }
     }
+
     function abrirAba(aba) {
       if (aba === "dashboard") {
-        abaProcessos.classList.add("hidden"); abaDashboard.classList.remove("hidden");
-        tabProcessosBtn.classList.remove("active"); tabDashboardBtn.classList.add("active");
-        localStorage.setItem(STORAGE_KEYS.aba, "dashboard"); renderDashboard(filteredItems);
+        abaProcessos.classList.add("hidden");
+        abaDashboard.classList.remove("hidden");
+        tabProcessosBtn.classList.remove("active");
+        tabDashboardBtn.classList.add("active");
+        localStorage.setItem(STORAGE_KEYS.aba, "dashboard");
+        renderDashboard(filteredItems);
       } else {
-        abaProcessos.classList.remove("hidden"); abaDashboard.classList.add("hidden");
-        tabProcessosBtn.classList.add("active"); tabDashboardBtn.classList.remove("active");
+        abaProcessos.classList.remove("hidden");
+        abaDashboard.classList.add("hidden");
+        tabProcessosBtn.classList.add("active");
+        tabDashboardBtn.classList.remove("active");
         localStorage.setItem(STORAGE_KEYS.aba, "processos");
       }
     }
-    function aplicarAbaSalva() { abrirAba(localStorage.getItem(STORAGE_KEYS.aba) || "processos"); }
+
+    function aplicarAbaSalva() {
+      abrirAba(localStorage.getItem(STORAGE_KEYS.aba) || "processos");
+    }
 
     async function login() {
       try {
-        const email = emailInput.value.trim(); const senha = senhaInput.value;
+        const email = emailInput.value.trim();
+        const senha = senhaInput.value;
         if (!email || !senha) return mostrarStatusLogin("Informe o e-mail e a senha.", "warning");
-        setLoading(btnEntrar, true, "Entrar"); mostrarStatusLogin("Entrando...", "info");
-        await auth.signInWithEmailAndPassword(email, senha); mostrarStatusLogin("", "info", true);
-      } catch(error) {
-        console.error(error); mostrarStatusLogin("Erro no login: " + traduzirErroFirebase(error), "error");
-      } finally { setLoading(btnEntrar, false, "Entrar"); }
+        setLoading(btnEntrar, true, "Entrar");
+        mostrarStatusLogin("Entrando...", "info");
+        await auth.signInWithEmailAndPassword(email, senha);
+        mostrarStatusLogin("", "info", true);
+      } catch (error) {
+        console.error(error);
+        mostrarStatusLogin("Erro no login: " + traduzirErroFirebase(error), "error");
+      } finally {
+        setLoading(btnEntrar, false, "Entrar");
+      }
     }
+
     async function cadastrar() {
       try {
-        const email = emailInput.value.trim(); const senha = senhaInput.value;
+        const email = emailInput.value.trim();
+        const senha = senhaInput.value;
         if (!email || !senha) return mostrarStatusLogin("Informe o e-mail e a senha para cadastrar.", "warning");
         if (senha.length < 6) return mostrarStatusLogin("A senha precisa ter pelo menos 6 caracteres.", "warning");
-        setLoading(btnCadastrar, true, "Cadastrar usuário"); mostrarStatusLogin("Cadastrando usuário...", "info");
-        await auth.createUserWithEmailAndPassword(email, senha); mostrarStatusLogin("Usuário cadastrado com sucesso.", "success");
-      } catch(error) {
-        console.error(error); mostrarStatusLogin("Erro ao cadastrar: " + traduzirErroFirebase(error), "error");
-      } finally { setLoading(btnCadastrar, false, "Cadastrar usuário"); }
+        setLoading(btnCadastrar, true, "Cadastrar usuário");
+        mostrarStatusLogin("Cadastrando usuário...", "info");
+        await auth.createUserWithEmailAndPassword(email, senha);
+        mostrarStatusLogin("Usuário cadastrado com sucesso.", "success");
+      } catch (error) {
+        console.error(error);
+        mostrarStatusLogin("Erro ao cadastrar: " + traduzirErroFirebase(error), "error");
+      } finally {
+        setLoading(btnCadastrar, false, "Cadastrar usuário");
+      }
     }
+
     async function resetarSenha() {
       try {
-        const email = emailInput.value.trim(); if (!email) return mostrarStatusLogin("Digite o e-mail para recuperação de senha.", "warning");
-        setLoading(btnResetar, true, "Esqueci a senha"); await auth.sendPasswordResetEmail(email); mostrarStatusLogin("E-mail de recuperação enviado com sucesso.", "success");
-      } catch(error) {
-        console.error(error); mostrarStatusLogin("Erro ao enviar recuperação: " + traduzirErroFirebase(error), "error");
-      } finally { setLoading(btnResetar, false, "Esqueci a senha"); }
+        const email = emailInput.value.trim();
+        if (!email) return mostrarStatusLogin("Digite o e-mail para recuperação de senha.", "warning");
+        setLoading(btnResetar, true, "Esqueci a senha");
+        await auth.sendPasswordResetEmail(email);
+        mostrarStatusLogin("E-mail de recuperação enviado com sucesso.", "success");
+      } catch (error) {
+        console.error(error);
+        mostrarStatusLogin("Erro ao enviar recuperação: " + traduzirErroFirebase(error), "error");
+      } finally {
+        setLoading(btnResetar, false, "Esqueci a senha");
+      }
     }
-    async function logout() { try { await auth.signOut(); } catch(error) { console.error(error); toast("Erro ao sair: " + error.message, "error"); } }
+
+    async function logout() {
+      try {
+        await auth.signOut();
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao sair: " + error.message, "error");
+      }
+    }
 
     async function existeProcessoDuplicado(processoNormalizado, ignorarId = null) {
       if (!processoNormalizado) return false;
       const snap = await db.collection(COLLECTION_PROCESSOS).where("processoNormalizado", "==", processoNormalizado).get();
-      let duplicado = false; snap.forEach(doc => { if (doc.id !== ignorarId) duplicado = true; }); return duplicado;
+      let duplicado = false;
+      snap.forEach(doc => { if (doc.id !== ignorarId) duplicado = true; });
+      return duplicado;
     }
+
     async function atualizarDocumento(id, dadosAtualizados) {
       const usuario = auth.currentUser;
       const payload = { ...dadosAtualizados };
@@ -900,8 +1466,13 @@ Gerência: GECONT"></textarea>
         payload.gerencia = resolverGerenciaPorTexto(payload.gerencia) || payload.gerencia;
         payload.area = obterAreaPorUnidade(payload.gerencia);
       }
-      await db.collection(COLLECTION_PROCESSOS).doc(id).update({ ...payload, alteradoEm: firebase.firestore.FieldValue.serverTimestamp(), alteradoPor: usuario?.email || "" });
+      await db.collection(COLLECTION_PROCESSOS).doc(id).update({
+        ...payload,
+        alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
+        alteradoPor: usuario?.email || ""
+      });
     }
+
     function iniciarEscutaProcessos() {
       if (unsubscribeSnapshot) unsubscribeSnapshot();
       unsubscribeSnapshot = db.collection(COLLECTION_PROCESSOS).onSnapshot((snapshot) => {
@@ -932,12 +1503,17 @@ Gerência: GECONT"></textarea>
         });
         allItems.sort((a, b) => (b.dataCadastroISO || "").localeCompare(a.dataCadastroISO || ""));
         renderEverything();
-      }, (error) => { console.error(error); mostrarMensagem("Erro ao carregar processos em tempo real.", "error"); toast("Erro ao escutar coleção de processos.", "error"); });
+      }, (error) => {
+        console.error(error);
+        mostrarMensagem("Erro ao carregar processos em tempo real.", "error");
+        toast("Erro ao escutar coleção de processos.", "error");
+      });
     }
 
     async function gerarProcesso() {
       try {
-        setLoading(btnGerarProcesso, true, "Gerar processo"); mostrarMensagem("Salvando processo...", "info");
+        setLoading(btnGerarProcesso, true, "Gerar processo");
+        mostrarMensagem("Salvando processo...", "info");
         const texto = entrada.value.trim();
         const processo = normalizarProcesso(extrairCampo(texto, [/Processo\s*(?:n[º°o]\s*)?:?\s*(.+)/i]).trim());
         const interessado = extrairCampo(texto, [/Interessado\(a\)\s*:?\s*(.+)/i, /Interessado\s*:?\s*(.+)/i]);
@@ -946,73 +1522,155 @@ Gerência: GECONT"></textarea>
         const gerencia = resolverGerenciaPorTexto(gerenciaManual.value || extrairGerencia(texto));
         const area = obterAreaPorUnidade(gerencia);
         const situacao = situacaoManual.value || "Em análise";
+
         if (!processo && !interessado && !assunto && !texto) return mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
-        if (processo) { const dup = await existeProcessoDuplicado(processo); if (dup) return mostrarMensagem("Já existe um processo cadastrado com esse número.", "error"); }
+        if (processo) {
+          const duplicado = await existeProcessoDuplicado(processo);
+          if (duplicado) return mostrarMensagem("Já existe um processo cadastrado com esse número.", "error");
+        }
+
         const user = auth.currentUser;
         const registro = {
-          processo: processo || "", processoNormalizado: processo || "", interessado: interessado || "", assunto: assunto || "",
-          dataCadastro: new Date().toLocaleDateString("pt-BR"), dataCadastroISO: todayISO(),
-          situacao, etapa: "Recebido", area: area || "", gerencia: gerencia || "",
-          dataFinal: dataFinal || "", semPrazo: !dataFinal,
-          criadoEm: firebase.firestore.FieldValue.serverTimestamp(), criadoPor: user?.email || "",
-          alteradoEm: firebase.firestore.FieldValue.serverTimestamp(), alteradoPor: user?.email || ""
+          processo: processo || "",
+          processoNormalizado: processo || "",
+          interessado: interessado || "",
+          assunto: assunto || "",
+          dataCadastro: new Date().toLocaleDateString("pt-BR"),
+          dataCadastroISO: todayISO(),
+          situacao,
+          etapa: "Recebido",
+          area: area || "",
+          gerencia: gerencia || "",
+          dataFinal: dataFinal || "",
+          semPrazo: !dataFinal,
+          criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
+          criadoPor: user?.email || "",
+          alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
+          alteradoPor: user?.email || ""
         };
+
         await db.collection(COLLECTION_PROCESSOS).add(registro);
-        limparFormulario(); mostrarMensagem("Processo cadastrado com sucesso.", "success"); toast("Processo cadastrado com sucesso.", "success");
-      } catch(error) {
-        console.error(error); mostrarMensagem("Erro ao salvar processo: " + error.message, "error"); toast("Erro ao salvar processo.", "error");
-      } finally { setLoading(btnGerarProcesso, false, "Gerar processo"); }
+        limparFormulario();
+        mostrarMensagem("Processo cadastrado com sucesso.", "success");
+        toast("Processo cadastrado com sucesso.", "success");
+      } catch (error) {
+        console.error(error);
+        mostrarMensagem("Erro ao salvar processo: " + error.message, "error");
+        toast("Erro ao salvar processo.", "error");
+      } finally {
+        setLoading(btnGerarProcesso, false, "Gerar processo");
+      }
     }
+
     async function salvarEdicao() {
       if (!editingId) return;
       try {
         setLoading(btnSalvarEdicao, true, "Salvar alterações");
         const processoNormalizado = normalizarProcesso(editProcesso.value);
         if (processoNormalizado) {
-          const dup = await existeProcessoDuplicado(processoNormalizado, editingId);
-          if (dup) { toast("Já existe outro processo com esse número.", "error"); return; }
+          const duplicado = await existeProcessoDuplicado(processoNormalizado, editingId);
+          if (duplicado) { toast("Já existe outro processo com esse número.", "error"); return; }
         }
         const gerenciaResolvida = resolverGerenciaPorTexto(editGerencia.value);
         await atualizarDocumento(editingId, {
-          processo: processoNormalizado, processoNormalizado,
-          interessado: editInteressado.value.trim(), assunto: editAssunto.value.trim(), situacao: editSituacao.value,
-          gerencia: gerenciaResolvida, area: obterAreaPorUnidade(gerenciaResolvida),
-          dataFinal: editSemPrazo.checked ? "" : (editDataFinal.value || ""), semPrazo: editSemPrazo.checked || !editDataFinal.value
+          processo: processoNormalizado,
+          processoNormalizado,
+          interessado: editInteressado.value.trim(),
+          assunto: editAssunto.value.trim(),
+          situacao: editSituacao.value,
+          gerencia: gerenciaResolvida,
+          area: obterAreaPorUnidade(gerenciaResolvida),
+          dataFinal: editSemPrazo.checked ? "" : (editDataFinal.value || ""),
+          semPrazo: editSemPrazo.checked || !editDataFinal.value
         });
-        fecharModal(); toast("Registro atualizado com sucesso.", "success");
-        const row = document.querySelector(`tr.main-row[data-id="${editingId}"]`); if (row) animarLinha(row);
-      } catch(error) {
-        console.error(error); toast("Erro ao salvar alterações.", "error");
-      } finally { setLoading(btnSalvarEdicao, false, "Salvar alterações"); }
+        fecharModal();
+        toast("Registro atualizado com sucesso.", "success");
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao salvar alterações.", "error");
+      } finally {
+        setLoading(btnSalvarEdicao, false, "Salvar alterações");
+      }
     }
+
     async function alterarSituacaoRapida(id, situacao) {
       if (!id) return;
-      try { await atualizarDocumento(id, { situacao }); toast(`Situação atualizada para "${situacao}".`, "success"); }
-      catch(error) { console.error(error); toast("Erro ao atualizar situação.", "error"); }
+      try {
+        await atualizarDocumento(id, { situacao });
+        toast(`Situação atualizada para \"${situacao}\".`, "success");
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao atualizar situação.", "error");
+      }
     }
+
     async function avancarEtapa(id) {
       if (!id) return;
-      const item = allItems.find(i => i.id === id); if (!item) return;
-      const atual = item.etapa || "Recebido"; const idx = ETAPAS_PROCESSO.indexOf(atual);
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+      const atual = item.etapa || "Recebido";
+      const idx = ETAPAS_PROCESSO.indexOf(atual);
       try {
         if (idx < ETAPAS_PROCESSO.length - 1) {
-          const nova = ETAPAS_PROCESSO[idx + 1]; const patch = { etapa: nova }; if (nova === "Concluído") patch.situacao = "Concluído";
-          await atualizarDocumento(id, patch); toast(`Processo avançou para: ${nova}`, "success");
-        } else { toast("Processo já concluído", "info"); }
-      } catch(error) { console.error(error); toast("Erro ao avançar etapa.", "error"); }
+          const nova = ETAPAS_PROCESSO[idx + 1];
+          const patch = { etapa: nova };
+          if (nova === "Concluído") patch.situacao = "Concluído";
+          await atualizarDocumento(id, patch);
+          toast(`Processo avançou para: ${nova}`, "success");
+        } else {
+          toast("Processo já concluído", "info");
+        }
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao avançar etapa.", "error");
+      }
     }
+
     async function remover(id) {
       if (!id) return;
       if (!confirm("Deseja realmente excluir este processo?")) return;
-      try { await db.collection(COLLECTION_PROCESSOS).doc(id).delete(); toast("Processo excluído com sucesso.", "success"); if (selectedDrawerId === id) fecharDrawer(); }
-      catch(error) { console.error(error); toast("Erro ao excluir registro.", "error"); }
+      try {
+        await db.collection(COLLECTION_PROCESSOS).doc(id).delete();
+        toast("Processo excluído com sucesso.", "success");
+        if (selectedDrawerId === id) fecharDrawer();
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao excluir registro.", "error");
+      }
     }
 
     function getFilteredItems() {
-      const termo = normalizarBusca(busca.value), area = filtroArea.value, gerencia = filtroGerencia.value, situacao = filtroSituacao.value, etapa = filtroEtapa.value, prazo = filtroPrazo.value, statusPrazoFiltro = filtroStatusPrazo.value, dataInicial = filtroDataInicial.value, dataFim = filtroDataFinal.value, somenteAtrasados = filtroAtrasados.checked, ordem = ordenacao.value;
-      let itens = allItems.map(item => ({ ...item, diasRestantes: item.semPrazo ? null : calcDiasRestantes(item.dataFinal), statusPrazo: obterStatusPrazo(item.dataFinal, item.semPrazo) }));
+      const termo = normalizarBusca(busca.value);
+      const area = filtroArea.value;
+      const gerencia = filtroGerencia.value;
+      const situacao = filtroSituacao.value;
+      const etapa = filtroEtapa.value;
+      const prazo = filtroPrazo.value;
+      const statusPrazoFiltro = filtroStatusPrazo.value;
+      const dataInicial = filtroDataInicial.value;
+      const dataFim = filtroDataFinal.value;
+      const somenteAtrasados = filtroAtrasados.checked;
+      const ordem = ordenacao.value;
+
+      let itens = allItems.map(item => ({
+        ...item,
+        diasRestantes: item.semPrazo ? null : calcDiasRestantes(item.dataFinal),
+        statusPrazo: obterStatusPrazo(item.dataFinal, item.semPrazo)
+      }));
+
       itens = itens.filter(item => {
-        const textoBusca = normalizarBusca([item.processo, item.interessado, item.assunto, item.situacao, item.etapa, item.area, item.gerencia, item.statusPrazo, nomeCurtoSGI(item.gerencia)].join(" "));
+        const textoBusca = normalizarBusca([
+          item.processo,
+          item.interessado,
+          item.assunto,
+          item.situacao,
+          item.etapa,
+          item.area,
+          item.gerencia,
+          item.statusPrazo,
+          nomeCurtoSGI(item.gerencia)
+        ].join(" "));
+
         if (termo && !textoBusca.includes(termo)) return false;
         if (area && item.area !== area) return false;
         if (gerencia && item.gerencia !== gerencia) return false;
@@ -1026,23 +1684,40 @@ Gerência: GECONT"></textarea>
         if (dataFim && (item.semPrazo || !item.dataFinal || item.dataFinal > dataFim)) return false;
         return true;
       });
-      if (ordem === "dataFinalAsc") itens.sort((a,b) => (a.dataFinal || "9999-12-31").localeCompare(b.dataFinal || "9999-12-31"));
-      else if (ordem === "processoAsc") itens.sort((a,b) => (a.processo || "").localeCompare(b.processo || "", "pt-BR", { sensitivity: "base" }));
-      else if (ordem === "interessadoAsc") itens.sort((a,b) => (a.interessado || "").localeCompare(b.interessado || "", "pt-BR", { sensitivity: "base" }));
-      else if (ordem === "gerenciaAsc") itens.sort((a,b) => (a.gerencia || "").localeCompare(b.gerencia || "", "pt-BR", { sensitivity: "base" }));
-      else if (ordem === "areaAsc") itens.sort((a,b) => (a.area || "").localeCompare(b.area || "", "pt-BR", { sensitivity: "base" }));
-      else if (ordem === "diasRestantesAsc") itens.sort((a,b) => ((a.semPrazo ? Number.MAX_SAFE_INTEGER : a.diasRestantes) - (b.semPrazo ? Number.MAX_SAFE_INTEGER : b.diasRestantes)));
+
+      if (ordem === "dataFinalAsc") itens.sort((a, b) => (a.dataFinal || "9999-12-31").localeCompare(b.dataFinal || "9999-12-31"));
+      else if (ordem === "processoAsc") itens.sort((a, b) => (a.processo || "").localeCompare(b.processo || "", "pt-BR", { sensitivity: "base" }));
+      else if (ordem === "interessadoAsc") itens.sort((a, b) => (a.interessado || "").localeCompare(b.interessado || "", "pt-BR", { sensitivity: "base" }));
+      else if (ordem === "gerenciaAsc") itens.sort((a, b) => (a.gerencia || "").localeCompare(b.gerencia || "", "pt-BR", { sensitivity: "base" }));
+      else if (ordem === "areaAsc") itens.sort((a, b) => (a.area || "").localeCompare(b.area || "", "pt-BR", { sensitivity: "base" }));
+      else if (ordem === "diasRestantesAsc") itens.sort((a, b) => ((a.semPrazo ? Number.MAX_SAFE_INTEGER : a.diasRestantes) - (b.semPrazo ? Number.MAX_SAFE_INTEGER : b.diasRestantes)));
+
       return itens;
     }
 
     function renderTable(itens) {
       const termo = busca.value.trim();
-      if (!allItems.length) { tabela.classList.add("hidden"); noResults.classList.add("hidden"); tbodyProcessos.innerHTML = ""; return; }
-      if (!itens.length) { tabela.classList.add("hidden"); noResults.classList.remove("hidden"); tbodyProcessos.innerHTML = ""; return; }
-      noResults.classList.add("hidden"); tabela.classList.remove("hidden");
+      if (!allItems.length) {
+        tabela.classList.add("hidden");
+        noResults.classList.add("hidden");
+        tbodyProcessos.innerHTML = "";
+        return;
+      }
+      if (!itens.length) {
+        tabela.classList.add("hidden");
+        noResults.classList.remove("hidden");
+        tbodyProcessos.innerHTML = "";
+        return;
+      }
+      noResults.classList.add("hidden");
+      tabela.classList.remove("hidden");
+
       tbodyProcessos.innerHTML = itens.map(item => {
         const classeLinha = obterClasseLinha(item.statusPrazo);
-        const unidadeExibida = item.area === "Superintendência de Gestão Integrada (SGI)" && ABREVIACOES_SGI[item.gerencia] ? `${item.gerencia} (${ABREVIACOES_SGI[item.gerencia]})` : item.gerencia;
+        const unidadeExibida = item.area === "Superintendência de Gestão Integrada (SGI)" && ABREVIACOES_SGI[item.gerencia]
+          ? `${item.gerencia} (${ABREVIACOES_SGI[item.gerencia]})`
+          : item.gerencia;
+
         return `
           <tr class="main-row ${classeLinha}" data-id="${item.id}">
             <td><button type="button" class="expand-btn" data-action="expand">${expandedIds.has(item.id) ? "−" : "+"}</button></td>
@@ -1058,11 +1733,29 @@ Gerência: GECONT"></textarea>
             <td>${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</td>
             <td>${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(item.diasRestantes))}</td>
             <td><div><strong>${escapeHtml(item.alteradoPor || "-")}</strong></div><div class="muted">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></td>
-            <td><div class="acoes"><button type="button" data-action="view">Ver</button><button type="button" class="secondary" data-action="edit">Editar</button><button type="button" class="warning" data-action="pendente">Pendente</button><button type="button" class="success" data-action="concluir">Concluir</button><button type="button" class="light" data-action="fluxo">➡ Etapa</button><button type="button" class="danger" data-action="delete">Excluir</button></div></td>
+            <td>
+              <div class="acoes">
+                <button type="button" data-action="view">Ver</button>
+                <button type="button" class="secondary" data-action="edit">Editar</button>
+                <button type="button" class="warning" data-action="pendente">Pendente</button>
+                <button type="button" class="success" data-action="concluir">Concluir</button>
+                <button type="button" class="light" data-action="fluxo">➡ Etapa</button>
+                <button type="button" class="danger" data-action="delete">Excluir</button>
+              </div>
+            </td>
           </tr>
           <tr class="detail-row ${expandedIds.has(item.id) ? "" : "hidden"}" data-detail-for="${item.id}">
-            <td colspan="14"><div class="row-details-box"><div class="detail-mini"><div class="tt">Área</div><div>${escapeHtml(item.area || "-")}</div></div><div class="detail-mini"><div class="tt">Criado por</div><div>${escapeHtml(item.criadoPor || "-")}</div></div><div class="detail-mini"><div class="tt">Criado em</div><div>${escapeHtml(formatarDataHora(item.criadoEm))}</div></div><div class="detail-mini"><div class="tt">Última alteração</div><div>${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div><div class="detail-mini"><div class="tt">Status do prazo</div><div>${escapeHtml(item.statusPrazo)}</div></div></div></td>
-          </tr>`;
+            <td colspan="14">
+              <div class="row-details-box">
+                <div class="detail-mini"><div class="tt">Área</div><div>${escapeHtml(item.area || "-")}</div></div>
+                <div class="detail-mini"><div class="tt">Criado por</div><div>${escapeHtml(item.criadoPor || "-")}</div></div>
+                <div class="detail-mini"><div class="tt">Criado em</div><div>${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
+                <div class="detail-mini"><div class="tt">Última alteração</div><div>${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
+                <div class="detail-mini"><div class="tt">Status do prazo</div><div>${escapeHtml(item.statusPrazo)}</div></div>
+              </div>
+            </td>
+          </tr>
+        `;
       }).join("");
     }
 
@@ -1088,9 +1781,13 @@ Gerência: GECONT"></textarea>
     }
 
     function renderAlertas(itens, enviarNotificacao = false) {
-      const limite = parseInt(limiteVencendo.value,10) || 3;
+      const limite = parseInt(limiteVencendo.value, 10) || 3;
       const alertaveis = itens.filter(i => !i.semPrazo && i.diasRestantes !== null && i.diasRestantes <= limite && !["Concluído", "Arquivado"].includes(i.situacao));
-      if (!alertaveis.length) { alertasPrazo.classList.add("hidden"); alertasPrazo.innerHTML = ""; return; }
+      if (!alertaveis.length) {
+        alertasPrazo.classList.add("hidden");
+        alertasPrazo.innerHTML = "";
+        return;
+      }
       const lista = alertaveis.map(i => {
         const status = i.diasRestantes < 0 ? `atrasado há ${Math.abs(i.diasRestantes)} dia(s)` : i.diasRestantes === 0 ? "vence hoje" : `vence em ${i.diasRestantes} dia(s)`;
         return `<li><strong>${escapeHtml(i.processo || "(sem número)")}</strong> — ${escapeHtml(i.assunto || "Sem assunto")} — ${escapeHtml(i.gerencia || "Sem gerência")} — ${escapeHtml(status)}</li>`;
@@ -1108,7 +1805,10 @@ Gerência: GECONT"></textarea>
       }
     }
 
-    function destroyCharts() { [chartSituacao, chartPrazo, chartFluxo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); }); }
+    function destroyCharts() {
+      [chartSituacao, chartPrazo, chartFluxo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
+    }
+
     function renderDashboard(itens) {
       $("kpiTotal").textContent = itens.length;
       $("kpiSemPrazo").textContent = itens.filter(i => i.statusPrazo === "Sem prazo").length;
@@ -1122,20 +1822,69 @@ Gerência: GECONT"></textarea>
       const fluxoMap = {}; ETAPAS_PROCESSO.forEach(s => fluxoMap[s] = 0); itens.forEach(i => fluxoMap[i.etapa] = (fluxoMap[i.etapa] || 0) + 1);
       const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
       const mapOutras = {}; AREAS.filter(a => a !== "Superintendência de Gestão Integrada (SGI)").forEach(a => mapOutras[a] = 0); itens.filter(i => i.area !== "Superintendência de Gestão Integrada (SGI)").forEach(i => mapOutras[i.area] = (mapOutras[i.area] || 0) + 1);
-      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const key = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[key] = (geralMap[key] || 0) + 1; });
+      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const unidade = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[unidade] = (geralMap[unidade] || 0) + 1; });
       const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
 
       destroyCharts();
-      chartSituacao = new Chart($("graficoSituacao"), { type: "bar", data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#f59e0b", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 40 }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } } });
-      chartPrazo = new Chart($("graficoPrazo"), { type: "doughnut", data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#12b76a", "#f79009", "#fdb022", "#f04438", "#98a2b3"] }] }, options: { responsive: true } });
-      chartFluxo = new Chart($("graficoFluxo"), { type: "doughnut", data: { labels: Object.keys(fluxoMap), datasets: [{ data: Object.values(fluxoMap), backgroundColor: ["#60a5fa", "#fb923c", "#fbbf24", "#10b981"] }] }, options: { responsive: true } });
+
+      chartSituacao = new Chart($("graficoSituacao"), {
+        type: "bar",
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#f59e0b", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartPrazo = new Chart($("graficoPrazo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#12b76a", "#f79009", "#fdb022", "#f04438", "#98a2b3"] }] },
+        options: { responsive: true }
+      });
+
+      chartFluxo = new Chart($("graficoFluxo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(fluxoMap), datasets: [{ data: Object.values(fluxoMap), backgroundColor: ["#60a5fa", "#fb923c", "#fbbf24", "#10b981"] }] },
+        options: { responsive: true }
+      });
+
       chartSGI = new Chart($("graficoSGI"), {
         type: "bar",
         data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#0b5cab", borderRadius: 10, maxBarThickness: 36 }] },
-        options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } }
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                title: (items) => Object.keys(mapSGI)[items[0].dataIndex],
+                label: (ctx) => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}`
+              }
+            }
+          },
+          scales: {
+            x: { beginAtZero: true, ticks: { precision: 0 } },
+            y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } }
+          }
+        }
       });
-      chartOutrasAreas = new Chart($("graficoOutrasAreas"), { type: "bar", data: { labels: Object.keys(mapOutras), datasets: [{ data: Object.values(mapOutras), backgroundColor: ["#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a"], borderRadius: 10, maxBarThickness: 40 }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } } });
-      chartGerencia = new Chart($("graficoGerencia"), { type: "bar", data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 40 }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } }, x: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } } });
+
+      chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
+        type: "bar",
+        data: { labels: Object.keys(mapOutras), datasets: [{ data: Object.values(mapOutras), backgroundColor: ["#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a"], borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartGerencia = new Chart($("graficoGerencia"), {
+        type: "bar",
+        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 40 }] },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { precision: 0 } },
+            x: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } }
+          }
+        }
+      });
     }
 
     function atualizarCardsAtivos() {
@@ -1145,58 +1894,594 @@ Gerência: GECONT"></textarea>
       if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(filtroArea.value)}']`).forEach(card => card.classList.add("active"));
       if (filtroEtapa.value) document.querySelectorAll(`.summary-card[data-summary-type='etapa'][data-summary-value='${CSS.escape(filtroEtapa.value)}']`).forEach(card => card.classList.add("active"));
     }
-    function animarLinha(row) { row.classList.add("row-updated"); setTimeout(() => row.classList.remove("row-updated"), 1200); }
+
     function aplicarFiltrosVisuaisNosChips() {
       document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
-      [["statusPrazo",filtroStatusPrazo.value],["situacao",filtroSituacao.value],["area",filtroArea.value],["etapa",filtroEtapa.value]].forEach(([tipo,val]) => {
-        if (!val) return; const chip = document.querySelector(`.chip[data-chip-type="${tipo}"][data-chip-value="${CSS.escape(val)}"]`); if (chip) chip.classList.add("active");
+      [["statusPrazo", filtroStatusPrazo.value], ["situacao", filtroSituacao.value], ["area", filtroArea.value], ["etapa", filtroEtapa.value]].forEach(([tipo, valor]) => {
+        if (!valor) return;
+        const chip = document.querySelector(`.chip[data-chip-type="${tipo}"][data-chip-value="${CSS.escape(valor)}"]`);
+        if (chip) chip.classList.add("active");
       });
     }
-    function renderEverything(notificar = true) { filteredItems = getFilteredItems(); renderTable(filteredItems); renderResumo(filteredItems); renderAlertas(filteredItems, notificar); renderDashboard(filteredItems); atualizarCardsAtivos(); atualizarDrawerSeAberto(); aplicarFiltrosVisuaisNosChips(); }
-    function toggleExpand(id) { if (expandedIds.has(id)) expandedIds.delete(id); else expandedIds.add(id); renderTable(filteredItems); }
-    function aplicarChip(chip) {
-      const type = chip.dataset.chipType, value = chip.dataset.chipValue, wasActive = chip.classList.contains("active");
-      document.querySelectorAll(`.chip[data-chip-type="${type}"]`).forEach(c => c.classList.remove("active"));
-      const target = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : type === "area" ? filtroArea : filtroEtapa;
-      target.value = wasActive ? "" : value; salvarFiltros(); aplicarFiltrosEOrdenacao();
-    }
-    function aplicarResumoClicavel(card) {
-      const type = card.dataset.summaryType, value = card.dataset.summaryValue; abrirAba("processos");
-      if (!type) { limparFiltros(false); return; }
-      const target = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : type === "area" ? filtroArea : filtroEtapa;
-      target.value = (target.value === value) ? "" : value; salvarFiltros(); aplicarFiltrosEOrdenacao();
-    }
-    function aplicarFiltrosEOrdenacao() { salvarFiltros(); renderEverything(); }
-    function limparFiltros(mostrarToast = true) {
-      busca.value = ""; filtroArea.value = ""; filtroGerencia.value = ""; filtroSituacao.value = ""; filtroEtapa.value = ""; filtroPrazo.value = ""; filtroStatusPrazo.value = ""; filtroDataInicial.value = ""; filtroDataFinal.value = ""; filtroAtrasados.checked = false; ordenacao.value = ""; salvarFiltros(); renderEverything(); if (mostrarToast) toast("Filtros limpos.", "info");
-    }
-    function limparFormulario() { entrada.value = ""; gerenciaManual.value = ""; situacaoManual.value = "Em análise"; dataFinalManual.value = ""; semPrazoManual.checked = false; dataFinalManual.disabled = false; mostrarMensagem("Formulário limpo.", "info"); }
-    function abrirDrawer(id) {
-      selectedDrawerId = id; const item = allItems.find(i => i.id === id); if (!item) return;
-      drawerSubtitulo.textContent = item.processo || "(sem número)";
-      drawerConteudo.innerHTML = `<div class="drawer-box"><div class="label">Processo</div><div class="value">${escapeHtml(item.processo || "-")}</div></div><div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || "-")}</div></div><div class="drawer-box"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || "-")}</div></div><div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></div></div><div class="drawer-box"><div class="label">Etapa</div><div class="value"><span class="badge-etapa ${classeEtapaBadge(item.etapa)}">${escapeHtml(item.etapa || "-")}</span></div></div><div class="drawer-box"><div class="label">Área</div><div class="value"><span class="badge-area ${classeAreaBadge(item.area)}">${escapeHtml(item.area || "-")}</span></div></div><div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || "-")}</div></div><div class="drawer-box"><div class="label">Data final</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</div></div><div class="drawer-box"><div class="label">Status do prazo</div><div class="value">${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</div></div><div class="drawer-box"><div class="label">Dias restantes</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(calcDiasRestantes(item.dataFinal)))}</div></div><div class="drawer-box"><div class="label">Criado por</div><div class="value">${escapeHtml(item.criadoPor || "-")}</div></div><div class="drawer-box"><div class="label">Criado em</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm))}</div></div><div class="drawer-box"><div class="label">Última alteração por</div><div class="value">${escapeHtml(item.alteradoPor || "-")}</div></div><div class="drawer-box"><div class="label">Última alteração em</div><div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>`;
-      drawerOverlay.classList.remove("hidden"); drawer.classList.remove("hidden");
-    }
-    function fecharDrawer() { drawerOverlay.classList.add("hidden"); drawer.classList.add("hidden"); selectedDrawerId = null; }
-    function atualizarDrawerSeAberto() { if (!selectedDrawerId) return; const item = allItems.find(i => i.id === selectedDrawerId); if (!item) { fecharDrawer(); return; } abrirDrawer(selectedDrawerId); }
-    function abrirModalEdicao(id) { const item = allItems.find(i => i.id === id); if (!item) return; editingId = id; modalSubtitulo.textContent = item.processo || "(sem número)"; editProcesso.value = item.processo || ""; editInteressado.value = item.interessado || ""; editAssunto.value = item.assunto || ""; editSituacao.value = item.situacao || "Em análise"; editGerencia.value = item.gerencia || ""; editDataFinal.value = item.dataFinal || ""; editSemPrazo.checked = !!item.semPrazo; editDataFinal.disabled = !!item.semPrazo; modalOverlay.classList.remove("hidden"); }
-    function fecharModal() { modalOverlay.classList.add("hidden"); editingId = null; }
 
-    function obterDadosExportacao(apenasVisiveis = false) { const origem = apenasVisiveis ? filteredItems : allItems; return origem.map(i => ({ ...i, diasRestantes: i.semPrazo ? null : calcDiasRestantes(i.dataFinal), statusPrazo: obterStatusPrazo(i.dataFinal, i.semPrazo) })); }
+    function renderEverything(notificar = true) {
+      filteredItems = getFilteredItems();
+      renderTable(filteredItems);
+      renderResumo(filteredItems);
+      renderAlertas(filteredItems, notificar);
+      renderDashboard(filteredItems);
+      atualizarCardsAtivos();
+      atualizarDrawerSeAberto();
+      aplicarFiltrosVisuaisNosChips();
+    }
+
+    function toggleExpand(id) {
+      if (expandedIds.has(id)) expandedIds.delete(id);
+      else expandedIds.add(id);
+      renderTable(filteredItems);
+    }
+
+    function aplicarChip(chip) {
+      const type = chip.dataset.chipType;
+      const value = chip.dataset.chipValue;
+      const wasActive = chip.classList.contains("active");
+      const alvo = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : type === "area" ? filtroArea : filtroEtapa;
+      alvo.value = wasActive ? "" : value;
+      salvarFiltros();
+      aplicarFiltrosEOrdenacao();
+    }
+
+    function aplicarResumoClicavel(card) {
+      const type = card.dataset.summaryType;
+      const value = card.dataset.summaryValue;
+      abrirAba("processos");
+      if (!type) { limparFiltros(false); return; }
+      const alvo = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : type === "area" ? filtroArea : filtroEtapa;
+      alvo.value = alvo.value === value ? "" : value;
+      salvarFiltros();
+      aplicarFiltrosEOrdenacao();
+    }
+
+    function aplicarFiltrosEOrdenacao() {
+      salvarFiltros();
+      renderEverything();
+    }
+
+    function limparFiltros(mostrarToast = true) {
+      busca.value = "";
+      filtroArea.value = "";
+      filtroGerencia.value = "";
+      filtroSituacao.value = "";
+      filtroEtapa.value = "";
+      filtroPrazo.value = "";
+      filtroStatusPrazo.value = "";
+      filtroDataInicial.value = "";
+      filtroDataFinal.value = "";
+      filtroAtrasados.checked = false;
+      ordenacao.value = "";
+      salvarFiltros();
+      renderEverything();
+      if (mostrarToast) toast("Filtros limpos.", "info");
+    }
+
+    function limparFormulario() {
+      entrada.value = "";
+      gerenciaManual.value = "";
+      situacaoManual.value = "Em análise";
+      dataFinalManual.value = "";
+      semPrazoManual.checked = false;
+      dataFinalManual.disabled = false;
+      mostrarMensagem("Formulário limpo.", "info");
+    }
+
+    function abrirDrawer(id) {
+      selectedDrawerId = id;
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+      drawerSubtitulo.textContent = item.processo || "(sem número)";
+      drawerConteudo.innerHTML = `
+        <div class="drawer-box"><div class="label">Processo</div><div class="value">${escapeHtml(item.processo || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></div></div>
+        <div class="drawer-box"><div class="label">Etapa</div><div class="value"><span class="badge-etapa ${classeEtapaBadge(item.etapa)}">${escapeHtml(item.etapa || "-")}</span></div></div>
+        <div class="drawer-box"><div class="label">Área</div><div class="value"><span class="badge-area ${classeAreaBadge(item.area)}">${escapeHtml(item.area || "-")}</span></div></div>
+        <div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Data final</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</div></div>
+        <div class="drawer-box"><div class="label">Status do prazo</div><div class="value">${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</div></div>
+        <div class="drawer-box"><div class="label">Dias restantes</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(calcDiasRestantes(item.dataFinal)))}</div></div>
+        <div class="drawer-box"><div class="label">Criado por</div><div class="value">${escapeHtml(item.criadoPor || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Criado em</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
+        <div class="drawer-box"><div class="label">Última alteração por</div><div class="value">${escapeHtml(item.alteradoPor || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Última alteração em</div><div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
+      `;
+      drawerOverlay.classList.remove("hidden");
+      drawer.classList.remove("hidden");
+    }
+
+    function fecharDrawer() {
+      drawerOverlay.classList.add("hidden");
+      drawer.classList.add("hidden");
+      selectedDrawerId = null;
+    }
+
+    function atualizarDrawerSeAberto() {
+      if (!selectedDrawerId) return;
+      const item = allItems.find(i => i.id === selectedDrawerId);
+      if (!item) { fecharDrawer(); return; }
+      abrirDrawer(selectedDrawerId);
+    }
+
+    function abrirModalEdicao(id) {
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+      editingId = id;
+      modalSubtitulo.textContent = item.processo || "(sem número)";
+      editProcesso.value = item.processo || "";
+      editInteressado.value = item.interessado || "";
+      editAssunto.value = item.assunto || "";
+      editSituacao.value = item.situacao || "Em análise";
+      editGerencia.value = item.gerencia || "";
+      editDataFinal.value = item.dataFinal || "";
+      editSemPrazo.checked = !!item.semPrazo;
+      editDataFinal.disabled = !!item.semPrazo;
+      modalOverlay.classList.remove("hidden");
+    }
+
+    function fecharModal() {
+      modalOverlay.classList.add("hidden");
+      editingId = null;
+    }
+
+    function obterDadosExportacao(apenasVisiveis = false) {
+      const origem = apenasVisiveis ? filteredItems : allItems;
+      return origem.map(i => ({
+        ...i,
+        diasRestantes: i.semPrazo ? null : calcDiasRestantes(i.dataFinal),
+        statusPrazo: obterStatusPrazo(i.dataFinal, i.semPrazo)
+      }));
+    }
+
     function obterHTMLTabelaExportacao(dados) {
-      const linhas = dados.map(d => `<tr><td>${escapeHtml(d.processo)}</td><td>${escapeHtml(d.interessado)}</td><td>${escapeHtml(d.assunto)}</td><td>${escapeHtml(d.dataCadastro)}</td><td>${escapeHtml(d.situacao)}</td><td>${escapeHtml(d.etapa || "-")}</td><td>${escapeHtml(d.area || "-")}</td><td>${escapeHtml(d.gerencia || "")}</td><td>${escapeHtml(d.semPrazo ? "Sem prazo" : formatarDataISOparaBR(d.dataFinal))}</td><td>${escapeHtml(d.statusPrazo)}</td><td>${escapeHtml(d.semPrazo ? "Sem prazo" : textoDiasRestantes(d.diasRestantes))}</td><td>${escapeHtml(d.alteradoPor || "-")} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td></tr>`).join("");
+      const linhas = dados.map(d => `
+        <tr>
+          <td>${escapeHtml(d.processo)}</td>
+          <td>${escapeHtml(d.interessado)}</td>
+          <td>${escapeHtml(d.assunto)}</td>
+          <td>${escapeHtml(d.dataCadastro)}</td>
+          <td>${escapeHtml(d.situacao)}</td>
+          <td>${escapeHtml(d.etapa || "-")}</td>
+          <td>${escapeHtml(d.area || "-")}</td>
+          <td>${escapeHtml(d.gerencia || "")}</td>
+          <td>${escapeHtml(d.semPrazo ? "Sem prazo" : formatarDataISOparaBR(d.dataFinal))}</td>
+          <td>${escapeHtml(d.statusPrazo)}</td>
+          <td>${escapeHtml(d.semPrazo ? "Sem prazo" : textoDiasRestantes(d.diasRestantes))}</td>
+          <td>${escapeHtml(d.alteradoPor || "-")} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
+        </tr>
+      `).join("");
       return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data de Cadastro</th><th>Situação</th><th>Etapa</th><th>Área</th><th>Gerência/Seção</th><th>Data Final</th><th>Status do Prazo</th><th>Dias Restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
     }
+
     function exportarExcel(apenasVisiveis = false) {
-      const dados = obterDadosExportacao(apenasVisiveis); if (!dados.length) return toast("Não há registros para exportar.", "warning");
+      const dados = obterDadosExportacao(apenasVisiveis);
+      if (!dados.length) return toast("Não há registros para exportar.", "warning");
       const html = `<html><head><meta charset="UTF-8"></head><body><h2>Relatório de Processos</h2><div>${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`;
-      const blob = new Blob([html], { type: "application/vnd.ms-excel" }); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = apenasVisiveis ? "processos_visiveis.xls" : "processos_todos.xls"; link.click(); URL.revokeObjectURL(link.href); toast("Exportação Excel concluída.", "success");
+      const blob = new Blob([html], { type: "application/vnd.ms-excel" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = apenasVisiveis ? "processos_visiveis.xls" : "processos_todos.xls";
+      link.click();
+      URL.revokeObjectURL(link.href);
+      toast("Exportação Excel concluída.", "success");
     }
+
     function exportarPDF(apenasVisiveis = false) {
-      const dados = obterDadosExportacao(apenasVisiveis); if (!dados.length) return toast("Não há registros para exportar.", "warning");
-      const janela = window.open("", "_blank"); janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }</style></head><body><h2>Relatório de Processos</h2><div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`); janela.document.close(); janela.focus(); janela.print(); toast("Exportação para impressão/PDF iniciada.", "success");
+      const dados = obterDadosExportacao(apenasVisiveis);
+      if (!dados.length) return toast("Não há registros para exportar.", "warning");
+      const janela = window.open("", "_blank");
+      janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }</style></head><body><h2>Relatório de Processos</h2><div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
+      janela.document.close();
+      janela.focus();
+      janela.print();
+      toast("Exportação para impressão/PDF iniciada.", "success");
     }
-    async function solicitarPermissaoNotificacao() { if (!("Notification" in window)) return alert("Seu navegador não suporta notificações."); const s = await Notification.requestPermission(); if (s === "granted") { toast("Avisos do navegador ativados.", "success"); renderAlertas(filteredItems, true); } else { toast("Permissão de notificação não concedida.", "warning"); } }
+
+    async function solicitarPermissaoNotificacao() {
+      if (!("Notification" in window)) return alert("Seu navegador não suporta notificações.");
+      const status = await Notification.requestPermission();
+      if (status === "granted") {
+        toast("Avisos do navegador ativados.", "success");
+        renderAlertas(filteredItems, true);
+      } else {
+        toast("Permissão de notificação não concedida.", "warning");
+      }
+    }
+
+    function destroyCharts() {
+      [chartSituacao, chartPrazo, chartFluxo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
+    }
+
+    function renderDashboard(itens) {
+      $("kpiTotal").textContent = itens.length;
+      $("kpiSemPrazo").textContent = itens.filter(i => i.statusPrazo === "Sem prazo").length;
+      $("kpiVencendo").textContent = itens.filter(i => i.statusPrazo === "Vencendo").length;
+      $("kpiAtrasados").textContent = itens.filter(i => i.statusPrazo === "Atrasado").length;
+      $("kpiConcluidos").textContent = itens.filter(i => i.situacao === "Concluído").length;
+      $("kpiPendentes").textContent = itens.filter(i => i.situacao === "Pendente").length;
+
+      const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
+      const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
+      const fluxoMap = {}; ETAPAS_PROCESSO.forEach(s => fluxoMap[s] = 0); itens.forEach(i => fluxoMap[i.etapa] = (fluxoMap[i.etapa] || 0) + 1);
+      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
+      const mapOutras = {}; AREAS.filter(a => a !== "Superintendência de Gestão Integrada (SGI)").forEach(a => mapOutras[a] = 0); itens.filter(i => i.area !== "Superintendência de Gestão Integrada (SGI)").forEach(i => mapOutras[i.area] = (mapOutras[i.area] || 0) + 1);
+      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const unidade = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[unidade] = (geralMap[unidade] || 0) + 1; });
+      const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
+
+      destroyCharts();
+
+      chartSituacao = new Chart($("graficoSituacao"), {
+        type: "bar",
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#f59e0b", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartPrazo = new Chart($("graficoPrazo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#12b76a", "#f79009", "#fdb022", "#f04438", "#98a2b3"] }] },
+        options: { responsive: true }
+      });
+
+      chartFluxo = new Chart($("graficoFluxo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(fluxoMap), datasets: [{ data: Object.values(fluxoMap), backgroundColor: ["#60a5fa", "#fb923c", "#fbbf24", "#10b981"] }] },
+        options: { responsive: true }
+      });
+
+      chartSGI = new Chart($("graficoSGI"), {
+        type: "bar",
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#0b5cab", borderRadius: 10, maxBarThickness: 36 }] },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } },
+          scales: {
+            x: { beginAtZero: true, ticks: { precision: 0 } },
+            y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } }
+          }
+        }
+      });
+
+      chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
+        type: "bar",
+        data: { labels: Object.keys(mapOutras), datasets: [{ data: Object.values(mapOutras), backgroundColor: ["#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a"], borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartGerencia = new Chart($("graficoGerencia"), {
+        type: "bar",
+        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 40 }] },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { precision: 0 } },
+            x: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } }
+          }
+        }
+      });
+    }
+
+    function atualizarCardsAtivos() {
+      document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
+      if (filtroSituacao.value) document.querySelectorAll(`.summary-card[data-summary-type='situacao'][data-summary-value='${CSS.escape(filtroSituacao.value)}']`).forEach(card => card.classList.add("active"));
+      if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
+      if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(filtroArea.value)}']`).forEach(card => card.classList.add("active"));
+      if (filtroEtapa.value) document.querySelectorAll(`.summary-card[data-summary-type='etapa'][data-summary-value='${CSS.escape(filtroEtapa.value)}']`).forEach(card => card.classList.add("active"));
+    }
+
+    function aplicarFiltrosVisuaisNosChips() {
+      document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
+      [["statusPrazo", filtroStatusPrazo.value], ["situacao", filtroSituacao.value], ["area", filtroArea.value], ["etapa", filtroEtapa.value]].forEach(([tipo, valor]) => {
+        if (!valor) return;
+        const chip = document.querySelector(`.chip[data-chip-type="${tipo}"][data-chip-value="${CSS.escape(valor)}"]`);
+        if (chip) chip.classList.add("active");
+      });
+    }
+
+    function renderEverything(notificar = true) {
+      filteredItems = getFilteredItems();
+      renderTable(filteredItems);
+      renderResumo(filteredItems);
+      renderAlertas(filteredItems, notificar);
+      renderDashboard(filteredItems);
+      atualizarCardsAtivos();
+      atualizarDrawerSeAberto();
+      aplicarFiltrosVisuaisNosChips();
+    }
+
+    function toggleExpand(id) {
+      if (expandedIds.has(id)) expandedIds.delete(id);
+      else expandedIds.add(id);
+      renderTable(filteredItems);
+    }
+
+    function aplicarChip(chip) {
+      const type = chip.dataset.chipType;
+      const value = chip.dataset.chipValue;
+      const wasActive = chip.classList.contains("active");
+      const alvo = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : type === "area" ? filtroArea : filtroEtapa;
+      alvo.value = wasActive ? "" : value;
+      salvarFiltros();
+      aplicarFiltrosEOrdenacao();
+    }
+
+    function aplicarResumoClicavel(card) {
+      const type = card.dataset.summaryType;
+      const value = card.dataset.summaryValue;
+      abrirAba("processos");
+      if (!type) { limparFiltros(false); return; }
+      const alvo = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : type === "area" ? filtroArea : filtroEtapa;
+      alvo.value = alvo.value === value ? "" : value;
+      salvarFiltros();
+      aplicarFiltrosEOrdenacao();
+    }
+
+    function aplicarFiltrosEOrdenacao() {
+      salvarFiltros();
+      renderEverything();
+    }
+
+    function limparFiltros(mostrarToast = true) {
+      busca.value = "";
+      filtroArea.value = "";
+      filtroGerencia.value = "";
+      filtroSituacao.value = "";
+      filtroEtapa.value = "";
+      filtroPrazo.value = "";
+      filtroStatusPrazo.value = "";
+      filtroDataInicial.value = "";
+      filtroDataFinal.value = "";
+      filtroAtrasados.checked = false;
+      ordenacao.value = "";
+      salvarFiltros();
+      renderEverything();
+      if (mostrarToast) toast("Filtros limpos.", "info");
+    }
+
+    function limparFormulario() {
+      entrada.value = "";
+      gerenciaManual.value = "";
+      situacaoManual.value = "Em análise";
+      dataFinalManual.value = "";
+      semPrazoManual.checked = false;
+      dataFinalManual.disabled = false;
+      mostrarMensagem("Formulário limpo.", "info");
+    }
+
+    function abrirDrawer(id) {
+      selectedDrawerId = id;
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+      drawerSubtitulo.textContent = item.processo || "(sem número)";
+      drawerConteudo.innerHTML = `
+        <div class="drawer-box"><div class="label">Processo</div><div class="value">${escapeHtml(item.processo || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></div></div>
+        <div class="drawer-box"><div class="label">Etapa</div><div class="value"><span class="badge-etapa ${classeEtapaBadge(item.etapa)}">${escapeHtml(item.etapa || "-")}</span></div></div>
+        <div class="drawer-box"><div class="label">Área</div><div class="value"><span class="badge-area ${classeAreaBadge(item.area)}">${escapeHtml(item.area || "-")}</span></div></div>
+        <div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Data final</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</div></div>
+        <div class="drawer-box"><div class="label">Status do prazo</div><div class="value">${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</div></div>
+        <div class="drawer-box"><div class="label">Dias restantes</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(calcDiasRestantes(item.dataFinal)))}</div></div>
+        <div class="drawer-box"><div class="label">Criado por</div><div class="value">${escapeHtml(item.criadoPor || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Criado em</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
+        <div class="drawer-box"><div class="label">Última alteração por</div><div class="value">${escapeHtml(item.alteradoPor || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Última alteração em</div><div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
+      `;
+      drawerOverlay.classList.remove("hidden");
+      drawer.classList.remove("hidden");
+    }
+
+    function fecharDrawer() {
+      drawerOverlay.classList.add("hidden");
+      drawer.classList.add("hidden");
+      selectedDrawerId = null;
+    }
+
+    function atualizarDrawerSeAberto() {
+      if (!selectedDrawerId) return;
+      const item = allItems.find(i => i.id === selectedDrawerId);
+      if (!item) { fecharDrawer(); return; }
+      abrirDrawer(selectedDrawerId);
+    }
+
+    function abrirModalEdicao(id) {
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+      editingId = id;
+      modalSubtitulo.textContent = item.processo || "(sem número)";
+      editProcesso.value = item.processo || "";
+      editInteressado.value = item.interessado || "";
+      editAssunto.value = item.assunto || "";
+      editSituacao.value = item.situacao || "Em análise";
+      editGerencia.value = item.gerencia || "";
+      editDataFinal.value = item.dataFinal || "";
+      editSemPrazo.checked = !!item.semPrazo;
+      editDataFinal.disabled = !!item.semPrazo;
+      modalOverlay.classList.remove("hidden");
+    }
+
+    function fecharModal() {
+      modalOverlay.classList.add("hidden");
+      editingId = null;
+    }
+
+    function obterDadosExportacao(apenasVisiveis = false) {
+      const origem = apenasVisiveis ? filteredItems : allItems;
+      return origem.map(i => ({
+        ...i,
+        diasRestantes: i.semPrazo ? null : calcDiasRestantes(i.dataFinal),
+        statusPrazo: obterStatusPrazo(i.dataFinal, i.semPrazo)
+      }));
+    }
+
+    function obterHTMLTabelaExportacao(dados) {
+      const linhas = dados.map(d => `
+        <tr>
+          <td>${escapeHtml(d.processo)}</td>
+          <td>${escapeHtml(d.interessado)}</td>
+          <td>${escapeHtml(d.assunto)}</td>
+          <td>${escapeHtml(d.dataCadastro)}</td>
+          <td>${escapeHtml(d.situacao)}</td>
+          <td>${escapeHtml(d.etapa || "-")}</td>
+          <td>${escapeHtml(d.area || "-")}</td>
+          <td>${escapeHtml(d.gerencia || "")}</td>
+          <td>${escapeHtml(d.semPrazo ? "Sem prazo" : formatarDataISOparaBR(d.dataFinal))}</td>
+          <td>${escapeHtml(d.statusPrazo)}</td>
+          <td>${escapeHtml(d.semPrazo ? "Sem prazo" : textoDiasRestantes(d.diasRestantes))}</td>
+          <td>${escapeHtml(d.alteradoPor || "-")} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
+        </tr>
+      `).join("");
+      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data de Cadastro</th><th>Situação</th><th>Etapa</th><th>Área</th><th>Gerência/Seção</th><th>Data Final</th><th>Status do Prazo</th><th>Dias Restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
+    }
+
+    function exportarExcel(apenasVisiveis = false) {
+      const dados = obterDadosExportacao(apenasVisiveis);
+      if (!dados.length) return toast("Não há registros para exportar.", "warning");
+      const html = `<html><head><meta charset="UTF-8"></head><body><h2>Relatório de Processos</h2><div>${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`;
+      const blob = new Blob([html], { type: "application/vnd.ms-excel" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = apenasVisiveis ? "processos_visiveis.xls" : "processos_todos.xls";
+      link.click();
+      URL.revokeObjectURL(link.href);
+      toast("Exportação Excel concluída.", "success");
+    }
+
+    function exportarPDF(apenasVisiveis = false) {
+      const dados = obterDadosExportacao(apenasVisiveis);
+      if (!dados.length) return toast("Não há registros para exportar.", "warning");
+      const janela = window.open("", "_blank");
+      janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }</style></head><body><h2>Relatório de Processos</h2><div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
+      janela.document.close();
+      janela.focus();
+      janela.print();
+      toast("Exportação para impressão/PDF iniciada.", "success");
+    }
+
+    async function solicitarPermissaoNotificacao() {
+      if (!("Notification" in window)) return alert("Seu navegador não suporta notificações.");
+      const status = await Notification.requestPermission();
+      if (status === "granted") {
+        toast("Avisos do navegador ativados.", "success");
+        renderAlertas(filteredItems, true);
+      } else {
+        toast("Permissão de notificação não concedida.", "warning");
+      }
+    }
+
+    function destroyCharts() {
+      [chartSituacao, chartPrazo, chartFluxo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
+    }
+
+    function renderDashboard(itens) {
+      $("kpiTotal").textContent = itens.length;
+      $("kpiSemPrazo").textContent = itens.filter(i => i.statusPrazo === "Sem prazo").length;
+      $("kpiVencendo").textContent = itens.filter(i => i.statusPrazo === "Vencendo").length;
+      $("kpiAtrasados").textContent = itens.filter(i => i.statusPrazo === "Atrasado").length;
+      $("kpiConcluidos").textContent = itens.filter(i => i.situacao === "Concluído").length;
+      $("kpiPendentes").textContent = itens.filter(i => i.situacao === "Pendente").length;
+
+      const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
+      const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
+      const fluxoMap = {}; ETAPAS_PROCESSO.forEach(s => fluxoMap[s] = 0); itens.forEach(i => fluxoMap[i.etapa] = (fluxoMap[i.etapa] || 0) + 1);
+      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
+      const mapOutras = {}; AREAS.filter(a => a !== "Superintendência de Gestão Integrada (SGI)").forEach(a => mapOutras[a] = 0); itens.filter(i => i.area !== "Superintendência de Gestão Integrada (SGI)").forEach(i => mapOutras[i.area] = (mapOutras[i.area] || 0) + 1);
+      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const unidade = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[unidade] = (geralMap[unidade] || 0) + 1; });
+      const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
+
+      destroyCharts();
+
+      chartSituacao = new Chart($("graficoSituacao"), {
+        type: "bar",
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#f59e0b", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartPrazo = new Chart($("graficoPrazo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#12b76a", "#f79009", "#fdb022", "#f04438", "#98a2b3"] }] },
+        options: { responsive: true }
+      });
+
+      chartFluxo = new Chart($("graficoFluxo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(fluxoMap), datasets: [{ data: Object.values(fluxoMap), backgroundColor: ["#60a5fa", "#fb923c", "#fbbf24", "#10b981"] }] },
+        options: { responsive: true }
+      });
+
+      chartSGI = new Chart($("graficoSGI"), {
+        type: "bar",
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#0b5cab", borderRadius: 10, maxBarThickness: 36 }] },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } },
+          scales: {
+            x: { beginAtZero: true, ticks: { precision: 0 } },
+            y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } }
+          }
+        }
+      });
+
+      chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
+        type: "bar",
+        data: { labels: Object.keys(mapOutras), datasets: [{ data: Object.values(mapOutras), backgroundColor: ["#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a"], borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartGerencia = new Chart($("graficoGerencia"), {
+        type: "bar",
+        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 40 }] },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { precision: 0 } },
+            x: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } }
+          }
+        }
+      });
+    }
+
+    function atualizarCardsAtivos() {
+      document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
+      if (filtroSituacao.value) document.querySelectorAll(`.summary-card[data-summary-type='situacao'][data-summary-value='${CSS.escape(filtroSituacao.value)}']`).forEach(card => card.classList.add("active"));
+      if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
+      if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(filtroArea.value)}']`).forEach(card => card.classList.add("active"));
+      if (filtroEtapa.value) document.querySelectorAll(`.summary-card[data-summary-type='etapa'][data-summary-value='${CSS.escape(filtroEtapa.value)}']`).forEach(card => card.classList.add("active"));
+    }
+
+    function aplicarFiltrosVisuaisNosChips() {
+      document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
+      [["statusPrazo", filtroStatusPrazo.value], ["situacao", filtroSituacao.value], ["area", filtroArea.value], ["etapa", filtroEtapa.value]].forEach(([tipo, valor]) => {
+        if (!valor) return;
+        const chip = document.querySelector(`.chip[data-chip-type="${tipo}"][data-chip-value="${CSS.escape(valor)}"]`);
+        if (chip) chip.classList.add("active");
+      });
+    }
+
+    function renderEverything(notificar = true) {
+      filteredItems = getFilteredItems();
+      renderTable(filteredItems);
+      renderResumo(filteredItems);
+      renderAlertas(filteredItems, notificar);
+      renderDashboard(filteredItems);
+      atualizarCardsAtivos();
+      atualizarDrawerSeAberto();
+      aplicarFiltrosVisuaisNosChips();
+    }
 
     function registrarEventos() {
       btnEntrar.addEventListener("click", login);
@@ -1221,17 +2506,37 @@ Gerência: GECONT"></textarea>
       drawerBtnFluxo.addEventListener("click", () => { if (selectedDrawerId) avancarEtapa(selectedDrawerId); });
       drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
       drawerBtnExcluir.addEventListener("click", () => remover(selectedDrawerId));
-      [busca, filtroArea, filtroGerencia, filtroSituacao, filtroEtapa, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao].forEach(el => el.addEventListener(el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input"), aplicarFiltrosEOrdenacao));
+
+      [busca, filtroArea, filtroGerencia, filtroSituacao, filtroEtapa, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao].forEach(el => {
+        const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input");
+        el.addEventListener(evt, aplicarFiltrosEOrdenacao);
+      });
       limiteVencendo.addEventListener("change", () => { salvarFiltros(); renderEverything(); });
       btnLimparFiltros.addEventListener("click", limparFiltros);
       btnExportarExcelTodos.addEventListener("click", () => exportarExcel(false));
       btnExportarExcelVisiveis.addEventListener("click", () => exportarExcel(true));
       btnExportarPDFTodos.addEventListener("click", () => exportarPDF(false));
       btnExportarPDFVisiveis.addEventListener("click", () => exportarPDF(true));
-      $("chipsRapidos").addEventListener("click", (e) => { const chip = e.target.closest(".chip"); if (chip) aplicarChip(chip); });
-      document.addEventListener("click", (e) => { const summary = e.target.closest(".summary-card"); if (summary && !summary.closest(".drawer") && !summary.closest(".modal")) aplicarResumoClicavel(summary); });
+
+      $("chipsRapidos").addEventListener("click", (e) => {
+        const chip = e.target.closest(".chip");
+        if (!chip) return;
+        aplicarChip(chip);
+      });
+
+      document.addEventListener("click", (e) => {
+        const summary = e.target.closest(".summary-card");
+        if (!summary) return;
+        if (summary.closest(".drawer") || summary.closest(".modal")) return;
+        aplicarResumoClicavel(summary);
+      });
+
       tbodyProcessos.addEventListener("click", (e) => {
-        const btn = e.target.closest("button"); const row = e.target.closest("tr.main-row"); if (!row) return; const id = row.dataset.id;
+        const btn = e.target.closest("button");
+        const row = e.target.closest("tr.main-row");
+        if (!row) return;
+        const id = row.dataset.id;
+        if (!id) return;
         if (btn) {
           const action = btn.dataset.action;
           if (action === "expand") { e.stopPropagation(); toggleExpand(id); return; }
@@ -1244,8 +2549,20 @@ Gerência: GECONT"></textarea>
         }
         abrirDrawer(id);
       });
-      document.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => { ordenacao.value = th.dataset.sort || ""; salvarFiltros(); aplicarFiltrosEOrdenacao(); }));
-      document.addEventListener("keydown", (e) => { if (!appBox.classList.contains("hidden") && e.key === "Escape") { if (!modalOverlay.classList.contains("hidden")) fecharModal(); if (!drawer.classList.contains("hidden")) fecharDrawer(); } else if (appBox.classList.contains("hidden") && e.key === "Enter") { login(); } });
+
+      document.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
+        ordenacao.value = th.dataset.sort || "";
+        salvarFiltros();
+        aplicarFiltrosEOrdenacao();
+      }));
+
+      document.addEventListener("keydown", (e) => {
+        if (appBox.classList.contains("hidden") && e.key === "Enter") login();
+        if (!appBox.classList.contains("hidden") && e.key === "Escape") {
+          if (!modalOverlay.classList.contains("hidden")) fecharModal();
+          if (!drawer.classList.contains("hidden")) fecharDrawer();
+        }
+      });
     }
 
     preencherSelects();
@@ -1270,7 +2587,9 @@ Gerência: GECONT"></textarea>
       }
     });
 
-    setInterval(() => { if (!appBox.classList.contains("hidden")) renderEverything(false); }, 60000);
+    setInterval(() => {
+      if (!appBox.classList.contains("hidden")) renderEverything(false);
+    }, 60000);
   </script>
 </body>
 </html>
