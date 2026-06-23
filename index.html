@@ -518,10 +518,7 @@
     }
 
     .badge-situacao.concluido { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
-    .badge-situacao.pendente { background: #fffaeb; color: #b54708; border-color: #fedf89; }
     .badge-situacao.andamento { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
-    .badge-situacao.arquivado { background: #f2f4f7; color: #475467; border-color: #d0d5dd; }
-    .badge-situacao.suspenso { background: #faf5ff; color: #7a3e9d; border-color: #e9d7fe; }
 
     .counter-strip {
       display: flex;
@@ -867,7 +864,6 @@ Gerência: GECONT"></textarea>
           <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vencendo">Vencendo</button>
           <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Sem prazo">Sem prazo</button>
           <button type="button" class="chip" data-chip-type="situacao" data-chip-value="Concluído">Concluídos</button>
-          <button type="button" class="chip" data-chip-type="situacao" data-chip-value="Pendente">Pendentes</button>
         </div>
 
         <!-- FILTROS -->
@@ -1378,7 +1374,6 @@ Gerência: GECONT"></textarea>
       });
       drawerBtnPendente.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Pendente"));
       drawerBtnConcluir.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Concluído"));
-      drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
       drawerBtnExcluir.addEventListener("click", () => remover(selectedDrawerId));
 
       busca.addEventListener("input", aplicarFiltrosEOrdenacao);
@@ -1449,21 +1444,13 @@ Gerência: GECONT"></textarea>
             e.stopPropagation();
             abrirModalEdicao(id);
             return;
-          }
-          if (action === "pendente") {
-            e.stopPropagation();
-            alterarSituacaoRapida(id, "Pendente");
-            return;
+        
           }
           if (action === "concluir") {
             e.stopPropagation();
             alterarSituacaoRapida(id, "Concluído");
             return;
-          }
-          if (action === "arquivar") {
-            e.stopPropagation();
-            alterarSituacaoRapida(id, "Arquivado");
-            return;
+          
           }
           if (action === "delete") {
             e.stopPropagation();
@@ -2217,7 +2204,6 @@ Gerência: GECONT"></textarea>
                 <button type="button" class="secondary" data-action="edit">Editar</button>
                 <button type="button" class="warning" data-action="pendente">Pendente</button>
                 <button type="button" class="success" data-action="concluir">Concluir</button>
-                <button type="button" class="light" data-action="arquivar">Arquivar</button>
                 <button type="button" class="danger" data-action="delete">Excluir</button>
               </div>
             </td>
