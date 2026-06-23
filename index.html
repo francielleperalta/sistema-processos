@@ -33,7 +33,7 @@
     body {
       margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(180deg, #f9fbff 0%, var(--bg) 100%);
+      background: #f3f6fb;
       color: var(--text);
     }
 
@@ -59,18 +59,18 @@
     }
 
     .container {
-      max-width: 1600px;
-      margin: 24px auto;
-      padding: 0 16px 28px;
+      max-width: 1440px;
+      margin: 32px auto;
+      padding: 0 24px 40px;
     }
 
     .card {
       background: var(--surface);
       border: 1px solid rgba(16, 24, 40, 0.05);
-      border-radius: var(--radius);
+      border-radius: 18px;
       box-shadow: var(--shadow);
-      padding: 22px;
-      margin-bottom: 18px;
+      padding: 26px;
+      margin-bottom: 24px;
     }
 
     .hero {
@@ -84,7 +84,7 @@
 
     .topbar, .toolbar, .tabs, .chips, .stats-strip {
       display: flex;
-      gap: 10px;
+      gap: 18px;
       flex-wrap: wrap;
       align-items: center;
     }
@@ -93,7 +93,7 @@
 
     .grid-2, .grid-3, .grid-4, .grid-5 {
       display: grid;
-      gap: 14px;
+      gap: 18px;
     }
     .grid-2 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
@@ -108,7 +108,7 @@
 
     input, textarea, select, button {
       width: 100%;
-      padding: 12px 13px;
+      padding: 14px 16px;
       border-radius: 12px;
       border: 1px solid #d0d5dd;
       font-size: 14px;
@@ -116,7 +116,7 @@
       background: #fff;
       transition: 0.2s ease;
       outline: none;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     input:focus, textarea:focus, select:focus {
@@ -212,13 +212,13 @@
     .filters-top {
       display: grid;
       grid-template-columns: 1.4fr repeat(4, 1fr);
-      gap: 12px;
+      gap: 16px;
       align-items: end;
     }
     .filters-bottom {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
+      gap: 16px;
       align-items: end;
     }
     @media (max-width: 1300px) {
@@ -249,7 +249,7 @@
     .metric-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
+      gap: 18px;
     }
     @media (max-width: 1200px) { .metric-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 700px) { .metric-grid { grid-template-columns: 1fr; } }
@@ -276,8 +276,8 @@
     .metric.slate::before { background: linear-gradient(90deg, #94a3b8 0%, #475569 100%); }
     .metric:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(16,24,40,.08); }
     .metric .label { font-size: 13px; color: var(--muted); }
-    .metric .value { font-size: 30px; font-weight: 800; margin-top: 8px; }
-    .metric small { display: block; margin-top: 8px; color: var(--muted); }
+    .metric .value { font-size: 30px; font-weight: 800; margin-top: 10px; }
+    .metric small { display: block; margin-top: 10px; color: var(--muted); }
 
     .stats-strip { margin-top: 14px; }
     .counter-pill {
@@ -336,6 +336,7 @@
     tr.linha-vencendo td, tr.linha-hoje td { background: #fffaf0; }
     tr.linha-sem-prazo td { background: #fafafa; }
 
+    .detail-row { display:none; }
     .detail-row td {
       background: #fcfcfd !important;
       padding: 0;
@@ -344,7 +345,7 @@
       padding: 14px 16px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+      gap: 18px;
       border-top: 1px dashed #ddd;
     }
     @media (max-width: 900px) { .row-details-box { grid-template-columns: 1fr; } }
@@ -458,13 +459,13 @@
       padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 18px;
     }
     .drawer-head, .modal-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
+      gap: 16px;
     }
     .drawer-close, .modal-close {
       width: auto;
@@ -478,7 +479,7 @@
     .drawer-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 10px;
+      gap: 18px;
     }
     .drawer-box {
       background: #fcfcfd;
@@ -506,7 +507,7 @@
       z-index: 1200;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 18px;
       width: min(360px, calc(100vw - 32px));
     }
     .toast {
@@ -524,8 +525,8 @@
 </head>
 <body>
   <header>
-    <h1>🏛️ Sistema de Gestão de Processos</h1>
-    <p>Visão clara por área, prazos e responsáveis</p>
+    <h1>Sistema de Gestão de Processos</h1>
+    <p>Interface simples para cadastrar, localizar e acompanhar processos</p>
   </header>
 
   <div class="toasts" id="toasts"></div>
@@ -631,6 +632,7 @@ Gerência: GECONT"></textarea>
 
         <div class="card" style="margin-top:18px; padding:18px; background:linear-gradient(180deg,#fbfdff 0%,#f8fbff 100%);">
           <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
+          <div class="muted" style="margin-bottom:10px;">A lista já abre ordenada pela data de cadastro dos processos mais recentes para os mais antigos.</div>
           <div class="filters-wrap">
             <div class="filters-top">
               <div>
@@ -682,7 +684,8 @@ Gerência: GECONT"></textarea>
               <div>
                 <label for="ordenacao">Ordenar por</label>
                 <select id="ordenacao">
-                  <option value="">Padrão</option>
+                  <option value="dataCadastroDesc" selected>Data de cadastro (mais recentes)</option>
+                  <option value="dataCadastroAsc">Data de cadastro (mais antigos)</option>
                   <option value="dataFinalAsc">Data final</option>
                   <option value="processoAsc">Processo</option>
                   <option value="interessadoAsc">Interessado</option>
@@ -751,11 +754,10 @@ Gerência: GECONT"></textarea>
           <table id="tabela" class="hidden">
             <thead>
               <tr>
-                <th style="width:55px;">Detalhe</th>
                 <th class="sortable" data-sort="processoAsc">Processo <small>⇅</small></th>
                 <th>Interessado</th>
                 <th>Assunto</th>
-                <th>Data de cadastro</th>
+                <th class="sortable" data-sort="dataCadastroDesc">Data de cadastro <small>⇅</small></th>
                 <th>Situação</th>
                 <th class="sortable" data-sort="areaAsc">Área <small>⇅</small></th>
                 <th class="sortable" data-sort="gerenciaAsc">Gerência/Seção <small>⇅</small></th>
@@ -775,25 +777,25 @@ Gerência: GECONT"></textarea>
         <div class="dashboard-grid">
           <div class="charts-stack">
             <div class="card chart-card">
-              <h4>Visão geral de prazos</h4>
-              <div class="muted">Resumo dos processos visíveis por status de prazo.</div>
+              <h4>Prazos dos processos</h4>
+              <div class="muted">Mostra quantos processos estão no prazo, vencendo, vencidos ou sem prazo.</div>
               <canvas id="graficoPrazo"></canvas>
             </div>
             <div class="card chart-card">
-              <h4>Processos por área</h4>
-              <div class="muted">Distribuição entre SGI e demais áreas.</div>
+              <h4>Distribuição por área</h4>
+              <div class="muted">Ajuda a identificar onde está concentrado o volume de processos.</div>
               <canvas id="graficoOutrasAreas"></canvas>
             </div>
             <div class="card chart-card">
-              <h4>Ranking de unidades</h4>
-              <div class="muted">Top 12 gerências / seções com mais processos.</div>
+              <h4>Unidades com mais processos</h4>
+              <div class="muted">As 12 unidades com maior quantidade de processos cadastrados.</div>
               <canvas id="graficoGerencia"></canvas>
             </div>
           </div>
 
           <div class="sidebar-cards">
             <div class="card">
-              <h4>Painel executivo</h4>
+              <h4>Resumo rápido</h4>
               <div class="metric-grid" style="grid-template-columns:1fr 1fr; margin-top:12px;">
                 <div class="metric"><div class="label">Total</div><div class="value" id="kpiTotal">0</div></div>
                 <div class="metric slate"><div class="label">Sem prazo</div><div class="value" id="kpiSemPrazo">0</div></div>
@@ -805,13 +807,13 @@ Gerência: GECONT"></textarea>
             </div>
 
             <div class="card chart-card">
-              <h4>Processos por situação</h4>
+              <h4>Situação dos processos</h4>
               <canvas id="graficoSituacao"></canvas>
             </div>
 
             <div class="card chart-card">
-              <h4>SGI — gerências e seções</h4>
-              <div class="muted">Detalhamento rápido para sua área.</div>
+              <h4>SGI por unidade</h4>
+              <div class="muted">Mostra as gerências e seções da SGI com mais processos.</div>
               <canvas id="graficoSGI"></canvas>
             </div>
           </div>
@@ -967,6 +969,7 @@ Gerência: GECONT"></textarea>
     let chavesNotificadas = new Set();
 
     const $ = (id) => document.getElementById(id);
+    function setTextIfExists(idOrEl, value) { const el = typeof idOrEl === "string" ? $(idOrEl) : idOrEl; if (el) el.textContent = value; }
     const loginBox = $("loginBox");
     const appBox = $("appBox");
     const emailInput = $("email");
@@ -1343,7 +1346,7 @@ Gerência: GECONT"></textarea>
         filtroDataInicial.value = p.filtroDataInicial || "";
         filtroDataFinal.value = p.filtroDataFinal || "";
         filtroAtrasados.checked = !!p.filtroAtrasados;
-        ordenacao.value = p.ordenacao || "";
+        ordenacao.value = p.ordenacao || "dataCadastroDesc";
         limiteVencendo.value = p.limiteVencendo || "3";
       } catch (e) { console.warn(e); }
     }
@@ -1629,7 +1632,9 @@ Gerência: GECONT"></textarea>
         return true;
       });
 
-      if (ordem === "dataFinalAsc") itens.sort((a, b) => (a.dataFinal || "9999-12-31").localeCompare(b.dataFinal || "9999-12-31"));
+      if (ordem === "dataCadastroDesc") itens.sort((a, b) => (b.dataCadastroISO || "").localeCompare(a.dataCadastroISO || ""));
+      else if (ordem === "dataCadastroAsc") itens.sort((a, b) => (a.dataCadastroISO || "").localeCompare(b.dataCadastroISO || ""));
+      else if (ordem === "dataFinalAsc") itens.sort((a, b) => (a.dataFinal || "9999-12-31").localeCompare(b.dataFinal || "9999-12-31"));
       else if (ordem === "processoAsc") itens.sort((a, b) => (a.processo || "").localeCompare(b.processo || "", "pt-BR", { sensitivity: "base" }));
       else if (ordem === "interessadoAsc") itens.sort((a, b) => (a.interessado || "").localeCompare(b.interessado || "", "pt-BR", { sensitivity: "base" }));
       else if (ordem === "gerenciaAsc") itens.sort((a, b) => (a.gerencia || "").localeCompare(b.gerencia || "", "pt-BR", { sensitivity: "base" }));
@@ -1664,7 +1669,6 @@ Gerência: GECONT"></textarea>
 
         return `
           <tr class="main-row ${classeLinha}" data-id="${item.id}">
-            <td><button type="button" class="expand-btn" data-action="expand">${expandedIds.has(item.id) ? "−" : "+"}</button></td>
             <td>${highlightText(item.processo || "", termo) || "<span class='muted'>(sem número)</span>"}</td>
             <td>${highlightText(item.interessado || "", termo) || "-"}</td>
             <td>${highlightText(item.assunto || "", termo) || "-"}</td>
@@ -1686,8 +1690,8 @@ Gerência: GECONT"></textarea>
               </div>
             </td>
           </tr>
-          <tr class="detail-row ${expandedIds.has(item.id) ? "" : "hidden"}" data-detail-for="${item.id}">
-            <td colspan="13">
+          <tr class="detail-row hidden" data-detail-for="${item.id}">
+            <td colspan="12">
               <div class="row-details-box">
                 <div class="detail-mini"><div class="tt">Área</div><div>${escapeHtml(item.area || "-")}</div></div>
                 <div class="detail-mini"><div class="tt">Criado por</div><div>${escapeHtml(item.criadoPor || "-")}</div></div>
@@ -1708,19 +1712,19 @@ Gerência: GECONT"></textarea>
       const sgi = itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").length;
       const concluidos = itens.filter(i => i.situacao === "Concluído").length;
 
-      contadorRegistros.textContent = `${itens.length} de ${allItems.length} registro(s)`;
-      counterAtrasados.textContent = `Atrasados: ${atrasados}`;
-      counterHoje.textContent = `Vence hoje: ${hoje}`;
-      counterVencendo.textContent = `Vencendo: ${vencendo}`;
-      counterSemPrazo.textContent = `Sem prazo: ${semPrazo}`;
-      counterSGI.textContent = `SGI: ${sgi}`;
-      sumMostrando.textContent = itens.length;
-      sumSGI.textContent = sgi;
-      sumVencendo.textContent = vencendo;
-      sumAtrasados.textContent = atrasados;
-      sumHoje.textContent = hoje;
-      sumSemPrazo.textContent = semPrazo;
-      sumConcluidos.textContent = concluidos;
+      setTextIfExists(contadorRegistros, `${itens.length} de ${allItems.length} registro(s)`);
+      setTextIfExists(counterAtrasados, `Atrasados: ${atrasados}`);
+      setTextIfExists(counterHoje, `Vence hoje: ${hoje}`);
+      setTextIfExists(counterVencendo, `Vencendo: ${vencendo}`);
+      setTextIfExists(counterSemPrazo, `Sem prazo: ${semPrazo}`);
+      setTextIfExists(counterSGI, `SGI: ${sgi}`);
+      setTextIfExists(sumMostrando, itens.length);
+      setTextIfExists(sumSGI, sgi);
+      setTextIfExists(sumVencendo, vencendo);
+      setTextIfExists(sumAtrasados, atrasados);
+      setTextIfExists(sumHoje, hoje);
+      setTextIfExists(sumSemPrazo, semPrazo);
+      setTextIfExists(sumConcluidos, concluidos);
     }
 
     function renderAlertas(itens, enviarNotificacao = false) {
@@ -1756,12 +1760,12 @@ Gerência: GECONT"></textarea>
     }
 
     function renderDashboard(itens) {
-      $("kpiTotal").textContent = itens.length;
-      $("kpiSemPrazo").textContent = itens.filter(i => i.statusPrazo === "Sem prazo").length;
-      $("kpiVencendo").textContent = itens.filter(i => i.statusPrazo === "Vencendo").length;
-      $("kpiAtrasados").textContent = itens.filter(i => i.statusPrazo === "Atrasado").length;
-      $("kpiConcluidos").textContent = itens.filter(i => i.situacao === "Concluído").length;
-      $("kpiPendentes").textContent = itens.filter(i => i.situacao === "Pendente").length;
+      setTextIfExists("kpiTotal", itens.length);
+      setTextIfExists("kpiSemPrazo", itens.filter(i => i.statusPrazo === "Sem prazo").length);
+      setTextIfExists("kpiVencendo", itens.filter(i => i.statusPrazo === "Vencendo").length);
+      setTextIfExists("kpiAtrasados", itens.filter(i => i.statusPrazo === "Atrasado").length);
+      setTextIfExists("kpiConcluidos", itens.filter(i => i.situacao === "Concluído").length);
+      setTextIfExists("kpiPendentes", itens.filter(i => i.situacao === "Pendente").length);
 
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
@@ -1775,31 +1779,31 @@ Gerência: GECONT"></textarea>
       chartPrazo = new Chart($("graficoPrazo"), {
         type: "doughnut",
         data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, padding: 16, color: "#344054", font: { size: 12, weight: "600" } } } } }
       });
 
       chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
         type: "bar",
         data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: "#101828", titleColor: "#fff", bodyColor: "#fff", padding: 12 } }, scales: { y: { beginAtZero: true, ticks: { precision: 0, color: "#475467", font: { size: 12 } }, grid: { color: "#e4e7ec" } }, x: { ticks: { color: "#475467", font: { size: 12 } }, grid: { display: false } } } }
       });
 
       chartGerencia = new Chart($("graficoGerencia"), {
         type: "bar",
         data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] },
-        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } }
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: "#101828", titleColor: "#fff", bodyColor: "#fff", padding: 12 } }, scales: { x: { beginAtZero: true, ticks: { precision: 0, color: "#475467", font: { size: 12 } }, grid: { color: "#e4e7ec" } }, y: { ticks: { color: "#475467", font: { size: 12 }, callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } }, grid: { display: false } } } }
       });
 
       chartSituacao = new Chart($("graficoSituacao"), {
         type: "bar",
         data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: "#101828", titleColor: "#fff", bodyColor: "#fff", padding: 12 } }, scales: { y: { beginAtZero: true, ticks: { precision: 0, color: "#475467", font: { size: 12 } }, grid: { color: "#e4e7ec" } }, x: { ticks: { color: "#475467", font: { size: 12 } }, grid: { display: false } } } }
       });
 
       chartSGI = new Chart($("graficoSGI"), {
         type: "bar",
         data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] },
-        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } }
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: "#101828", titleColor: "#fff", bodyColor: "#fff", padding: 12, callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0, color: "#475467", font: { size: 12 } }, grid: { color: "#e4e7ec" } }, y: { ticks: { color: "#475467", font: { size: 12 }, callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } }, grid: { display: false } } } }
       });
     }
 
@@ -1871,7 +1875,7 @@ Gerência: GECONT"></textarea>
       filtroDataInicial.value = "";
       filtroDataFinal.value = "";
       filtroAtrasados.checked = false;
-      ordenacao.value = "";
+      ordenacao.value = "dataCadastroDesc";
       salvarFiltros();
       renderEverything();
       if (mostrarToast) toast("Filtros limpos.", "info");
@@ -2013,12 +2017,12 @@ Gerência: GECONT"></textarea>
     }
 
     function renderDashboard(itens) {
-      $("kpiTotal").textContent = itens.length;
-      $("kpiSemPrazo").textContent = itens.filter(i => i.statusPrazo === "Sem prazo").length;
-      $("kpiVencendo").textContent = itens.filter(i => i.statusPrazo === "Vencendo").length;
-      $("kpiAtrasados").textContent = itens.filter(i => i.statusPrazo === "Atrasado").length;
-      $("kpiConcluidos").textContent = itens.filter(i => i.situacao === "Concluído").length;
-      $("kpiPendentes").textContent = itens.filter(i => i.situacao === "Pendente").length;
+      setTextIfExists("kpiTotal", itens.length);
+      setTextIfExists("kpiSemPrazo", itens.filter(i => i.statusPrazo === "Sem prazo").length);
+      setTextIfExists("kpiVencendo", itens.filter(i => i.statusPrazo === "Vencendo").length);
+      setTextIfExists("kpiAtrasados", itens.filter(i => i.statusPrazo === "Atrasado").length);
+      setTextIfExists("kpiConcluidos", itens.filter(i => i.situacao === "Concluído").length);
+      setTextIfExists("kpiPendentes", itens.filter(i => i.situacao === "Pendente").length);
 
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
@@ -2032,31 +2036,31 @@ Gerência: GECONT"></textarea>
       chartPrazo = new Chart($("graficoPrazo"), {
         type: "doughnut",
         data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, padding: 16, color: "#344054", font: { size: 12, weight: "600" } } } } }
       });
 
       chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
         type: "bar",
         data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: "#101828", titleColor: "#fff", bodyColor: "#fff", padding: 12 } }, scales: { y: { beginAtZero: true, ticks: { precision: 0, color: "#475467", font: { size: 12 } }, grid: { color: "#e4e7ec" } }, x: { ticks: { color: "#475467", font: { size: 12 } }, grid: { display: false } } } }
       });
 
       chartGerencia = new Chart($("graficoGerencia"), {
         type: "bar",
         data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] },
-        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } }
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: "#101828", titleColor: "#fff", bodyColor: "#fff", padding: 12 } }, scales: { x: { beginAtZero: true, ticks: { precision: 0, color: "#475467", font: { size: 12 } }, grid: { color: "#e4e7ec" } }, y: { ticks: { color: "#475467", font: { size: 12 }, callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } }, grid: { display: false } } } }
       });
 
       chartSituacao = new Chart($("graficoSituacao"), {
         type: "bar",
         data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: "#101828", titleColor: "#fff", bodyColor: "#fff", padding: 12 } }, scales: { y: { beginAtZero: true, ticks: { precision: 0, color: "#475467", font: { size: 12 } }, grid: { color: "#e4e7ec" } }, x: { ticks: { color: "#475467", font: { size: 12 } }, grid: { display: false } } } }
       });
 
       chartSGI = new Chart($("graficoSGI"), {
         type: "bar",
         data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] },
-        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } }
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: "#101828", titleColor: "#fff", bodyColor: "#fff", padding: 12, callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0, color: "#475467", font: { size: 12 } }, grid: { color: "#e4e7ec" } }, y: { ticks: { color: "#475467", font: { size: 12 }, callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } }, grid: { display: false } } } }
       });
     }
 
@@ -2124,10 +2128,10 @@ Gerência: GECONT"></textarea>
 
       limiteVencendo.addEventListener("change", () => { salvarFiltros(); renderEverything(); });
       btnLimparFiltros.addEventListener("click", limparFiltros);
-      btnExportarExcelTodos.addEventListener("click", () => exportarExcel(false));
-      btnExportarExcelVisiveis.addEventListener("click", () => exportarExcel(true));
-      btnExportarPDFTodos.addEventListener("click", () => exportarPDF(false));
-      btnExportarPDFVisiveis.addEventListener("click", () => exportarPDF(true));
+      if (btnExportarExcelTodos) btnExportarExcelTodos.addEventListener("click", () => exportarExcel(false));
+      if (btnExportarExcelVisiveis) btnExportarExcelVisiveis.addEventListener("click", () => exportarExcel(true));
+      if (btnExportarPDFTodos) btnExportarPDFTodos.addEventListener("click", () => exportarPDF(false));
+      if (btnExportarPDFVisiveis) btnExportarPDFVisiveis.addEventListener("click", () => exportarPDF(true));
 
       $("chipsRapidos").addEventListener("click", (e) => {
         const chip = e.target.closest(".chip");
@@ -2149,7 +2153,6 @@ Gerência: GECONT"></textarea>
         if (!id) return;
         if (btn) {
           const action = btn.dataset.action;
-          if (action === "expand") { e.stopPropagation(); toggleExpand(id); return; }
           if (action === "view") { e.stopPropagation(); abrirDrawer(id); return; }
           if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
           if (action === "pendente") { e.stopPropagation(); alterarSituacaoRapida(id, "Pendente"); return; }
@@ -2160,7 +2163,7 @@ Gerência: GECONT"></textarea>
       });
 
       document.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
-        ordenacao.value = th.dataset.sort || "";
+        ordenacao.value = th.dataset.sort || "dataCadastroDesc";
         salvarFiltros();
         aplicarFiltrosEOrdenacao();
       }));
