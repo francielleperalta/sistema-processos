@@ -59,44 +59,28 @@
     }
 
     .container {
-      max-width: 1480px;
-      margin: 32px auto;
-      padding: 0 22px 42px;
+      max-width: 1460px;
+      margin: 30px auto;
+      padding: 0 22px 38px;
     }
     .btn-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; }
     .btn-row button { width:auto; min-width:160px; margin-top:0; }
-    label { display:block; font-size:13px; line-height:1.35; color: var(--muted); margin-bottom:4px; font-weight:700; }
-    .section-title { font-size: 20px; font-weight: 800; margin: 0 0 14px; }
+    label { display:block; font-size:13px; color: var(--muted); margin-bottom:4px; font-weight:700; }
     .hero { position: relative; overflow: hidden; }
-    .hero::after { content:""; position:absolute; right:-30px; top:-30px; width:160px; height:160px; background: radial-gradient(circle, rgba(21,94,239,.11) 0%, rgba(21,94,239,0) 70%); }
+    .hero::after { content:""; position:absolute; right:-30px; top:-30px; width:150px; height:150px; background: radial-gradient(circle, rgba(21,94,239,.10) 0%, rgba(21,94,239,0) 70%); }
     .helper-text { color: var(--muted); font-size: 13px; margin: -2px 0 10px; }
     .page-note { padding: 12px 14px; background: #eff6ff; border:1px solid #bfdbfe; color:#1d4ed8; border-radius: 12px; font-size:13px; }
     .toolbar button { width:auto; margin-top:0; }
-    .tab-btn { min-width: 170px; padding: 14px 20px; border-radius: 14px; }
-    .subtabs { display:flex; gap:10px; flex-wrap:wrap; margin: 4px 0 18px; }
-    .subtab-btn { width:auto; min-width:180px; background:#fff; color:#344054; border:1px solid #d0d5dd; box-shadow:none; margin-top:0; }
-    .subtab-btn.active { background: linear-gradient(180deg, #2e73ff 0%, var(--primary) 100%); color:#fff; border-color:transparent; }
-    .hidden-section { display:none !important; }
-    .filter-card { background: linear-gradient(180deg,#ffffff 0%,#fbfcff 100%); border:1px solid #e5ebf5; }
-    .priority-banner { display:grid; grid-template-columns: repeat(4, 1fr); gap:16px; margin-top:18px; }
-    .priority-card { padding:18px; border-radius:18px; background:#fff; border:1px solid #eaecf0; box-shadow: 0 6px 18px rgba(16,24,40,.05); cursor:pointer; }
-    .priority-card .k { color: var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
-    .priority-card .v { font-size:30px; font-weight:800; margin-top:8px; }
-    .priority-card small { display:block; margin-top:8px; color:var(--muted); }
-    .priority-card.red { border-color:#fecdca; background:#fff7f7; }
-    .priority-card.orange { border-color:#fedf89; background:#fffaf0; }
-    .priority-card.blue { border-color:#b2ddff; background:#f5fbff; }
-    .priority-card.slate { border-color:#d0d5dd; background:#fcfcfd; }
+    .box-soft { padding:20px; border-radius:18px; }
     .metric { border-radius:18px; box-shadow: 0 6px 20px rgba(16,24,40,.05); }
     .metric .label { text-transform: uppercase; letter-spacing: .04em; font-size: 12px; }
     .metric .value { font-size: 32px; line-height:1; }
     .summary-card { cursor:pointer; }
     .summary-card.active { outline:2px solid #c7d7fe; background:linear-gradient(180deg,#ffffff 0%,#f5f9ff 100%); }
-    .stats-strip { gap:10px; }
     .counter-pill { padding: 10px 14px; background:#f8fafc; }
     .search-mark { background: #fff3bf; padding: 0 2px; border-radius: 4px; }
     .table-wrap { margin-top: 20px; max-height: none; border-radius: 18px; box-shadow: 0 8px 24px rgba(16,24,40,.06); }
-    table { min-width: 1280px; }
+    table { min-width: 1320px; }
     thead th { padding: 14px 12px; font-size: 13px; }
     tbody td { padding: 14px 12px; line-height:1.45; }
     tbody tr.main-row:nth-child(4n+1) td, tbody tr.main-row:nth-child(4n+2) td { background:#fff; }
@@ -104,22 +88,12 @@
     tbody tr.main-row:hover td { background:#edf5ff !important; }
     .acoes { gap:8px; }
     .acoes button { padding: 8px 12px; border-radius: 10px; }
-    .compact-actions button { min-width: unset; }
-    .detail-row, .expand-btn { display:none !important; }
-    .dashboard-grid { display:grid; grid-template-columns: 1.15fr .85fr; gap:20px; }
+    .dashboard-grid { grid-template-columns: 1.15fr .85fr; gap:20px; }
     .chart-card { padding:22px; border:1px solid #e7edf6; }
     canvas { margin-top: 14px; max-height: 400px; border:1px solid #eef2f6; }
-    .list-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:6px; flex-wrap:wrap; }
-    .drawer { width: min(520px, 96vw); }
-    .drawer-box { border-radius: 14px; }
-    .history-list { display:grid; gap:10px; }
-    .history-item { background:#fcfcfd; border:1px solid #eaecf0; border-radius:12px; padding:12px; }
-    .history-item .ht { font-size:12px; color:var(--muted); margin-bottom:4px; }
-    .modal { width:min(920px, 100%); }
     .no-results { margin-top:18px; padding:22px; border:1px dashed #cfd8e3; border-radius:16px; background:#fff; color:#667085; }
     .app-footer { text-align:center; color:#667085; font-size:12px; margin-top:16px; }
-    @media (max-width: 1200px) { .composer, .dashboard-grid, .priority-banner { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 900px) { .composer, .dashboard-grid, .priority-banner { grid-template-columns: 1fr; } .btn-row button, .toolbar button, .subtab-btn { width:100%; } .tab-btn { width:100%; min-width:0; } }
+    @media (max-width: 900px) { .btn-row button, .toolbar button, .tab-btn { width:100%; } }
 
 
     .card {
@@ -138,7 +112,7 @@
 
     .hidden { display: none !important; }
     .muted { color: var(--muted); font-size: 13px; }
-    .section-title { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+    .section-title { font-size: 20px; font-weight: 800; margin: 0 0 14px; }
 
     .topbar, .toolbar, .tabs, .chips, .stats-strip {
       display: flex;
@@ -394,6 +368,7 @@
     tr.linha-vencendo td, tr.linha-hoje td { background: #fffaf0; }
     tr.linha-sem-prazo td { background: #fafafa; }
 
+    .detail-row { display:none; }
     .detail-row td {
       background: #fcfcfd !important;
       padding: 0;
@@ -583,7 +558,7 @@
 <body>
   <header>
     <h1>Sistema de Gestão de Processos</h1>
-    <p>Painel institucional para cadastro, acompanhamento e gestão de prazos</p>
+    <p>Painel institucional para cadastro, consulta e acompanhamento de processos</p>
   </header>
 
   <div class="toasts" id="toasts"></div>
@@ -619,7 +594,7 @@
       <div class="topbar">
         <div>
           <h3 style="margin-bottom:6px;">Painel de Processos</h3>
-          <div class="helper-text" style="max-width:620px;">Acompanhe prazos críticos, cadastre novos processos e encontre informações rapidamente.</div>
+          <div class="helper-text" style="max-width:620px;">Use esta tela para cadastrar, filtrar, acompanhar prazos e consultar os processos já registrados.</div>
           <div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong></div>
         </div>
         <div class="toolbar">
@@ -636,15 +611,10 @@
       </div>
 
       <div id="abaProcessos">
-        <div class="subtabs">
-          <button type="button" id="subtabConsultaBtn" class="subtab-btn active">Consulta e acompanhamento</button>
-          <button type="button" id="subtabCadastroBtn" class="subtab-btn">Cadastrar novo processo</button>
-        </div>
-        <div id="blocoCadastro" class="hidden-section">
         <div class="composer">
           <div class="box-soft">
             <div class="section-title">Cadastrar novo processo</div>
-            <div class="helper-text">Cole o texto do processo ou preencha os campos complementares. O sistema tenta identificar automaticamente as informações principais.</div>
+            <div class="helper-text">Cole o texto do processo ou complemente manualmente os campos abaixo.</div>
             <textarea id="entrada" placeholder="Cole o texto do processo aqui...
 
 Exemplo:
@@ -657,7 +627,7 @@ Gerência: GECONT"></textarea>
 
           <div class="box-soft">
             <div class="section-title">Informações complementares</div>
-            <div class="helper-text">Use os campos abaixo para complementar ou corrigir os dados antes de salvar.</div>
+            <div class="helper-text">Use estes campos para corrigir ou complementar os dados antes de salvar.</div>
             <div class="grid-2">
               <div>
                 <label for="gerenciaManual">Gerência/Seção</label>
@@ -681,20 +651,8 @@ Gerência: GECONT"></textarea>
                   <option value="7">7 dias</option>
                 </select>
               </div>
-              <div>
-                <label for="responsavelManual">Responsável</label>
-                <input type="text" id="responsavelManual" placeholder="Quem acompanha o processo?" />
-              </div>
-              <div>
-                <label for="prioridadeManual">Prioridade</label>
-                <select id="prioridadeManual"></select>
-              </div>
             </div>
             <label style="display:block; margin-top:10px;"><input type="checkbox" id="semPrazoManual" /> Processo sem prazo definido</label>
-            <div style="margin-top:10px;">
-              <label for="observacoesManual">Observações</label>
-              <textarea id="observacoesManual" style="min-height:90px;" placeholder="Anotações internas importantes"></textarea>
-            </div>
           </div>
         </div>
 
@@ -709,7 +667,7 @@ Gerência: GECONT"></textarea>
 
         <div class="card" style="margin-top:18px; padding:18px; background:linear-gradient(180deg,#fbfdff 0%,#f8fbff 100%);">
           <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
-          <div class="page-note" style="margin-bottom:14px;">A lista abre ordenada pela data de cadastro, do processo mais recente para o mais antigo.</div>
+          <div class="page-note" style="margin-bottom:14px;">A tabela abre ordenada pela data de cadastro, do processo mais recente para o mais antigo.</div>
           <div class="filters-wrap">
             <div class="filters-top">
               <div>
@@ -769,7 +727,6 @@ Gerência: GECONT"></textarea>
                   <option value="gerenciaAsc">Gerência</option>
                   <option value="areaAsc">Área</option>
                   <option value="diasRestantesAsc">Dias restantes</option>
-                  <option value="prioridadeUrgencia">Urgência e prioridade</option>
                 </select>
               </div>
               <div>
@@ -833,13 +790,16 @@ Gerência: GECONT"></textarea>
             <thead>
               <tr>
                 <th class="sortable" data-sort="processoAsc">Processo <small>⇅</small></th>
-                <th>Interessado / Responsável</th>
-                <th>Assunto / Prioridade</th>
+                <th>Interessado</th>
+                <th>Assunto</th>
                 <th class="sortable" data-sort="dataCadastroDesc">Data de cadastro <small>⇅</small></th>
                 <th>Situação</th>
+                <th class="sortable" data-sort="areaAsc">Área <small>⇅</small></th>
                 <th class="sortable" data-sort="gerenciaAsc">Gerência/Seção <small>⇅</small></th>
                 <th class="sortable" data-sort="dataFinalAsc">Data final <small>⇅</small></th>
                 <th>Status do prazo</th>
+                <th class="sortable" data-sort="diasRestantesAsc">Dias restantes <small>⇅</small></th>
+                <th>Última alteração</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -910,8 +870,8 @@ Gerência: GECONT"></textarea>
     <div class="drawer-box"><div class="label">Histórico recente</div><div id="drawerHistorico" class="history-list"></div></div>
     <div class="btn-row">
       <button type="button" id="drawerBtnEditar">Editar</button>
-      <button type="button" class="warning" id="drawerBtnPendente">Marcar pendente</button>
-      <button type="button" class="success" id="drawerBtnConcluir">Marcar concluído</button>
+      <button type="button" class="warning" id="drawerBtnPendente">Pendente</button>
+      <button type="button" class="success" id="drawerBtnConcluir">Concluir</button>
       <button type="button" class="secondary" id="drawerBtnArquivar">Arquivar</button>
       <button type="button" class="danger" id="drawerBtnExcluir">Excluir</button>
     </div>
@@ -947,7 +907,7 @@ Gerência: GECONT"></textarea>
     </div>
   </div>
 
-  <div class="app-footer">Versão institucional v4 • Publicada com foco em estabilidade, consulta rápida e acompanhamento de prazos</div>
+  <div class="app-footer">Versão estável simplificada • foco em consulta, cadastro e dashboard funcional</div>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
@@ -959,7 +919,7 @@ Gerência: GECONT"></textarea>
       appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
       measurementId: "G-68LQKR6HK0"
     };
-    const APP_VERSION = "v4-institucional-2026-06-23";
+    const APP_VERSION = "v4-simples-estavel-2026-06-23";
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     try { auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); } catch (e) { console.warn("Persistência de login não aplicada.", e); }
@@ -1044,7 +1004,7 @@ Gerência: GECONT"></textarea>
     const STATUS_OPERACIONAIS = ["Em análise", "Pendente", "Em andamento", "Concluído", "Arquivado"];
     const STATUS_PRAZO_LIST = ["No prazo", "Vence hoje", "Vencendo", "Atrasado", "Sem prazo"];
     const PRIORIDADES = ["Alta", "Média", "Baixa"];
-    const STORAGE_KEYS = { filtros: "sgp_clean_filters_v1", aba: "sgp_clean_aba_v1", subaba: "sgp_clean_subaba_v4" };
+    const STORAGE_KEYS = { filtros: "sgp_clean_filters_v1", aba: "sgp_clean_aba_v1" };
 
     let allItems = [];
     let filteredItems = [];
@@ -1078,10 +1038,6 @@ Gerência: GECONT"></textarea>
     const tabDashboardBtn = $("tabDashboardBtn");
     const abaProcessos = $("abaProcessos");
     const abaDashboard = $("abaDashboard");
-    const subtabConsultaBtn = $("subtabConsultaBtn");
-    const subtabCadastroBtn = $("subtabCadastroBtn");
-    const blocoCadastro = $("blocoCadastro");
-    const btnAbrirCadastro = $("btnAbrirCadastro");
     const entrada = $("entrada");
     const gerenciaManual = $("gerenciaManual");
     const situacaoManual = $("situacaoManual");
@@ -1198,14 +1154,6 @@ Gerência: GECONT"></textarea>
       if (p.includes("baixa")) return 2;
       return 3;
     }
-    function abrirSubAba(nome) {
-      const exibirCadastro = nome === "cadastro";
-      if (blocoCadastro) blocoCadastro.classList.toggle("hidden-section", !exibirCadastro);
-      if (subtabCadastroBtn) subtabCadastroBtn.classList.toggle("active", exibirCadastro);
-      if (subtabConsultaBtn) subtabConsultaBtn.classList.toggle("active", !exibirCadastro);
-      localStorage.setItem(STORAGE_KEYS.subaba, exibirCadastro ? "cadastro" : "consulta");
-    }
-    function aplicarSubAbaSalva() { abrirSubAba(localStorage.getItem(STORAGE_KEYS.subaba) || "consulta"); }
 
     function setLoading(botao, carregando, textoOriginal = "Salvar") {
       if (!botao) return;
@@ -1432,9 +1380,9 @@ Gerência: GECONT"></textarea>
         });
       });
 
-      PRIORIDADES.forEach(p => { [prioridadeManual, editPrioridade].forEach(sel => { const op = document.createElement("option"); op.value = p; op.textContent = p; sel.appendChild(op); }); });
-      prioridadeManual.value = "Média";
-      editPrioridade.value = "Média";
+      PRIORIDADES.forEach(p => { [prioridadeManual, editPrioridade].forEach(sel => { if (sel) { const op = document.createElement("option"); op.value = p; op.textContent = p; sel.appendChild(op); } }); });
+      if (prioridadeManual) prioridadeManual.value = "Média";
+      if (editPrioridade) editPrioridade.value = "Média";
       situacaoManual.value = "Em análise";
       editSituacao.value = "Em análise";
     }
@@ -1627,9 +1575,9 @@ Gerência: GECONT"></textarea>
         const dataFinal = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
         const gerencia = resolverGerenciaPorTexto(gerenciaManual.value || extrairGerencia(texto));
         const situacao = situacaoManual.value || "Em análise";
-        const responsavel = responsavelManual.value.trim();
-        const prioridade = prioridadeManual.value || "Média";
-        const observacoes = observacoesManual.value.trim();
+        const responsavel = responsavelManual?.value.trim() || "";
+        const prioridade = prioridadeManual?.value || "Média";
+        const observacoes = observacoesManual?.value.trim() || "";
         const area = obterAreaPorUnidade(gerencia);
 
         if (!processo && !interessado && !assunto && !texto) return mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
@@ -1694,10 +1642,10 @@ Gerência: GECONT"></textarea>
           area: obterAreaPorUnidade(gerenciaResolvida),
           dataFinal: editSemPrazo.checked ? "" : (editDataFinal.value || ""),
           semPrazo: editSemPrazo.checked || !editDataFinal.value,
-          responsavel: editResponsavel.value.trim(),
-          prioridade: editPrioridade.value || "Média",
-          observacoes: editObservacoes.value.trim(),
-          dataConclusao: editSituacao.value === "Concluído" ? (editDataConclusao.value || todayISO()) : ""
+          responsavel: editResponsavel?.value.trim() || "",
+          prioridade: editPrioridade?.value || "Média",
+          observacoes: editObservacoes?.value.trim() || "",
+          dataConclusao: editSituacao.value === "Concluído" ? ((editDataConclusao?.value) || todayISO()) : ""
         }, "Dados do processo editados");
         fecharModal();
         toast("Registro atualizado com sucesso.", "success");
@@ -1806,30 +1754,46 @@ Gerência: GECONT"></textarea>
       }
       noResults.classList.add("hidden");
       tabela.classList.remove("hidden");
+
       tbodyProcessos.innerHTML = itens.map(item => {
         const classeLinha = obterClasseLinha(item.statusPrazo);
         const unidadeExibida = item.area === "Superintendência de Gestão Integrada (SGI)" && ABREVIACOES_SGI[item.gerencia]
           ? `${item.gerencia} (${ABREVIACOES_SGI[item.gerencia]})`
           : item.gerencia;
-        const prioridadeStyle = item.prioridade === "Alta"
-          ? { bg: '#fef3f2', co: '#b42318', bd: '#fecdca' }
-          : item.prioridade === "Média"
-            ? { bg: '#fffaeb', co: '#b54708', bd: '#fedf89' }
-            : { bg: '#f2f4f7', co: '#475467', bd: '#d0d5dd' };
-        const prioridadeBadge = `<span class="badge" style="background:${prioridadeStyle.bg}; color:${prioridadeStyle.co}; border:1px solid ${prioridadeStyle.bd};">${escapeHtml(item.prioridade || 'Média')}</span>`;
+
         return `
           <tr class="main-row ${classeLinha}" data-id="${item.id}">
             <td>${highlightText(item.processo || "", termo) || "<span class='muted'>(sem número)</span>"}</td>
-            <td><div>${highlightText(item.interessado || "", termo) || "-"}</div><div class="muted">Responsável: ${highlightText(item.responsavel || "-", termo)}</div></td>
-            <td><div>${highlightText(item.assunto || "", termo) || "-"}</div><div class="muted" style="margin-top:6px;">${prioridadeBadge}</div></td>
+            <td>${highlightText(item.interessado || "", termo) || "-"}</td>
+            <td>${highlightText(item.assunto || "", termo) || "-"}</td>
             <td>${escapeHtml(item.dataCadastro || "-")}</td>
             <td><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></td>
+            <td><span class="badge-area ${classeAreaBadge(item.area)}">${highlightText(item.area || "", termo) || "-"}</span></td>
             <td>${highlightText(unidadeExibida || "-", termo)}</td>
             <td>${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</td>
             <td>${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</td>
-            <td><div class="acoes compact-actions"><button type="button" data-action="view">Ver</button><button type="button" class="secondary" data-action="edit">Editar</button><button type="button" class="success" data-action="concluir">Concluir</button><button type="button" class="danger" data-action="delete">Excluir</button></div></td>
+            <td>${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(item.diasRestantes))}</td>
+            <td><div><strong>${escapeHtml(item.alteradoPor || "-")}</strong></div><div class="muted">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></td>
+            <td>
+              <div class="acoes">
+                <button type="button" data-action="view">Ver</button>
+                <button type="button" class="secondary" data-action="edit">Editar</button>
+                <button type="button" class="warning" data-action="pendente">Pendente</button>
+                <button type="button" class="success" data-action="concluir">Concluir</button>
+                <button type="button" class="danger" data-action="delete">Excluir</button>
+              </div>
+            </td>
           </tr>
-          <tr class="detail-row hidden" data-detail-for="${item.id}"><td colspan="9"></td></tr>
+          <tr class="detail-row ${expandedIds.has(item.id) ? "" : "hidden"}" data-detail-for="${item.id}">
+            <td colspan="12">
+              <div class="row-details-box">
+                <div class="detail-mini"><div class="tt">Área</div><div>${escapeHtml(item.area || "-")}</div></div>
+                <div class="detail-mini"><div class="tt">Criado por</div><div>${escapeHtml(item.criadoPor || "-")}</div></div>
+                <div class="detail-mini"><div class="tt">Criado em</div><div>${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
+                <div class="detail-mini"><div class="tt">Última alteração</div><div>${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
+              </div>
+            </td>
+          </tr>
         `;
       }).join("");
     }
@@ -1855,10 +1819,6 @@ Gerência: GECONT"></textarea>
       setTextIfExists(sumHoje, hoje);
       setTextIfExists(sumSemPrazo, semPrazo);
       setTextIfExists(sumConcluidos, concluidos);
-      setTextIfExists("prioAtrasados", atrasados);
-      setTextIfExists("prioHoje", hoje);
-      setTextIfExists("prioVencendo", vencendo);
-      setTextIfExists("prioSemPrazo", semPrazo);
     }
 
     function renderAlertas(itens, enviarNotificacao = false) {
@@ -1996,9 +1956,9 @@ Gerência: GECONT"></textarea>
       situacaoManual.value = "Em análise";
       dataFinalManual.value = "";
       semPrazoManual.checked = false;
-      responsavelManual.value = "";
-      prioridadeManual.value = "Média";
-      observacoesManual.value = "";
+      if (responsavelManual) responsavelManual.value = "";
+      if (prioridadeManual) prioridadeManual.value = "Média";
+      if (observacoesManual) observacoesManual.value = "";
       dataFinalManual.disabled = false;
       mostrarMensagem("Formulário limpo.", "info");
     }
@@ -2030,12 +1990,7 @@ Gerência: GECONT"></textarea>
         <div class="drawer-box"><div class="label">Última alteração em</div><div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
       `;
       const historico = Array.isArray(item.historico) ? [...item.historico].sort((a,b) => String(b.em || '').localeCompare(String(a.em || ''))).slice(0, 8) : [];
-      if (drawerHistorico) drawerHistorico.innerHTML = historico.length ? historico.map(h => `
-        <div class="history-item">
-          <div class="ht">${escapeHtml(formatarDataHora(h.em))} — ${escapeHtml(h.por || '-')}</div>
-          <div><strong>${escapeHtml(h.tipo || 'Evento')}</strong></div>
-          <div class="muted" style="margin-top:4px;">${escapeHtml(h.detalhes || '-')}</div>
-        </div>`).join("") : '<div class="muted">Sem histórico registrado.</div>';
+      if (drawerHistorico) drawerHistorico.innerHTML = historico.length ? historico.map(h => `\n        <div class="history-item">\n          <div class="ht">${escapeHtml(formatarDataHora(h.em))} — ${escapeHtml(h.por || '-')}</div>\n          <div><strong>${escapeHtml(h.tipo || 'Evento')}</strong></div>\n          <div class="muted" style="margin-top:4px;">${escapeHtml(h.detalhes || '-')}</div>\n        </div>`).join("") : '<div class="muted">Sem histórico registrado.</div>';
       drawerOverlay.classList.remove("hidden");
       drawer.classList.remove("hidden");
     }
@@ -2064,10 +2019,10 @@ Gerência: GECONT"></textarea>
       editSituacao.value = item.situacao || "Em análise";
       editGerencia.value = item.gerencia || "";
       editDataFinal.value = item.dataFinal || "";
-      editResponsavel.value = item.responsavel || "";
-      editPrioridade.value = item.prioridade || "Média";
-      editObservacoes.value = item.observacoes || "";
-      editDataConclusao.value = item.dataConclusao || "";
+      if (editResponsavel) editResponsavel.value = item.responsavel || "";
+      if (editPrioridade) editPrioridade.value = item.prioridade || "Média";
+      if (editObservacoes) editObservacoes.value = item.observacoes || "";
+      if (editDataConclusao) editDataConclusao.value = item.dataConclusao || "";
       editSemPrazo.checked = !!item.semPrazo;
       editDataFinal.disabled = !!item.semPrazo;
       modalOverlay.classList.remove("hidden");
@@ -2177,9 +2132,6 @@ Gerência: GECONT"></textarea>
       btnNotificacao.addEventListener("click", solicitarPermissaoNotificacao);
       tabProcessosBtn.addEventListener("click", () => abrirAba("processos"));
       tabDashboardBtn.addEventListener("click", () => abrirAba("dashboard"));
-      if (subtabConsultaBtn) subtabConsultaBtn.addEventListener("click", () => abrirSubAba("consulta"));
-      if (subtabCadastroBtn) subtabCadastroBtn.addEventListener("click", () => abrirSubAba("cadastro"));
-      if (btnAbrirCadastro) btnAbrirCadastro.addEventListener("click", () => abrirSubAba("cadastro"));
 
       semPrazoManual.addEventListener("change", () => {
         dataFinalManual.disabled = semPrazoManual.checked;
@@ -2265,7 +2217,6 @@ Gerência: GECONT"></textarea>
     preencherSelects();
     restaurarFiltros();
     aplicarAbaSalva();
-    aplicarSubAbaSalva();
     registrarEventos();
 
     auth.onAuthStateChanged((user) => {
