@@ -38,11 +38,12 @@
     }
 
     header {
-      background: linear-gradient(120deg, #0b3b91 0%, var(--primary) 100%);
-      color: #fff;
+      background: #e9eef3;
+      color: #243647;
       padding: 20px 16px;
       text-align: center;
-      box-shadow: 0 10px 24px rgba(21, 94, 239, 0.22);
+      box-shadow: none;
+      border-bottom: 1px solid #d8e0e8;
     }
 
     header h1 {
@@ -59,64 +60,32 @@
     }
 
     .container {
-      max-width: 1460px;
-      margin: 30px auto;
-      padding: 0 22px 38px;
+      max-width: 1600px;
+      margin: 24px auto;
+      padding: 0 16px 28px;
     }
-    .btn-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; }
-    .btn-row button { width:auto; min-width:160px; margin-top:0; }
-    label { display:block; font-size:13px; color: var(--muted); margin-bottom:4px; font-weight:700; }
-    .hero { position: relative; overflow: hidden; }
-    .hero::after { content:""; position:absolute; right:-30px; top:-30px; width:150px; height:150px; background: radial-gradient(circle, rgba(21,94,239,.10) 0%, rgba(21,94,239,0) 70%); }
-    .helper-text { color: var(--muted); font-size: 13px; margin: -2px 0 10px; }
-    .page-note { padding: 12px 14px; background: #eff6ff; border:1px solid #bfdbfe; color:#1d4ed8; border-radius: 12px; font-size:13px; }
-    .toolbar button { width:auto; margin-top:0; }
-    .box-soft { padding:20px; border-radius:18px; }
-    .metric { border-radius:18px; box-shadow: 0 6px 20px rgba(16,24,40,.05); }
-    .metric .label { text-transform: uppercase; letter-spacing: .04em; font-size: 12px; }
-    .metric .value { font-size: 32px; line-height:1; }
-    .summary-card { cursor:pointer; }
-    .summary-card.active { outline:2px solid #c7d7fe; background:linear-gradient(180deg,#ffffff 0%,#f5f9ff 100%); }
-    .counter-pill { padding: 10px 14px; background:#f8fafc; }
-    .search-mark { background: #fff3bf; padding: 0 2px; border-radius: 4px; }
-    .table-wrap { margin-top: 20px; max-height: none; border-radius: 18px; box-shadow: 0 8px 24px rgba(16,24,40,.06); }
-    table { min-width: 1320px; }
-    thead th { padding: 14px 12px; font-size: 13px; }
-    tbody td { padding: 14px 12px; line-height:1.45; }
-    tbody tr.main-row:nth-child(4n+1) td, tbody tr.main-row:nth-child(4n+2) td { background:#fff; }
-    tbody tr.main-row:nth-child(4n+3) td, tbody tr.main-row:nth-child(4n+4) td { background:#fbfdff; }
-    tbody tr.main-row:hover td { background:#edf5ff !important; }
-    .acoes { gap:8px; }
-    .acoes button { padding: 8px 12px; border-radius: 10px; }
-    .dashboard-grid { grid-template-columns: 1.15fr .85fr; gap:20px; }
-    .chart-card { padding:22px; border:1px solid #e7edf6; }
-    canvas { margin-top: 14px; max-height: 400px; border:1px solid #eef2f6; }
-    .no-results { margin-top:18px; padding:22px; border:1px dashed #cfd8e3; border-radius:16px; background:#fff; color:#667085; }
-    .app-footer { text-align:center; color:#667085; font-size:12px; margin-top:16px; }
-    @media (max-width: 900px) { .btn-row button, .toolbar button, .tab-btn { width:100%; } }
-
 
     .card {
       background: var(--surface);
       border: 1px solid rgba(16, 24, 40, 0.05);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 24px;
-      margin-bottom: 22px;
+      padding: 22px;
+      margin-bottom: 18px;
     }
 
     .hero {
-      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 60%, #eef4ff 100%);
-      border-color: #dbe6ff;
+      background: linear-gradient(135deg, #fcfcfd 0%, #f6f8fa 100%);
+      border-color: #dde3ea;
     }
 
     .hidden { display: none !important; }
     .muted { color: var(--muted); font-size: 13px; }
-    .section-title { font-size: 20px; font-weight: 800; margin: 0 0 14px; }
+    .section-title { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
 
     .topbar, .toolbar, .tabs, .chips, .stats-strip {
       display: flex;
-      gap: 18px;
+      gap: 10px;
       flex-wrap: wrap;
       align-items: center;
     }
@@ -125,7 +94,7 @@
 
     .grid-2, .grid-3, .grid-4, .grid-5 {
       display: grid;
-      gap: 18px;
+      gap: 14px;
     }
     .grid-2 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
@@ -140,7 +109,7 @@
 
     input, textarea, select, button {
       width: 100%;
-      padding: 14px 16px;
+      padding: 12px 13px;
       border-radius: 12px;
       border: 1px solid #d0d5dd;
       font-size: 14px;
@@ -148,7 +117,7 @@
       background: #fff;
       transition: 0.2s ease;
       outline: none;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     input:focus, textarea:focus, select:focus {
@@ -244,13 +213,13 @@
     .filters-top {
       display: grid;
       grid-template-columns: 1.4fr repeat(4, 1fr);
-      gap: 16px;
+      gap: 12px;
       align-items: end;
     }
     .filters-bottom {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
+      gap: 12px;
       align-items: end;
     }
     @media (max-width: 1300px) {
@@ -281,7 +250,7 @@
     .metric-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      gap: 14px;
     }
     @media (max-width: 1200px) { .metric-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 700px) { .metric-grid { grid-template-columns: 1fr; } }
@@ -308,8 +277,8 @@
     .metric.slate::before { background: linear-gradient(90deg, #94a3b8 0%, #475569 100%); }
     .metric:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(16,24,40,.08); }
     .metric .label { font-size: 13px; color: var(--muted); }
-    .metric .value { font-size: 30px; font-weight: 800; margin-top: 10px; }
-    .metric small { display: block; margin-top: 10px; color: var(--muted); }
+    .metric .value { font-size: 30px; font-weight: 800; margin-top: 8px; }
+    .metric small { display: block; margin-top: 8px; color: var(--muted); }
 
     .stats-strip { margin-top: 14px; }
     .counter-pill {
@@ -349,7 +318,7 @@
       position: sticky;
       top: 0;
       z-index: 3;
-      background: linear-gradient(180deg, #1d67c8 0%, var(--primary) 100%);
+      background: #5a7188;
       color: white;
       text-align: left;
       padding: 12px;
@@ -368,7 +337,6 @@
     tr.linha-vencendo td, tr.linha-hoje td { background: #fffaf0; }
     tr.linha-sem-prazo td { background: #fafafa; }
 
-    .detail-row { display:none; }
     .detail-row td {
       background: #fcfcfd !important;
       padding: 0;
@@ -377,7 +345,7 @@
       padding: 14px 16px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      gap: 10px;
       border-top: 1px dashed #ddd;
     }
     @media (max-width: 900px) { .row-details-box { grid-template-columns: 1fr; } }
@@ -491,13 +459,13 @@
       padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 14px;
     }
     .drawer-head, .modal-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
     }
     .drawer-close, .modal-close {
       width: auto;
@@ -511,7 +479,7 @@
     .drawer-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 18px;
+      gap: 10px;
     }
     .drawer-box {
       background: #fcfcfd;
@@ -539,7 +507,7 @@
       z-index: 1200;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 10px;
       width: min(360px, calc(100vw - 32px));
     }
     .toast {
@@ -557,7 +525,8 @@
 </head>
 <body>
   <header>
-    <h1>Sistema de Gestão de Processos</h1>
+    <h1>🏛️ Sistema de Gestão de Processos</h1>
+    <p>Painel para cadastro, consulta e acompanhamento de processos</p>
   </header>
 
   <div class="toasts" id="toasts"></div>
@@ -611,7 +580,7 @@
       <div id="abaProcessos">
         <div class="composer">
           <div class="box-soft">
-            <div class="section-title">Cadastrar novo processo</div>
+            <div class="section-title">Novo processo</div>
             <textarea id="entrada" placeholder="Cole o texto do processo aqui...
 
 Exemplo:
@@ -623,7 +592,7 @@ Gerência: GECONT"></textarea>
           </div>
 
           <div class="box-soft">
-            <div class="section-title">Informações complementares</div>
+            <div class="section-title">Complementos</div>
             <div class="grid-2">
               <div>
                 <label for="gerenciaManual">Gerência/Seção</label>
@@ -661,7 +630,7 @@ Gerência: GECONT"></textarea>
 
         <div id="mensagemSistema" class="hidden"></div>
 
-        <div class="card" style="margin-top:18px; padding:18px; background:linear-gradient(180deg,#fbfdff 0%,#f8fbff 100%);">
+        <div class="card" style="margin-top:18px; padding:18px; background: linear-gradient(180deg, #fcfcfd 0%, #f6f8fa 100%);">
           <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
           <div class="filters-wrap">
             <div class="filters-top">
@@ -784,6 +753,7 @@ Gerência: GECONT"></textarea>
           <table id="tabela" class="hidden">
             <thead>
               <tr>
+                <th style="width:55px;">Detalhe</th>
                 <th class="sortable" data-sort="processoAsc">Processo <small>⇅</small></th>
                 <th>Interessado</th>
                 <th>Assunto</th>
@@ -807,22 +777,25 @@ Gerência: GECONT"></textarea>
         <div class="dashboard-grid">
           <div class="charts-stack">
             <div class="card chart-card">
-              <h4>Prazos dos processos</h4>
+              <h4>Visão geral de prazos</h4>
+              <div class="muted">Resumo dos processos visíveis por status de prazo.</div>
               <canvas id="graficoPrazo"></canvas>
             </div>
             <div class="card chart-card">
-              <h4>Distribuição por área</h4>
+              <h4>Processos por área</h4>
+              <div class="muted">Distribuição entre SGI e demais áreas.</div>
               <canvas id="graficoOutrasAreas"></canvas>
             </div>
             <div class="card chart-card">
-              <h4>Unidades com mais processos</h4>
+              <h4>Ranking de unidades</h4>
+              <div class="muted">Top 12 gerências / seções com mais processos.</div>
               <canvas id="graficoGerencia"></canvas>
             </div>
           </div>
 
           <div class="sidebar-cards">
             <div class="card">
-              <h4>Resumo rápido</h4>
+              <h4>Painel executivo</h4>
               <div class="metric-grid" style="grid-template-columns:1fr 1fr; margin-top:12px;">
                 <div class="metric"><div class="label">Total</div><div class="value" id="kpiTotal">0</div></div>
                 <div class="metric slate"><div class="label">Sem prazo</div><div class="value" id="kpiSemPrazo">0</div></div>
@@ -834,12 +807,13 @@ Gerência: GECONT"></textarea>
             </div>
 
             <div class="card chart-card">
-              <h4>Situação dos processos</h4>
+              <h4>Processos por situação</h4>
               <canvas id="graficoSituacao"></canvas>
             </div>
 
             <div class="card chart-card">
-              <h4>SGI por unidade</h4>
+              <h4>SGI — gerências e seções</h4>
+              <div class="muted">Detalhamento rápido para sua área.</div>
               <canvas id="graficoSGI"></canvas>
             </div>
           </div>
@@ -858,7 +832,6 @@ Gerência: GECONT"></textarea>
       <button type="button" class="drawer-close" id="btnFecharDrawer">Fechar</button>
     </div>
     <div id="drawerConteudo" class="drawer-grid"></div>
-    <div class="drawer-box"><div class="label">Histórico recente</div><div id="drawerHistorico" class="history-list"></div></div>
     <div class="btn-row">
       <button type="button" id="drawerBtnEditar">Editar</button>
       <button type="button" class="warning" id="drawerBtnPendente">Pendente</button>
@@ -887,18 +860,11 @@ Gerência: GECONT"></textarea>
         <div><label for="editGerencia">Gerência/Seção</label><select id="editGerencia"><option value="">Selecione...</option></select></div>
         <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
       </div>
-      <div class="grid-3" style="margin-top:12px;">
-        <div><label for="editResponsavel">Responsável</label><input type="text" id="editResponsavel" /></div>
-        <div><label for="editPrioridade">Prioridade</label><select id="editPrioridade"></select></div>
-        <div><label for="editDataConclusao">Data de conclusão</label><input type="date" id="editDataConclusao" /></div>
-      </div>
       <label style="display:block; margin-top:10px;"><input type="checkbox" id="editSemPrazo" /> Sem prazo</label>
-      <div style="margin-top:10px;"><label for="editObservacoes">Observações</label><textarea id="editObservacoes" style="min-height:90px;"></textarea></div>
       <div class="btn-row"><button type="button" id="btnSalvarEdicao">Salvar alterações</button></div>
     </div>
   </div>
 
-  <div class="app-footer">Versão estável simplificada • foco em consulta, cadastro e dashboard funcional</div>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
@@ -910,16 +876,9 @@ Gerência: GECONT"></textarea>
       appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
       measurementId: "G-68LQKR6HK0"
     };
-    const APP_VERSION = "v4-simples-estavel-2026-06-23";
-    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    try { auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); } catch (e) { console.warn("Persistência de login não aplicada.", e); }
     const db = firebase.firestore();
-    try {
-      db.enablePersistence({ synchronizeTabs: true }).catch(err => {
-        if (err?.code !== "failed-precondition" && err?.code !== "unimplemented") console.warn("Persistência local do Firestore não ativada.", err);
-      });
-    } catch (e) { console.warn("Persistência do Firestore indisponível.", e); }
 
     const ESTRUTURA_ORGANIZACIONAL = {
       "Superintendência de Gestão Integrada (SGI)": [
@@ -994,7 +953,6 @@ Gerência: GECONT"></textarea>
     const COLLECTION_PROCESSOS = "processos";
     const STATUS_OPERACIONAIS = ["Em análise", "Pendente", "Em andamento", "Concluído", "Arquivado"];
     const STATUS_PRAZO_LIST = ["No prazo", "Vence hoje", "Vencendo", "Atrasado", "Sem prazo"];
-    const PRIORIDADES = ["Alta", "Média", "Baixa"];
     const STORAGE_KEYS = { filtros: "sgp_clean_filters_v1", aba: "sgp_clean_aba_v1" };
 
     let allItems = [];
@@ -1004,7 +962,6 @@ Gerência: GECONT"></textarea>
     let chartSGI = null;
     let chartOutrasAreas = null;
     let chartGerencia = null;
-    let chartEntradas = null;
     let unsubscribeSnapshot = null;
     let expandedIds = new Set();
     let selectedDrawerId = null;
@@ -1013,7 +970,6 @@ Gerência: GECONT"></textarea>
 
     const $ = (id) => document.getElementById(id);
     function setTextIfExists(idOrEl, value) { const el = typeof idOrEl === "string" ? $(idOrEl) : idOrEl; if (el) el.textContent = value; }
-    function criarEventoHistorico(tipo, detalhes = "") { return { tipo, detalhes, em: new Date().toISOString(), por: auth.currentUser?.email || "" }; }
     const loginBox = $("loginBox");
     const appBox = $("appBox");
     const emailInput = $("email");
@@ -1035,9 +991,6 @@ Gerência: GECONT"></textarea>
     const dataFinalManual = $("dataFinalManual");
     const semPrazoManual = $("semPrazoManual");
     const limiteVencendo = $("limiteVencendo");
-    const responsavelManual = $("responsavelManual");
-    const prioridadeManual = $("prioridadeManual");
-    const observacoesManual = $("observacoesManual");
     const btnGerarProcesso = $("btnGerarProcesso");
     const btnLimparFormulario = $("btnLimparFormulario");
     const mensagemSistema = $("mensagemSistema");
@@ -1093,12 +1046,7 @@ Gerência: GECONT"></textarea>
     const editGerencia = $("editGerencia");
     const editDataFinal = $("editDataFinal");
     const editSemPrazo = $("editSemPrazo");
-    const editResponsavel = $("editResponsavel");
-    const editPrioridade = $("editPrioridade");
-    const editObservacoes = $("editObservacoes");
-    const editDataConclusao = $("editDataConclusao");
     const btnSalvarEdicao = $("btnSalvarEdicao");
-    const drawerHistorico = $("drawerHistorico");
     const toasts = $("toasts");
 
     function normalizarBusca(texto) {
@@ -1137,13 +1085,6 @@ Gerência: GECONT"></textarea>
 
     function classeAreaBadge(area) {
       return area === "Superintendência de Gestão Integrada (SGI)" ? "sgi" : "";
-    }
-    function prioridadeValor(prioridade) {
-      const p = normalizarBusca(prioridade);
-      if (p.includes("alta")) return 0;
-      if (p.includes("media") || p.includes("média")) return 1;
-      if (p.includes("baixa")) return 2;
-      return 3;
     }
 
     function setLoading(botao, carregando, textoOriginal = "Salvar") {
@@ -1371,9 +1312,6 @@ Gerência: GECONT"></textarea>
         });
       });
 
-      PRIORIDADES.forEach(p => { [prioridadeManual, editPrioridade].forEach(sel => { if (sel) { const op = document.createElement("option"); op.value = p; op.textContent = p; sel.appendChild(op); } }); });
-      if (prioridadeManual) prioridadeManual.value = "Média";
-      if (editPrioridade) editPrioridade.value = "Média";
       situacaoManual.value = "Em análise";
       editSituacao.value = "Em análise";
     }
@@ -1497,18 +1435,15 @@ Gerência: GECONT"></textarea>
       return duplicado;
     }
 
-    async function atualizarDocumento(id, dadosAtualizados, detalhesHistorico = "Registro atualizado") {
+    async function atualizarDocumento(id, dadosAtualizados) {
       const usuario = auth.currentUser;
       const payload = { ...dadosAtualizados };
       if (payload.gerencia !== undefined) {
         payload.gerencia = resolverGerenciaPorTexto(payload.gerencia) || payload.gerencia;
         payload.area = obterAreaPorUnidade(payload.gerencia);
       }
-      if (payload.situacao === "Concluído" && payload.dataConclusao === undefined) payload.dataConclusao = todayISO();
-      if (payload.situacao && payload.situacao !== "Concluído" && payload.dataConclusao === undefined) payload.dataConclusao = "";
       await db.collection(COLLECTION_PROCESSOS).doc(id).update({
         ...payload,
-        historico: firebase.firestore.FieldValue.arrayUnion(criarEventoHistorico("atualização", detalhesHistorico)),
         alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
         alteradoPor: usuario?.email || ""
       });
@@ -1535,11 +1470,6 @@ Gerência: GECONT"></textarea>
             area,
             dataFinal: dados.dataFinal || "",
             semPrazo: !!dados.semPrazo || !dados.dataFinal,
-            responsavel: dados.responsavel || "",
-            prioridade: dados.prioridade || "Média",
-            observacoes: dados.observacoes || "",
-            dataConclusao: dados.dataConclusao || "",
-            historico: Array.isArray(dados.historico) ? dados.historico : [],
             criadoEm: dados.criadoEm || null,
             criadoPor: dados.criadoPor || "",
             alteradoEm: dados.alteradoEm || null,
@@ -1566,9 +1496,6 @@ Gerência: GECONT"></textarea>
         const dataFinal = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
         const gerencia = resolverGerenciaPorTexto(gerenciaManual.value || extrairGerencia(texto));
         const situacao = situacaoManual.value || "Em análise";
-        const responsavel = responsavelManual?.value.trim() || "";
-        const prioridade = prioridadeManual?.value || "Média";
-        const observacoes = observacoesManual?.value.trim() || "";
         const area = obterAreaPorUnidade(gerencia);
 
         if (!processo && !interessado && !assunto && !texto) return mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
@@ -1590,11 +1517,6 @@ Gerência: GECONT"></textarea>
           gerencia: gerencia || "",
           dataFinal: dataFinal || "",
           semPrazo: !dataFinal,
-          responsavel: responsavel || "",
-          prioridade: prioridade || "Média",
-          observacoes: observacoes || "",
-          dataConclusao: situacao === "Concluído" ? todayISO() : "",
-          historico: [criarEventoHistorico("criação", "Processo cadastrado no sistema")],
           criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
           criadoPor: user?.email || "",
           alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
@@ -1632,12 +1554,8 @@ Gerência: GECONT"></textarea>
           gerencia: gerenciaResolvida,
           area: obterAreaPorUnidade(gerenciaResolvida),
           dataFinal: editSemPrazo.checked ? "" : (editDataFinal.value || ""),
-          semPrazo: editSemPrazo.checked || !editDataFinal.value,
-          responsavel: editResponsavel?.value.trim() || "",
-          prioridade: editPrioridade?.value || "Média",
-          observacoes: editObservacoes?.value.trim() || "",
-          dataConclusao: editSituacao.value === "Concluído" ? ((editDataConclusao?.value) || todayISO()) : ""
-        }, "Dados do processo editados");
+          semPrazo: editSemPrazo.checked || !editDataFinal.value
+        });
         fecharModal();
         toast("Registro atualizado com sucesso.", "success");
       } catch (error) {
@@ -1651,7 +1569,7 @@ Gerência: GECONT"></textarea>
     async function alterarSituacaoRapida(id, situacao) {
       if (!id) return;
       try {
-        await atualizarDocumento(id, { situacao }, `Situação alterada para ${situacao}`);
+        await atualizarDocumento(id, { situacao });
         toast(`Situação atualizada para \"${situacao}\".`, "success");
       } catch (error) {
         console.error(error);
@@ -1698,9 +1616,6 @@ Gerência: GECONT"></textarea>
           item.situacao,
           item.area,
           item.gerencia,
-          item.responsavel,
-          item.prioridade,
-          item.observacoes,
           item.statusPrazo,
           nomeCurtoSGI(item.gerencia)
         ].join(" "));
@@ -1754,6 +1669,7 @@ Gerência: GECONT"></textarea>
 
         return `
           <tr class="main-row ${classeLinha}" data-id="${item.id}">
+            <td><button type="button" class="expand-btn" data-action="expand">${expandedIds.has(item.id) ? "−" : "+"}</button></td>
             <td>${highlightText(item.processo || "", termo) || "<span class='muted'>(sem número)</span>"}</td>
             <td>${highlightText(item.interessado || "", termo) || "-"}</td>
             <td>${highlightText(item.assunto || "", termo) || "-"}</td>
@@ -1776,7 +1692,7 @@ Gerência: GECONT"></textarea>
             </td>
           </tr>
           <tr class="detail-row ${expandedIds.has(item.id) ? "" : "hidden"}" data-detail-for="${item.id}">
-            <td colspan="12">
+            <td colspan="13">
               <div class="row-details-box">
                 <div class="detail-mini"><div class="tt">Área</div><div>${escapeHtml(item.area || "-")}</div></div>
                 <div class="detail-mini"><div class="tt">Criado por</div><div>${escapeHtml(item.criadoPor || "-")}</div></div>
@@ -1797,19 +1713,19 @@ Gerência: GECONT"></textarea>
       const sgi = itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").length;
       const concluidos = itens.filter(i => i.situacao === "Concluído").length;
 
-      setTextIfExists(contadorRegistros, `${itens.length} de ${allItems.length} registro(s)`);
-      setTextIfExists(counterAtrasados, `Atrasados: ${atrasados}`);
-      setTextIfExists(counterHoje, `Vence hoje: ${hoje}`);
-      setTextIfExists(counterVencendo, `Vencendo: ${vencendo}`);
-      setTextIfExists(counterSemPrazo, `Sem prazo: ${semPrazo}`);
-      setTextIfExists(counterSGI, `SGI: ${sgi}`);
-      setTextIfExists(sumMostrando, itens.length);
-      setTextIfExists(sumSGI, sgi);
-      setTextIfExists(sumVencendo, vencendo);
-      setTextIfExists(sumAtrasados, atrasados);
-      setTextIfExists(sumHoje, hoje);
-      setTextIfExists(sumSemPrazo, semPrazo);
-      setTextIfExists(sumConcluidos, concluidos);
+      contadorRegistros.textContent = `${itens.length} de ${allItems.length} registro(s)`;
+      counterAtrasados.textContent = `Atrasados: ${atrasados}`;
+      counterHoje.textContent = `Vence hoje: ${hoje}`;
+      counterVencendo.textContent = `Vencendo: ${vencendo}`;
+      counterSemPrazo.textContent = `Sem prazo: ${semPrazo}`;
+      counterSGI.textContent = `SGI: ${sgi}`;
+      sumMostrando.textContent = itens.length;
+      sumSGI.textContent = sgi;
+      sumVencendo.textContent = vencendo;
+      sumAtrasados.textContent = atrasados;
+      sumHoje.textContent = hoje;
+      sumSemPrazo.textContent = semPrazo;
+      sumConcluidos.textContent = concluidos;
     }
 
     function renderAlertas(itens, enviarNotificacao = false) {
@@ -1841,7 +1757,7 @@ Gerência: GECONT"></textarea>
     }
 
     function destroyCharts() {
-      [chartSituacao, chartPrazo, chartSGI, chartOutrasAreas, chartGerencia, chartEntradas].forEach(c => { if (c) c.destroy(); });
+      [chartSituacao, chartPrazo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
     }
 
     function renderDashboard(itens) {
@@ -1851,20 +1767,45 @@ Gerência: GECONT"></textarea>
       setTextIfExists("kpiAtrasados", itens.filter(i => i.statusPrazo === "Atrasado").length);
       setTextIfExists("kpiConcluidos", itens.filter(i => i.situacao === "Concluído").length);
       setTextIfExists("kpiPendentes", itens.filter(i => i.situacao === "Pendente").length);
+
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
       const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
       const mapAreas = {}; AREAS.forEach(a => mapAreas[a] = 0); itens.forEach(i => mapAreas[i.area] = (mapAreas[i.area] || 0) + 1);
       const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const key = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[key] = (geralMap[key] || 0) + 1; });
       const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
-      const ultimos30 = []; for (let d = 29; d >= 0; d--) { const data = addDays(todayISO(), -d); ultimos30.push({ data, total: itens.filter(i => i.dataCadastroISO === data).length }); }
+
       destroyCharts();
-      chartPrazo = new Chart($("graficoPrazo"), { type: "doughnut", data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
-      chartOutrasAreas = new Chart($("graficoOutrasAreas"), { type: "bar", data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } } });
-      chartGerencia = new Chart($("graficoGerencia"), { type: "bar", data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } } });
-      chartSituacao = new Chart($("graficoSituacao"), { type: "bar", data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } } });
-      if ($("graficoEntradas")) chartEntradas = new Chart($("graficoEntradas"), { type: "line", data: { labels: ultimos30.map(i => formatarDataISOparaBR(i.data).slice(0,5)), datasets: [{ label: "Entradas", data: ultimos30.map(i => i.total), borderColor: "#155eef", backgroundColor: "rgba(21,94,239,.12)", fill: true, tension: 0.35, pointRadius: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } } });
-      chartSGI = new Chart($("graficoSGI"), { type: "bar", data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } } });
+
+      chartPrazo = new Chart($("graficoPrazo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+
+      chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
+        type: "bar",
+        data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartGerencia = new Chart($("graficoGerencia"), {
+        type: "bar",
+        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } }
+      });
+
+      chartSituacao = new Chart($("graficoSituacao"), {
+        type: "bar",
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartSGI = new Chart($("graficoSGI"), {
+        type: "bar",
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } }
+      });
     }
 
     function atualizarCardsAtivos() {
@@ -1947,9 +1888,6 @@ Gerência: GECONT"></textarea>
       situacaoManual.value = "Em análise";
       dataFinalManual.value = "";
       semPrazoManual.checked = false;
-      if (responsavelManual) responsavelManual.value = "";
-      if (prioridadeManual) prioridadeManual.value = "Média";
-      if (observacoesManual) observacoesManual.value = "";
       dataFinalManual.disabled = false;
       mostrarMensagem("Formulário limpo.", "info");
     }
@@ -1959,7 +1897,6 @@ Gerência: GECONT"></textarea>
       const item = allItems.find(i => i.id === id);
       if (!item) return;
       drawerSubtitulo.textContent = item.processo || "(sem número)";
-      const prioridadeStyle = item.prioridade === "Alta" ? { bg: '#fef3f2', co: '#b42318', bd: '#fecdca' } : item.prioridade === "Média" ? { bg: '#fffaeb', co: '#b54708', bd: '#fedf89' } : { bg: '#f2f4f7', co: '#475467', bd: '#d0d5dd' };
       drawerConteudo.innerHTML = `
         <div class="drawer-box"><div class="label">Processo</div><div class="value">${escapeHtml(item.processo || "-")}</div></div>
         <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || "-")}</div></div>
@@ -1967,21 +1904,14 @@ Gerência: GECONT"></textarea>
         <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></div></div>
         <div class="drawer-box"><div class="label">Área</div><div class="value"><span class="badge-area ${classeAreaBadge(item.area)}">${escapeHtml(item.area || "-")}</span></div></div>
         <div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || "-")}</div></div>
-        <div class="drawer-box"><div class="label">Responsável</div><div class="value">${escapeHtml(item.responsavel || "-")}</div></div>
-        <div class="drawer-box"><div class="label">Prioridade</div><div class="value"><span class="badge" style="background:${prioridadeStyle.bg}; color:${prioridadeStyle.co}; border:1px solid ${prioridadeStyle.bd};">${escapeHtml(item.prioridade || 'Média')}</span></div></div>
-        <div class="drawer-box"><div class="label">Data de cadastro</div><div class="value">${escapeHtml(item.dataCadastro || "-")}</div></div>
         <div class="drawer-box"><div class="label">Data final</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</div></div>
         <div class="drawer-box"><div class="label">Status do prazo</div><div class="value">${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</div></div>
         <div class="drawer-box"><div class="label">Dias restantes</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(calcDiasRestantes(item.dataFinal)))}</div></div>
-        <div class="drawer-box"><div class="label">Data de conclusão</div><div class="value">${escapeHtml(item.dataConclusao ? formatarDataISOparaBR(item.dataConclusao) : "-")}</div></div>
-        <div class="drawer-box"><div class="label">Observações</div><div class="value">${escapeHtml(item.observacoes || "-")}</div></div>
         <div class="drawer-box"><div class="label">Criado por</div><div class="value">${escapeHtml(item.criadoPor || "-")}</div></div>
         <div class="drawer-box"><div class="label">Criado em</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
         <div class="drawer-box"><div class="label">Última alteração por</div><div class="value">${escapeHtml(item.alteradoPor || "-")}</div></div>
         <div class="drawer-box"><div class="label">Última alteração em</div><div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
       `;
-      const historico = Array.isArray(item.historico) ? [...item.historico].sort((a,b) => String(b.em || '').localeCompare(String(a.em || ''))).slice(0, 8) : [];
-      if (drawerHistorico) drawerHistorico.innerHTML = historico.length ? historico.map(h => `\n        <div class="history-item">\n          <div class="ht">${escapeHtml(formatarDataHora(h.em))} — ${escapeHtml(h.por || '-')}</div>\n          <div><strong>${escapeHtml(h.tipo || 'Evento')}</strong></div>\n          <div class="muted" style="margin-top:4px;">${escapeHtml(h.detalhes || '-')}</div>\n        </div>`).join("") : '<div class="muted">Sem histórico registrado.</div>';
       drawerOverlay.classList.remove("hidden");
       drawer.classList.remove("hidden");
     }
@@ -2010,10 +1940,6 @@ Gerência: GECONT"></textarea>
       editSituacao.value = item.situacao || "Em análise";
       editGerencia.value = item.gerencia || "";
       editDataFinal.value = item.dataFinal || "";
-      if (editResponsavel) editResponsavel.value = item.responsavel || "";
-      if (editPrioridade) editPrioridade.value = item.prioridade || "Média";
-      if (editObservacoes) editObservacoes.value = item.observacoes || "";
-      if (editDataConclusao) editDataConclusao.value = item.dataConclusao || "";
       editSemPrazo.checked = !!item.semPrazo;
       editDataFinal.disabled = !!item.semPrazo;
       modalOverlay.classList.remove("hidden");
@@ -2040,8 +1966,6 @@ Gerência: GECONT"></textarea>
           <td>${escapeHtml(d.interessado)}</td>
           <td>${escapeHtml(d.assunto)}</td>
           <td>${escapeHtml(d.dataCadastro)}</td>
-          <td>${escapeHtml(d.responsavel || "-")}</td>
-          <td>${escapeHtml(d.prioridade || "Média")}</td>
           <td>${escapeHtml(d.situacao)}</td>
           <td>${escapeHtml(d.area || "-")}</td>
           <td>${escapeHtml(d.gerencia || "")}</td>
@@ -2051,7 +1975,7 @@ Gerência: GECONT"></textarea>
           <td>${escapeHtml(d.alteradoPor || "-")} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
         </tr>
       `).join("");
-      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data de Cadastro</th><th>Responsável</th><th>Prioridade</th><th>Situação</th><th>Área</th><th>Gerência/Seção</th><th>Data Final</th><th>Status do Prazo</th><th>Dias Restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
+      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data de Cadastro</th><th>Situação</th><th>Área</th><th>Gerência/Seção</th><th>Data Final</th><th>Status do Prazo</th><th>Dias Restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
     }
 
     function exportarExcel(apenasVisiveis = false) {
@@ -2087,6 +2011,58 @@ Gerência: GECONT"></textarea>
       } else {
         toast("Permissão de notificação não concedida.", "warning");
       }
+    }
+
+    function destroyCharts() {
+      [chartSituacao, chartPrazo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
+    }
+
+    function renderDashboard(itens) {
+      setTextIfExists("kpiTotal", itens.length);
+      setTextIfExists("kpiSemPrazo", itens.filter(i => i.statusPrazo === "Sem prazo").length);
+      setTextIfExists("kpiVencendo", itens.filter(i => i.statusPrazo === "Vencendo").length);
+      setTextIfExists("kpiAtrasados", itens.filter(i => i.statusPrazo === "Atrasado").length);
+      setTextIfExists("kpiConcluidos", itens.filter(i => i.situacao === "Concluído").length);
+      setTextIfExists("kpiPendentes", itens.filter(i => i.situacao === "Pendente").length);
+
+      const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
+      const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
+      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
+      const mapAreas = {}; AREAS.forEach(a => mapAreas[a] = 0); itens.forEach(i => mapAreas[i.area] = (mapAreas[i.area] || 0) + 1);
+      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const key = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[key] = (geralMap[key] || 0) + 1; });
+      const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
+
+      destroyCharts();
+
+      chartPrazo = new Chart($("graficoPrazo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+
+      chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
+        type: "bar",
+        data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartGerencia = new Chart($("graficoGerencia"), {
+        type: "bar",
+        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } }
+      });
+
+      chartSituacao = new Chart($("graficoSituacao"), {
+        type: "bar",
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartSGI = new Chart($("graficoSGI"), {
+        type: "bar",
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } }
+      });
     }
 
     function atualizarCardsAtivos() {
@@ -2181,6 +2157,7 @@ Gerência: GECONT"></textarea>
         if (!id) return;
         if (btn) {
           const action = btn.dataset.action;
+          if (action === "expand") { e.stopPropagation(); toggleExpand(id); return; }
           if (action === "view") { e.stopPropagation(); abrirDrawer(id); return; }
           if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
           if (action === "pendente") { e.stopPropagation(); alterarSituacaoRapida(id, "Pendente"); return; }
