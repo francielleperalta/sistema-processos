@@ -1194,6 +1194,12 @@ Gerência: GECONT"></textarea>
     ];
 
     const STORAGE_KEYS = {
+      const ETAPAS_PROCESSO = [
+        "Recebido",
+        "Em análise",
+        "Em execução",
+        "Concluído"
+    ];
       filtros: "sgp_dynamic_filters_v1",
       aba: "sgp_dynamic_aba_v1"
     };
@@ -1433,6 +1439,12 @@ Gerência: GECONT"></textarea>
 
         if (btn) {
           const action = btn.dataset.action;
+          if (action === "fluxo") {
+            e.stopPropagation();
+            avancarEtapa(id);
+            return;
+          }
+
           if (action === "expand") {
             e.stopPropagation();
             toggleExpand(id);
@@ -1463,6 +1475,22 @@ Gerência: GECONT"></textarea>
         }
 
         abrirDrawer(id);
+          async function avancarEtapa(id) {
+            const item = allItems.find(i => i.id === id);
+            if (!item) return;
+          
+            const atual = item.etapa || "Recebido";
+            const idx = ETAPAS_PROCESSO.indexOf(atual);
+          
+            if (idx < ETAPAS_PROCESSO.length - 1) {
+              const nova = ETAPAS_PROCESSO[idx + 1];
+          
+              await atualizarDocumento(id, { etapa: nova });
+              toast(`Processo avançou para: ${nova}`, "success");
+          
+            } else {
+              toast("Processo já concluído", "info");
+            }
       });
 
       document.querySelectorAll("th.sortable").forEach(th => {
@@ -1916,13 +1944,13 @@ Gerência: GECONT"></textarea>
               gerencia: dados.gerencia || "",
               dataFinal: dados.dataFinal || "",
               semPrazo: !!dados.semPrazo || !dados.dataFinal,
+              etapa: dados.etapa || "Recebido", // ✅ NOVO
               criadoEm: dados.criadoEm || null,
               criadoPor: dados.criadoPor || "",
               alteradoEm: dados.alteradoEm || null,
               alteradoPor: dados.alteradoPor || ""
             });
-          });
-
+           
           allItems.sort((a, b) => (b.dataCadastroISO || "").localeCompare(a.dataCadastroISO || ""));
           renderEverything();
         }, (error) => {
@@ -1997,6 +2025,7 @@ Gerência: GECONT"></textarea>
           gerencia: gerencia || "",
           dataFinal: dataFinal || "",
           semPrazo: !dataFinal,
+          etapa: "Recebido", // ✅ NOVO
           criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
           criadoPor: user?.email || "",
           alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
@@ -2192,7 +2221,12 @@ Gerência: GECONT"></textarea>
             <td>${interessadoTxt || "-"}</td>
             <td>${assuntoTxt || "-"}</td>
             <td>${escapeHtml(item.dataCadastro || "-")}</td>
-            <td><span class="badge-situacao ${classeSituacao}">${escapeHtml(item.situacao || "-")}</span></td>
+            <td><span class="badge-situacao ${classeSituacao}">
+              ${escapeHtml(item.situacao || "-")}
+            </span></td>
+            
+            <td>${item.etapa || "-"}</td>
+
             <td>${gerenciaTxt || "-"}</td>
             <td>${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</td>
             <td>${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</td>
@@ -2207,9 +2241,12 @@ Gerência: GECONT"></textarea>
                 <button type="button" class="secondary" data-action="edit">Editar</button>
                 <button type="button" class="warning" data-action="pendente">Pendente</button>
                 <button type="button" class="success" data-action="concluir">Concluir</button>
+                <button type="button" class="light" data-action="fluxo">➡ Etapa</button>
+               
                 <button type="button" class="danger" data-action="delete">Excluir</button>
               </div>
             </td>
+
           </tr>
         `;
 
@@ -2737,6 +2774,7 @@ Gerência: GECONT"></textarea>
               <th>Assunto</th>
               <th>Data de Cadastro</th>
               <th>Situação</th>
+              <th>Etapa</th>              
               <th>Gerência</th>
               <th>Data Final</th>
               <th>Status do Prazo</th>
