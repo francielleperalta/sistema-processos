@@ -15,12 +15,14 @@
 
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: "Segoe UI", Arial, sans-serif;
       background: #f4f6f9;
       color: #1f2937;
     }
+
     header {
       background: #005ea2;
       color: white;
@@ -30,11 +32,13 @@
       font-weight: 700;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
+
     .container {
-      max-width: 1380px;
+      max-width: 1600px;
       margin: 20px auto;
       padding: 0 16px;
     }
+
     .card {
       background: white;
       border-radius: 12px;
@@ -42,16 +46,26 @@
       box-shadow: 0 2px 12px rgba(0,0,0,0.08);
       margin-bottom: 20px;
     }
-    h3 { margin-top: 0; }
-    .grid-2, .grid-3 {
+
+    h3, h4 { margin-top: 0; }
+
+    .grid-2, .grid-3, .grid-4 {
       display: grid;
       gap: 12px;
     }
+
     .grid-2 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
-    @media (max-width: 900px) {
-      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+    @media (max-width: 1200px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
     }
+
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
     input, textarea, button, select {
       width: 100%;
       padding: 11px 12px;
@@ -60,44 +74,68 @@
       border-radius: 8px;
       font-size: 14px;
       font-family: inherit;
+      background: #fff;
     }
+
+    input:disabled, select:disabled, textarea:disabled {
+      background: #f9fafb;
+      color: #667085;
+      cursor: not-allowed;
+    }
+
     textarea {
       resize: vertical;
       min-height: 140px;
     }
+
     button {
       background: #005ea2;
       color: white;
       border: none;
       cursor: pointer;
       font-weight: 600;
+      transition: 0.15s ease;
     }
+
     button:hover { opacity: 0.95; }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .secondary { background: #475467; }
     .danger { background: #b42318; }
     .success { background: #027a48; }
     .warning { background: #b54708; }
+    .light { background: #e7eef7; color: #144a75; }
+    .outline { background: white; color: #344054; border: 1px solid #d0d5dd; }
+
     .btn-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 12px;
     }
+
     .btn-row button, .btn-row input, .btn-row select {
       flex: 1;
       min-width: 180px;
     }
+
     .hidden { display: none !important; }
+
     .status {
       margin-top: 10px;
       font-size: 14px;
       color: #344054;
     }
+
     .muted {
       color: #667085;
       font-size: 13px;
       margin-top: 8px;
     }
+
     .topbar {
       display: flex;
       align-items: center;
@@ -105,6 +143,7 @@
       gap: 12px;
       flex-wrap: wrap;
     }
+
     .user-box {
       font-size: 14px;
       color: #344054;
@@ -113,12 +152,14 @@
       padding: 8px 12px;
       border-radius: 8px;
     }
+
     .tabs {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-bottom: 16px;
     }
+
     .tab-btn {
       width: auto;
       min-width: 140px;
@@ -127,27 +168,47 @@
       color: #144a75;
       border: 1px solid #c7d7ea;
     }
+
     .tab-btn.active {
       background: #005ea2;
       color: white;
       border-color: #005ea2;
     }
-    .table-wrap { overflow-x: auto; }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #101828;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: 72vh;
+      border-radius: 10px;
+      border: 1px solid #eaecf0;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 16px;
       background: white;
-      min-width: 1250px;
+      min-width: 1650px;
     }
+
     thead th {
+      position: sticky;
+      top: 0;
+      z-index: 3;
       background: #005ea2;
       color: white;
       text-align: left;
       padding: 12px;
       border: 1px solid #dbe4f0;
       font-size: 14px;
+      white-space: nowrap;
     }
+
     tbody td {
       border: 1px solid #e5e7eb;
       padding: 10px;
@@ -155,17 +216,23 @@
       font-size: 14px;
       background: #fff;
     }
-    td[contenteditable="true"] { background: #fffdf2; }
+
+    td[contenteditable="true"] {
+      background: #fffdf2;
+    }
+
     td[contenteditable="true"]:focus {
       outline: 2px solid #84caff;
       background: #fffbe6;
     }
+
     .acoes button {
       width: auto;
       padding: 8px 10px;
       margin: 0;
       font-size: 13px;
     }
+
     .pill {
       display: inline-block;
       padding: 4px 8px;
@@ -175,16 +242,7 @@
       color: #175cd3;
       border: 1px solid #b2ddff;
     }
-    .dias-ok { color: #027a48; font-weight: 600; }
-    .dias-hoje, .dias-vencendo { color: #b54708; font-weight: 700; }
-    .dias-atrasado { color: #b42318; font-weight: 700; }
-    .status-sem-prazo { color: #475467; font-style: italic; }
-    .data-final-input {
-      width: 165px;
-      min-width: 165px;
-      margin-top: 0;
-      padding: 8px;
-    }
+
     .checkbox-wrap {
       display: flex;
       align-items: center;
@@ -192,10 +250,12 @@
       margin-top: 10px;
       font-size: 14px;
     }
+
     .checkbox-wrap input {
       width: auto;
       margin: 0;
     }
+
     .alertas {
       border-left: 4px solid #b54708;
       background: #fffaeb;
@@ -204,43 +264,209 @@
       margin-top: 12px;
       color: #7a2e0b;
     }
+
     .alertas ul {
       margin: 8px 0 0 18px;
       padding: 0;
     }
+
     .kpis {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 12px;
       margin-bottom: 12px;
     }
-    @media (max-width: 1100px) {
+
+    @media (max-width: 1300px) {
+      .kpis { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 800px) {
       .kpis { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 640px) {
+
+    @media (max-width: 500px) {
       .kpis { grid-template-columns: 1fr; }
     }
+
     .kpi {
       background: #fff;
       border: 1px solid #eaecf0;
       border-radius: 12px;
       padding: 16px;
     }
-    .kpi .label { font-size: 13px; color: #667085; }
-    .kpi .value { font-size: 28px; font-weight: 700; margin-top: 6px; }
+
+    .kpi .label {
+      font-size: 13px;
+      color: #667085;
+    }
+
+    .kpi .value {
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
     .chart-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 16px;
     }
-    @media (max-width: 900px) {
+
+    @media (max-width: 1200px) {
       .chart-grid { grid-template-columns: 1fr; }
     }
+
     canvas {
       margin-top: 10px;
       max-height: 380px;
       background: white;
       border-radius: 8px;
+    }
+
+    .data-final-input {
+      width: 165px;
+      min-width: 165px;
+      margin-top: 0;
+      padding: 8px;
+    }
+
+    .dias-ok { color: #027a48; font-weight: 600; }
+    .dias-hoje, .dias-vencendo { color: #b54708; font-weight: 700; }
+    .dias-atrasado { color: #b42318; font-weight: 700; }
+    .status-sem-prazo { color: #475467; font-style: italic; }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .badge-no-prazo {
+      background: #ecfdf3;
+      color: #027a48;
+      border-color: #abefc6;
+    }
+
+    .badge-vencendo {
+      background: #fffaeb;
+      color: #b54708;
+      border-color: #fedf89;
+    }
+
+    .badge-vence-hoje {
+      background: #fff3e6;
+      color: #b54708;
+      border-color: #f7b27a;
+    }
+
+    .badge-atrasado {
+      background: #fef3f2;
+      color: #b42318;
+      border-color: #fecdca;
+    }
+
+    .badge-sem-prazo {
+      background: #f2f4f7;
+      color: #475467;
+      border-color: #d0d5dd;
+    }
+
+    .feedback {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      border: 1px solid transparent;
+    }
+
+    .feedback-info {
+      background: #eff8ff;
+      color: #175cd3;
+      border-color: #b2ddff;
+    }
+
+    .feedback-success {
+      background: #ecfdf3;
+      color: #027a48;
+      border-color: #abefc6;
+    }
+
+    .feedback-error {
+      background: #fef3f2;
+      color: #b42318;
+      border-color: #fecdca;
+    }
+
+    .feedback-warning {
+      background: #fffaeb;
+      color: #b54708;
+      border-color: #fedf89;
+    }
+
+    .filtros-box {
+      background: #f9fafb;
+      border: 1px solid #eaecf0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .small-text {
+      font-size: 12px;
+      color: #667085;
+    }
+
+    .loading-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .loading-inline::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border: 2px solid #d0d5dd;
+      border-top-color: #005ea2;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .no-results {
+      margin-top: 14px;
+      padding: 14px;
+      border: 1px dashed #d0d5dd;
+      border-radius: 10px;
+      background: #fcfcfd;
+      color: #475467;
+      text-align: center;
+    }
+
+    .ultima-alteracao {
+      font-size: 12px;
+      color: #667085;
+      line-height: 1.4;
+    }
+
+    tr.linha-atrasada td {
+      background: #fff6f6;
+    }
+
+    tr.linha-vencendo td, tr.linha-hoje td {
+      background: #fffaf0;
+    }
+
+    tr.linha-sem-prazo td {
+      background: #fafafa;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -251,6 +477,7 @@
   <div id="loginBox" class="container">
     <div class="card">
       <h3>Acesso ao sistema</h3>
+
       <div class="grid-2">
         <div>
           <label for="email">E-mail</label>
@@ -261,12 +488,15 @@
           <input type="password" id="senha" placeholder="Digite sua senha">
         </div>
       </div>
+
       <div class="btn-row">
-        <button type="button" onclick="login()">Entrar</button>
-        <button type="button" class="success" onclick="cadastrar()">Cadastrar usuário</button>
-        <button type="button" class="secondary" onclick="resetarSenha()">Esqueci a senha</button>
+        <button type="button" id="btnEntrar">Entrar</button>
+        <button type="button" class="success" id="btnCadastrar">Cadastrar usuário</button>
+        <button type="button" class="secondary" id="btnResetar">Esqueci a senha</button>
       </div>
+
       <div class="status" id="statusLogin"></div>
+
       <div class="muted">
         Para entrar, é necessário ter um usuário cadastrado no Firebase Authentication.
       </div>
@@ -280,22 +510,27 @@
           <h3 style="margin-bottom:6px;">Painel de Processos</h3>
           <div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong></div>
         </div>
+
         <div class="btn-row" style="margin-top:0;">
-          <button type="button" class="secondary" style="max-width:240px;" onclick="solicitarPermissaoNotificacao()">Ativar avisos do navegador</button>
-          <button type="button" class="danger" style="max-width:180px;" onclick="logout()">Sair</button>
+          <button type="button" class="secondary" style="max-width:250px;" id="btnNotificacao">
+            Ativar avisos do navegador
+          </button>
+          <button type="button" class="danger" style="max-width:180px;" id="btnSair">Sair</button>
         </div>
       </div>
     </div>
 
     <div class="card">
       <div class="tabs">
-        <button type="button" id="tabProcessosBtn" class="tab-btn active" onclick="abrirAba('processos')">Processos</button>
-        <button type="button" id="tabDashboardBtn" class="tab-btn" onclick="abrirAba('dashboard')">Dashboard</button>
+        <button type="button" id="tabProcessosBtn" class="tab-btn active">Processos</button>
+        <button type="button" id="tabDashboardBtn" class="tab-btn">Dashboard</button>
       </div>
 
       <div id="abaProcessos">
         <h3>Novo processo</h3>
+
         <textarea id="entrada" placeholder="Cole o texto do processo aqui...
+
 Exemplo 1:
 Processo nº 12345/2026
 Interessado(a): Maria Silva
@@ -309,20 +544,27 @@ Assunto: Recurso
 Data Final: 30/06/2026
 Gerência: GECONT"></textarea>
 
-        <div class="grid-3">
+        <div class="grid-4">
           <div>
             <label for="gerenciaManual">Gerência</label>
             <select id="gerenciaManual">
               <option value="">Selecione...</option>
             </select>
           </div>
+
+          <div>
+            <label for="situacaoManual">Situação</label>
+            <select id="situacaoManual"></select>
+          </div>
+
           <div>
             <label for="dataFinalManual">Data Final</label>
             <input type="date" id="dataFinalManual">
           </div>
+
           <div>
             <label for="limiteVencendo">Avisar quando faltar</label>
-            <select id="limiteVencendo" onchange="atualizarTudoNaTela()">
+            <select id="limiteVencendo">
               <option value="1">1 dia</option>
               <option value="2">2 dias</option>
               <option value="3" selected>3 dias</option>
@@ -333,22 +575,109 @@ Gerência: GECONT"></textarea>
         </div>
 
         <label class="checkbox-wrap">
-          <input type="checkbox" id="semPrazoManual" onchange="alternarSemPrazoManual()">
+          <input type="checkbox" id="semPrazoManual">
           Processo sem prazo definido
         </label>
 
         <div class="btn-row">
-          <button type="button" onclick="gerarTabela()">Gerar processo</button>
-          <input id="busca" placeholder="🔎 Buscar por processo, interessado, assunto, situação ou gerência..." onkeyup="filtrar()">
+          <button type="button" id="btnGerarProcesso">Gerar processo</button>
+          <button type="button" class="outline" id="btnLimparFormulario">Limpar formulário</button>
+          <input id="busca" placeholder="🔎 Buscar por processo, interessado, assunto, situação, prazo ou gerência...">
         </div>
 
         <div class="btn-row">
-          <button type="button" onclick="exportarExcel()">Exportar Excel</button>
-          <button type="button" onclick="exportarPDF()">Exportar PDF</button>
+          <button type="button" id="btnExportarExcelTodos">Exportar Excel (todos)</button>
+          <button type="button" id="btnExportarExcelVisiveis">Exportar Excel (visíveis)</button>
+          <button type="button" id="btnExportarPDFTodos">Exportar PDF (todos)</button>
+          <button type="button" id="btnExportarPDFVisiveis">Exportar PDF (visíveis)</button>
         </div>
 
+        <div id="mensagemSistema" class="hidden"></div>
+
         <div class="muted">
-          Você pode cadastrar processo <strong>sem prazo</strong>, escolher a <strong>gerência</strong>, e o sistema destaca automaticamente processos <strong>vencidos</strong> ou <strong>vencendo</strong>. O aviso do navegador só funciona com a página aberta e após permitir notificações.
+          O sistema separa <strong>situação operacional</strong> do <strong>status de prazo</strong>.
+          O status do prazo é calculado automaticamente como:
+          <strong>No prazo</strong>, <strong>Vence hoje</strong>, <strong>Vencendo</strong>, <strong>Atrasado</strong> ou <strong>Sem prazo</strong>.
+        </div>
+
+        <div class="filtros-box">
+          <div class="section-title">Filtros e ordenação</div>
+
+          <div class="grid-4">
+            <div>
+              <label for="filtroGerencia">Filtrar por gerência</label>
+              <select id="filtroGerencia">
+                <option value="">Todas</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="filtroSituacao">Filtrar por situação</label>
+              <select id="filtroSituacao">
+                <option value="">Todas</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="filtroPrazo">Prazo</label>
+              <select id="filtroPrazo">
+                <option value="">Todos</option>
+                <option value="comPrazo">Com prazo</option>
+                <option value="semPrazo">Sem prazo</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="filtroStatusPrazo">Status do prazo</label>
+              <select id="filtroStatusPrazo">
+                <option value="">Todos</option>
+                <option value="No prazo">No prazo</option>
+                <option value="Vence hoje">Vence hoje</option>
+                <option value="Vencendo">Vencendo</option>
+                <option value="Atrasado">Atrasado</option>
+                <option value="Sem prazo">Sem prazo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-4" style="margin-top:12px;">
+            <div>
+              <label for="filtroDataInicial">Data final de</label>
+              <input type="date" id="filtroDataInicial">
+            </div>
+
+            <div>
+              <label for="filtroDataFinal">Data final até</label>
+              <input type="date" id="filtroDataFinal">
+            </div>
+
+            <div>
+              <label for="ordenacao">Ordenar por</label>
+              <select id="ordenacao">
+                <option value="">Padrão</option>
+                <option value="dataFinalAsc">Data final</option>
+                <option value="processoAsc">Processo</option>
+                <option value="interessadoAsc">Interessado</option>
+                <option value="gerenciaAsc">Gerência</option>
+                <option value="diasRestantesAsc">Dias restantes</option>
+              </select>
+            </div>
+
+            <div style="display:flex;align-items:flex-end;">
+              <label class="checkbox-wrap" style="margin-top:0;">
+                <input type="checkbox" id="filtroAtrasados">
+                Mostrar somente atrasados
+              </label>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="light" id="btnLimparFiltros">Limpar filtros</button>
+          </div>
+
+          <div class="small-text">
+            Os indicadores do dashboard e os alertas de prazo consideram os registros atualmente visíveis após os filtros aplicados.
+          </div>
         </div>
 
         <div id="alertasPrazo" class="alertas hidden"></div>
@@ -358,6 +687,10 @@ Gerência: GECONT"></textarea>
           <span class="pill" id="contadorRegistros">0 registro(s)</span>
         </div>
 
+        <div id="noResults" class="no-results hidden">
+          Nenhum processo encontrado com os filtros aplicados.
+        </div>
+
         <div class="table-wrap">
           <table id="tabela" class="hidden">
             <thead>
@@ -365,11 +698,13 @@ Gerência: GECONT"></textarea>
                 <th>Processo</th>
                 <th>Interessado</th>
                 <th>Assunto</th>
-                <th>Data</th>
+                <th>Data de Cadastro</th>
                 <th>Situação</th>
                 <th>Gerência</th>
                 <th>Data Final</th>
+                <th>Status do Prazo</th>
                 <th>Dias Restantes</th>
+                <th>Última alteração</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -380,20 +715,30 @@ Gerência: GECONT"></textarea>
 
       <div id="abaDashboard" class="hidden">
         <h3>Dashboard</h3>
+
         <div class="kpis">
           <div class="kpi"><div class="label">Total de processos</div><div class="value" id="kpiTotal">0</div></div>
           <div class="kpi"><div class="label">Sem prazo</div><div class="value" id="kpiSemPrazo">0</div></div>
           <div class="kpi"><div class="label">Vencendo</div><div class="value" id="kpiVencendo">0</div></div>
           <div class="kpi"><div class="label">Atrasados</div><div class="value" id="kpiAtrasados">0</div></div>
+          <div class="kpi"><div class="label">Concluídos</div><div class="value" id="kpiConcluidos">0</div></div>
+          <div class="kpi"><div class="label">Pendentes</div><div class="value" id="kpiPendentes">0</div></div>
         </div>
+
         <div class="chart-grid">
           <div class="card" style="margin-bottom:0;">
             <h3 style="font-size:18px;">Processos por situação</h3>
             <canvas id="graficoSituacao"></canvas>
           </div>
+
           <div class="card" style="margin-bottom:0;">
             <h3 style="font-size:18px;">Processos por gerência</h3>
             <canvas id="graficoGerencia"></canvas>
+          </div>
+
+          <div class="card" style="margin-bottom:0;">
+            <h3 style="font-size:18px;">Status de prazo</h3>
+            <canvas id="graficoPrazo"></canvas>
           </div>
         </div>
       </div>
@@ -401,23 +746,68 @@ Gerência: GECONT"></textarea>
   </div>
 
   <script>
+    /*
+      IMPORTANTE:
+      Substitua pelas credenciais reais do seu projeto Firebase.
+    */
     const firebaseConfig = {
-      apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
-      authDomain: "meu-sistema-processos.firebaseapp.com",
-      databaseURL: "https://meu-sistema-processos-default-rtdb.firebaseio.com",
-      projectId: "meu-sistema-processos",
-      storageBucket: "meu-sistema-processos.firebasestorage.app",
-      messagingSenderId: "773592641691",
-      appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
-      measurementId: "G-68LQKR6HK0"
+        apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
+        authDomain: "meu-sistema-processos.firebaseapp.com",
+        databaseURL: "https://meu-sistema-processos-default-rtdb.firebaseio.com",
+        projectId: "meu-sistema-processos",
+        storageBucket: "meu-sistema-processos.firebasestorage.app",
+        messagingSenderId: "773592641691",
+        appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
+        measurementId: "G-68LQKR6HK0"
     };
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    const GERENCIAS = ["GCGC", "GESTD", "GGDP", "GECONT", "GEOF", "GEMOP", "GEINFRA", "GPI", "GEAAL", "GECG"];
+    /* ==========================
+       CONSTANTES
+    ========================== */
+    const COLLECTION_PROCESSOS = "processos";
 
+    const GERENCIAS = [
+      "GCGC", "GESTD", "GGDP", "GECONT", "GEOF",
+      "GEMOP", "GEINFRA", "GPI", "GEAAL", "GECG"
+    ];
+
+    const STATUS_OPERACIONAIS = [
+      "Em análise",
+      "Pendente",
+      "Em andamento",
+      "Concluído",
+      "Arquivado",
+      "Suspenso"
+    ];
+
+    const STATUS_PRAZO_LIST = [
+      "No prazo",
+      "Vence hoje",
+      "Vencendo",
+      "Atrasado",
+      "Sem prazo"
+    ];
+
+    const ORDENACOES = {
+      DATA_FINAL_ASC: "dataFinalAsc",
+      PROCESSO_ASC: "processoAsc",
+      INTERESSADO_ASC: "interessadoAsc",
+      GERENCIA_ASC: "gerenciaAsc",
+      DIAS_RESTANTES_ASC: "diasRestantesAsc"
+    };
+
+    const STORAGE_KEYS = {
+      filtros: "sgp_filtros_v22",
+      aba: "sgp_aba_v22"
+    };
+
+    /* ==========================
+       ELEMENTOS
+    ========================== */
     const loginBox = document.getElementById("loginBox");
     const appBox = document.getElementById("appBox");
     const emailInput = document.getElementById("email");
@@ -431,28 +821,65 @@ Gerência: GECONT"></textarea>
     const contadorRegistros = document.getElementById("contadorRegistros");
     const alertasPrazo = document.getElementById("alertasPrazo");
     const gerenciaManual = document.getElementById("gerenciaManual");
+    const situacaoManual = document.getElementById("situacaoManual");
     const dataFinalManual = document.getElementById("dataFinalManual");
     const semPrazoManual = document.getElementById("semPrazoManual");
     const limiteVencendo = document.getElementById("limiteVencendo");
+    const mensagemSistema = document.getElementById("mensagemSistema");
+    const noResults = document.getElementById("noResults");
+
+    const filtroGerencia = document.getElementById("filtroGerencia");
+    const filtroSituacao = document.getElementById("filtroSituacao");
+    const filtroPrazo = document.getElementById("filtroPrazo");
+    const filtroStatusPrazo = document.getElementById("filtroStatusPrazo");
+    const filtroAtrasados = document.getElementById("filtroAtrasados");
+    const filtroDataInicial = document.getElementById("filtroDataInicial");
+    const filtroDataFinal = document.getElementById("filtroDataFinal");
+    const ordenacao = document.getElementById("ordenacao");
+
+    const btnEntrar = document.getElementById("btnEntrar");
+    const btnCadastrar = document.getElementById("btnCadastrar");
+    const btnResetar = document.getElementById("btnResetar");
+    const btnSair = document.getElementById("btnSair");
+    const btnGerarProcesso = document.getElementById("btnGerarProcesso");
+    const btnLimparFormulario = document.getElementById("btnLimparFormulario");
+    const btnExportarExcelTodos = document.getElementById("btnExportarExcelTodos");
+    const btnExportarExcelVisiveis = document.getElementById("btnExportarExcelVisiveis");
+    const btnExportarPDFTodos = document.getElementById("btnExportarPDFTodos");
+    const btnExportarPDFVisiveis = document.getElementById("btnExportarPDFVisiveis");
+    const btnLimparFiltros = document.getElementById("btnLimparFiltros");
+    const btnNotificacao = document.getElementById("btnNotificacao");
+
+    const abaProcessos = document.getElementById("abaProcessos");
+    const abaDashboard = document.getElementById("abaDashboard");
+    const tabProcessosBtn = document.getElementById("tabProcessosBtn");
+    const tabDashboardBtn = document.getElementById("tabDashboardBtn");
 
     let chartSituacao = null;
     let chartGerencia = null;
+    let chartPrazo = null;
     let chavesNotificadas = new Set();
+    let unsubscribeSnapshot = null;
 
-    GERENCIAS.forEach(g => {
-      const option = document.createElement('option');
-      option.value = g;
-      option.textContent = g;
-      gerenciaManual.appendChild(option);
-    });
+    /* ==========================
+       INICIALIZAÇÃO
+    ========================== */
+    preencherSelectsFixos();
+    registrarEventos();
+    carregarFiltrosDoStorage();
+    aplicarAbaSalva();
 
-    auth.onAuthStateChanged(async (user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
         loginBox.classList.add("hidden");
         appBox.classList.remove("hidden");
         usuarioLogado.textContent = user.email || "Usuário";
-        await carregar();
+        iniciarEscutaProcessos();
       } else {
+        if (unsubscribeSnapshot) {
+          unsubscribeSnapshot();
+          unsubscribeSnapshot = null;
+        }
         loginBox.classList.remove("hidden");
         appBox.classList.add("hidden");
         usuarioLogado.textContent = "-";
@@ -460,66 +887,167 @@ Gerência: GECONT"></textarea>
       }
     });
 
-    window.login = async function () {
+    function preencherSelectsFixos() {
+      GERENCIAS.forEach(g => {
+        const opForm = document.createElement("option");
+        opForm.value = g;
+        opForm.textContent = g;
+        gerenciaManual.appendChild(opForm);
+
+        const opFiltro = document.createElement("option");
+        opFiltro.value = g;
+        opFiltro.textContent = g;
+        filtroGerencia.appendChild(opFiltro);
+      });
+
+      STATUS_OPERACIONAIS.forEach(status => {
+        const opForm = document.createElement("option");
+        opForm.value = status;
+        opForm.textContent = status;
+        situacaoManual.appendChild(opForm);
+
+        const opFiltro = document.createElement("option");
+        opFiltro.value = status;
+        opFiltro.textContent = status;
+        filtroSituacao.appendChild(opFiltro);
+      });
+
+      situacaoManual.value = "Em análise";
+    }
+
+    function registrarEventos() {
+      btnEntrar.addEventListener("click", login);
+      btnCadastrar.addEventListener("click", cadastrar);
+      btnResetar.addEventListener("click", resetarSenha);
+      btnSair.addEventListener("click", logout);
+      btnGerarProcesso.addEventListener("click", gerarProcesso);
+      btnLimparFormulario.addEventListener("click", limparFormulario);
+
+      btnExportarExcelTodos.addEventListener("click", () => exportarExcel(false));
+      btnExportarExcelVisiveis.addEventListener("click", () => exportarExcel(true));
+      btnExportarPDFTodos.addEventListener("click", () => exportarPDF(false));
+      btnExportarPDFVisiveis.addEventListener("click", () => exportarPDF(true));
+
+      btnLimparFiltros.addEventListener("click", limparFiltros);
+      btnNotificacao.addEventListener("click", solicitarPermissaoNotificacao);
+
+      const filtrosParaSalvar = [
+        busca, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo,
+        filtroAtrasados, filtroDataInicial, filtroDataFinal, ordenacao, limiteVencendo
+      ];
+
+      busca.addEventListener("keyup", aplicarFiltrosEOrdenacao);
+      filtroGerencia.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroSituacao.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroPrazo.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroStatusPrazo.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroAtrasados.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroDataInicial.addEventListener("change", aplicarFiltrosEOrdenacao);
+      filtroDataFinal.addEventListener("change", aplicarFiltrosEOrdenacao);
+      ordenacao.addEventListener("change", aplicarFiltrosEOrdenacao);
+      limiteVencendo.addEventListener("change", () => {
+        salvarFiltrosNoStorage();
+        atualizarTodasAsLinhas();
+        aplicarFiltrosEOrdenacao();
+      });
+
+      filtrosParaSalvar.forEach(el => {
+        const evento = el.type === "checkbox" ? "change" : (el.tagName === "INPUT" && el.type !== "date" ? "keyup" : "change");
+        el.addEventListener(evento, salvarFiltrosNoStorage);
+      });
+
+      semPrazoManual.addEventListener("change", alternarSemPrazoManual);
+
+      tabProcessosBtn.addEventListener("click", () => abrirAba("processos"));
+      tabDashboardBtn.addEventListener("click", () => abrirAba("dashboard"));
+
+      document.addEventListener("keydown", (e) => {
+        if (!appBox.classList.contains("hidden")) return;
+        if (e.key === "Enter") login();
+      });
+    }
+
+    /* ==========================
+       AUTH
+    ========================== */
+    async function login() {
       try {
         const email = emailInput.value.trim();
         const senha = senhaInput.value;
+
         if (!email || !senha) {
           statusLogin.textContent = "Informe o e-mail e a senha.";
           return;
         }
-        statusLogin.textContent = "Entrando...";
+
+        setLoading(btnEntrar, true, "Entrar");
+        statusLogin.innerHTML = '<span class="loading-inline">Entrando...</span>';
+
         await auth.signInWithEmailAndPassword(email, senha);
         statusLogin.textContent = "";
       } catch (error) {
         console.error("Erro no login:", error);
         statusLogin.textContent = "Erro no login: " + traduzirErroFirebase(error);
+      } finally {
+        setLoading(btnEntrar, false, "Entrar");
       }
-    };
+    }
 
-    window.cadastrar = async function () {
+    async function cadastrar() {
       try {
         const email = emailInput.value.trim();
         const senha = senhaInput.value;
+
         if (!email || !senha) {
           statusLogin.textContent = "Informe o e-mail e a senha para cadastrar.";
           return;
         }
+
         if (senha.length < 6) {
           statusLogin.textContent = "A senha precisa ter pelo menos 6 caracteres.";
           return;
         }
-        statusLogin.textContent = "Cadastrando usuário...";
+
+        setLoading(btnCadastrar, true, "Cadastrar usuário");
+        statusLogin.innerHTML = '<span class="loading-inline">Cadastrando usuário...</span>';
+
         await auth.createUserWithEmailAndPassword(email, senha);
         statusLogin.textContent = "Usuário cadastrado com sucesso.";
       } catch (error) {
         console.error("Erro ao cadastrar:", error);
         statusLogin.textContent = "Erro ao cadastrar: " + traduzirErroFirebase(error);
+      } finally {
+        setLoading(btnCadastrar, false, "Cadastrar usuário");
       }
-    };
+    }
 
-    window.resetarSenha = async function () {
+    async function resetarSenha() {
       try {
         const email = emailInput.value.trim();
+
         if (!email) {
           statusLogin.textContent = "Digite o e-mail para recuperação de senha.";
           return;
         }
+
+        setLoading(btnResetar, true, "Esqueci a senha");
         await auth.sendPasswordResetEmail(email);
         statusLogin.textContent = "E-mail de recuperação enviado com sucesso.";
       } catch (error) {
         console.error("Erro ao resetar senha:", error);
         statusLogin.textContent = "Erro ao enviar recuperação: " + traduzirErroFirebase(error);
+      } finally {
+        setLoading(btnResetar, false, "Esqueci a senha");
       }
-    };
+    }
 
-    window.logout = async function () {
+    async function logout() {
       try {
         await auth.signOut();
       } catch (error) {
         alert("Erro ao sair: " + error.message);
       }
-    };
+    }
 
     function traduzirErroFirebase(error) {
       const code = error.code || "";
@@ -532,6 +1060,29 @@ Gerência: GECONT"></textarea>
       if (code.includes("invalid-credential")) return "credenciais inválidas.";
       if (code.includes("too-many-requests")) return "muitas tentativas. Tente mais tarde.";
       return error.message || "erro desconhecido.";
+    }
+
+    /* ==========================
+       UTILS
+    ========================== */
+    function setLoading(botao, carregando, textoOriginal = "Salvar") {
+      if (!botao) return;
+      botao.disabled = carregando;
+      botao.textContent = carregando ? "Processando..." : textoOriginal;
+    }
+
+    function mostrarMensagem(texto, tipo = "info") {
+      mensagemSistema.className = "";
+      mensagemSistema.classList.add("feedback");
+      mensagemSistema.classList.add(`feedback-${tipo}`);
+      mensagemSistema.textContent = texto;
+      mensagemSistema.classList.remove("hidden");
+
+      clearTimeout(mensagemSistema._timer);
+      mensagemSistema._timer = setTimeout(() => {
+        mensagemSistema.classList.add("hidden");
+        mensagemSistema.textContent = "";
+      }, 3500);
     }
 
     function hojeISO() {
@@ -551,8 +1102,10 @@ Gerência: GECONT"></textarea>
       if (!dataFinalISO) return null;
       const hoje = new Date();
       hoje.setHours(0,0,0,0);
+
       const dataFinal = new Date(dataFinalISO + "T00:00:00");
       dataFinal.setHours(0,0,0,0);
+
       const diffMs = dataFinal - hoje;
       return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
     }
@@ -573,10 +1126,19 @@ Gerência: GECONT"></textarea>
       return "dias-ok";
     }
 
+    function normalizarProcesso(valor) {
+      return String(valor || "")
+        .trim()
+        .replace(/\s+/g, " ")
+        .replace(/\s*\/\s*/g, "/")
+        .toUpperCase();
+    }
+
     function converterBRparaISO(dataBR) {
       if (!dataBR) return "";
       const limpo = dataBR.trim();
       if (/^\d{4}-\d{2}-\d{2}$/.test(limpo)) return limpo;
+
       const match = limpo.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
       if (!match) return "";
       const [, dia, mes, ano] = match;
@@ -589,6 +1151,20 @@ Gerência: GECONT"></textarea>
       return `${dia}/${mes}/${ano}`;
     }
 
+    function formatarDataHora(timestampOuDate) {
+      if (!timestampOuDate) return "-";
+      const data = timestampOuDate instanceof Date
+        ? timestampOuDate
+        : (timestampOuDate.toDate ? timestampOuDate.toDate() : new Date(timestampOuDate));
+
+      if (isNaN(data.getTime())) return "-";
+
+      return data.toLocaleString("pt-BR", {
+        dateStyle: "short",
+        timeStyle: "short"
+      });
+    }
+
     function extrairCampo(texto, regexList) {
       for (const regex of regexList) {
         const match = texto.match(regex);
@@ -599,21 +1175,26 @@ Gerência: GECONT"></textarea>
 
     function extrairDataFinalOuPrazo(texto) {
       if (/sem\s*prazo/i.test(texto)) return "";
+
       const dataFinalTexto = extrairCampo(texto, [
         /Data\s*Final\s*:?\s*(.+)/i,
         /Prazo\s*Final\s*:?\s*(.+)/i
       ]);
+
       if (dataFinalTexto) {
         const iso = converterBRparaISO(dataFinalTexto);
         if (iso) return iso;
       }
+
       const prazoDiasTexto = extrairCampo(texto, [
         /Prazo\s*:?\s*(\d+)\s*dias?/i
       ]);
+
       if (prazoDiasTexto) {
         const dias = parseInt(prazoDiasTexto, 10);
         if (!isNaN(dias)) return adicionarDias(hojeISO(), dias);
       }
+
       return "";
     }
 
@@ -622,408 +1203,668 @@ Gerência: GECONT"></textarea>
         /Ger[eê]ncia\s*:?\s*(.+)/i,
         /Encaminhado\s*para\s*:?\s*(.+)/i
       ]).toUpperCase();
+
       return GERENCIAS.includes(gerenciaExtraida) ? gerenciaExtraida : "";
     }
 
-    function alternarSemPrazoInputDaLinha(inputDate, tdDias) {
-      const semPrazo = inputDate.dataset.semPrazo === 'true';
-      inputDate.disabled = semPrazo;
-      if (semPrazo) {
-        inputDate.value = '';
-        tdDias.textContent = 'Sem prazo';
-        tdDias.className = 'dias-restantes status-sem-prazo';
+    function obterStatusPrazo(dataFinalISO, semPrazo = false) {
+      if (semPrazo || !dataFinalISO) return "Sem prazo";
+
+      const dias = calcularDiasRestantes(dataFinalISO);
+      const limite = parseInt(limiteVencendo.value, 10) || 3;
+
+      if (dias < 0) return "Atrasado";
+      if (dias === 0) return "Vence hoje";
+      if (dias <= limite) return "Vencendo";
+      return "No prazo";
+    }
+
+    function gerarBadgePrazo(dataFinalISO, semPrazo = false) {
+      const status = obterStatusPrazo(dataFinalISO, semPrazo);
+      const dias = semPrazo ? null : calcularDiasRestantes(dataFinalISO);
+
+      let classe = "badge-sem-prazo";
+      let texto = "Sem prazo";
+
+      if (status === "No prazo") {
+        classe = "badge-no-prazo";
+        texto = `Faltam ${dias} dia(s)`;
+      } else if (status === "Vencendo") {
+        classe = "badge-vencendo";
+        texto = `Vence em ${dias} dia(s)`;
+      } else if (status === "Vence hoje") {
+        classe = "badge-vence-hoje";
+        texto = "Vence hoje";
+      } else if (status === "Atrasado") {
+        classe = "badge-atrasado";
+        texto = `Atrasado ${Math.abs(dias)} dia(s)`;
+      }
+
+      return `<span class="badge ${classe}">${texto}</span>`;
+    }
+
+    function obterClasseLinha(statusPrazo) {
+      if (statusPrazo === "Atrasado") return "linha-atrasada";
+      if (statusPrazo === "Vencendo") return "linha-vencendo";
+      if (statusPrazo === "Vence hoje") return "linha-hoje";
+      if (statusPrazo === "Sem prazo") return "linha-sem-prazo";
+      return "";
+    }
+
+    function escapeHtml(texto) {
+      return String(texto)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function abrirAba(aba) {
+      if (aba === "dashboard") {
+        abaProcessos.classList.add("hidden");
+        abaDashboard.classList.remove("hidden");
+        tabProcessosBtn.classList.remove("active");
+        tabDashboardBtn.classList.add("active");
+        localStorage.setItem(STORAGE_KEYS.aba, "dashboard");
+        atualizarDashboard();
+      } else {
+        abaProcessos.classList.remove("hidden");
+        abaDashboard.classList.add("hidden");
+        tabProcessosBtn.classList.add("active");
+        tabDashboardBtn.classList.remove("active");
+        localStorage.setItem(STORAGE_KEYS.aba, "processos");
       }
     }
 
-    window.alternarSemPrazoManual = function () {
+    function aplicarAbaSalva() {
+      const abaSalva = localStorage.getItem(STORAGE_KEYS.aba) || "processos";
+      abrirAba(abaSalva);
+    }
+
+    function alternarSemPrazoManual() {
       if (semPrazoManual.checked) {
-        dataFinalManual.value = '';
+        dataFinalManual.value = "";
         dataFinalManual.disabled = true;
       } else {
         dataFinalManual.disabled = false;
       }
-    };
+    }
 
-    window.abrirAba = function (aba) {
-      const abaProcessos = document.getElementById('abaProcessos');
-      const abaDashboard = document.getElementById('abaDashboard');
-      const btnP = document.getElementById('tabProcessosBtn');
-      const btnD = document.getElementById('tabDashboardBtn');
+    function limparFormulario() {
+      entrada.value = "";
+      gerenciaManual.value = "";
+      situacaoManual.value = "Em análise";
+      dataFinalManual.value = "";
+      semPrazoManual.checked = false;
+      dataFinalManual.disabled = false;
+      mostrarMensagem("Formulário limpo.", "info");
+    }
 
-      if (aba === 'dashboard') {
-        abaProcessos.classList.add('hidden');
-        abaDashboard.classList.remove('hidden');
-        btnP.classList.remove('active');
-        btnD.classList.add('active');
-        atualizarDashboard();
-      } else {
-        abaProcessos.classList.remove('hidden');
-        abaDashboard.classList.add('hidden');
-        btnP.classList.add('active');
-        btnD.classList.remove('active');
-      }
-    };
+    function salvarFiltrosNoStorage() {
+      const payload = {
+        busca: busca.value,
+        filtroGerencia: filtroGerencia.value,
+        filtroSituacao: filtroSituacao.value,
+        filtroPrazo: filtroPrazo.value,
+        filtroStatusPrazo: filtroStatusPrazo.value,
+        filtroAtrasados: filtroAtrasados.checked,
+        filtroDataInicial: filtroDataInicial.value,
+        filtroDataFinal: filtroDataFinal.value,
+        ordenacao: ordenacao.value,
+        limiteVencendo: limiteVencendo.value
+      };
+      localStorage.setItem(STORAGE_KEYS.filtros, JSON.stringify(payload));
+    }
 
-    window.solicitarPermissaoNotificacao = async function () {
-      if (!('Notification' in window)) {
-        alert('Seu navegador não suporta notificações.');
-        return;
-      }
-      const status = await Notification.requestPermission();
-      if (status === 'granted') {
-        alert('Avisos do navegador ativados.');
-        verificarAlertasPrazo(true);
-      } else {
-        alert('Permissão de notificação não concedida.');
-      }
-    };
-
-    window.gerarTabela = async function () {
+    function carregarFiltrosDoStorage() {
       try {
+        const bruto = localStorage.getItem(STORAGE_KEYS.filtros);
+        if (!bruto) return;
+        const payload = JSON.parse(bruto);
+
+        busca.value = payload.busca || "";
+        filtroGerencia.value = payload.filtroGerencia || "";
+        filtroSituacao.value = payload.filtroSituacao || "";
+        filtroPrazo.value = payload.filtroPrazo || "";
+        filtroStatusPrazo.value = payload.filtroStatusPrazo || "";
+        filtroAtrasados.checked = !!payload.filtroAtrasados;
+        filtroDataInicial.value = payload.filtroDataInicial || "";
+        filtroDataFinal.value = payload.filtroDataFinal || "";
+        ordenacao.value = payload.ordenacao || "";
+        limiteVencendo.value = payload.limiteVencendo || "3";
+      } catch (e) {
+        console.warn("Não foi possível restaurar os filtros:", e);
+      }
+    }
+
+    /* ==========================
+       FIRESTORE
+    ========================== */
+    function iniciarEscutaProcessos() {
+      try {
+        if (unsubscribeSnapshot) unsubscribeSnapshot();
+
+        limparTabelaVisual();
+        contadorRegistros.textContent = "Carregando...";
+
+        unsubscribeSnapshot = db.collection(COLLECTION_PROCESSOS)
+          .onSnapshot((snapshot) => {
+            limparTabelaVisual();
+
+            if (snapshot.empty) {
+              atualizarTudoNaTela();
+              mostrarMensagem("Nenhum processo cadastrado até o momento.", "info");
+              return;
+            }
+
+            const itens = [];
+            snapshot.forEach((doc) => {
+              const dados = doc.data();
+              itens.push({
+                id: doc.id,
+                processo: dados.processo || "",
+                processoNormalizado: dados.processoNormalizado || normalizarProcesso(dados.processo || ""),
+                interessado: dados.interessado || "",
+                assunto: dados.assunto || "",
+                dataCadastro: dados.dataCadastro || "",
+                dataCadastroISO: dados.dataCadastroISO || "",
+                situacao: dados.situacao || "Em análise",
+                gerencia: dados.gerencia || "",
+                dataFinal: dados.dataFinal || "",
+                semPrazo: !!dados.semPrazo || !dados.dataFinal,
+                criadoEm: dados.criadoEm || null,
+                criadoPor: dados.criadoPor || "",
+                alteradoEm: dados.alteradoEm || null,
+                alteradoPor: dados.alteradoPor || ""
+              });
+            });
+
+            itens.sort((a, b) => (b.dataCadastroISO || "").localeCompare(a.dataCadastroISO || ""));
+            itens.forEach(adicionarLinha);
+            aplicarFiltrosEOrdenacao();
+          }, (error) => {
+            console.error("Erro ao escutar coleção:", error);
+            mostrarMensagem("Erro ao carregar processos em tempo real.", "error");
+          });
+      } catch (error) {
+        console.error("Erro ao iniciar escuta:", error);
+        mostrarMensagem("Erro ao iniciar carregamento dos processos.", "error");
+      }
+    }
+
+    async function existeProcessoDuplicado(processoNormalizado, ignorarId = null) {
+      if (!processoNormalizado) return false;
+
+      const snapshot = await db.collection(COLLECTION_PROCESSOS)
+        .where("processoNormalizado", "==", processoNormalizado)
+        .get();
+
+      if (snapshot.empty) return false;
+
+      let duplicado = false;
+      snapshot.forEach(doc => {
+        if (doc.id !== ignorarId) duplicado = true;
+      });
+
+      return duplicado;
+    }
+
+    async function gerarProcesso() {
+      try {
+        setLoading(btnGerarProcesso, true, "Gerar processo");
+        mostrarMensagem("Salvando processo...", "info");
+
         const texto = entrada.value.trim();
-        const processo = extrairCampo(texto, [/Processo\s*(?:n[º°o]\s*)?:?\s*(.+)/i]);
+        const processoExtraido = extrairCampo(texto, [/Processo\s*(?:n[º°o]\s*)?:?\s*(.+)/i]).trim();
+        const processo = normalizarProcesso(processoExtraido);
+
         const interessado = extrairCampo(texto, [
           /Interessado\(a\)\s*:?\s*(.+)/i,
           /Interessado\s*:?\s*(.+)/i
         ]);
-        const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]);
 
-        const dataFinalTexto = semPrazoManual.checked ? '' : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
+        const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]);
+        const dataFinalTexto = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
         const gerenciaTexto = gerenciaManual.value || extrairGerencia(texto);
+        const situacaoTexto = situacaoManual.value || "Em análise";
 
         if (!processo && !interessado && !assunto && !texto) {
-          alert('Preencha pelo menos um dado do processo.');
+          mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
           return;
         }
+
+        if (processo) {
+          const duplicado = await existeProcessoDuplicado(processo);
+          if (duplicado) {
+            mostrarMensagem("Já existe um processo cadastrado com esse número.", "error");
+            return;
+          }
+        }
+
+        const user = auth.currentUser;
 
         const registro = {
-          processo: processo || '',
-          interessado: interessado || '',
-          assunto: assunto || '',
-          data: new Date().toLocaleDateString('pt-BR'),
-          situacao: 'Adimplente',
-          gerencia: gerenciaTexto || '',
-          dataFinal: dataFinalTexto || '',
+          processo: processo || "",
+          processoNormalizado: processo || "",
+          interessado: interessado || "",
+          assunto: assunto || "",
+          dataCadastro: new Date().toLocaleDateString("pt-BR"),
+          dataCadastroISO: hojeISO(),
+          situacao: situacaoTexto,
+          gerencia: gerenciaTexto || "",
+          dataFinal: dataFinalTexto || "",
           semPrazo: !dataFinalTexto,
-          criadoEm: new Date().toISOString()
+          criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
+          criadoPor: user?.email || "",
+          alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
+          alteradoPor: user?.email || ""
         };
 
-        const docRef = await db.collection('processos').add(registro);
-        adicionarLinha({ id: docRef.id, ...registro });
-
-        entrada.value = '';
-        gerenciaManual.value = '';
-        semPrazoManual.checked = false;
-        dataFinalManual.disabled = false;
-        dataFinalManual.value = '';
+        await db.collection(COLLECTION_PROCESSOS).add(registro);
+        limparFormulario();
+        mostrarMensagem("Processo cadastrado com sucesso.", "success");
       } catch (error) {
-        console.error('Erro ao salvar processo:', error);
-        alert('Erro ao salvar processo: ' + error.message);
-      }
-    };
-
-    async function carregar() {
-      try {
-        limparTabela();
-        const snapshot = await db.collection('processos').get();
-        if (snapshot.empty) {
-          atualizarTudoNaTela();
-          return;
-        }
-        const itens = [];
-        snapshot.forEach((doc) => {
-          const dados = doc.data();
-          itens.push({
-            id: doc.id,
-            processo: dados.processo || '',
-            interessado: dados.interessado || '',
-            assunto: dados.assunto || '',
-            data: dados.data || '',
-            situacao: dados.situacao || '',
-            gerencia: dados.gerencia || '',
-            dataFinal: dados.dataFinal || '',
-            semPrazo: !!dados.semPrazo || !dados.dataFinal
-          });
-        });
-        itens.forEach(item => adicionarLinha(item));
-        atualizarTudoNaTela();
-      } catch (error) {
-        console.error('Erro ao carregar:', error);
-        alert('Erro ao carregar processos: ' + error.message);
+        console.error("Erro ao salvar processo:", error);
+        mostrarMensagem("Erro ao salvar processo: " + error.message, "error");
+      } finally {
+        setLoading(btnGerarProcesso, false, "Gerar processo");
       }
     }
 
-    function adicionarLinha(dados) {
-      tabela.classList.remove('hidden');
-      const dias = dados.semPrazo ? null : calcularDiasRestantes(dados.dataFinal || '');
-      const classeDias = classeDiasRestantes(dias);
-      const textoDias = dados.semPrazo ? 'Sem prazo' : textoDiasRestantes(dias);
+    async function atualizarDocumento(id, dadosAtualizados) {
+      const usuario = auth.currentUser;
 
-      const tr = document.createElement('tr');
-      tr.dataset.id = dados.id || '';
+      await db.collection(COLLECTION_PROCESSOS).doc(id).update({
+        ...dadosAtualizados,
+        alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
+        alteradoPor: usuario?.email || ""
+      });
+    }
+
+    async function remover(id) {
+      if (!id) return;
+
+      const confirmar = confirm("Deseja realmente excluir este processo?");
+      if (!confirmar) return;
+
+      try {
+        await db.collection(COLLECTION_PROCESSOS).doc(id).delete();
+        mostrarMensagem("Processo excluído com sucesso.", "success");
+      } catch (error) {
+        console.error("Erro ao excluir:", error);
+        mostrarMensagem("Erro ao excluir: " + error.message, "error");
+      }
+    }
+
+    /* ==========================
+       TABELA
+    ========================== */
+    function adicionarLinha(dados) {
+      tabela.classList.remove("hidden");
+
+      const tr = document.createElement("tr");
+      tr.dataset.id = dados.id || "";
+      tr.dataset.alteradoPor = dados.alteradoPor || "";
+      tr.dataset.alteradoEm = dados.alteradoEm && dados.alteradoEm.toDate
+        ? dados.alteradoEm.toDate().toISOString()
+        : (dados.alteradoEm instanceof Date ? dados.alteradoEm.toISOString() : "");
+      tr.dataset.processoNormalizado = dados.processoNormalizado || normalizarProcesso(dados.processo || "");
+
+      const dias = dados.semPrazo ? null : calcularDiasRestantes(dados.dataFinal || "");
+      const classeDias = classeDiasRestantes(dias);
+      const statusPrazo = obterStatusPrazo(dados.dataFinal || "", !!dados.semPrazo);
+
+      tr.className = obterClasseLinha(statusPrazo);
+
       tr.innerHTML = `
-        <td contenteditable="true" data-campo="processo">${escapeHtml(dados.processo || '')}</td>
-        <td contenteditable="true" data-campo="interessado">${escapeHtml(dados.interessado || '')}</td>
-        <td contenteditable="true" data-campo="assunto">${escapeHtml(dados.assunto || '')}</td>
-        <td contenteditable="true" data-campo="data">${escapeHtml(dados.data || '')}</td>
-        <td contenteditable="true" data-campo="situacao">${escapeHtml(dados.situacao || '')}</td>
+        <td contenteditable="true" data-campo="processo">${escapeHtml(dados.processo || "")}</td>
+        <td contenteditable="true" data-campo="interessado">${escapeHtml(dados.interessado || "")}</td>
+        <td contenteditable="true" data-campo="assunto">${escapeHtml(dados.assunto || "")}</td>
+        <td>${escapeHtml(dados.dataCadastro || "")}</td>
         <td>
-          <select data-campo="gerencia">
-            <option value="">Selecione...</option>
-            ${GERENCIAS.map(g => `<option value="${g}" ${dados.gerencia === g ? 'selected' : ''}>${g}</option>`).join('')}
+          <select data-campo="situacao">
+            ${STATUS_OPERACIONAIS.map(s => `
+              <option value="${escapeHtml(s)}" ${dados.situacao === s ? "selected" : ""}>${escapeHtml(s)}</option>
+            `).join("")}
           </select>
         </td>
         <td>
-          <input type="date" class="data-final-input" data-campo="dataFinal" value="${escapeHtml(dados.dataFinal || '')}" ${dados.semPrazo ? 'disabled' : ''}>
+          <select data-campo="gerencia">
+            <option value="">Selecione...</option>
+            ${GERENCIAS.map(g => `
+              <option value="${g}" ${dados.gerencia === g ? "selected" : ""}>${g}</option>
+            `).join("")}
+          </select>
+        </td>
+        <td>
+          <input type="date" class="data-final-input" data-campo="dataFinal" value="${escapeHtml(dados.dataFinal || "")}" ${dados.semPrazo ? "disabled" : ""}>
           <label class="checkbox-wrap" style="margin-top:8px;">
-            <input type="checkbox" data-campo="semPrazo" ${dados.semPrazo ? 'checked' : ''}>
+            <input type="checkbox" data-campo="semPrazo" ${dados.semPrazo ? "checked" : ""}>
             Sem prazo
           </label>
         </td>
-        <td class="dias-restantes ${classeDias}">${escapeHtml(textoDias)}</td>
-        <td class="acoes"><button type="button" class="danger" onclick="remover('${dados.id || ''}')">Excluir</button></td>
+        <td class="status-prazo">${gerarBadgePrazo(dados.dataFinal || "", !!dados.semPrazo)}</td>
+        <td class="dias-restantes ${classeDias}">${escapeHtml(dados.semPrazo ? "Sem prazo" : textoDiasRestantes(dias))}</td>
+        <td class="ultima-alteracao">
+          <div><strong>${escapeHtml(dados.alteradoPor || "-")}</strong></div>
+          <div>${escapeHtml(formatarDataHora(dados.alteradoEm || null))}</div>
+        </td>
+        <td class="acoes">
+          <button type="button" class="danger" data-acao="excluir">Excluir</button>
+        </td>
       `;
 
+      registrarEventosDaLinha(tr);
+      tbody.prepend(tr);
+    }
+
+    function registrarEventosDaLinha(tr) {
+      const id = tr.dataset.id;
+
       tr.querySelectorAll('td[contenteditable="true"]').forEach(td => {
-        td.addEventListener('blur', async () => {
-          const id = tr.dataset.id;
+        td.addEventListener("blur", async () => {
           const campo = td.dataset.campo;
-          const valor = td.innerText.trim();
           if (!id || !campo) return;
+
           try {
-            await db.collection('processos').doc(id).update({ [campo]: valor });
-            atualizarTudoNaTela();
+            let valor = td.innerText.trim();
+
+            if (campo === "processo") {
+              valor = normalizarProcesso(valor);
+
+              if (valor) {
+                const duplicado = await existeProcessoDuplicado(valor, id);
+                if (duplicado) {
+                  mostrarMensagem("Já existe outro processo com esse número. Alteração cancelada.", "error");
+                  return;
+                }
+              }
+
+              td.innerText = valor;
+              tr.dataset.processoNormalizado = valor;
+
+              await atualizarDocumento(id, {
+                processo: valor,
+                processoNormalizado: valor
+              });
+            } else {
+              await atualizarDocumento(id, { [campo]: valor });
+            }
+
+            mostrarMensagem("Registro atualizado com sucesso.", "success");
           } catch (error) {
-            console.error('Erro ao atualizar campo:', error);
-            alert('Erro ao atualizar registro: ' + error.message);
+            console.error("Erro ao atualizar campo:", error);
+            mostrarMensagem("Erro ao atualizar registro: " + error.message, "error");
           }
         });
       });
 
-      const selectGerencia = tr.querySelector('select[data-campo="gerencia"]');
-      selectGerencia.addEventListener('change', async () => {
-        const id = tr.dataset.id;
-        if (!id) return;
+      const selectSituacao = tr.querySelector('select[data-campo="situacao"]');
+      selectSituacao.addEventListener("change", async () => {
         try {
-          await db.collection('processos').doc(id).update({ gerencia: selectGerencia.value });
-          atualizarTudoNaTela();
+          await atualizarDocumento(id, { situacao: selectSituacao.value });
+          mostrarMensagem("Situação atualizada com sucesso.", "success");
         } catch (error) {
-          console.error('Erro ao atualizar gerência:', error);
-          alert('Erro ao salvar gerência: ' + error.message);
+          console.error("Erro ao atualizar situação:", error);
+          mostrarMensagem("Erro ao atualizar situação: " + error.message, "error");
+        }
+      });
+
+      const selectGerencia = tr.querySelector('select[data-campo="gerencia"]');
+      selectGerencia.addEventListener("change", async () => {
+        try {
+          await atualizarDocumento(id, { gerencia: selectGerencia.value });
+          mostrarMensagem("Gerência atualizada com sucesso.", "success");
+        } catch (error) {
+          console.error("Erro ao atualizar gerência:", error);
+          mostrarMensagem("Erro ao salvar gerência: " + error.message, "error");
         }
       });
 
       const inputDataFinal = tr.querySelector('input[data-campo="dataFinal"]');
       const checkboxSemPrazo = tr.querySelector('input[data-campo="semPrazo"]');
-      const tdDias = tr.querySelector('.dias-restantes');
 
-      checkboxSemPrazo.addEventListener('change', async () => {
-        const id = tr.dataset.id;
-        const semPrazo = checkboxSemPrazo.checked;
-        inputDataFinal.disabled = semPrazo;
-        if (semPrazo) inputDataFinal.value = '';
-        const diasAtualizados = semPrazo ? null : calcularDiasRestantes(inputDataFinal.value);
-        tdDias.textContent = semPrazo ? 'Sem prazo' : textoDiasRestantes(diasAtualizados);
-        tdDias.className = 'dias-restantes ' + classeDiasRestantes(diasAtualizados);
-        if (!id) return;
+      checkboxSemPrazo.addEventListener("change", async () => {
         try {
-          await db.collection('processos').doc(id).update({
-            semPrazo: semPrazo,
-            dataFinal: semPrazo ? '' : inputDataFinal.value
+          const semPrazo = checkboxSemPrazo.checked;
+          inputDataFinal.disabled = semPrazo;
+          if (semPrazo) inputDataFinal.value = "";
+
+          atualizarLinhaPrazo(tr);
+
+          await atualizarDocumento(id, {
+            semPrazo,
+            dataFinal: semPrazo ? "" : inputDataFinal.value
           });
-          atualizarTudoNaTela();
+
+          mostrarMensagem("Prazo atualizado com sucesso.", "success");
         } catch (error) {
-          console.error('Erro ao atualizar sem prazo:', error);
-          alert('Erro ao salvar alteração: ' + error.message);
+          console.error("Erro ao atualizar sem prazo:", error);
+          mostrarMensagem("Erro ao salvar alteração: " + error.message, "error");
         }
       });
 
-      inputDataFinal.addEventListener('change', async () => {
-        const id = tr.dataset.id;
-        const valor = inputDataFinal.value;
-        checkboxSemPrazo.checked = !valor;
-        inputDataFinal.disabled = false;
-        const diasAtualizados = valor ? calcularDiasRestantes(valor) : null;
-        tdDias.textContent = valor ? textoDiasRestantes(diasAtualizados) : 'Sem prazo';
-        tdDias.className = 'dias-restantes ' + classeDiasRestantes(diasAtualizados);
-        if (!id) return;
+      inputDataFinal.addEventListener("change", async () => {
         try {
-          await db.collection('processos').doc(id).update({
+          const valor = inputDataFinal.value;
+          checkboxSemPrazo.checked = !valor;
+          inputDataFinal.disabled = false;
+
+          atualizarLinhaPrazo(tr);
+
+          await atualizarDocumento(id, {
             dataFinal: valor,
             semPrazo: !valor
           });
-          atualizarTudoNaTela();
+
+          mostrarMensagem("Data final atualizada com sucesso.", "success");
         } catch (error) {
-          console.error('Erro ao atualizar data final:', error);
-          alert('Erro ao salvar data final: ' + error.message);
+          console.error("Erro ao atualizar data final:", error);
+          mostrarMensagem("Erro ao salvar data final: " + error.message, "error");
         }
       });
 
-      tbody.prepend(tr);
+      const btnExcluir = tr.querySelector('button[data-acao="excluir"]');
+      btnExcluir.addEventListener("click", () => remover(id));
     }
 
-    window.remover = async function (id) {
-      if (!id) return;
-      const confirmar = confirm('Deseja realmente excluir este processo?');
-      if (!confirmar) return;
-      try {
-        await db.collection('processos').doc(id).delete();
-        const linha = document.querySelector(`tr[data-id="${id}"]`);
-        if (linha) linha.remove();
-        if (!tbody.querySelector('tr')) tabela.classList.add('hidden');
-        atualizarTudoNaTela();
-      } catch (error) {
-        console.error('Erro ao excluir:', error);
-        alert('Erro ao excluir: ' + error.message);
-      }
-    };
+    function atualizarLinhaPrazo(tr) {
+      const inputDataFinal = tr.querySelector('input[data-campo="dataFinal"]');
+      const checkboxSemPrazo = tr.querySelector('input[data-campo="semPrazo"]');
+      const tdStatusPrazo = tr.querySelector(".status-prazo");
+      const tdDias = tr.querySelector(".dias-restantes");
+
+      const semPrazo = checkboxSemPrazo.checked;
+      const dataFinal = semPrazo ? "" : (inputDataFinal.value || "");
+      const dias = semPrazo ? null : calcularDiasRestantes(dataFinal);
+      const statusPrazo = obterStatusPrazo(dataFinal, semPrazo);
+
+      tdStatusPrazo.innerHTML = gerarBadgePrazo(dataFinal, semPrazo);
+      tdDias.textContent = semPrazo ? "Sem prazo" : textoDiasRestantes(dias);
+      tdDias.className = "dias-restantes " + classeDiasRestantes(dias);
+
+      tr.classList.remove("linha-atrasada", "linha-vencendo", "linha-hoje", "linha-sem-prazo");
+      const classeLinha = obterClasseLinha(statusPrazo);
+      if (classeLinha) tr.classList.add(classeLinha);
+    }
+
+    function atualizarTodasAsLinhas() {
+      Array.from(tbody.querySelectorAll("tr")).forEach(tr => atualizarLinhaPrazo(tr));
+    }
+
+    function limparTabelaVisual() {
+      tbody.innerHTML = "";
+      tabela.classList.add("hidden");
+      noResults.classList.add("hidden");
+    }
 
     function limparTabela() {
-      tbody.innerHTML = '';
-      tabela.classList.add('hidden');
+      limparTabelaVisual();
       atualizarTudoNaTela();
     }
 
-    window.filtrar = function () {
-      const termo = busca.value.toLowerCase().trim();
-      document.querySelectorAll('#tabela tbody tr').forEach(tr => {
-        const texto = tr.innerText.toLowerCase();
-        tr.style.display = texto.includes(termo) ? '' : 'none';
+    /* ==========================
+       FILTROS
+    ========================== */
+    function limparFiltros() {
+      busca.value = "";
+      filtroGerencia.value = "";
+      filtroSituacao.value = "";
+      filtroPrazo.value = "";
+      filtroStatusPrazo.value = "";
+      filtroAtrasados.checked = false;
+      filtroDataInicial.value = "";
+      filtroDataFinal.value = "";
+      ordenacao.value = "";
+      salvarFiltrosNoStorage();
+      aplicarFiltrosEOrdenacao();
+      mostrarMensagem("Filtros limpos.", "info");
+    }
+
+    function obterDadosDaLinha(tr) {
+      const selectGerencia = tr.querySelector('select[data-campo="gerencia"]');
+      const selectSituacao = tr.querySelector('select[data-campo="situacao"]');
+      const inputDataFinal = tr.querySelector('input[data-campo="dataFinal"]');
+      const semPrazo = tr.querySelector('input[data-campo="semPrazo"]').checked;
+
+      const dataFinal = semPrazo ? "" : (inputDataFinal?.value || "");
+      const diasRestantes = semPrazo ? null : calcularDiasRestantes(dataFinal);
+      const statusPrazo = obterStatusPrazo(dataFinal, semPrazo);
+
+      return {
+        id: tr.dataset.id,
+        processo: tr.children[0]?.innerText?.trim() || "",
+        processoNormalizado: tr.dataset.processoNormalizado || normalizarProcesso(tr.children[0]?.innerText?.trim() || ""),
+        interessado: tr.children[1]?.innerText?.trim() || "",
+        assunto: tr.children[2]?.innerText?.trim() || "",
+        dataCadastro: tr.children[3]?.innerText?.trim() || "",
+        situacao: selectSituacao?.value || "",
+        gerencia: selectGerencia?.value || "",
+        dataFinal,
+        semPrazo,
+        diasRestantes,
+        statusPrazo,
+        alteradoPor: tr.dataset.alteradoPor || "",
+        alteradoEm: tr.dataset.alteradoEm || ""
+      };
+    }
+
+    function aplicarFiltrosEOrdenacao() {
+      const termoBusca = busca.value.toLowerCase().trim();
+      const gerencia = filtroGerencia.value;
+      const situacao = filtroSituacao.value;
+      const prazo = filtroPrazo.value;
+      const statusPrazoFiltro = filtroStatusPrazo.value;
+      const somenteAtrasados = filtroAtrasados.checked;
+      const dataInicial = filtroDataInicial.value;
+      const dataFinal = filtroDataFinal.value;
+      const tipoOrdenacao = ordenacao.value;
+
+      let linhas = Array.from(tbody.querySelectorAll("tr"));
+
+      linhas.forEach(tr => {
+        const dados = obterDadosDaLinha(tr);
+        const textoLinha = [
+          dados.processo,
+          dados.interessado,
+          dados.assunto,
+          dados.situacao,
+          dados.gerencia,
+          dados.statusPrazo
+        ].join(" ").toLowerCase();
+
+        let visivel = true;
+
+        if (termoBusca && !textoLinha.includes(termoBusca)) visivel = false;
+        if (gerencia && dados.gerencia !== gerencia) visivel = false;
+        if (situacao && dados.situacao !== situacao) visivel = false;
+        if (prazo === "comPrazo" && dados.semPrazo) visivel = false;
+        if (prazo === "semPrazo" && !dados.semPrazo) visivel = false;
+        if (statusPrazoFiltro && dados.statusPrazo !== statusPrazoFiltro) visivel = false;
+        if (somenteAtrasados && dados.statusPrazo !== "Atrasado") visivel = false;
+
+        if (dataInicial) {
+          if (dados.semPrazo || !dados.dataFinal || dados.dataFinal < dataInicial) visivel = false;
+        }
+
+        if (dataFinal) {
+          if (dados.semPrazo || !dados.dataFinal || dados.dataFinal > dataFinal) visivel = false;
+        }
+
+        tr.style.display = visivel ? "" : "none";
       });
-      atualizarContadorVisivel();
-      atualizarDashboard();
-      verificarAlertasPrazo(false);
-    };
+
+      const visiveis = linhas.filter(tr => tr.style.display !== "none");
+      const ocultas = linhas.filter(tr => tr.style.display === "none");
+
+      visiveis.sort((a, b) => {
+        const da = obterDadosDaLinha(a);
+        const dbb = obterDadosDaLinha(b);
+
+        if (tipoOrdenacao === ORDENACOES.DATA_FINAL_ASC) {
+          return (da.dataFinal || "9999-12-31").localeCompare(dbb.dataFinal || "9999-12-31");
+        }
+
+        if (tipoOrdenacao === ORDENACOES.PROCESSO_ASC) {
+          return da.processo.localeCompare(dbb.processo, "pt-BR", { sensitivity: "base" });
+        }
+
+        if (tipoOrdenacao === ORDENACOES.INTERESSADO_ASC) {
+          return da.interessado.localeCompare(dbb.interessado, "pt-BR", { sensitivity: "base" });
+        }
+
+        if (tipoOrdenacao === ORDENACOES.GERENCIA_ASC) {
+          return da.gerencia.localeCompare(dbb.gerencia, "pt-BR", { sensitivity: "base" });
+        }
+
+        if (tipoOrdenacao === ORDENACOES.DIAS_RESTANTES_ASC) {
+          const va = da.semPrazo ? Number.MAX_SAFE_INTEGER : da.diasRestantes;
+          const vb = dbb.semPrazo ? Number.MAX_SAFE_INTEGER : dbb.diasRestantes;
+          return va - vb;
+        }
+
+        return 0;
+      });
+
+      [...visiveis, ...ocultas].forEach(tr => tbody.appendChild(tr));
+
+      salvarFiltrosNoStorage();
+      atualizarTudoNaTela();
+    }
+
+    /* ==========================
+       CONTADOR / ALERTAS / DASHBOARD
+    ========================== */
+    function atualizarContador() {
+      const total = tbody.querySelectorAll("tr").length;
+      const visiveis = Array.from(tbody.querySelectorAll("tr"))
+        .filter(tr => tr.style.display !== "none").length;
+
+      contadorRegistros.textContent = `${visiveis} de ${total} registro(s)`;
+      noResults.classList.toggle("hidden", !(total > 0 && visiveis === 0));
+    }
 
     function obterDadosDaTabela(visiveisApenas = false) {
-      return Array.from(document.querySelectorAll('#tabela tbody tr'))
-        .filter(tr => !visiveisApenas || tr.style.display !== 'none')
-        .map(tr => {
-          const selectGerencia = tr.querySelector('select[data-campo="gerencia"]');
-          const inputDataFinal = tr.querySelector('input[data-campo="dataFinal"]');
-          const semPrazo = tr.querySelector('input[data-campo="semPrazo"]').checked;
-          const dataFinal = semPrazo ? '' : (inputDataFinal.value || '');
-          return {
-            id: tr.dataset.id,
-            processo: tr.children[0]?.innerText?.trim() || '',
-            interessado: tr.children[1]?.innerText?.trim() || '',
-            assunto: tr.children[2]?.innerText?.trim() || '',
-            data: tr.children[3]?.innerText?.trim() || '',
-            situacao: tr.children[4]?.innerText?.trim() || '',
-            gerencia: selectGerencia?.value || '',
-            dataFinal,
-            semPrazo,
-            diasRestantes: semPrazo ? null : calcularDiasRestantes(dataFinal)
-          };
-        });
-    }
-
-    window.exportarExcel = function () {
-      if (!tbody.querySelector('tr')) {
-        alert('Não há registros para exportar.');
-        return;
-      }
-      const tabelaExportacao = obterHTMLTabelaExportacao();
-      const html = `
-        <html>
-          <head><meta charset="UTF-8"></head>
-          <body>
-            <h2>Relatório de Processos</h2>
-            ${tabelaExportacao}
-          </body>
-        </html>
-      `;
-      const blob = new Blob([html], { type: 'application/vnd.ms-excel' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'processos.xls';
-      link.click();
-      URL.revokeObjectURL(link.href);
-    };
-
-    window.exportarPDF = function () {
-      if (!tbody.querySelector('tr')) {
-        alert('Não há registros para exportar.');
-        return;
-      }
-      const tabelaExportacao = obterHTMLTabelaExportacao();
-      const janela = window.open('', '_blank');
-      janela.document.write(`
-        <html>
-          <head>
-            <title>Relatório de Processos</title>
-            <meta charset="UTF-8">
-            <style>
-              body { font-family: Arial, sans-serif; padding: 20px; color: #111; }
-              h2 { margin-bottom: 16px; }
-              table { width: 100%; border-collapse: collapse; }
-              th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; }
-              th { background: #eaeaea; }
-            </style>
-          </head>
-          <body>
-            <h2>Relatório de Processos</h2>
-            ${tabelaExportacao}
-          </body>
-        </html>
-      `);
-      janela.document.close();
-      janela.focus();
-      janela.print();
-    };
-
-    function obterHTMLTabelaExportacao() {
-      const dados = obterDadosDaTabela(false);
-      const linhas = dados.map(d => `
-        <tr>
-          <td>${escapeHtml(d.processo)}</td>
-          <td>${escapeHtml(d.interessado)}</td>
-          <td>${escapeHtml(d.assunto)}</td>
-          <td>${escapeHtml(d.data)}</td>
-          <td>${escapeHtml(d.situacao)}</td>
-          <td>${escapeHtml(d.gerencia || '')}</td>
-          <td>${escapeHtml(d.semPrazo ? 'Sem prazo' : formatarDataISOparaBR(d.dataFinal))}</td>
-          <td>${escapeHtml(d.semPrazo ? 'Sem prazo' : textoDiasRestantes(d.diasRestantes))}</td>
-        </tr>
-      `).join('');
-
-      return `
-        <table>
-          <thead>
-            <tr>
-              <th>Processo</th>
-              <th>Interessado</th>
-              <th>Assunto</th>
-              <th>Data</th>
-              <th>Situação</th>
-              <th>Gerência</th>
-              <th>Data Final</th>
-              <th>Dias Restantes</th>
-            </tr>
-          </thead>
-          <tbody>${linhas}</tbody>
-        </table>
-      `;
-    }
-
-    function atualizarContador() {
-      const total = tbody.querySelectorAll('tr').length;
-      contadorRegistros.textContent = `${total} registro(s)`;
-    }
-
-    function atualizarContadorVisivel() {
-      const visiveis = Array.from(tbody.querySelectorAll('tr')).filter(tr => tr.style.display !== 'none').length;
-      contadorRegistros.textContent = `${visiveis} registro(s) visível(is)`;
+      return Array.from(tbody.querySelectorAll("tr"))
+        .filter(tr => !visiveisApenas || tr.style.display !== "none")
+        .map(obterDadosDaLinha);
     }
 
     function verificarAlertasPrazo(enviarNotificacao = false) {
       const dados = obterDadosDaTabela(true);
       const limite = parseInt(limiteVencendo.value, 10) || 3;
-      const itens = dados.filter(d => !d.semPrazo && d.diasRestantes !== null && d.diasRestantes <= limite);
+
+      const itens = dados.filter(d =>
+        !d.semPrazo &&
+        d.diasRestantes !== null &&
+        d.diasRestantes <= limite &&
+        !["Concluído", "Arquivado"].includes(d.situacao)
+      );
 
       if (!itens.length) {
-        alertasPrazo.classList.add('hidden');
-        alertasPrazo.innerHTML = '';
+        alertasPrazo.classList.add("hidden");
+        alertasPrazo.innerHTML = "";
         return;
       }
 
@@ -1031,29 +1872,32 @@ Gerência: GECONT"></textarea>
         const status = d.diasRestantes < 0
           ? `atrasado há ${Math.abs(d.diasRestantes)} dia(s)`
           : d.diasRestantes === 0
-            ? 'vence hoje'
+            ? "vence hoje"
             : `vence em ${d.diasRestantes} dia(s)`;
-        return `<li><strong>${escapeHtml(d.processo || '(sem número)')}</strong> — ${escapeHtml(d.assunto || 'Sem assunto')} — ${escapeHtml(d.gerencia || 'Sem gerência')} — ${status}</li>`;
-      }).join('');
+
+        return `<li><strong>${escapeHtml(d.processo || "(sem número)")}</strong> — ${escapeHtml(d.assunto || "Sem assunto")} — ${escapeHtml(d.gerencia || "Sem gerência")} — ${escapeHtml(status)}</li>`;
+      }).join("");
 
       alertasPrazo.innerHTML = `
         <strong>Avisos de prazo</strong>
         <div>Processos vencendo ou vencidos considerando o limite de ${limite} dia(s):</div>
         <ul>${lista}</ul>
       `;
-      alertasPrazo.classList.remove('hidden');
+      alertasPrazo.classList.remove("hidden");
 
-      if (enviarNotificacao && 'Notification' in window && Notification.permission === 'granted') {
+      if (enviarNotificacao && "Notification" in window && Notification.permission === "granted") {
         itens.forEach(d => {
           const chave = `${d.id}-${d.diasRestantes}`;
           if (chavesNotificadas.has(chave)) return;
           chavesNotificadas.add(chave);
+
           const corpo = d.diasRestantes < 0
-            ? `${d.processo || 'Processo'} está atrasado há ${Math.abs(d.diasRestantes)} dia(s).`
+            ? `${d.processo || "Processo"} está atrasado há ${Math.abs(d.diasRestantes)} dia(s).`
             : d.diasRestantes === 0
-              ? `${d.processo || 'Processo'} vence hoje.`
-              : `${d.processo || 'Processo'} vence em ${d.diasRestantes} dia(s).`;
-          new Notification('Aviso de prazo', { body: corpo });
+              ? `${d.processo || "Processo"} vence hoje.`
+              : `${d.processo || "Processo"} vence em ${d.diasRestantes} dia(s).`;
+
+          new Notification("Aviso de prazo", { body: corpo });
         });
       }
     }
@@ -1062,44 +1906,60 @@ Gerência: GECONT"></textarea>
       const dados = obterDadosDaTabela(true);
       const total = dados.length;
       const semPrazo = dados.filter(d => d.semPrazo).length;
+
       const limite = parseInt(limiteVencendo.value, 10) || 3;
       const vencendo = dados.filter(d => !d.semPrazo && d.diasRestantes !== null && d.diasRestantes >= 0 && d.diasRestantes <= limite).length;
       const atrasados = dados.filter(d => !d.semPrazo && d.diasRestantes !== null && d.diasRestantes < 0).length;
+      const concluidos = dados.filter(d => d.situacao === "Concluído").length;
+      const pendentes = dados.filter(d => d.situacao === "Pendente").length;
 
-      document.getElementById('kpiTotal').textContent = total;
-      document.getElementById('kpiSemPrazo').textContent = semPrazo;
-      document.getElementById('kpiVencendo').textContent = vencendo;
-      document.getElementById('kpiAtrasados').textContent = atrasados;
+      document.getElementById("kpiTotal").textContent = total;
+      document.getElementById("kpiSemPrazo").textContent = semPrazo;
+      document.getElementById("kpiVencendo").textContent = vencendo;
+      document.getElementById("kpiAtrasados").textContent = atrasados;
+      document.getElementById("kpiConcluidos").textContent = concluidos;
+      document.getElementById("kpiPendentes").textContent = pendentes;
 
-      const situacaoMap = { Adimplente: 0, Outros: 0 };
+      const situacaoMap = {};
+      STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0);
       dados.forEach(d => {
-        const s = (d.situacao || '').toLowerCase();
-        if (s.includes('adimplente')) situacaoMap.Adimplente += 1;
-        else situacaoMap.Outros += 1;
+        const s = STATUS_OPERACIONAIS.includes(d.situacao) ? d.situacao : "Em análise";
+        situacaoMap[s] += 1;
       });
 
       const gerenciaMap = {};
       GERENCIAS.forEach(g => gerenciaMap[g] = 0);
-      gerenciaMap['Sem gerência'] = 0;
+      gerenciaMap["Sem gerência"] = 0;
       dados.forEach(d => {
-        const g = d.gerencia && GERENCIAS.includes(d.gerencia) ? d.gerencia : 'Sem gerência';
+        const g = d.gerencia && GERENCIAS.includes(d.gerencia) ? d.gerencia : "Sem gerência";
         gerenciaMap[g] += 1;
       });
 
-      const ctxSituacao = document.getElementById('graficoSituacao');
-      const ctxGerencia = document.getElementById('graficoGerencia');
+      const prazoMap = {};
+      STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0);
+      dados.forEach(d => {
+        prazoMap[d.statusPrazo] = (prazoMap[d.statusPrazo] || 0) + 1;
+      });
+
+      const ctxSituacao = document.getElementById("graficoSituacao");
+      const ctxGerencia = document.getElementById("graficoGerencia");
+      const ctxPrazo = document.getElementById("graficoPrazo");
+
       if (chartSituacao) chartSituacao.destroy();
       if (chartGerencia) chartGerencia.destroy();
+      if (chartPrazo) chartPrazo.destroy();
 
       chartSituacao = new Chart(ctxSituacao, {
-        type: 'bar',
+        type: "bar",
         data: {
           labels: Object.keys(situacaoMap),
           datasets: [{
-            label: 'Quantidade',
+            label: "Quantidade",
             data: Object.values(situacaoMap),
-            backgroundColor: ['#12b76a', '#f79009'],
-            borderColor: ['#079455', '#dc6803'],
+            backgroundColor: [
+              "#3b82f6", "#f59e0b", "#06b6d4",
+              "#10b981", "#6b7280", "#8b5cf6"
+            ],
             borderWidth: 1
           }]
         },
@@ -1111,14 +1971,14 @@ Gerência: GECONT"></textarea>
       });
 
       chartGerencia = new Chart(ctxGerencia, {
-        type: 'bar',
+        type: "bar",
         data: {
           labels: Object.keys(gerenciaMap),
           datasets: [{
-            label: 'Processos',
+            label: "Processos",
             data: Object.values(gerenciaMap),
-            backgroundColor: '#005ea2',
-            borderColor: '#004a82',
+            backgroundColor: "#005ea2",
+            borderColor: "#004a82",
             borderWidth: 1
           }]
         },
@@ -1128,34 +1988,167 @@ Gerência: GECONT"></textarea>
           scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
         }
       });
+
+      chartPrazo = new Chart(ctxPrazo, {
+        type: "doughnut",
+        data: {
+          labels: Object.keys(prazoMap),
+          datasets: [{
+            data: Object.values(prazoMap),
+            backgroundColor: [
+              "#12b76a", "#f79009", "#fdb022", "#f04438", "#98a2b3"
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
     }
 
     function atualizarTudoNaTela() {
-      if (!tbody.querySelector('tr')) {
-        atualizarContador();
-        atualizarDashboard();
-        verificarAlertasPrazo(false);
-        return;
-      }
       atualizarContador();
-      if (busca.value.trim()) atualizarContadorVisivel();
       atualizarDashboard();
       verificarAlertasPrazo(true);
+
+      if (!tbody.querySelector("tr")) {
+        tabela.classList.add("hidden");
+        noResults.classList.add("hidden");
+      } else {
+        tabela.classList.remove("hidden");
+      }
     }
 
-    function escapeHtml(texto) {
-      return String(texto)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+    /* ==========================
+       EXPORTAÇÃO
+    ========================== */
+    function exportarExcel(apenasVisiveis = false) {
+      const dados = obterDadosDaTabela(apenasVisiveis);
+
+      if (!dados.length) {
+        mostrarMensagem("Não há registros para exportar.", "warning");
+        return;
+      }
+
+      const tabelaExportacao = obterHTMLTabelaExportacao(dados);
+
+      const html = `
+        <html>
+          <head><meta charset="UTF-8"></head>
+          <body>
+            <h2>Relatório de Processos</h2>
+            <div>${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>
+            ${tabelaExportacao}
+          </body>
+        </html>
+      `;
+
+      const blob = new Blob([html], { type: "application/vnd.ms-excel" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = apenasVisiveis ? "processos_visiveis.xls" : "processos_todos.xls";
+      link.click();
+      URL.revokeObjectURL(link.href);
+
+      mostrarMensagem("Exportação Excel concluída.", "success");
     }
 
-    document.addEventListener('keydown', (e) => {
-      if (!appBox.classList.contains('hidden')) return;
-      if (e.key === 'Enter') login();
-    });
+    function exportarPDF(apenasVisiveis = false) {
+      const dados = obterDadosDaTabela(apenasVisiveis);
+
+      if (!dados.length) {
+        mostrarMensagem("Não há registros para exportar.", "warning");
+        return;
+      }
+
+      const tabelaExportacao = obterHTMLTabelaExportacao(dados);
+      const janela = window.open("", "_blank");
+
+      janela.document.write(`
+        <html>
+          <head>
+            <title>Relatório de Processos</title>
+            <meta charset="UTF-8">
+            <style>
+              body { font-family: Arial, sans-serif; padding: 20px; color: #111; }
+              h2 { margin-bottom: 10px; }
+              .sub { margin-bottom: 16px; color: #555; font-size: 13px; }
+              table { width: 100%; border-collapse: collapse; }
+              th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; }
+              th { background: #eaeaea; }
+            </style>
+          </head>
+          <body>
+            <h2>Relatório de Processos</h2>
+            <div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>
+            ${tabelaExportacao}
+          </body>
+        </html>
+      `);
+
+      janela.document.close();
+      janela.focus();
+      janela.print();
+
+      mostrarMensagem("Exportação para impressão/PDF iniciada.", "success");
+    }
+
+    function obterHTMLTabelaExportacao(dados) {
+      const linhas = dados.map(d => `
+        <tr>
+          <td>${escapeHtml(d.processo)}</td>
+          <td>${escapeHtml(d.interessado)}</td>
+          <td>${escapeHtml(d.assunto)}</td>
+          <td>${escapeHtml(d.dataCadastro)}</td>
+          <td>${escapeHtml(d.situacao)}</td>
+          <td>${escapeHtml(d.gerencia || "")}</td>
+          <td>${escapeHtml(d.semPrazo ? "Sem prazo" : formatarDataISOparaBR(d.dataFinal))}</td>
+          <td>${escapeHtml(d.statusPrazo)}</td>
+          <td>${escapeHtml(d.semPrazo ? "Sem prazo" : textoDiasRestantes(d.diasRestantes))}</td>
+          <td>${escapeHtml(d.alteradoPor || "-")} - ${escapeHtml(d.alteradoEm ? formatarDataHora(d.alteradoEm) : "-")}</td>
+        </tr>
+      `).join("");
+
+      return `
+        <table>
+          <thead>
+            <tr>
+              <th>Processo</th>
+              <th>Interessado</th>
+              <th>Assunto</th>
+              <th>Data de Cadastro</th>
+              <th>Situação</th>
+              <th>Gerência</th>
+              <th>Data Final</th>
+              <th>Status do Prazo</th>
+              <th>Dias Restantes</th>
+              <th>Última alteração</th>
+            </tr>
+          </thead>
+          <tbody>${linhas}</tbody>
+        </table>
+      `;
+    }
+
+    /* ==========================
+       NOTIFICAÇÕES
+    ========================== */
+    async function solicitarPermissaoNotificacao() {
+      if (!("Notification" in window)) {
+        alert("Seu navegador não suporta notificações.");
+        return;
+      }
+
+      const status = await Notification.requestPermission();
+
+      if (status === "granted") {
+        mostrarMensagem("Avisos do navegador ativados.", "success");
+        verificarAlertasPrazo(true);
+      } else {
+        mostrarMensagem("Permissão de notificação não concedida.", "warning");
+      }
+    }
   </script>
 </body>
 </html>
