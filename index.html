@@ -1748,7 +1748,7 @@ Processo nº 12345/2026
 Interessado(a): Maria Silva
 Assunto: Solicitação de revisão
 Prazo: 10 dias
-Gerência ou área: GECONT, SGI, SGDP
+Gerência ou área: GECONT, Superintendência de Gestão Integrada, SGDP
 OU
 202600005016709
 OFÍCIO Nº 4702/2026/SEAD
@@ -1799,6 +1799,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             </div>
             <div class="card filters-card">
               <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
+              <div class="page-note" style="margin-bottom:12px;">A tabela consolidada abre por data e hora do preenchimento mais recente. O nome Superintendência de Gestão Integrada foi padronizado em todo o sistema, inclusive para registros antigos. Use o resumo de filtros ativos, consultas salvas e a ordenação rápida para navegar mais rápido.</div>
               <div class="filters-wrap">
                 <div class="filters-top">
                   <div>
@@ -2163,6 +2164,13 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let chavesNotificadas = new Set();
 
     const $ = (id) => document.getElementById(id);
+    function normalizarNomeInstitucional(valor) {
+      const txt = String(valor || '').trim();
+      if (!txt) return '';
+      const norm = txt.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+      if (norm === 'superintendencia de gestao integrada (sgi)' || norm === 'superintendencia de gestao integrada') return 'Superintendência de Gestão Integrada';
+      return txt;
+    }
     function setTextIfExists(idOrEl, value) { const el = typeof idOrEl === "string" ? $(idOrEl) : idOrEl; if (el) el.textContent = value; }
     function criarEventoHistorico(tipo, detalhes = "") { return { tipo, detalhes, em: new Date().toISOString(), por: auth.currentUser?.email || "" }; }
     function getOrdenacaoLabel(valor) {
@@ -2440,6 +2448,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function obterAreaPorUnidade(unidade) {
+      unidade = normalizarNomeInstitucional(unidade);
       if (AREAS.includes(unidade)) return unidade;
       for (const [area, unidades] of Object.entries(ESTRUTURA_ORGANIZACIONAL)) {
         if (unidades.includes(unidade)) return area;
@@ -2452,7 +2461,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function resolverGerenciaPorTexto(texto) {
-      const bruto = String(texto || "").trim();
+      const bruto = normalizarNomeInstitucional(String(texto || "").trim());
       if (!bruto) return "";
       if (TODAS_UNIDADES.includes(bruto) || AREAS.includes(bruto)) return bruto;
       const sigla = bruto.toUpperCase();
@@ -2471,7 +2480,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function classeAreaBadge(area) {
-      return area === "Superintendência de Gestão Integrada" ? "sgi" : "";
+      return normalizarNomeInstitucional(area) === "Superintendência de Gestão Integrada" ? "sgi" : "";
     }
     function extrairAnoDoIdentificador(valor) {
       const txt = String(valor || '');
@@ -2725,21 +2734,21 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       AREAS.forEach(area => {
         const opArea = document.createElement("option");
-        opArea.value = area;
-        opArea.textContent = area;
+        opArea.value = normalizarNomeInstitucional(area);
+        opArea.textContent = normalizarNomeInstitucional(area);
         filtroArea.appendChild(opArea);
 
         [gerenciaManual, filtroGerencia, editGerencia].forEach(sel => {
           const op = document.createElement("option");
-          op.value = area;
-          op.textContent = area;
+          op.value = normalizarNomeInstitucional(area);
+          op.textContent = normalizarNomeInstitucional(area);
           sel.appendChild(op);
         });
 
         const g1 = document.createElement("optgroup");
         const g2 = document.createElement("optgroup");
         const g3 = document.createElement("optgroup");
-        g1.label = area; g2.label = area; g3.label = area;
+        g1.label = normalizarNomeInstitucional(area); g2.label = normalizarNomeInstitucional(area); g3.label = normalizarNomeInstitucional(area);
 
         ESTRUTURA_ORGANIZACIONAL[area].forEach(unidade => {
           const nomeExibir = area === "Superintendência de Gestão Integrada" && ABREVIACOES_SGI[unidade]
@@ -2793,8 +2802,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         if (!bruto) return;
         const p = JSON.parse(bruto);
         busca.value = p.busca || "";
-        filtroArea.value = p.filtroArea || "";
-        filtroGerencia.value = p.filtroGerencia || "";
+        filtroArea.value = normalizarNomeInstitucional(p.filtroArea || "");
+        filtroGerencia.value = normalizarNomeInstitucional(p.filtroGerencia || "");
         if (filtroSituacao) filtroSituacao.value = p.filtroSituacao || "";
         if (filtroPrazo) filtroPrazo.value = p.filtroPrazo || "";
         filtroStatusPrazo.value = p.filtroStatusPrazo || "";
@@ -2895,8 +2904,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const usuario = auth.currentUser;
       const payload = { ...dadosAtualizados };
       if (payload.gerencia !== undefined) {
-        payload.gerencia = resolverGerenciaPorTexto(payload.gerencia) || payload.gerencia;
-        payload.area = obterAreaPorUnidade(payload.gerencia);
+        payload.gerencia = normalizarNomeInstitucional(resolverGerenciaPorTexto(payload.gerencia) || payload.gerencia);
+        payload.area = normalizarNomeInstitucional(obterAreaPorUnidade(payload.gerencia));
       }
       await db.collection(COLLECTION_PROCESSOS).doc(id).update({
         ...payload,
@@ -2912,8 +2921,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         allItems = [];
         snapshot.forEach((doc) => {
           const dados = doc.data();
-          const gerenciaNormalizada = resolverGerenciaPorTexto(dados.gerencia || "") || dados.gerencia || "";
-          const area = dados.area || obterAreaPorUnidade(gerenciaNormalizada);
+          const gerenciaNormalizada = normalizarNomeInstitucional(resolverGerenciaPorTexto(dados.gerencia || "") || dados.gerencia || "");
+          const area = normalizarNomeInstitucional(dados.area || obterAreaPorUnidade(gerenciaNormalizada));
           allItems.push({
             id: doc.id,
             processo: dados.processo || "",
@@ -2952,9 +2961,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         const interessado = extrairCampo(texto, [/Interessado\(a\)\s*:?\s*(.+)/i, /Interessado\s*:?\s*(.+)/i, /Destinat[aá]rio\s*:?\s*(.+)/i]);
         const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]);
         const dataFinal = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
-        const gerencia = resolverGerenciaPorTexto(gerenciaManual.value || extrairGerencia(texto));
+        const gerencia = normalizarNomeInstitucional(resolverGerenciaPorTexto(gerenciaManual.value || extrairGerencia(texto)));
         const situacao = (!dataFinal || semPrazoManual.checked) ? "Concluído" : (situacaoManual.value || "Em análise");
-        const area = obterAreaPorUnidade(gerencia);
+        const area = normalizarNomeInstitucional(obterAreaPorUnidade(gerencia));
 
         if (!processo && !interessado && !assunto && !texto) return mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
         if (processo) {
@@ -3003,7 +3012,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       try {
         setLoading(btnSalvarEdicao, true, "Salvar alterações");
         const processoNormalizado = normalizarProcesso(editProcesso.value);
-        const gerenciaResolvida = resolverGerenciaPorTexto(editGerencia.value);
+        const gerenciaResolvida = normalizarNomeInstitucional(resolverGerenciaPorTexto(editGerencia.value));
         const dataFinalEdicao = editSemPrazo.checked ? "" : (editDataFinal.value || "");
         const situacaoEdicao = (!dataFinalEdicao || editSemPrazo.checked) ? "Concluído" : editSituacao.value;
         const payloadEdicao = {
@@ -3013,7 +3022,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           assunto: editAssunto.value.trim(),
           situacao: situacaoEdicao,
           gerencia: gerenciaResolvida,
-          area: obterAreaPorUnidade(gerenciaResolvida),
+          area: normalizarNomeInstitucional(obterAreaPorUnidade(gerenciaResolvida)),
           dataFinal: dataFinalEdicao,
           semPrazo: editSemPrazo.checked || !editDataFinal.value
         };
@@ -3091,7 +3100,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           nomeCurtoSGI(item.gerencia)
         ].join(" "));
         if (termo && !textoBusca.includes(termo)) return false;
-        if (area && item.area !== area) return false;
+        if (area && normalizarNomeInstitucional(item.area) !== normalizarNomeInstitucional(area)) return false;
         if (gerencia && item.gerencia !== gerencia) return false;
         if (situacao && item.situacao !== situacao) return false;
         if (prazo === "comPrazo" && item.semPrazo) return false;
@@ -3169,7 +3178,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const hoje = itens.filter(i => i.statusPrazo === "Vence hoje").length;
       const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
       const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
-      const sgi = itens.filter(i => i.area === "Superintendência de Gestão Integrada").length;
+      const sgi = itens.filter(i => normalizarNomeInstitucional(i.area) === "Superintendência de Gestão Integrada").length;
       const concluidos = itens.filter(i => i.situacao === "Concluído").length;
 
       setTextIfExists(contadorRegistros, `${itens.length} de ${allItems.length} registro(s)`);
@@ -3191,7 +3200,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (filtroStatusPrazo.value === "Vence hoje") counterHoje?.classList.add("active");
       if (filtroStatusPrazo.value === "Vencendo") counterVencendo?.classList.add("active");
       if (filtroStatusPrazo.value === "Sem prazo") counterSemPrazo?.classList.add("active");
-      if (filtroArea.value === "Superintendência de Gestão Integrada") counterSGI?.classList.add("active");
+      if (normalizarNomeInstitucional(filtroArea.value) === "Superintendência de Gestão Integrada") counterSGI?.classList.add("active");
       renderResumoFiltrosAtivos();
     }
 
@@ -3236,7 +3245,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       setTextIfExists("kpiPendentes", itens.filter(i => i.situacao === "Pendente").length);
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
-      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
+      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); itens.filter(i => normalizarNomeInstitucional(i.area) === "Superintendência de Gestão Integrada").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
       destroyCharts();
       const dark = document.body.classList.contains('dark-mode');
       const coresPrazo = ["#7a8f83", "#b0956d", "#c2a47e", "#a07d7d", "#8b9aa3"];
@@ -3318,7 +3327,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
     function atualizarCardsAtivos() {
       document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
-      if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(filtroArea.value)}']`).forEach(card => card.classList.add("active"));
+      if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(normalizarNomeInstitucional(filtroArea.value))}']`).forEach(card => card.classList.add("active"));
       if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
     }
 
@@ -3655,6 +3664,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
     preencherSelects();
     restaurarFiltros();
+    restaurarRascunhoCadastro();
+    atualizarSelectPresets();
+    renderPreviewCadastro();
     if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value || "dataCadastroDesc";
     inicializarTema();
     aplicarAbaSalva();
