@@ -1,4 +1,4 @@
-<index.html>
+<!index.html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -634,139 +634,9 @@
       #tabela .detail-row { display:none !important; }
     }
 
-    .comfort-pill {
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background:#dbe3e6;
-      border:1px solid #bcc8ce;
-      color:#44545e;
-      font-size:12px;
-      font-weight:700;
-    }
-    body.comfort-mode {
-      background: #dbe3e6;
-      color: #22313b;
-    }
-    body.comfort-mode * {
-      scroll-behavior: auto !important;
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.12s !important;
-    }
-    body.comfort-mode header {
-      background: linear-gradient(120deg, #6e7e86 0%, #65757f 100%);
-      color: #f4f6f7;
-      box-shadow: 0 6px 18px rgba(56, 68, 74, 0.10);
-    }
-    body.comfort-mode .card,
-    body.comfort-mode .box-soft,
-    body.comfort-mode .drawer,
-    body.comfort-mode .modal,
-    body.comfort-mode .toast,
-    body.comfort-mode .detail-mini,
-    body.comfort-mode .drawer-box,
-    body.comfort-mode .priority-card,
-    body.comfort-mode .history-item,
-    body.comfort-mode .counter-pill,
-    body.comfort-mode input,
-    body.comfort-mode textarea,
-    body.comfort-mode select,
-    body.comfort-mode .tab-btn,
-    body.comfort-mode .subtab-btn,
-    body.comfort-mode .outline,
-    body.comfort-mode .light,
-    body.comfort-mode .table-wrap,
-    body.comfort-mode table,
-    body.comfort-mode .active-filter-pill,
-    body.comfort-mode .page-note,
-    body.comfort-mode .active-filters-bar,
-    body.comfort-mode .no-results {
-      background: #e2e8ea !important;
-      color: #22313b !important;
-      border-color: #bac6cc !important;
-      box-shadow: 0 6px 18px rgba(16,24,40,.05) !important;
-    }
-    body.comfort-mode .hero,
-    body.comfort-mode .chart-card {
-      background: linear-gradient(135deg, #e7ecee 0%, #dde4e7 70%, #d6dee2 100%) !important;
-    }
-    body.comfort-mode .muted,
-    body.comfort-mode .helper-text,
-    body.comfort-mode .drawer-box .label,
-    body.comfort-mode .detail-group-title,
-    body.comfort-mode .history-item .ht,
-    body.comfort-mode label,
-    body.comfort-mode .page-note,
-    body.comfort-mode .empty-state p {
-      color: #5f6d76 !important;
-    }
-    body.comfort-mode button {
-      background: linear-gradient(180deg, #7a8a93 0%, #687881 100%);
-      color: #f7f9fa;
-      box-shadow: 0 5px 12px rgba(68, 82, 90, 0.10);
-    }
-    body.comfort-mode .secondary { background: linear-gradient(180deg, #7a8790 0%, #68757e 100%) !important; }
-    body.comfort-mode .success { background: linear-gradient(180deg, #7d9083 0%, #6d8377 100%) !important; }
-    body.comfort-mode .warning { background: linear-gradient(180deg, #9a8f7b 0%, #8e816a 100%) !important; }
-    body.comfort-mode .danger { background: linear-gradient(180deg, #978484 0%, #886f70 100%) !important; }
-    body.comfort-mode .outline,
-    body.comfort-mode .light,
-    body.comfort-mode .acoes button[data-action="edit"],
-    body.comfort-mode .acoes button[data-action="delete"] {
-      background: #dde5e8 !important;
-      color: #41515a !important;
-      border: 1px solid #bcc8ce !important;
-      box-shadow: none !important;
-    }
-    body.comfort-mode .acoes button[data-action="view"] {
-      background: linear-gradient(180deg, #768791 0%, #667781 100%) !important;
-      color: #f6f8f9 !important;
-    }
-    body.comfort-mode .chip.active,
-    body.comfort-mode .subtab-btn.active,
-    body.comfort-mode .tab-btn.active {
-      background: linear-gradient(180deg, #748691 0%, #657781 100%) !important;
-      color: #f7f9fa !important;
-    }
-    body.comfort-mode .summary-card.active {
-      outline: 2px solid #c1ccd1;
-      background: linear-gradient(180deg, #e6ecee 0%, #dde5e8 100%) !important;
-    }
-    body.comfort-mode .metric::before,
-    body.comfort-mode .metric.green::before,
-    body.comfort-mode .metric.amber::before,
-    body.comfort-mode .metric.red::before,
-    body.comfort-mode .metric.slate::before {
-      filter: saturate(.55) brightness(.95);
-    }
-    body.comfort-mode thead th {
-      background: linear-gradient(180deg, #73858f 0%, #667782 100%) !important;
-      color: #f7f9fa;
-      border-color: #7f9099 !important;
-    }
-    body.comfort-mode thead th:nth-child(1),
-    body.comfort-mode thead th:nth-child(8),
-    body.comfort-mode thead th:nth-child(9) {
-      background: linear-gradient(180deg, #73858f 0%, #667782 100%) !important;
-    }
-    body.comfort-mode tbody td { border-bottom-color: #c9d3d8 !important; }
-    body.comfort-mode tbody tr.main-row:hover td { background: #d9e1e4 !important; }
-    body.comfort-mode tr.linha-atrasada td { background: #e4d8d8 !important; }
-    body.comfort-mode tr.linha-vencendo td,
-    body.comfort-mode tr.linha-hoje td { background: #e5ddd1 !important; }
-    body.comfort-mode tr.linha-sem-prazo td { background: #dbe3e6 !important; }
-    body.comfort-mode .badge-no-prazo { background:#dce5df !important; color:#325a45 !important; border-color:#b7c9bf !important; }
-    body.comfort-mode .badge-vencendo { background:#e6dfcf !important; color:#7f5f22 !important; border-color:#cabd9d !important; }
-    body.comfort-mode .badge-vence-hoje { background:#e5d9cd !important; color:#89623c !important; border-color:#cbb299 !important; }
-    body.comfort-mode .badge-atrasado { background:#e7dada !important; color:#7d4949 !important; border-color:#c9b0b0 !important; }
-    body.comfort-mode .badge-sem-prazo { background:#dbe3e6 !important; color:#4e6069 !important; border-color:#bcc8ce !important; }
-    body.comfort-mode canvas {
-      background: #dbe3e6 !important;
-      border-color: #c8d1d5 !important;
-    }
+    /* Ajustes para manter o cadastro sempre visível e sem subabas */
+    .subtabs { display: none !important; }
+    #blocoCadastro { display: block !important; }
 </style>
 </head>
 <body>
@@ -808,11 +678,10 @@
       <div class="topbar">
         <div>
           <h3 style="margin-bottom:6px;">Painel de Processos</h3>
-          <div class="helper-text" style="max-width:620px;">Acompanhe o que é urgente, cadastre novos processos e localize informações rapidamente. Use o modo conforto visual para tons mais suaves e menor fadiga.</div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:8px;"><div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong></div><span class="comfort-pill" id="pillConforto">Conforto visual: desligado</span></div>
+          <div class="helper-text" style="max-width:620px;">Acompanhe o que é urgente, cadastre novos processos e localize informações rapidamente.</div>
+          <div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong></div>
         </div>
         <div class="toolbar">
-          <button type="button" class="light" style="width:auto; min-width:210px;" id="btnConforto">Modo conforto visual</button>
           <button type="button" class="secondary" style="width:auto; min-width:220px;" id="btnNotificacao">Ativar notificações</button>
           <button type="button" class="danger" style="width:auto; min-width:140px;" id="btnSair">Sair</button>
         </div>
@@ -826,11 +695,7 @@
       </div>
 
       <div id="abaProcessos">
-        <div class="subtabs">
-          <button type="button" id="subtabConsultaBtn" class="subtab-btn active">Consulta e acompanhamento</button>
-          <button type="button" id="subtabCadastroBtn" class="subtab-btn">Cadastrar novo processo</button>
-        </div>
-        <div id="blocoCadastro" class="hidden-section">
+        <div id="blocoCadastro">
         <div class="composer">
           <div class="box-soft">
             <div class="section-title">Cadastrar novo processo</div>
@@ -899,7 +764,7 @@ Gerência: GECONT"></textarea>
 
         <div class="card" style="margin-top:18px; padding:18px; background:linear-gradient(180deg,#fbfdff 0%,#f8fbff 100%);">
           <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
-          <div class="page-note" style="margin-bottom:14px;">A lista abre por data e hora do preenchimento mais recente. Os filtros ativos e a prioridade dos prazos ficam destacados acima da tabela.</div>
+          <div class="page-note" style="margin-bottom:14px;">A lista abre por data e hora do preenchimento mais recente. O cadastro permanece sempre visível, sem necessidade de clique extra, e o dashboard continua acessível normalmente.</div>
           <div class="filters-wrap">
             <div class="filters-top">
               <div>
@@ -1238,15 +1103,6 @@ Gerência: GECONT"></textarea>
 
     const $ = (id) => document.getElementById(id);
     function setTextIfExists(idOrEl, value) { const el = typeof idOrEl === "string" ? $(idOrEl) : idOrEl; if (el) el.textContent = value; }
-    function aplicarModoConforto(ativo) {
-      document.body.classList.toggle('comfort-mode', !!ativo);
-      if (btnConforto) btnConforto.textContent = ativo ? 'Conforto visual ligado' : 'Modo conforto visual';
-      if (pillConforto) pillConforto.textContent = ativo ? 'Conforto visual: ligado' : 'Conforto visual: desligado';
-      localStorage.setItem('sgp_modo_conforto_visual', ativo ? '1' : '0');
-    }
-    function inicializarModoConforto() {
-      aplicarModoConforto(localStorage.getItem('sgp_modo_conforto_visual') === '1');
-    }
     function getOrdenacaoLabel(valor) {
       const mapa = {
         dataCadastroDesc: 'Data e hora do preenchimento (mais recente)',
@@ -1303,8 +1159,6 @@ Gerência: GECONT"></textarea>
     const btnCadastrar = $("btnCadastrar");
     const btnResetar = $("btnResetar");
     const btnSair = $("btnSair");
-    const btnConforto = $("btnConforto");
-    const pillConforto = $("pillConforto");
     const btnNotificacao = $("btnNotificacao");
     const usuarioLogado = $("usuarioLogado");
     const tabProcessosBtn = $("tabProcessosBtn");
@@ -1434,13 +1288,12 @@ Gerência: GECONT"></textarea>
       return 3;
     }
     function abrirSubAba(nome) {
-      const exibirCadastro = nome === "cadastro";
-      if (blocoCadastro) blocoCadastro.classList.toggle("hidden-section", !exibirCadastro);
-      if (subtabCadastroBtn) subtabCadastroBtn.classList.toggle("active", exibirCadastro);
-      if (subtabConsultaBtn) subtabConsultaBtn.classList.toggle("active", !exibirCadastro);
-      localStorage.setItem(STORAGE_KEYS.subaba, exibirCadastro ? "cadastro" : "consulta");
+      if (blocoCadastro) blocoCadastro.classList.remove("hidden-section");
+      if (subtabCadastroBtn) subtabCadastroBtn.classList.remove("active");
+      if (subtabConsultaBtn) subtabConsultaBtn.classList.remove("active");
+      localStorage.setItem(STORAGE_KEYS.subaba, "cadastro");
     }
-    function aplicarSubAbaSalva() { abrirSubAba(localStorage.getItem(STORAGE_KEYS.subaba) || "consulta"); }
+    function aplicarSubAbaSalva() { abrirSubAba("cadastro"); }
 
     function setLoading(botao, carregando, textoOriginal = "Salvar") {
       if (!botao) return;
@@ -2444,7 +2297,6 @@ Gerência: GECONT"></textarea>
     }
 
     function registrarEventos() {
-      if (btnConforto) btnConforto.addEventListener("click", () => aplicarModoConforto(!document.body.classList.contains("comfort-mode")));
       btnEntrar.addEventListener("click", login);
       btnCadastrar.addEventListener("click", cadastrar);
       btnResetar.addEventListener("click", resetarSenha);
@@ -2536,7 +2388,6 @@ Gerência: GECONT"></textarea>
 
     preencherSelects();
     restaurarFiltros();
-    inicializarModoConforto();
     aplicarAbaSalva();
     aplicarSubAbaSalva();
     registrarEventos();
