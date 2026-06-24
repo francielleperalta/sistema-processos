@@ -1,4 +1,4 @@
-<index.html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -1011,17 +1011,6 @@
         font-size: 12px;
         min-width: 120px;
       }
-      #tabela tr.main-row td:nth-child(1) {
-        display: block;
-        background: var(--surface-soft);
-      }
-      #tabela tr.main-row td:nth-child(1)::before { display: none; content: ''; }
-      #tabela tr.main-row td:nth-child(1) .mobile-card-meta {
-        display: block;
-        margin-top: 8px;
-        font-size: 12px;
-        color: #6b7280;
-      }
       #tabela tr.main-row td:last-child { border-bottom: none; }
       #tabela .detail-row { display: none !important; }
     }
@@ -1658,6 +1647,39 @@
         border-radius: 14px;
       }
     }
+
+    /* Ajuste solicitado: ações verticais e remoção da coluna detalhe */
+    .acoes {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 6px !important;
+      justify-content: flex-start !important;
+      min-width: 92px;
+    }
+    .acoes button {
+      width: 100% !important;
+      min-width: 0 !important;
+      text-align: center;
+    }
+    #tabela thead th:nth-child(1),
+    #tabela tbody td:nth-child(1) {
+      left: 0 !important;
+      min-width: 240px !important;
+    }
+    #tabela thead th:nth-child(2),
+    #tabela tbody td:nth-child(2) {
+      position: static !important;
+      left: auto !important;
+      min-width: 0 !important;
+      box-shadow: none !important;
+    }
+    @media (max-width: 760px) {
+      .acoes {
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+      }
+    }
 </style>
 </head>
 <body>
@@ -1777,6 +1799,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             </div>
             <div class="card filters-card">
               <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
+              <div class="page-note" style="margin-bottom:12px;">A tabela consolidada abre por data e hora do preenchimento mais recente. Use o resumo de filtros ativos, consultas salvas e a ordenação rápida para navegar mais rápido.</div>
               <div class="filters-wrap">
                 <div class="filters-top">
                   <div>
@@ -1851,7 +1874,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               </div>
               <div id="activeFiltersBar" class="active-filters-bar hidden"></div>
               <div class="chips" id="chipsRapidos" style="margin-top:16px;">
-                <button type="button" class="chip" data-chip-type="area" data-chip-value="Superintendência de Gestão Integrada"></button>
+                <button type="button" class="chip" data-chip-type="area" data-chip-value="Superintendência de Gestão Integrada">SGI</button>
                 <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Atrasado">Atrasados</button>
                 <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vence hoje">Vence hoje</button>
                 <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vencendo">Vencendo</button>
@@ -1930,7 +1953,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               <table id="tabela" class="hidden">
                 <thead>
                   <tr>
-                    <th style="width:55px;">Detalhe</th>
                     <th class="sortable" data-sort="processoAsc">Processo <small>⇅</small></th>
                     <th>Interessado</th>
                     <th>Assunto</th>
@@ -1957,11 +1979,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               <h4>Visão geral de prazos</h4>
               <div class="muted">Resumo dos processos visíveis por status de prazo.</div>
               <div class="chart-box"><canvas id="graficoPrazo"></canvas></div>
-            </div>
-            <div class="card chart-card">
-              <h4>Processos por área</h4>
-              <div class="muted">Distribuição entre SGI e demais áreas.</div>
-              <div class="chart-box"><canvas id="graficoOutrasAreas"></canvas></div>
             </div>
             <div class="card chart-card">
               <h4>Entradas ao longo do tempo</h4>
@@ -2138,7 +2155,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let chartSituacao = null;
     let chartPrazo = null;
     let chartSGI = null;
-    let chartOutrasAreas = null;
     let chartEntradas = null;
     let ultimoRegistroExcluido = null;
     let unsubscribeSnapshot = null;
@@ -2456,7 +2472,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function classeAreaBadge(area) {
-      return area === "Superintendência de Gestão Integrada";
+      return area === "Superintendência de Gestão Integrada" ? "sgi" : "";
     }
     function extrairAnoDoIdentificador(valor) {
       const txt = String(valor || '');
@@ -3126,17 +3142,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         const ultimaAlteracao = formatarDataHora(item.alteradoEm);
         return `
           <tr class="main-row ${classeLinha}" data-id="${item.id}">
-            <td data-label="Detalhe"><button type="button" class="expand-btn" data-action="expand">${expandedIds.has(item.id) ? "−" : "+"}</button>
-              <div class="mobile-card-meta">${escapeHtml(item.area || '-')}</div>
-            </td>
             <td data-label="Processo">
               <div style="font-weight:750; color:inherit; line-height:1.35;">${highlightText(item.processo || "", termo) || "<span class='muted'>(sem número)</span>"}</div>
               <div class="muted-mini" style="margin-top:6px;">${escapeHtml(item.area || '-')}</div>
             </td>
             <td data-label="Interessado">${highlightText(item.interessado || "", termo) || "-"}</td>
-            <td data-label="Assunto">
-              <div style="line-height:1.4;">${highlightText(item.assunto || "", termo) || "-"}</div>
-            </td>
+            <td data-label="Assunto"><div style="line-height:1.4;">${highlightText(item.assunto || "", termo) || "-"}</div></td>
             <td data-label="Data/hora do preenchimento">${escapeHtml(formatarDataHora(item.criadoEm) !== "-" ? formatarDataHora(item.criadoEm) : (item.dataCadastro || "-"))}</td>
             <td data-label="Área"><span class="badge-area ${classeAreaBadge(item.area)}">${highlightText(item.area || "", termo) || "-"}</span></td>
             <td data-label="Gerência/Seção"><span class="muted-mini">${highlightText(unidadeExibida || "-", termo)}</span></td>
@@ -3151,18 +3162,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                 <button type="button" class="danger" data-action="delete">Excluir</button>
               </div>
             </td>
-          </tr>
-          <tr class="detail-row ${expandedIds.has(item.id) ? "" : "hidden"}" data-detail-for="${item.id}">
-            <td colspan="12">
-              <div class="row-details-box">
-                <div class="detail-mini"><div class="tt">Área</div><div>${escapeHtml(item.area || "-")}</div></div>
-                <div class="detail-mini"><div class="tt">Gerência/Seção</div><div>${escapeHtml(item.gerencia || "-")}</div></div>
-                <div class="detail-mini"><div class="tt">Criado por</div><div>${escapeHtml(item.criadoPor || "-")}</div></div>
-                <div class="detail-mini"><div class="tt">Criado em</div><div>${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
-              </div>
-            </td>
-          </tr>
-        `;
+          </tr>`;
       }).join("");
     }
     function renderResumo(itens) {
@@ -3225,7 +3225,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function destroyCharts() {
-      [chartSituacao, chartPrazo, chartSGI, chartOutrasAreas, chartEntradas].forEach(c => { if (c) c.destroy(); });
+      [chartSituacao, chartPrazo, chartSGI, chartEntradas].forEach(c => { if (c) c.destroy(); });
     }
 
     function renderDashboard(itens) {
@@ -3238,7 +3238,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
       const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
-      const mapAreas = {}; AREAS.forEach(a => mapAreas[a] = 0); itens.forEach(i => mapAreas[i.area] = (mapAreas[i.area] || 0) + 1);
       destroyCharts();
       const dark = document.body.classList.contains('dark-mode');
       const coresPrazo = ["#7a8f83", "#b0956d", "#c2a47e", "#a07d7d", "#8b9aa3"];
@@ -3257,19 +3256,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           plugins: {
             legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', boxWidth: 10, padding: 16, color: tickColor, font: { size: 12, weight: '600' } } },
             tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', padding: 10, displayColors: true }
-          }
-        }
-      });
-      chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
-        type: "bar",
-        data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#748791", "#8b9aa3", "#7c8f99", "#a7926c", "#807b8d", "#7a858a", "#6f8577", "#8f8269"], borderRadius: 12, maxBarThickness: 42, borderSkipped: false }] },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: commonPlugins,
-          scales: {
-            x: { ticks: { color: tickColor }, grid: { display: false, drawBorder: false } },
-            y: { beginAtZero: true, ticks: { precision: 0, color: tickColor }, grid: { color: gridColor, drawBorder: false } }
           }
         }
       });
@@ -3358,11 +3344,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
 
-    function toggleExpand(id) {
-      if (expandedIds.has(id)) expandedIds.delete(id);
-      else expandedIds.add(id);
-      renderTable(filteredItems);
-    }
+    function toggleExpand(id) { return; }
     function aplicarChip(chip) {
       const type = chip.dataset.chipType;
       const value = chip.dataset.chipValue;
@@ -3649,7 +3631,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         if (!id) return;
         if (btn) {
           const action = btn.dataset.action;
-          if (action === "expand") { e.stopPropagation(); toggleExpand(id); return; }
           if (action === "view") { e.stopPropagation(); abrirDrawer(id); return; }
           if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
           if (action === "delete") { e.stopPropagation(); remover(id); return; }
