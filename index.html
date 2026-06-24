@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sistema de Gestão de Processos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
@@ -32,7 +35,7 @@
 
     body {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
+      font-family: "Inter", "Segoe UI", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
     }
@@ -80,7 +83,7 @@
     }
 
     .hidden { display: none !important; }
-    .muted { color: var(--muted); font-size: 13px; }
+    .muted { color: #6b7280; font-size: 13px; font-weight: 400; }
     .section-title { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
 
     .topbar, .toolbar, .tabs, .chips, .stats-strip {
@@ -121,8 +124,8 @@
     }
 
     input:focus, textarea:focus, select:focus {
-      border-color: #92a4ad;
-      box-shadow: 0 0 0 4px rgba(98, 115, 125, 0.12);
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 4px rgba(147, 197, 253, 0.18);
     }
 
     textarea { resize: vertical; min-height: 130px; }
@@ -276,8 +279,8 @@
     .metric.red::before { background: linear-gradient(90deg, #fb7185 0%, #dc2626 100%); }
     .metric.slate::before { background: linear-gradient(90deg, #94a3b8 0%, #475569 100%); }
     .metric:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(16,24,40,.08); }
-    .metric .label { font-size: 13px; color: var(--muted); }
-    .metric .value { font-size: 30px; font-weight: 800; margin-top: 8px; }
+    .metric .label { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: .03em; }
+    .metric .value { font-size: 36px; font-weight: 800; margin-top: 8px; letter-spacing:-0.02em; }
     .metric small { display: block; margin-top: 8px; color: var(--muted); }
 
     .stats-strip { margin-top: 14px; }
@@ -521,7 +524,275 @@
     .toast.success { border-left-color: var(--success); }
     .toast.error { border-left-color: var(--danger); }
     .toast.warning { border-left-color: var(--warning); }
-  </style>
+  
+    :root {
+      --kpi-neutral: #8b9aa3;
+      --kpi-sgi: #7a8b96;
+      --kpi-vencendo: #a7926c;
+      --kpi-atrasado: #a07d7d;
+      --dark-bg: #111827;
+      --dark-surface: #1f2937;
+      --dark-soft: #273242;
+      --dark-text: #e5e7eb;
+      --dark-muted: #9ca3af;
+      --dark-border: #374151;
+    }
+    body.dark-mode {
+      background: var(--dark-bg);
+      color: var(--dark-text);
+    }
+    body.dark-mode header {
+      background: #1b2532;
+      color: var(--dark-text);
+      border-bottom-color: #334155;
+    }
+    body.dark-mode .card,
+    body.dark-mode .box-soft,
+    body.dark-mode .table-wrap,
+    body.dark-mode table,
+    body.dark-mode .drawer,
+    body.dark-mode .modal,
+    body.dark-mode .toast,
+    body.dark-mode .detail-mini,
+    body.dark-mode .drawer-box,
+    body.dark-mode .metric,
+    body.dark-mode .user-box,
+    body.dark-mode .counter-pill,
+    body.dark-mode .table-toolbar,
+    body.dark-mode .quick-filter-chip,
+    body.dark-mode .empty-state,
+    body.dark-mode input,
+    body.dark-mode textarea,
+    body.dark-mode select,
+    body.dark-mode .outline,
+    body.dark-mode .light,
+    body.dark-mode .tab-btn {
+      background: var(--dark-surface) !important;
+      color: var(--dark-text) !important;
+      border-color: var(--dark-border) !important;
+    }
+    body.dark-mode .hero,
+    body.dark-mode .filters-card,
+    body.dark-mode .chart-card {
+      background: linear-gradient(180deg, var(--dark-surface) 0%, var(--dark-soft) 100%) !important;
+    }
+    body.dark-mode .muted,
+    body.dark-mode .page-note,
+    body.dark-mode .drawer-box .label,
+    body.dark-mode .detail-mini .tt,
+    body.dark-mode .table-toolbar .title small,
+    body.dark-mode .table-toolbar label,
+    body.dark-mode .muted-mini,
+    body.dark-mode .empty-state p {
+      color: var(--dark-muted) !important;
+    }
+    body.dark-mode thead th { background: #263241; border-color:#334155; }
+    body.dark-mode tbody td { border-color:#334155; }
+    body.dark-mode tbody tr.main-row:hover td { background: #253243 !important; }
+    body.dark-mode .badge-area { color: #a7b0b8 !important; border-color:#475569 !important; }
+    body.dark-mode .empty-state-icon { color:#6b7280 !important; }
+    .theme-toggle {
+      width: auto;
+      min-width: 148px;
+      margin-top: 0;
+      padding: 10px 12px;
+      background: #d9e1e4;
+      color: #334854;
+      border: 1px solid #c8d3d8;
+      box-shadow: none;
+    }
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: 410px minmax(0, 1fr);
+      gap: 18px;
+      min-height: calc(100vh - 235px);
+      margin-top: 12px;
+    }
+    .left-pane {
+      min-height: 0;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-right: 4px;
+    }
+    .right-pane {
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .left-pane .box-soft, .left-pane .card { box-shadow: 0 4px 18px rgba(16,24,40,.05); }
+    .composer-grid {
+      display: grid;
+      gap: 16px;
+    }
+    .composer-grid .box-soft { height: auto; }
+    .filters-top, .filters-bottom {
+      grid-template-columns: 1fr !important;
+      gap: 10px;
+    }
+    .filters-card .toolbar { align-items: center; }
+    .page-note {
+      padding: 10px 12px;
+      border: 1px solid #cbd5db;
+      border-radius: 12px;
+      font-size: 13px;
+      color: #65737d;
+    }
+    .compact-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .metric {
+      border-radius: 20px;
+      box-shadow: 0 6px 18px rgba(16,24,40,.06);
+    }
+    .metric.kpi-neutral::before { background: linear-gradient(90deg, var(--kpi-neutral) 0%, #6f7f89 100%); }
+    .metric.kpi-sgi::before { background: linear-gradient(90deg, var(--kpi-sgi) 0%, #60717d 100%); }
+    .metric.kpi-vencendo::before { background: linear-gradient(90deg, var(--kpi-vencendo) 0%, #8f7c58 100%); }
+    .metric.kpi-atrasado::before { background: linear-gradient(90deg, var(--kpi-atrasado) 0%, #8b6767 100%); }
+    .metric .icon {
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: rgba(255,255,255,.55);
+      color: #5b6b76;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    .table-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #d7dfe2;
+      box-shadow: 0 4px 12px rgba(16,24,40,.05);
+    }
+    .table-toolbar .title { font-size: 14px; font-weight: 700; color: #334854; }
+    .table-toolbar .title small { display:block; font-size: 12px; font-weight: 400; color: #6b7280; margin-top: 2px; }
+    .table-toolbar .controls { display:flex; align-items:end; gap:10px; flex-wrap:wrap; }
+    .table-toolbar .controls > div { min-width: 300px; }
+    .table-toolbar label { font-size: 12px; color: #6b7280; }
+    .quick-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .quick-filter-chip {
+      width: auto;
+      min-width: unset;
+      margin-top: 0;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid #cbd5db;
+      background: #edf2f4;
+      color: #42545f;
+      box-shadow: none;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .quick-filter-chip.active { background: #748791; color: #fff; border-color: transparent; }
+    .table-wrap {
+      margin-top: 0;
+      flex: 1;
+      min-height: 0;
+      max-height: none;
+      box-shadow: 0 6px 18px rgba(16,24,40,.05);
+    }
+    .empty-state {
+      padding: 34px 18px;
+      border: 1px dashed #c7d2d8;
+      border-radius: 18px;
+      background: #edf2f4;
+      text-align: center;
+    }
+    .empty-state-icon {
+      font-size: 38px;
+      color: #98a2ab;
+      line-height: 1;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+    .empty-state h4 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      color: #334854;
+    }
+    .empty-state p {
+      margin: 0;
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .acoes { display: flex; flex-wrap: nowrap; gap: 4px; align-items: center; }
+    .acoes button {
+      width: auto;
+      min-width: 66px;
+      margin: 0;
+      padding: 6px 8px;
+      font-size: 12px;
+      border-radius: 10px;
+      box-shadow: none;
+    }
+    .acoes button[data-action="view"] {
+      background: #748791;
+      color: #fff;
+    }
+    .acoes button[data-action="edit"] {
+      background: transparent;
+      color: #42545f;
+      border: 1px solid #c5cfd5;
+    }
+    .acoes button[data-action="delete"] {
+      background: transparent;
+      color: #8b5e5d;
+      border: 1px solid #d6b8b8;
+    }
+    .badge-vencendo, .badge-vence-hoje, .badge-atrasado { font-weight: 800; }
+    .badge-area { background: transparent; color: #6b7280; border-color: #d5dde2; }
+    .muted-mini { color: #6b7280; font-size: 12px; }
+    .checkbox-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 14px;
+      color: #334854;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .checkbox-inline input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      flex: 0 0 auto;
+      accent-color: #748791;
+    }
+    @media (max-width: 1200px) {
+      .workspace-grid { grid-template-columns: 1fr; min-height: auto; }
+      .left-pane { overflow: visible; }
+      .right-pane { overflow: visible; }
+      .compact-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .table-wrap { min-height: 420px; }
+    }
+    @media (max-width: 700px) {
+      .compact-kpis { grid-template-columns: 1fr; }
+      .table-toolbar .controls > div { min-width: 100%; }
+      .acoes { flex-wrap: wrap; }
+    }
+</style>
 </head>
 <body>
   <header>
@@ -565,6 +836,7 @@
           <div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong></div>
         </div>
         <div class="toolbar">
+          <button type="button" class="theme-toggle" id="btnTema">🌙 Modo escuro</button>
           <button type="button" class="secondary" style="width:auto; min-width:220px;" id="btnNotificacao">Ativar notificações</button>
           <button type="button" class="danger" style="width:auto; min-width:140px;" id="btnSair">Sair</button>
         </div>
@@ -578,11 +850,11 @@
       </div>
 
       <div id="abaProcessos">
-        <div class="composer">
-          <div class="box-soft">
-            <div class="section-title">Novo processo</div>
-            <textarea id="entrada" placeholder="Cole o texto do processo aqui...
-
+        <div class="workspace-grid">
+          <aside class="left-pane">
+            <div class="box-soft composer-card">
+              <div class="section-title">Novo processo</div>
+              <textarea id="entrada" placeholder="Cole o texto do processo aqui...
 Exemplo:
 Processo nº 12345/2026
 Interessado(a): Maria Silva
@@ -593,193 +865,197 @@ OU
 202600005016709
 OFÍCIO Nº 4702/2026/SEAD
 Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inservíveis."></textarea>
-          </div>
-
-          <div class="box-soft">
-            <div class="section-title">Complementos</div>
-            <div class="grid-2">
-              <div>
-                <label for="gerenciaManual">Gerência/Seção</label>
-                <select id="gerenciaManual"><option value="">Selecione...</option></select>
+              <div class="grid-2" style="margin-top:14px;">
+                <div>
+                  <label for="gerenciaManual">Gerência/Seção</label>
+                  <select id="gerenciaManual"><option value="">Selecione...</option></select>
+                </div>
+                <div>
+                  <label for="situacaoManual">Situação</label>
+                  <select id="situacaoManual"></select>
+                </div>
+                <div>
+                  <label for="dataFinalManual">Data final</label>
+                  <input type="date" id="dataFinalManual" />
+                </div>
+                <div>
+                  <label for="limiteVencendo">Avisar quando faltar</label>
+                  <select id="limiteVencendo">
+                    <option value="1">1 dia</option>
+                    <option value="2">2 dias</option>
+                    <option value="3" selected>3 dias</option>
+                    <option value="5">5 dias</option>
+                    <option value="7">7 dias</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <label for="situacaoManual">Situação</label>
-                <select id="situacaoManual"></select>
+              <label class="checkbox-inline" for="semPrazoManual"><input type="checkbox" id="semPrazoManual" /> <span>Processo sem prazo definido</span></label>
+              <div class="btn-row" style="margin-top:16px;">
+                <button type="button" id="btnGerarProcesso">Salvar processo</button>
+                <button type="button" class="outline" id="btnLimparFormulario">Limpar</button>
+                <button type="button" class="outline" id="btnExportarExcelVisiveis">Excel</button>
+                <button type="button" class="outline" id="btnExportarPDFVisiveis">PDF</button>
               </div>
-              <div>
-                <label for="dataFinalManual">Data final</label>
-                <input type="date" id="dataFinalManual" />
+              <div id="mensagemSistema" class="hidden"></div>
+            </div>
+            <div class="card filters-card">
+              <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
+              <div class="page-note" style="margin-bottom:12px;">A tabela consolidada abre por data e hora do preenchimento mais recente. O foco visual principal está no status do prazo e na ordenação rápida junto da tabela.</div>
+              <div class="filters-wrap">
+                <div class="filters-top">
+                  <div>
+                    <label for="busca">Busca rápida</label>
+                    <input id="busca" placeholder="Buscar por processo, interessado, assunto, área ou gerência..." />
+                  </div>
+                  <div>
+                    <label for="filtroArea">Área</label>
+                    <select id="filtroArea"><option value="">Todas</option></select>
+                  </div>
+                  <div>
+                    <label for="filtroGerencia">Gerência/Seção</label>
+                    <select id="filtroGerencia"><option value="">Todas</option></select>
+                  </div>
+                  <div>
+                    <label for="filtroStatusPrazo">Prazo</label>
+                    <select id="filtroStatusPrazo">
+                      <option value="">Todos</option>
+                      <option value="No prazo">No prazo</option>
+                      <option value="Vence hoje">Vence hoje</option>
+                      <option value="Vencendo">Vencendo</option>
+                      <option value="Atrasado">Atrasado</option>
+                      <option value="Sem prazo">Sem prazo</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="filters-bottom">
+                  <div>
+                    <label for="filtroDataInicial">Data final de</label>
+                    <input type="date" id="filtroDataInicial" />
+                  </div>
+                  <div>
+                    <label for="filtroDataFinal">Data final até</label>
+                    <input type="date" id="filtroDataFinal" />
+                  </div>
+                  <div>
+                    <label for="ordenacao">Ordenação principal</label>
+                    <select id="ordenacao">
+                      <option value="dataCadastroDesc" selected>Data e hora do preenchimento (mais recente)</option>
+                      <option value="dataCadastroAsc">Data e hora do preenchimento (mais antiga)</option>
+                      <option value="anoProcessoDesc">Ano do processo (mais recente)</option>
+                      <option value="anoProcessoAsc">Ano do processo (mais antigo)</option>
+                      <option value="alfabeticaAsc">Ordem alfabética</option>
+                      <option value="dataFinalAsc">Data final</option>
+                      <option value="processoAsc">Processo</option>
+                      <option value="interessadoAsc">Interessado</option>
+                      <option value="gerenciaAsc">Gerência</option>
+                      <option value="areaAsc">Área</option>
+                      <option value="diasRestantesAsc">Dias restantes</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-              <div>
-                <label for="limiteVencendo">Avisar quando faltar</label>
-                <select id="limiteVencendo">
-                  <option value="1">1 dia</option>
-                  <option value="2">2 dias</option>
-                  <option value="3" selected>3 dias</option>
-                  <option value="5">5 dias</option>
-                  <option value="7">7 dias</option>
-                </select>
+              <div class="toolbar" style="margin-top:14px; justify-content:space-between;">
+                <label class="checkbox-inline" for="filtroAtrasados" style="margin-top:0;"><input type="checkbox" id="filtroAtrasados" /> <span>Mostrar apenas atrasados</span></label>
+                <button type="button" class="light" id="btnLimparFiltros" style="width:auto; min-width:130px; margin-top:0;">Limpar filtros</button>
+              </div>
+              <div class="chips" id="chipsRapidos" style="margin-top:16px;">
+                <button type="button" class="chip" data-chip-type="area" data-chip-value="Superintendência de Gestão Integrada">SGI</button>
+                <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Atrasado">Atrasados</button>
+                <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vence hoje">Vence hoje</button>
+                <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vencendo">Vencendo</button>
+                <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Sem prazo">Sem prazo</button>
               </div>
             </div>
-            <label style="display:block; margin-top:10px;"><input type="checkbox" id="semPrazoManual" /> Processo sem prazo definido</label>
-          </div>
-        </div>
-
-        <div class="btn-row" style="margin-top:18px;">
-          <button type="button" id="btnGerarProcesso">Salvar processo</button>
-          <button type="button" class="outline" id="btnLimparFormulario">Limpar formulário</button>
-          <button type="button" id="btnExportarExcelVisiveis">Exportar Excel</button>
-          <button type="button" id="btnExportarPDFVisiveis">Exportar PDF</button>
-        </div>
-
-        <div id="mensagemSistema" class="hidden"></div>
-
-        <div class="card" style="margin-top:18px; padding:18px; background: linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);">
-          <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
-          <div class="filters-wrap">
-            <div class="filters-top">
-              <div>
-                <label for="busca">Busca rápida</label>
-                <input id="busca" placeholder="Buscar por processo, interessado, assunto, área ou gerência..." />
+          </aside>
+          <section class="right-pane">
+            <div class="compact-kpis metric-grid" style="margin-top:0;">
+              <div class="metric summary-card kpi-neutral" data-summary-type="" data-summary-value="">
+                <div class="icon">📁</div>
+                <div class="label">Mostrando</div>
+                <div class="value" id="sumMostrando">0</div>
+                <small>registros visíveis</small>
               </div>
-              <div>
-                <label for="filtroArea">Área</label>
-                <select id="filtroArea"><option value="">Todas</option></select>
+              <div class="metric summary-card kpi-sgi" data-summary-type="area" data-summary-value="Superintendência de Gestão Integrada">
+                <div class="icon">🏢</div>
+                <div class="label">SGI</div>
+                <div class="value" id="sumSGI">0</div>
+                <small>sua área</small>
               </div>
-              <div>
-                <label for="filtroGerencia">Gerência/Seção</label>
-                <select id="filtroGerencia"><option value="">Todas</option></select>
+              <div class="metric summary-card amber kpi-vencendo" data-summary-type="statusPrazo" data-summary-value="Vencendo">
+                <div class="icon">⏳</div>
+                <div class="label">Vencendo</div>
+                <div class="value" id="sumVencendo">0</div>
+                <small>prioridade</small>
               </div>
-              <div>
-                <label for="filtroSituacao">Situação</label>
-                <select id="filtroSituacao"><option value="">Todas</option></select>
-              </div>
-              <div>
-                <label for="filtroStatusPrazo">Prazo</label>
-                <select id="filtroStatusPrazo">
-                  <option value="">Todos</option>
-                  <option value="No prazo">No prazo</option>
-                  <option value="Vence hoje">Vence hoje</option>
-                  <option value="Vencendo">Vencendo</option>
-                  <option value="Atrasado">Atrasado</option>
-                  <option value="Sem prazo">Sem prazo</option>
-                </select>
+              <div class="metric summary-card red kpi-atrasado" data-summary-type="statusPrazo" data-summary-value="Atrasado">
+                <div class="icon">⚠️</div>
+                <div class="label">Atrasados</div>
+                <div class="value" id="sumAtrasados">0</div>
+                <small>ação imediata</small>
               </div>
             </div>
-
-            <div class="filters-bottom">
-              <div>
-                <label for="filtroPrazo">Tipo de prazo</label>
-                <select id="filtroPrazo">
-                  <option value="">Todos</option>
-                  <option value="comPrazo">Com prazo</option>
-                  <option value="semPrazo">Sem prazo</option>
-                </select>
+            <div class="quick-filters" id="quickFilters">
+              <button type="button" class="quick-filter-chip active" data-quick-type="all" id="contadorRegistros">0 registro(s)</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Atrasado" id="counterAtrasados">Atrasados: 0</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Vence hoje" id="counterHoje">Vence hoje: 0</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Vencendo" id="counterVencendo">Vencendo: 0</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Sem prazo" id="counterSemPrazo">Sem prazo: 0</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="area" data-quick-value="Superintendência de Gestão Integrada" id="counterSGI">SGI: 0</button>
+            </div>
+            <div id="alertasPrazo" class="alertas hidden"></div>
+            <div id="noResults" class="no-results hidden">
+              <div class="empty-state">
+                <div class="empty-state-icon">🗂️</div>
+                <h4>Nenhum processo encontrado</h4>
+                <p>Revise os filtros aplicados ou ajuste a busca para localizar registros.</p>
               </div>
-              <div>
-                <label for="filtroDataInicial">Data final de</label>
-                <input type="date" id="filtroDataInicial" />
-              </div>
-              <div>
-                <label for="filtroDataFinal">Data final até</label>
-                <input type="date" id="filtroDataFinal" />
-              </div>
-              <div>
-                <label for="ordenacao">Ordenar por</label>
-                <select id="ordenacao">
-                  <option value="dataCadastroDesc" selected>Data de registro (mais novo → mais antigo)</option>
-                  <option value="dataCadastroAsc">Data de registro (mais antigo → mais novo)</option>
-                  <option value="anoProcessoDesc">Ano do processo (mais recente)</option>
-                  <option value="anoProcessoAsc">Ano do processo (mais antigo)</option>
-                  <option value="alfabeticaAsc">Ordem alfabética</option>
-                  <option value="dataFinalAsc">Data final</option>
-                  <option value="processoAsc">Processo</option>
-                  <option value="interessadoAsc">Interessado</option>
-                  <option value="gerenciaAsc">Gerência</option>
-                  <option value="areaAsc">Área</option>
-                  <option value="diasRestantesAsc">Dias restantes</option>
-                </select>
-              </div>
-              <div>
-                <label style="display:block; margin-bottom:8px;">Ações</label>
-                <div class="toolbar">
-                  <label style="width:auto; white-space:nowrap;"><input type="checkbox" id="filtroAtrasados" /> só atrasados</label>
-                  <button type="button" class="light" id="btnLimparFiltros" style="width:auto; min-width:130px; margin-top:0;">Limpar</button>
+            </div>
+            <div class="table-toolbar">
+              <div class="title">↕️ Ordenar registros<small>Altere a ordem dos registros sem sair da área da tabela.</small></div>
+              <div class="controls">
+                <div>
+                  <label for="ordenacaoTabela">Ordenação rápida</label>
+                  <select id="ordenacaoTabela">
+                    <option value="dataCadastroDesc">Data e hora do preenchimento (mais recente)</option>
+                    <option value="dataCadastroAsc">Data e hora do preenchimento (mais antiga)</option>
+                    <option value="anoProcessoDesc">Ano do processo (mais recente)</option>
+                    <option value="anoProcessoAsc">Ano do processo (mais antigo)</option>
+                    <option value="alfabeticaAsc">Ordem alfabética</option>
+                    <option value="dataFinalAsc">Data final</option>
+                    <option value="processoAsc">Processo</option>
+                    <option value="interessadoAsc">Interessado</option>
+                    <option value="gerenciaAsc">Gerência</option>
+                    <option value="areaAsc">Área</option>
+                    <option value="diasRestantesAsc">Dias restantes</option>
+                  </select>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="chips" id="chipsRapidos" style="margin-top:16px;">
-            <button type="button" class="chip" data-chip-type="area" data-chip-value="Superintendência de Gestão Integrada (SGI)">SGI</button>
-            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Atrasado">Atrasados</button>
-            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vence hoje">Vence hoje</button>
-            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vencendo">Vencendo</button>
-            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Sem prazo">Sem prazo</button>
-            <button type="button" class="chip" data-chip-type="situacao" data-chip-value="Concluído">Concluídos</button>
-          </div>
-        </div>
-
-        <div id="alertasPrazo" class="alertas hidden"></div>
-
-        <div class="metric-grid" style="margin-top:18px;">
-          <div class="metric summary-card" data-summary-type="" data-summary-value="">
-            <div class="label">Mostrando</div>
-            <div class="value" id="sumMostrando">0</div>
-            <small>registros visíveis</small>
-          </div>
-          <div class="metric summary-card" data-summary-type="area" data-summary-value="Superintendência de Gestão Integrada (SGI)">
-            <div class="label">SGI</div>
-            <div class="value" id="sumSGI">0</div>
-            <small>sua área</small>
-          </div>
-          <div class="metric summary-card amber" data-summary-type="statusPrazo" data-summary-value="Vencendo">
-            <div class="label">Vencendo</div>
-            <div class="value" id="sumVencendo">0</div>
-            <small>prioridade</small>
-          </div>
-          <div class="metric summary-card red" data-summary-type="statusPrazo" data-summary-value="Atrasado">
-            <div class="label">Atrasados</div>
-            <div class="value" id="sumAtrasados">0</div>
-            <small>ação imediata</small>
-          </div>
-        </div>
-
-        <div class="stats-strip">
-          <span class="counter-pill" id="contadorRegistros">0 registro(s)</span>
-          <span class="counter-pill" id="counterAtrasados">Atrasados: 0</span>
-          <span class="counter-pill" id="counterHoje">Vence hoje: 0</span>
-          <span class="counter-pill" id="counterVencendo">Vencendo: 0</span>
-          <span class="counter-pill" id="counterSemPrazo">Sem prazo: 0</span>
-          <span class="counter-pill" id="counterSGI">SGI: 0</span>
-        </div>
-
-        <div id="noResults" class="no-results hidden">Nenhum processo encontrado com os filtros aplicados.</div>
-
-        <div class="table-wrap">
-          <table id="tabela" class="hidden">
-            <thead>
-              <tr>
-                <th style="width:55px;">Detalhe</th>
-                <th class="sortable" data-sort="processoAsc">Processo <small>⇅</small></th>
-                <th>Interessado</th>
-                <th>Assunto</th>
-                <th class="sortable" data-sort="dataCadastroDesc">Data de cadastro <small>⇅</small></th>
-                <th class="sortable" data-sort="areaAsc">Área <small>⇅</small></th>
-                <th class="sortable" data-sort="gerenciaAsc">Gerência/Seção <small>⇅</small></th>
-                <th class="sortable" data-sort="dataFinalAsc">Data final <small>⇅</small></th>
-                <th>Status do prazo</th>
-                <th class="sortable" data-sort="diasRestantesAsc">Dias restantes <small>⇅</small></th>
-                <th>Última alteração</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="tbodyProcessos"></tbody>
-          </table>
+            <div class="table-wrap">
+              <table id="tabela" class="hidden">
+                <thead>
+                  <tr>
+                    <th style="width:55px;">Detalhe</th>
+                    <th class="sortable" data-sort="processoAsc">Processo <small>⇅</small></th>
+                    <th>Interessado</th>
+                    <th>Assunto</th>
+                    <th class="sortable" data-sort="dataCadastroDesc">Data/hora do preenchimento <small>⇅</small></th>
+                    <th class="sortable" data-sort="areaAsc">Área <small>⇅</small></th>
+                    <th class="sortable" data-sort="gerenciaAsc">Gerência/Seção <small>⇅</small></th>
+                    <th class="sortable" data-sort="dataFinalAsc">Data final <small>⇅</small></th>
+                    <th>Status do prazo</th>
+                    <th class="sortable" data-sort="diasRestantesAsc">Dias restantes <small>⇅</small></th>
+                    <th>Última alteração</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyProcessos"></tbody>
+              </table>
+            </div>
+          </section>
         </div>
       </div>
-
-      <div id="abaDashboard" class="hidden">
+<div id="abaDashboard" class="hidden">
         <div class="dashboard-grid">
           <div class="charts-stack">
             <div class="card chart-card">
@@ -840,9 +1116,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     <div id="drawerConteudo" class="drawer-grid"></div>
     <div class="btn-row">
       <button type="button" id="drawerBtnEditar">Editar</button>
-      <button type="button" class="warning" id="drawerBtnPendente">Pendente</button>
-      <button type="button" class="success" id="drawerBtnConcluir">Concluir</button>
-      <button type="button" class="secondary" id="drawerBtnArquivar">Arquivar</button>
       <button type="button" class="danger" id="drawerBtnExcluir">Excluir</button>
     </div>
   </aside>
@@ -866,7 +1139,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         <div><label for="editGerencia">Gerência/Seção</label><select id="editGerencia"><option value="">Selecione...</option></select></div>
         <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
       </div>
-      <label style="display:block; margin-top:10px;"><input type="checkbox" id="editSemPrazo" /> Sem prazo</label>
+      <label class="checkbox-inline" for="editSemPrazo"><input type="checkbox" id="editSemPrazo" /> <span>Processo sem prazo definido</span></label>
       <div class="btn-row"><button type="button" id="btnSalvarEdicao">Salvar alterações</button></div>
     </div>
   </div>
@@ -887,7 +1160,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const db = firebase.firestore();
 
     const ESTRUTURA_ORGANIZACIONAL = {
-      "Superintendência de Gestão Integrada (SGI)": [
+      "Superintendência de Gestão Integrada": [
         "Gerência de Consolidação e Tratamento de Dados",
         "Gerência de Planejamento Institucional",
         "Gerência de Gestão e Desenvolvimento de Pessoas",
@@ -976,6 +1249,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
     const $ = (id) => document.getElementById(id);
     function setTextIfExists(idOrEl, value) { const el = typeof idOrEl === "string" ? $(idOrEl) : idOrEl; if (el) el.textContent = value; }
+    function aplicarTema(modoEscuro) { document.body.classList.toggle("dark-mode", !!modoEscuro); if (btnTema) btnTema.textContent = modoEscuro ? "☀️ Modo claro" : "🌙 Modo escuro"; localStorage.setItem("sgp_theme_dark", modoEscuro ? "1" : "0"); }
+    function inicializarTema() { aplicarTema(localStorage.getItem("sgp_theme_dark") === "1"); }
     const loginBox = $("loginBox");
     const appBox = $("appBox");
     const emailInput = $("email");
@@ -985,6 +1260,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const btnCadastrar = $("btnCadastrar");
     const btnResetar = $("btnResetar");
     const btnSair = $("btnSair");
+    const btnTema = $("btnTema");
     const btnNotificacao = $("btnNotificacao");
     const usuarioLogado = $("usuarioLogado");
     const tabProcessosBtn = $("tabProcessosBtn");
@@ -1010,6 +1286,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const filtroDataFinal = $("filtroDataFinal");
     const filtroAtrasados = $("filtroAtrasados");
     const ordenacao = $("ordenacao");
+    const ordenacaoTabela = $("ordenacaoTabela");
+    const quickFilters = $("quickFilters");
     const btnLimparFiltros = $("btnLimparFiltros");
     const btnExportarExcelTodos = $("btnExportarExcelTodos");
     const btnExportarExcelVisiveis = $("btnExportarExcelVisiveis");
@@ -1091,7 +1369,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function classeAreaBadge(area) {
-      return area === "Superintendência de Gestão Integrada (SGI)" ? "sgi" : "";
+      return area === "Superintendência de Gestão Integrada" ? "sgi" : "";
     }
     function extrairAnoDoIdentificador(valor) {
       const txt = String(valor || '');
@@ -1286,6 +1564,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (isNaN(data.getTime())) return "-";
       return data.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
     }
+    function obterTimestampPreenchimento(item) {
+      const criado = item?.criadoEm?.toDate ? item.criadoEm.toDate() : (item?.criadoEm instanceof Date ? item.criadoEm : (item?.criadoEm ? new Date(item.criadoEm) : null));
+      if (criado && !isNaN(criado.getTime())) return criado.getTime();
+      if (item?.dataCadastroISO) { const d = new Date(item.dataCadastroISO + "T00:00:00"); if (!isNaN(d.getTime())) return d.getTime(); }
+      return 0;
+    }
 
     function extrairCampo(texto, regexList) {
       for (const regex of regexList) {
@@ -1334,7 +1618,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       editGerencia.innerHTML = '<option value="">Selecione...</option>';
       filtroArea.innerHTML = '<option value="">Todas</option>';
       situacaoManual.innerHTML = '';
-      filtroSituacao.innerHTML = '<option value="">Todas</option>';
+      if (filtroSituacao) filtroSituacao.innerHTML = '<option value="">Todas</option>';
       editSituacao.innerHTML = '';
 
       AREAS.forEach(area => {
@@ -1356,7 +1640,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         g1.label = area; g2.label = area; g3.label = area;
 
         ESTRUTURA_ORGANIZACIONAL[area].forEach(unidade => {
-          const nomeExibir = area === "Superintendência de Gestão Integrada (SGI)" && ABREVIACOES_SGI[unidade]
+          const nomeExibir = area === "Superintendência de Gestão Integrada" && ABREVIACOES_SGI[unidade]
             ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
             : unidade;
           [g1, g2, g3].forEach(grupo => {
@@ -1373,7 +1657,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       });
 
       STATUS_OPERACIONAIS.forEach(s => {
-        [situacaoManual, filtroSituacao, editSituacao].forEach(sel => {
+        [situacaoManual, filtroSituacao, editSituacao].filter(Boolean).forEach(sel => {
           const op = document.createElement("option");
           op.value = s;
           op.textContent = s;
@@ -1390,13 +1674,13 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         busca: busca.value,
         filtroArea: filtroArea.value,
         filtroGerencia: filtroGerencia.value,
-        filtroSituacao: filtroSituacao.value,
-        filtroPrazo: filtroPrazo.value,
+        filtroSituacao: filtroSituacao ? filtroSituacao.value : "",
+        filtroPrazo: filtroPrazo ? filtroPrazo.value : "",
         filtroStatusPrazo: filtroStatusPrazo.value,
         filtroDataInicial: filtroDataInicial.value,
         filtroDataFinal: filtroDataFinal.value,
         filtroAtrasados: filtroAtrasados.checked,
-        ordenacao: ordenacao.value || "dataCadastroDesc",
+        ordenacao: (ordenacaoTabela?.value || ordenacao.value || "dataCadastroDesc"),
         limiteVencendo: limiteVencendo.value
       }));
     }
@@ -1409,13 +1693,14 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         busca.value = p.busca || "";
         filtroArea.value = p.filtroArea || "";
         filtroGerencia.value = p.filtroGerencia || "";
-        filtroSituacao.value = p.filtroSituacao || "";
-        filtroPrazo.value = p.filtroPrazo || "";
+        if (filtroSituacao) filtroSituacao.value = p.filtroSituacao || "";
+        if (filtroPrazo) filtroPrazo.value = p.filtroPrazo || "";
         filtroStatusPrazo.value = p.filtroStatusPrazo || "";
         filtroDataInicial.value = p.filtroDataInicial || "";
         filtroDataFinal.value = p.filtroDataFinal || "";
         filtroAtrasados.checked = !!p.filtroAtrasados;
         ordenacao.value = p.ordenacao || "dataCadastroDesc";
+        if (ordenacaoTabela) ordenacaoTabela.value = p.ordenacao || "dataCadastroDesc";
         limiteVencendo.value = p.limiteVencendo || "3";
       } catch (e) { console.warn(e); }
     }
@@ -1545,7 +1830,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             alteradoPor: dados.alteradoPor || ""
           });
         });
-        allItems.sort((a, b) => (b.dataCadastroISO || "").localeCompare(a.dataCadastroISO || ""));
+        allItems.sort((a, b) => obterTimestampPreenchimento(b) - obterTimestampPreenchimento(a));
         renderEverything();
       }, (error) => {
         console.error(error);
@@ -1612,10 +1897,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       try {
         setLoading(btnSalvarEdicao, true, "Salvar alterações");
         const processoNormalizado = normalizarProcesso(editProcesso.value);
-        if (processoNormalizado) {
-          const duplicado = await existeProcessoDuplicado(processoNormalizado, editingId);
-          if (duplicado) { toast("Já existe outro processo com esse número.", "error"); return; }
-        }
         const gerenciaResolvida = resolverGerenciaPorTexto(editGerencia.value);
         const dataFinalEdicao = editSemPrazo.checked ? "" : (editDataFinal.value || "");
         const situacaoEdicao = (!dataFinalEdicao || editSemPrazo.checked) ? "Concluído" : editSituacao.value;
@@ -1676,8 +1957,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const termo = normalizarBusca(busca.value);
       const area = filtroArea.value;
       const gerencia = filtroGerencia.value;
-      const situacao = filtroSituacao.value;
-      const prazo = filtroPrazo.value;
+      const situacao = filtroSituacao ? filtroSituacao.value : "";
+      const prazo = filtroPrazo ? filtroPrazo.value : "";
       const statusPrazoFiltro = filtroStatusPrazo.value;
       const dataInicial = filtroDataInicial.value;
       const dataFim = filtroDataFinal.value;
@@ -1714,8 +1995,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         return true;
       });
 
-      if (ordem === "dataCadastroDesc") itens.sort((a, b) => (b.dataCadastroISO || "").localeCompare(a.dataCadastroISO || ""));
-      else if (ordem === "dataCadastroAsc") itens.sort((a, b) => (a.dataCadastroISO || "").localeCompare(b.dataCadastroISO || ""));
+      if (ordem === "dataCadastroDesc") itens.sort((a, b) => obterTimestampPreenchimento(b) - obterTimestampPreenchimento(a));
+      else if (ordem === "dataCadastroAsc") itens.sort((a, b) => obterTimestampPreenchimento(a) - obterTimestampPreenchimento(b));
       else if (ordem === "anoProcessoDesc") itens.sort((a, b) => extrairAnoDoIdentificador(b.processo) - extrairAnoDoIdentificador(a.processo) || (b.dataCadastroISO || "").localeCompare(a.dataCadastroISO || ""));
       else if (ordem === "anoProcessoAsc") itens.sort((a, b) => extrairAnoDoIdentificador(a.processo) - extrairAnoDoIdentificador(b.processo) || (a.dataCadastroISO || "").localeCompare(b.dataCadastroISO || ""));
       else if (ordem === "alfabeticaAsc") itens.sort((a, b) => ((a.processo || a.assunto || a.interessado || "").localeCompare((b.processo || b.assunto || b.interessado || ""), "pt-BR", { sensitivity: "base" })));
@@ -1756,9 +2037,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             <td>${highlightText(item.processo || "", termo) || "<span class='muted'>(sem número)</span>"}</td>
             <td>${highlightText(item.interessado || "", termo) || "-"}</td>
             <td>${highlightText(item.assunto || "", termo) || "-"}</td>
-            <td>${escapeHtml(item.dataCadastro || "-")}</td>
+            <td>${escapeHtml(formatarDataHora(item.criadoEm) !== "-" ? formatarDataHora(item.criadoEm) : (item.dataCadastro || "-"))}</td>
             <td><span class="badge-area ${classeAreaBadge(item.area)}">${highlightText(item.area || "", termo) || "-"}</span></td>
-            <td>${highlightText(unidadeExibida || "-", termo)}</td>
+            <td><span class="muted-mini">${highlightText(unidadeExibida || "-", termo)}</span></td>
             <td>${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</td>
             <td>${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</td>
             <td>${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(item.diasRestantes))}</td>
@@ -1767,8 +2048,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               <div class="acoes">
                 <button type="button" data-action="view">Ver</button>
                 <button type="button" class="secondary" data-action="edit">Editar</button>
-                <button type="button" class="warning" data-action="pendente">Pendente</button>
-                <button type="button" class="success" data-action="concluir">Concluir</button>
                 <button type="button" class="danger" data-action="delete">Excluir</button>
               </div>
             </td>
@@ -1792,22 +2071,29 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const hoje = itens.filter(i => i.statusPrazo === "Vence hoje").length;
       const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
       const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
-      const sgi = itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").length;
+      const sgi = itens.filter(i => i.area === "Superintendência de Gestão Integrada").length;
       const concluidos = itens.filter(i => i.situacao === "Concluído").length;
 
-      contadorRegistros.textContent = `${itens.length} de ${allItems.length} registro(s)`;
-      counterAtrasados.textContent = `Atrasados: ${atrasados}`;
-      counterHoje.textContent = `Vence hoje: ${hoje}`;
-      counterVencendo.textContent = `Vencendo: ${vencendo}`;
-      counterSemPrazo.textContent = `Sem prazo: ${semPrazo}`;
-      counterSGI.textContent = `SGI: ${sgi}`;
-      sumMostrando.textContent = itens.length;
-      sumSGI.textContent = sgi;
-      sumVencendo.textContent = vencendo;
-      sumAtrasados.textContent = atrasados;
-      sumHoje.textContent = hoje;
-      sumSemPrazo.textContent = semPrazo;
-      sumConcluidos.textContent = concluidos;
+      setTextIfExists(contadorRegistros, `${itens.length} de ${allItems.length} registro(s)`);
+      setTextIfExists(counterAtrasados, `Atrasados: ${atrasados}`);
+      setTextIfExists(counterHoje, `Vence hoje: ${hoje}`);
+      setTextIfExists(counterVencendo, `Vencendo: ${vencendo}`);
+      setTextIfExists(counterSemPrazo, `Sem prazo: ${semPrazo}`);
+      setTextIfExists(counterSGI, `SGI: ${sgi}`);
+      setTextIfExists(sumMostrando, itens.length);
+      setTextIfExists(sumSGI, sgi);
+      setTextIfExists(sumVencendo, vencendo);
+      setTextIfExists(sumAtrasados, atrasados);
+      setTextIfExists(sumHoje, hoje);
+      setTextIfExists(sumSemPrazo, semPrazo);
+      setTextIfExists(sumConcluidos, concluidos);
+      document.querySelectorAll(".quick-filter-chip").forEach(ch => ch.classList.remove("active"));
+      if (!filtroArea.value && !filtroStatusPrazo.value) contadorRegistros?.classList.add("active");
+      if (filtroStatusPrazo.value === "Atrasado") counterAtrasados?.classList.add("active");
+      if (filtroStatusPrazo.value === "Vence hoje") counterHoje?.classList.add("active");
+      if (filtroStatusPrazo.value === "Vencendo") counterVencendo?.classList.add("active");
+      if (filtroStatusPrazo.value === "Sem prazo") counterSemPrazo?.classList.add("active");
+      if (filtroArea.value === "Superintendência de Gestão Integrada") counterSGI?.classList.add("active");
     }
 
     function renderAlertas(itens, enviarNotificacao = false) {
@@ -1852,7 +2138,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
-      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
+      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
       const mapAreas = {}; AREAS.forEach(a => mapAreas[a] = 0); itens.forEach(i => mapAreas[i.area] = (mapAreas[i.area] || 0) + 1);
       const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const key = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[key] = (geralMap[key] || 0) + 1; });
       const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
@@ -1952,13 +2238,14 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       busca.value = "";
       filtroArea.value = "";
       filtroGerencia.value = "";
-      filtroSituacao.value = "";
-      filtroPrazo.value = "";
+      if (filtroSituacao) filtroSituacao.value = "";
+      if (filtroPrazo) filtroPrazo.value = "";
       filtroStatusPrazo.value = "";
       filtroDataInicial.value = "";
       filtroDataFinal.value = "";
       filtroAtrasados.checked = false;
       ordenacao.value = "dataCadastroDesc";
+      if (ordenacaoTabela) ordenacaoTabela.value = "dataCadastroDesc";
       salvarFiltros();
       renderEverything();
       if (mostrarToast) toast("Filtros limpos.", "info");
@@ -2047,7 +2334,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           <td>${escapeHtml(d.processo)}</td>
           <td>${escapeHtml(d.interessado)}</td>
           <td>${escapeHtml(d.assunto)}</td>
-          <td>${escapeHtml(d.dataCadastro)}</td>
+          <td>${escapeHtml(formatarDataHora(d.criadoEm) !== "-" ? formatarDataHora(d.criadoEm) : d.dataCadastro)}</td>
           <td>${escapeHtml(d.situacao)}</td>
           <td>${escapeHtml(d.area || "-")}</td>
           <td>${escapeHtml(d.gerencia || "")}</td>
@@ -2109,7 +2396,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
-      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
+      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
       const mapAreas = {}; AREAS.forEach(a => mapAreas[a] = 0); itens.forEach(i => mapAreas[i.area] = (mapAreas[i.area] || 0) + 1);
       const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const key = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[key] = (geralMap[key] || 0) + 1; });
       const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
@@ -2174,6 +2461,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function registrarEventos() {
+      if (btnTema) btnTema.addEventListener("click", () => aplicarTema(!document.body.classList.contains("dark-mode")));
       btnEntrar.addEventListener("click", login);
       btnCadastrar.addEventListener("click", cadastrar);
       btnResetar.addEventListener("click", resetarSenha);
@@ -2199,17 +2487,42 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       btnFecharDrawer.addEventListener("click", fecharDrawer);
       drawerOverlay.addEventListener("click", fecharDrawer);
       drawerBtnEditar.addEventListener("click", () => { if (selectedDrawerId) abrirModalEdicao(selectedDrawerId); });
-      drawerBtnPendente.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Pendente"));
-      drawerBtnConcluir.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Concluído"));
-      drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
+      if (drawerBtnPendente) drawerBtnPendente.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Pendente"));
+      if (drawerBtnConcluir) drawerBtnConcluir.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Concluído"));
+      if (drawerBtnArquivar) drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
       drawerBtnExcluir.addEventListener("click", () => remover(selectedDrawerId));
 
-      [busca, filtroArea, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao].forEach(el => {
+      [busca, filtroArea, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao, ordenacaoTabela].filter(Boolean).forEach(el => {
         const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input");
         el.addEventListener(evt, aplicarFiltrosEOrdenacao);
       });
 
       limiteVencendo.addEventListener("change", () => { salvarFiltros(); renderEverything(); });
+      if (ordenacaoTabela) {
+        ordenacaoTabela.addEventListener("change", () => {
+          ordenacao.value = ordenacaoTabela.value;
+          aplicarFiltrosEOrdenacao();
+        });
+      }
+      if (quickFilters) {
+        quickFilters.addEventListener("click", (e) => {
+          const btn = e.target.closest(".quick-filter-chip");
+          if (!btn) return;
+          const tipo = btn.dataset.quickType;
+          const valor = btn.dataset.quickValue || "";
+          if (tipo === "all") {
+            filtroArea.value = "";
+            filtroStatusPrazo.value = "";
+          } else if (tipo === "area") {
+            filtroStatusPrazo.value = "";
+            filtroArea.value = filtroArea.value === valor ? "" : valor;
+          } else if (tipo === "statusPrazo") {
+            filtroArea.value = "";
+            filtroStatusPrazo.value = filtroStatusPrazo.value === valor ? "" : valor;
+          }
+          aplicarFiltrosEOrdenacao();
+        });
+      }
       btnLimparFiltros.addEventListener("click", limparFiltros);
       if (btnExportarExcelTodos) btnExportarExcelTodos.addEventListener("click", () => exportarExcel(false));
       if (btnExportarExcelVisiveis) btnExportarExcelVisiveis.addEventListener("click", () => exportarExcel(true));
@@ -2242,8 +2555,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           if (action === "expand") { e.stopPropagation(); toggleExpand(id); return; }
           if (action === "view") { e.stopPropagation(); abrirDrawer(id); return; }
           if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
-          if (action === "pendente") { e.stopPropagation(); alterarSituacaoRapida(id, "Pendente"); return; }
-          if (action === "concluir") { e.stopPropagation(); alterarSituacaoRapida(id, "Concluído"); return; }
           if (action === "delete") { e.stopPropagation(); remover(id); return; }
         }
         abrirDrawer(id);
@@ -2251,6 +2562,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       document.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
         ordenacao.value = th.dataset.sort || "dataCadastroDesc";
+        if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value;
         salvarFiltros();
         aplicarFiltrosEOrdenacao();
       }));
@@ -2266,6 +2578,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
     preencherSelects();
     restaurarFiltros();
+    if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value || "dataCadastroDesc";
+    inicializarTema();
     aplicarAbaSalva();
     registrarEventos();
 
