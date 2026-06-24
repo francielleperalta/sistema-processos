@@ -10,6 +10,7 @@
 <ul id="lista"></ul>
 
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -23,12 +24,21 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 async function carregarContratos() {
+  console.log("✅ buscando dados...");
+
   const lista = document.getElementById("lista");
 
   const snapshot = await getDocs(collection(db, "contratos"));
 
+  if (snapshot.empty) {
+    lista.innerHTML = "<li>⚠️ Nenhum contrato encontrado</li>";
+    return;
+  }
+
   snapshot.forEach((doc) => {
     const dados = doc.data();
+
+    console.log("📄 dado:", dados);
 
     const li = document.createElement("li");
 
@@ -42,6 +52,7 @@ async function carregarContratos() {
 }
 
 carregarContratos();
+
 </script>
 
 </body>
