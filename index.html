@@ -1,4 +1,4 @@
-<!index.html>
+<index.html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -16,19 +16,19 @@
   <style>
     * { box-sizing: border-box; }
     :root {
-      --bg: #f5f7fb;
-      --surface: #ffffff;
-      --surface-soft: #fafcff;
-      --text: #1d2939;
-      --muted: #667085;
-      --border: #e4e7ec;
-      --primary: #155eef;
-      --primary-dark: #0047ab;
-      --primary-soft: #eef4ff;
-      --success: #039855;
-      --warning: #dc6803;
-      --danger: #d92d20;
-      --shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+      --bg: #dfe6e8;
+      --surface: #e6ecee;
+      --surface-soft: #dde4e7;
+      --text: #22313b;
+      --muted: #5f6f79;
+      --border: #b7c3c8;
+      --primary: #62737d;
+      --primary-dark: #4f5f68;
+      --primary-soft: #d7dfe2;
+      --success: #6f8577;
+      --warning: #8f8269;
+      --danger: #8b7373;
+      --shadow: 0 8px 24px rgba(16, 24, 40, 0.08);
       --radius: 20px;
       --radius-sm: 12px;
     }
@@ -36,16 +36,17 @@
     body {
       margin: 0;
       font-family: "Inter", "Segoe UI", Arial, sans-serif;
-      background: #f2f5fa;
+      background: var(--bg);
       color: var(--text);
     }
 
     header {
-      background: linear-gradient(120deg, #0b3b91 0%, var(--primary) 100%);
-      color: #fff;
+      background: #c7d2d8;
+      color: #263640;
       padding: 20px 16px;
       text-align: center;
-      box-shadow: 0 10px 24px rgba(21, 94, 239, 0.22);
+      box-shadow: none;
+      border-bottom: 1px solid #b6c2c8;
     }
 
     header h1 {
@@ -62,80 +63,23 @@
     }
 
     .container {
-      max-width: 1480px;
-      margin: 30px auto;
-      padding: 0 22px 42px;
+      max-width: 1600px;
+      margin: 24px auto;
+      padding: 0 16px 28px;
     }
-    .btn-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; }
-    .btn-row button { width:auto; min-width:160px; margin-top:0; }
-    label { display:block; font-size:13px; line-height:1.35; color: var(--muted); margin-bottom:4px; font-weight:700; }
-    .section-title { font-size: 20px; font-weight: 800; margin: 0 0 14px; }
-    .hero { position: relative; overflow: hidden; }
-    .hero::after { content:""; position:absolute; right:-30px; top:-30px; width:160px; height:160px; background: radial-gradient(circle, rgba(21,94,239,.11) 0%, rgba(21,94,239,0) 70%); }
-    .page-note { padding: 12px 14px; background: #eff6ff; border:1px solid #bfdbfe; color:#1d4ed8; border-radius: 12px; font-size:13px; }
-    .toolbar button { width:auto; margin-top:0; }
-    .tab-btn { min-width: 170px; padding: 14px 20px; border-radius: 14px; }
-    .subtabs { display:flex; gap:10px; flex-wrap:wrap; margin: 4px 0 18px; }
-    .subtab-btn { width:auto; min-width:180px; background:#fff; color:#344054; border:1px solid #d0d5dd; box-shadow:none; margin-top:0; }
-    .subtab-btn.active { background: linear-gradient(180deg, #2e73ff 0%, var(--primary) 100%); color:#fff; border-color:transparent; }
-    .hidden-section { display:none !important; }
-    .helper-text { color: var(--muted); font-size: 13px; margin: -2px 0 10px; }
-    .filter-card { background: linear-gradient(180deg,#ffffff 0%,#fbfcff 100%); border:1px solid #e5ebf5; }
-    .metric { border-radius:18px; box-shadow: 0 6px 20px rgba(16,24,40,.05); }
-    .metric .label { text-transform: uppercase; letter-spacing: .04em; font-size: 12px; }
-    .metric .value { font-size: 32px; line-height:1; }
-    .summary-card { cursor:pointer; }
-    .summary-card.active { outline:2px solid #c7d7fe; background:linear-gradient(180deg,#ffffff 0%,#f5f9ff 100%); }
-    .stats-strip { gap:10px; }
-    .counter-pill { padding: 10px 14px; background:#f8fafc; }
-    .search-mark { background: #fff3bf; padding: 0 2px; border-radius: 4px; }
-    .table-wrap { margin-top: 20px; max-height: none; border-radius: 18px; box-shadow: 0 8px 24px rgba(16,24,40,.06); }
-    table { min-width: 1280px; }
-    thead th { padding: 14px 12px; font-size: 13px; }
-    tbody td { padding: 14px 12px; line-height:1.45; }
-    tbody tr.main-row:nth-child(4n+1) td, tbody tr.main-row:nth-child(4n+2) td { background:#fff; }
-    tbody tr.main-row:nth-child(4n+3) td, tbody tr.main-row:nth-child(4n+4) td { background:#fbfdff; }
-    tbody tr.main-row:hover td { background:#edf5ff !important; }
-    .acoes { gap:8px; }
-    .acoes button { padding: 8px 12px; border-radius: 10px; }
-    .compact-actions button { min-width: unset; }
-    .detail-row { display:none; }
-    .dashboard-grid { display:grid; grid-template-columns: 1.15fr .85fr; gap:20px; }
-    .chart-card { padding:22px; border:1px solid #e7edf6; }
-    canvas { margin-top: 14px; max-height: 400px; border:1px solid #eef2f6; }
-    .priority-banner { display:grid; grid-template-columns: repeat(4, 1fr); gap:16px; margin-top:18px; }
-    .priority-card { padding:18px; border-radius:18px; background:#fff; border:1px solid #eaecf0; box-shadow: 0 6px 18px rgba(16,24,40,.05); cursor:pointer; }
-    .priority-card .k { color: var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
-    .priority-card .v { font-size:30px; font-weight:800; margin-top:8px; }
-    .priority-card small { display:block; margin-top:8px; color:var(--muted); }
-    .priority-card.red { border-color:#fecdca; background:#fff7f7; }
-    .priority-card.orange { border-color:#fedf89; background:#fffaf0; }
-    .priority-card.blue { border-color:#b2ddff; background:#f5fbff; }
-    .priority-card.slate { border-color:#d0d5dd; background:#fcfcfd; }
-    .list-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:6px; flex-wrap:wrap; }
-    .drawer { width: min(520px, 96vw); }
-    .drawer-box { border-radius: 14px; }
-    .history-list { display:grid; gap:10px; }
-    .history-item { background:#fcfcfd; border:1px solid #eaecf0; border-radius:12px; padding:12px; }
-    .history-item .ht { font-size:12px; color:var(--muted); margin-bottom:4px; }
-    .modal { width:min(900px, 100%); }
-    .no-results { margin-top:18px; padding:22px; border:1px dashed #cfd8e3; border-radius:16px; background:#fff; color:#667085; }
-    @media (max-width: 1200px) { .composer, .dashboard-grid, .priority-banner { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 900px) { .composer, .dashboard-grid, .priority-banner { grid-template-columns: 1fr; } .btn-row button, .toolbar button, .subtab-btn { width:100%; } .tab-btn { width:100%; min-width:0; } }
-
 
     .card {
       background: var(--surface);
       border: 1px solid rgba(16, 24, 40, 0.05);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 24px;
-      margin-bottom: 22px;
+      padding: 22px;
+      margin-bottom: 18px;
     }
 
     .hero {
-      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 60%, #eef4ff 100%);
-      border-color: #dbe6ff;
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%);
+      border-color: var(--border);
     }
 
     .hidden { display: none !important; }
@@ -144,7 +88,7 @@
 
     .topbar, .toolbar, .tabs, .chips, .stats-strip {
       display: flex;
-      gap: 18px;
+      gap: 10px;
       flex-wrap: wrap;
       align-items: center;
     }
@@ -153,7 +97,7 @@
 
     .grid-2, .grid-3, .grid-4, .grid-5 {
       display: grid;
-      gap: 18px;
+      gap: 14px;
     }
     .grid-2 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
@@ -168,52 +112,52 @@
 
     input, textarea, select, button {
       width: 100%;
-      padding: 14px 16px;
+      padding: 12px 13px;
       border-radius: 12px;
       border: 1px solid #d0d5dd;
       font-size: 14px;
       font-family: inherit;
-      background: #fff;
+      background: var(--surface);
       transition: 0.2s ease;
       outline: none;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     input:focus, textarea:focus, select:focus {
       border-color: #93c5fd;
-      box-shadow: 0 0 0 4px rgba(147,197,253,.18);
+      box-shadow: 0 0 0 4px rgba(147, 197, 253, 0.18);
     }
 
     textarea { resize: vertical; min-height: 130px; }
 
     input:disabled, select:disabled, textarea:disabled {
-      background: #f8fafc;
+      background: var(--surface-soft);
       color: var(--muted);
     }
 
     button {
       border: none;
-      color: white;
+      color: #f7f9fa;
       cursor: pointer;
       font-weight: 700;
-      background: linear-gradient(180deg, #2e73ff 0%, var(--primary) 100%);
-      box-shadow: 0 8px 18px rgba(21, 94, 239, 0.14);
+      background: linear-gradient(180deg, #748791 0%, var(--primary) 100%);
+      box-shadow: 0 6px 14px rgba(68, 84, 92, 0.12);
     }
 
     button:hover { transform: translateY(-1px); }
     button:disabled { opacity: 0.65; cursor: not-allowed; box-shadow: none; }
 
-    .secondary { background: linear-gradient(180deg, #667085 0%, #475467 100%); }
-    .success { background: linear-gradient(180deg, #12b76a 0%, var(--success) 100%); }
-    .warning { background: linear-gradient(180deg, #f79009 0%, var(--warning) 100%); }
-    .danger { background: linear-gradient(180deg, #f04438 0%, var(--danger) 100%); }
-    .outline { background: #fff; color: #344054; border: 1px solid #d0d5dd; box-shadow: none; }
-    .light { background: linear-gradient(180deg, #f4f8ff 0%, #eaf1ff 100%); color: #114a9f; border: 1px solid #cdddff; box-shadow: none; }
+    .secondary { background: linear-gradient(180deg, #7a8890 0%, #697780 100%); }
+    .success { background: linear-gradient(180deg, #809486 0%, var(--success) 100%); }
+    .warning { background: linear-gradient(180deg, #9f937b 0%, var(--warning) 100%); }
+    .danger { background: linear-gradient(180deg, #9d8686 0%, var(--danger) 100%); }
+    .outline { background: var(--surface); color: #344054; border: 1px solid #d0d5dd; box-shadow: none; }
+    .light { background: #d9e1e4; color: #42545f; border: 1px solid #bcc8cd; box-shadow: none; }
 
     .tab-btn {
       width: auto;
       min-width: 160px;
-      background: #f4f7fb;
+      background: #d9e1e4;
       color: #344054;
       border: 1px solid #dfe4ea;
       box-shadow: none;
@@ -221,7 +165,7 @@
     }
 
     .tab-btn.active {
-      background: linear-gradient(180deg, #2e73ff 0%, var(--primary) 100%);
+      background: linear-gradient(180deg, #748791 0%, var(--primary) 100%);
       color: #fff;
       border-color: transparent;
     }
@@ -233,10 +177,10 @@
       border: 1px solid transparent;
       margin-top: 12px;
     }
-    .feedback.info { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
-    .feedback.success { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
-    .feedback.warning { background: #fffaeb; color: #b54708; border-color: #fedf89; }
-    .feedback.error { background: #fef3f2; color: #b42318; border-color: #fecdca; }
+    .feedback.info { background: #dce4e7; color: #175cd3; border-color: #b2ddff; }
+    .feedback.success { background: #dde5df; color: #027a48; border-color: #abefc6; }
+    .feedback.warning { background: #e7e1d3; color: #b54708; border-color: #fedf89; }
+    .feedback.error { background: #e8dcdc; color: #b42318; border-color: #fecdca; }
 
     .user-box {
       display: inline-flex;
@@ -244,7 +188,7 @@
       padding: 10px 12px;
       border-radius: 12px;
       border: 1px solid #eaecf0;
-      background: #fcfcfd;
+      background: var(--surface);
       color: #344054;
       font-size: 14px;
     }
@@ -272,13 +216,13 @@
     .filters-top {
       display: grid;
       grid-template-columns: 1.4fr repeat(4, 1fr);
-      gap: 16px;
+      gap: 12px;
       align-items: end;
     }
     .filters-bottom {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
+      gap: 12px;
       align-items: end;
     }
     @media (max-width: 1300px) {
@@ -295,21 +239,21 @@
       padding: 8px 12px;
       font-weight: 700;
       font-size: 13px;
-      background: #fff;
+      background: var(--surface);
       color: #344054;
       border: 1px solid #d0d5dd;
       box-shadow: none;
     }
     .chip.active {
       color: #fff;
-      background: linear-gradient(180deg, #2e73ff 0%, var(--primary) 100%);
+      background: linear-gradient(180deg, #748791 0%, var(--primary) 100%);
       border-color: transparent;
     }
 
     .metric-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      gap: 14px;
     }
     @media (max-width: 1200px) { .metric-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 700px) { .metric-grid { grid-template-columns: 1fr; } }
@@ -317,7 +261,7 @@
     .metric {
       position: relative;
       overflow: hidden;
-      background: #fff;
+      background: var(--surface);
       border: 1px solid #eaecf0;
       border-radius: 18px;
       padding: 18px;
@@ -335,13 +279,13 @@
     .metric.red::before { background: linear-gradient(90deg, #fb7185 0%, #dc2626 100%); }
     .metric.slate::before { background: linear-gradient(90deg, #94a3b8 0%, #475569 100%); }
     .metric:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(16,24,40,.08); }
-    .metric .label { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing:.04em; }
-    .metric .value { font-size: 36px; font-weight: 800; margin-top: 10px; }
-    .metric small { display: block; margin-top: 10px; color: var(--muted); }
+    .metric .label { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: .03em; }
+    .metric .value { font-size: 36px; font-weight: 800; margin-top: 8px; letter-spacing:-0.02em; }
+    .metric small { display: block; margin-top: 8px; color: var(--muted); }
 
     .stats-strip { margin-top: 14px; }
     .counter-pill {
-      background: #fff;
+      background: var(--surface);
       border: 1px solid #eaecf0;
       border-radius: 999px;
       padding: 8px 10px;
@@ -353,7 +297,7 @@
       margin-top: 16px;
       padding: 14px 16px;
       border-radius: 14px;
-      background: #fffaeb;
+      background: #e7e1d3;
       border: 1px solid #fedf89;
       color: #8a3204;
     }
@@ -365,19 +309,19 @@
       max-height: 72vh;
       border-radius: 16px;
       border: 1px solid #eaecf0;
-      background: #fff;
+      background: var(--surface);
     }
     table {
       width: 100%;
       min-width: 1750px;
       border-collapse: collapse;
-      background: white;
+      background: var(--surface);
     }
     thead th {
       position: sticky;
       top: 0;
       z-index: 3;
-      background: linear-gradient(180deg, #1d67c8 0%, var(--primary) 100%);
+      background: #677982;
       color: white;
       text-align: left;
       padding: 12px;
@@ -391,25 +335,25 @@
       vertical-align: top;
       font-size: 14px;
     }
-    tbody tr.main-row:hover td { background: #f8fbff; }
-    tr.linha-atrasada td { background: #fff6f6; }
-    tr.linha-vencendo td, tr.linha-hoje td { background: #fffaf0; }
-    tr.linha-sem-prazo td { background: #fafafa; }
+    tbody tr.main-row:hover td { background: #dce4e7; }
+    tr.linha-atrasada td { background: #e7dddd; }
+    tr.linha-vencendo td, tr.linha-hoje td { background: #e7e0d2; }
+    tr.linha-sem-prazo td { background: #dbe3e6; }
 
     .detail-row td {
-      background: #fcfcfd !important;
+      background: var(--surface) !important;
       padding: 0;
     }
     .row-details-box {
       padding: 14px 16px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      gap: 10px;
       border-top: 1px dashed #ddd;
     }
     @media (max-width: 900px) { .row-details-box { grid-template-columns: 1fr; } }
     .detail-mini {
-      background: white;
+      background: var(--surface);
       border: 1px solid #eaecf0;
       border-radius: 11px;
       padding: 10px;
@@ -434,7 +378,7 @@
       width: auto;
       margin: 0;
       padding: 6px 8px;
-      background: #f2f4f7;
+      background: #d6dee2;
       color: #344054;
       border: 1px solid #d0d5dd;
       box-shadow: none;
@@ -452,18 +396,18 @@
       white-space: nowrap;
     }
 
-    .badge-no-prazo { background: #ecfdf3; color: #027a48; border: 1px solid #abefc6; }
-    .badge-vencendo { background: #fffaeb; color: #b54708; border: 1px solid #fedf89; }
-    .badge-vence-hoje { background: #fff3e6; color: #b54708; border: 1px solid #f7b27a; }
-    .badge-atrasado { background: #fef3f2; color: #b42318; border: 1px solid #fecdca; }
-    .badge-sem-prazo { background: #f2f4f7; color: #475467; border: 1px solid #d0d5dd; }
+    .badge-no-prazo { background: #dde5df; color: #027a48; border: 1px solid #abefc6; }
+    .badge-vencendo { background: #e7e1d3; color: #b54708; border: 1px solid #fedf89; }
+    .badge-vence-hoje { background: #e7ddd0; color: #b54708; border: 1px solid #f7b27a; }
+    .badge-atrasado { background: #e8dcdc; color: #b42318; border: 1px solid #fecdca; }
+    .badge-sem-prazo { background: #d6dee2; color: #475467; border: 1px solid #d0d5dd; }
 
-    .badge-situacao, .badge-area { background: #f8fafc; color: #344054; border: 1px solid #d0d5dd; }
-    .badge-situacao.concluido { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
-    .badge-situacao.andamento { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
-    .badge-situacao.pendente { background: #fff7ed; color: #c2410c; border-color: #fdba74; }
-    .badge-situacao.arquivado { background: #f2f4f7; color: #344054; border-color: #d0d5dd; }
-    .badge-area.sgi { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
+    .badge-situacao, .badge-area { background: var(--surface-soft); color: #344054; border: 1px solid #d0d5dd; }
+    .badge-situacao.concluido { background: #dde5df; color: #027a48; border-color: #abefc6; }
+    .badge-situacao.andamento { background: #dce4e7; color: #175cd3; border-color: #b2ddff; }
+    .badge-situacao.pendente { background: #e8dfd4; color: #c2410c; border-color: #fdba74; }
+    .badge-situacao.arquivado { background: #d6dee2; color: #344054; border-color: #d0d5dd; }
+    .badge-area.sgi { background: #dce4e7; color: #175cd3; border-color: #b2ddff; }
 
     .dashboard-grid {
       display: grid;
@@ -477,12 +421,12 @@
       gap: 18px;
     }
     .chart-card {
-      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+      background: linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
     }
     canvas {
       margin-top: 10px;
       max-height: 360px;
-      background: white;
+      background: var(--surface);
       border-radius: 10px;
     }
 
@@ -511,26 +455,26 @@
       right: 0;
       width: min(460px, 94vw);
       height: 100vh;
-      background: white;
+      background: var(--surface);
       box-shadow: -6px 0 30px rgba(0,0,0,.18);
       z-index: 1001;
       overflow-y: auto;
       padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 14px;
     }
     .drawer-head, .modal-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
     }
     .drawer-close, .modal-close {
       width: auto;
       margin: 0;
       padding: 8px 12px;
-      background: #f2f4f7;
+      background: #d6dee2;
       color: #344054;
       border: 1px solid #d0d5dd;
       box-shadow: none;
@@ -538,10 +482,10 @@
     .drawer-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 18px;
+      gap: 10px;
     }
     .drawer-box {
-      background: #fcfcfd;
+      background: var(--surface);
       border: 1px solid #eaecf0;
       border-radius: 12px;
       padding: 12px;
@@ -551,7 +495,7 @@
 
     .modal {
       width: min(780px, 100%);
-      background: white;
+      background: var(--surface);
       border-radius: 16px;
       box-shadow: 0 10px 28px rgba(0,0,0,.20);
       padding: 20px;
@@ -566,11 +510,11 @@
       z-index: 1200;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 10px;
       width: min(360px, calc(100vw - 32px));
     }
     .toast {
-      background: white;
+      background: var(--surface);
       border-radius: 12px;
       box-shadow: 0 4px 16px rgba(0,0,0,.12);
       padding: 12px 14px;
@@ -581,68 +525,279 @@
     .toast.error { border-left-color: var(--danger); }
     .toast.warning { border-left-color: var(--warning); }
   
-    .checkbox-inline { display:inline-flex; align-items:center; gap:8px; margin-top:10px; font-size:14px; color:#41535f; font-weight:600; cursor:pointer; }
-    .checkbox-inline input[type="checkbox"] { width:18px; height:18px; margin:0; accent-color:#2e73ff; }
-    .active-filters-bar { margin: 16px 0 12px; padding: 12px 14px; border-radius: 14px; background: #eef4ff; border:1px solid #c7d7fe; color:#274690; font-size:13px; }
-    .active-filters-bar strong { color:#173b7a; }
-    .active-filters-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-    .active-filter-pill { display:inline-flex; align-items:center; gap:6px; background:#fff; color:#334854; border:1px solid #dbe6ff; padding:6px 10px; border-radius:999px; font-weight:600; }
-    .table-wrap { overflow:auto; -webkit-overflow-scrolling: touch; }
-    thead th, tbody td { border-left:none; border-right:none; border-top:none; border-bottom:1px solid #e2e8f0; }
-    tbody tr.main-row:hover td { background:#f6faff !important; }
-    table { border-collapse: separate; border-spacing: 0; }
-    /* fixed columns */
-    #tabela thead th:nth-child(1), #tabela tbody td:nth-child(1) { position: sticky; left: 0; z-index: 2; background: inherit; min-width: 220px; box-shadow: 8px 0 12px -12px rgba(15,23,42,.18); }
-    #tabela thead th:nth-child(8), #tabela tbody td:nth-child(8) { position: sticky; right: 110px; z-index: 2; background: inherit; min-width: 180px; box-shadow: -8px 0 12px -12px rgba(15,23,42,.18); }
-    #tabela thead th:nth-child(9), #tabela tbody td:nth-child(9) { position: sticky; right: 0; z-index: 3; background: inherit; min-width: 110px; box-shadow: -10px 0 14px -12px rgba(15,23,42,.25); }
-    #tabela thead th:nth-child(1), #tabela thead th:nth-child(8), #tabela thead th:nth-child(9) { background: linear-gradient(180deg, #1d67c8 0%, var(--primary) 100%); }
-    .acoes { display:flex; flex-wrap:nowrap; gap:6px; align-items:center; }
-    .acoes button { min-width: 72px; padding: 7px 10px; border-radius: 10px; }
-    .acoes button[data-action="view"] { background:#2e73ff; }
-    .acoes button[data-action="edit"] { background:#fff; color:#344054; border:1px solid #d0d5dd; }
-    .acoes button[data-action="delete"] { background:#fff7f7; color:#9a2e26; border:1px solid #f0c4c0; }
-    .badge-atrasado { background:#fde8e8; color:#b42318; border-color:#f4b4ae; }
-    .badge-vence-hoje { background:#fff0df; color:#b54708; border-color:#f2b777; }
-    .badge-vencendo { background:#fff7dc; color:#a35c00; border-color:#eed08b; }
-    .badge-no-prazo { background:#e7f8f0; color:#027a48; border-color:#abefc6; }
-    .badge-sem-prazo { background:#edf1f5; color:#475467; border-color:#d0d5dd; }
-    .detail-group { display:grid; gap:10px; margin-bottom: 12px; }
-    .detail-group-title { font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:#6b7280; font-weight:800; margin-bottom:4px; }
-    .detail-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-    .empty-state { text-align:center; padding: 12px 4px; }
-    .empty-state-icon { font-size: 40px; color:#98a2ab; line-height:1; margin-bottom:10px; display:inline-block; }
-    .empty-state h4 { margin:0 0 6px; font-size:16px; color:#334854; }
-    .empty-state p { margin:0; font-size:13px; color:#6b7280; }
-    .mobile-card-meta { display:none; }
-    @media (max-width: 900px) {
-      .table-wrap { border-radius: 14px; }
-      #tabela { min-width: 900px; }
+    :root {
+      --kpi-neutral: #8b9aa3;
+      --kpi-sgi: #7a8b96;
+      --kpi-vencendo: #a7926c;
+      --kpi-atrasado: #a07d7d;
+      --dark-bg: #111827;
+      --dark-surface: #1f2937;
+      --dark-soft: #273242;
+      --dark-text: #e5e7eb;
+      --dark-muted: #9ca3af;
+      --dark-border: #374151;
     }
-    @media (max-width: 760px) {
-      .table-wrap { overflow: visible; border:none; box-shadow:none; background:transparent; }
-      #tabela { min-width: 100%; display:block; background:transparent; }
-      #tabela thead { display:none; }
-      #tabela tbody { display:grid; gap:14px; }
-      #tabela tr.main-row { display:block; border:1px solid #e2e8f0; border-radius:16px; background:#fff; box-shadow: 0 6px 18px rgba(16,24,40,.05); overflow:hidden; }
-      #tabela tr.main-row td { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; padding:10px 14px; border-bottom:1px solid #eef2f6; position:static !important; min-width:0 !important; box-shadow:none !important; }
-      #tabela tr.main-row td::before { content: attr(data-label); font-weight:700; color:#6b7280; font-size:12px; min-width: 120px; }
-      #tabela tr.main-row td:nth-child(1) { display:block; background:#f8fbff; }
-      #tabela tr.main-row td:nth-child(1)::before { content:''; display:none; }
-      #tabela tr.main-row td:nth-child(1) > div:first-child { font-weight:800; font-size:15px; color:#1d2939; }
-      #tabela tr.main-row td:nth-child(9) { justify-content:flex-start; }
-      #tabela tr.main-row td:last-child { border-bottom:none; }
-      #tabela .detail-row { display:none !important; }
+    body.dark-mode {
+      background: var(--dark-bg);
+      color: var(--dark-text);
     }
-
-    /* Ajustes para manter o cadastro sempre visível e sem subabas */
-    .subtabs { display: none !important; }
-    #blocoCadastro { display: block !important; }
+    body.dark-mode header {
+      background: #1b2532;
+      color: var(--dark-text);
+      border-bottom-color: #334155;
+    }
+    body.dark-mode .card,
+    body.dark-mode .box-soft,
+    body.dark-mode .table-wrap,
+    body.dark-mode table,
+    body.dark-mode .drawer,
+    body.dark-mode .modal,
+    body.dark-mode .toast,
+    body.dark-mode .detail-mini,
+    body.dark-mode .drawer-box,
+    body.dark-mode .metric,
+    body.dark-mode .user-box,
+    body.dark-mode .counter-pill,
+    body.dark-mode .table-toolbar,
+    body.dark-mode .quick-filter-chip,
+    body.dark-mode .empty-state,
+    body.dark-mode input,
+    body.dark-mode textarea,
+    body.dark-mode select,
+    body.dark-mode .outline,
+    body.dark-mode .light,
+    body.dark-mode .tab-btn {
+      background: var(--dark-surface) !important;
+      color: var(--dark-text) !important;
+      border-color: var(--dark-border) !important;
+    }
+    body.dark-mode .hero,
+    body.dark-mode .filters-card,
+    body.dark-mode .chart-card {
+      background: linear-gradient(180deg, var(--dark-surface) 0%, var(--dark-soft) 100%) !important;
+    }
+    body.dark-mode .muted,
+    body.dark-mode .page-note,
+    body.dark-mode .drawer-box .label,
+    body.dark-mode .detail-mini .tt,
+    body.dark-mode .table-toolbar .title small,
+    body.dark-mode .table-toolbar label,
+    body.dark-mode .muted-mini,
+    body.dark-mode .empty-state p {
+      color: var(--dark-muted) !important;
+    }
+    body.dark-mode thead th { background: #263241; border-color:#334155; }
+    body.dark-mode tbody td { border-color:#334155; }
+    body.dark-mode tbody tr.main-row:hover td { background: #253243 !important; }
+    body.dark-mode .badge-area { color: #a7b0b8 !important; border-color:#475569 !important; }
+    body.dark-mode .empty-state-icon { color:#6b7280 !important; }
+    .theme-toggle {
+      width: auto;
+      min-width: 148px;
+      margin-top: 0;
+      padding: 10px 12px;
+      background: #d9e1e4;
+      color: #334854;
+      border: 1px solid #c8d3d8;
+      box-shadow: none;
+    }
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: 410px minmax(0, 1fr);
+      gap: 18px;
+      min-height: calc(100vh - 235px);
+      margin-top: 12px;
+    }
+    .left-pane {
+      min-height: 0;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-right: 4px;
+    }
+    .right-pane {
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .left-pane .box-soft, .left-pane .card { box-shadow: 0 4px 18px rgba(16,24,40,.05); }
+    .composer-grid {
+      display: grid;
+      gap: 16px;
+    }
+    .composer-grid .box-soft { height: auto; }
+    .filters-top, .filters-bottom {
+      grid-template-columns: 1fr !important;
+      gap: 10px;
+    }
+    .filters-card .toolbar { align-items: center; }
+    .page-note {
+      padding: 10px 12px;
+      border: 1px solid #cbd5db;
+      border-radius: 12px;
+      font-size: 13px;
+      color: #65737d;
+    }
+    .compact-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .metric {
+      border-radius: 20px;
+      box-shadow: 0 6px 18px rgba(16,24,40,.06);
+    }
+    .metric.kpi-neutral::before { background: linear-gradient(90deg, var(--kpi-neutral) 0%, #6f7f89 100%); }
+    .metric.kpi-sgi::before { background: linear-gradient(90deg, var(--kpi-sgi) 0%, #60717d 100%); }
+    .metric.kpi-vencendo::before { background: linear-gradient(90deg, var(--kpi-vencendo) 0%, #8f7c58 100%); }
+    .metric.kpi-atrasado::before { background: linear-gradient(90deg, var(--kpi-atrasado) 0%, #8b6767 100%); }
+    .metric .icon {
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: rgba(255,255,255,.55);
+      color: #5b6b76;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    .table-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #d7dfe2;
+      box-shadow: 0 4px 12px rgba(16,24,40,.05);
+    }
+    .table-toolbar .title { font-size: 14px; font-weight: 700; color: #334854; }
+    .table-toolbar .title small { display:block; font-size: 12px; font-weight: 400; color: #6b7280; margin-top: 2px; }
+    .table-toolbar .controls { display:flex; align-items:end; gap:10px; flex-wrap:wrap; }
+    .table-toolbar .controls > div { min-width: 300px; }
+    .table-toolbar label { font-size: 12px; color: #6b7280; }
+    .quick-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .quick-filter-chip {
+      width: auto;
+      min-width: unset;
+      margin-top: 0;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid #cbd5db;
+      background: #edf2f4;
+      color: #42545f;
+      box-shadow: none;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .quick-filter-chip.active { background: #748791; color: #fff; border-color: transparent; }
+    .table-wrap {
+      margin-top: 0;
+      flex: 1;
+      min-height: 0;
+      max-height: none;
+      box-shadow: 0 6px 18px rgba(16,24,40,.05);
+    }
+    .empty-state {
+      padding: 34px 18px;
+      border: 1px dashed #c7d2d8;
+      border-radius: 18px;
+      background: #edf2f4;
+      text-align: center;
+    }
+    .empty-state-icon {
+      font-size: 38px;
+      color: #98a2ab;
+      line-height: 1;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+    .empty-state h4 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      color: #334854;
+    }
+    .empty-state p {
+      margin: 0;
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .acoes { display: flex; flex-wrap: nowrap; gap: 4px; align-items: center; }
+    .acoes button {
+      width: auto;
+      min-width: 66px;
+      margin: 0;
+      padding: 6px 8px;
+      font-size: 12px;
+      border-radius: 10px;
+      box-shadow: none;
+    }
+    .acoes button[data-action="view"] {
+      background: #748791;
+      color: #fff;
+    }
+    .acoes button[data-action="edit"] {
+      background: transparent;
+      color: #42545f;
+      border: 1px solid #c5cfd5;
+    }
+    .acoes button[data-action="delete"] {
+      background: transparent;
+      color: #8b5e5d;
+      border: 1px solid #d6b8b8;
+    }
+    .badge-vencendo, .badge-vence-hoje, .badge-atrasado { font-weight: 800; }
+    .badge-area { background: transparent; color: #6b7280; border-color: #d5dde2; }
+    .muted-mini { color: #6b7280; font-size: 12px; }
+    .checkbox-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 14px;
+      color: #334854;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .checkbox-inline input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      flex: 0 0 auto;
+      accent-color: #748791;
+    }
+    @media (max-width: 1200px) {
+      .workspace-grid { grid-template-columns: 1fr; min-height: auto; }
+      .left-pane { overflow: visible; }
+      .right-pane { overflow: visible; }
+      .compact-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .table-wrap { min-height: 420px; }
+    }
+    @media (max-width: 700px) {
+      .compact-kpis { grid-template-columns: 1fr; }
+      .table-toolbar .controls > div { min-width: 100%; }
+      .acoes { flex-wrap: wrap; }
+    }
 </style>
 </head>
 <body>
   <header>
-    <h1>Sistema de Gestão de Processos</h1>
-    <p>Organize, acompanhe e priorize processos com mais clareza</p>
+    <h1>🏛️ Sistema de Gestão de Processos</h1>
+    <p>Painel para cadastro, consulta, acompanhamento e análise de processos</p>
   </header>
 
   <div class="toasts" id="toasts"></div>
@@ -678,10 +833,10 @@
       <div class="topbar">
         <div>
           <h3 style="margin-bottom:6px;">Painel de Processos</h3>
-          <div class="helper-text" style="max-width:620px;">Acompanhe o que é urgente, cadastre novos processos e localize informações rapidamente.</div>
           <div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong></div>
         </div>
         <div class="toolbar">
+          <button type="button" class="theme-toggle" id="btnTema">🌙 Modo escuro</button>
           <button type="button" class="secondary" style="width:auto; min-width:220px;" id="btnNotificacao">Ativar notificações</button>
           <button type="button" class="danger" style="width:auto; min-width:140px;" id="btnSair">Sair</button>
         </div>
@@ -695,234 +850,234 @@
       </div>
 
       <div id="abaProcessos">
-        <div id="blocoCadastro">
-        <div class="composer">
-          <div class="box-soft">
-            <div class="section-title">Cadastrar novo processo</div>
-            <div class="helper-text">Cole o texto do processo ou preencha os campos complementares. O sistema tenta identificar automaticamente os dados principais.</div>
-            <textarea id="entrada" placeholder="Cole o texto do processo aqui...
-
+        <div class="workspace-grid">
+          <aside class="left-pane">
+            <div class="box-soft composer-card">
+              <div class="section-title">Novo processo</div>
+              <textarea id="entrada" placeholder="Cole o texto do processo aqui...
 Exemplo:
 Processo nº 12345/2026
 Interessado(a): Maria Silva
 Assunto: Solicitação de revisão
 Prazo: 10 dias
-Gerência: GECONT"></textarea>
-          </div>
-
-          <div class="box-soft">
-            <div class="section-title">Informações complementares</div>
-            <div class="helper-text">Use estes campos apenas para complementar ou corrigir as informações antes de salvar.</div>
-            <div class="grid-2">
-              <div>
-                <label for="gerenciaManual">Gerência/Seção</label>
-                <select id="gerenciaManual"><option value="">Selecione...</option></select>
+Gerência ou área: GECONT, SGI, SGDP
+OU
+202600005016709
+OFÍCIO Nº 4702/2026/SEAD
+Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inservíveis."></textarea>
+              <div class="grid-2" style="margin-top:14px;">
+                <div>
+                  <label for="gerenciaManual">Gerência/Seção</label>
+                  <select id="gerenciaManual"><option value="">Selecione...</option></select>
+                </div>
+                <div>
+                  <label for="situacaoManual">Situação</label>
+                  <select id="situacaoManual"></select>
+                </div>
+                <div>
+                  <label for="dataFinalManual">Data final</label>
+                  <input type="date" id="dataFinalManual" />
+                </div>
+                <div>
+                  <label for="limiteVencendo">Avisar quando faltar</label>
+                  <select id="limiteVencendo">
+                    <option value="1">1 dia</option>
+                    <option value="2">2 dias</option>
+                    <option value="3" selected>3 dias</option>
+                    <option value="5">5 dias</option>
+                    <option value="7">7 dias</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <label for="situacaoManual">Situação</label>
-                <select id="situacaoManual"></select>
+              <label class="checkbox-inline" for="semPrazoManual"><input type="checkbox" id="semPrazoManual" /> <span>Processo sem prazo definido</span></label>
+              <div class="btn-row" style="margin-top:16px;">
+                <button type="button" id="btnGerarProcesso">Salvar processo</button>
+                <button type="button" class="outline" id="btnLimparFormulario">Limpar</button>
+                <button type="button" class="outline" id="btnExportarExcelVisiveis">Excel</button>
+                <button type="button" class="outline" id="btnExportarPDFVisiveis">PDF</button>
               </div>
-              <div>
-                <label for="dataFinalManual">Data final</label>
-                <input type="date" id="dataFinalManual" />
+              <div id="mensagemSistema" class="hidden"></div>
+            </div>
+            <div class="card filters-card">
+              <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
+              <div class="page-note" style="margin-bottom:12px;">A tabela consolidada abre por data e hora do preenchimento mais recente. O foco visual principal está no status do prazo e na ordenação rápida junto da tabela.</div>
+              <div class="filters-wrap">
+                <div class="filters-top">
+                  <div>
+                    <label for="busca">Busca rápida</label>
+                    <input id="busca" placeholder="Buscar por processo, interessado, assunto, área ou gerência..." />
+                  </div>
+                  <div>
+                    <label for="filtroArea">Área</label>
+                    <select id="filtroArea"><option value="">Todas</option></select>
+                  </div>
+                  <div>
+                    <label for="filtroGerencia">Gerência/Seção</label>
+                    <select id="filtroGerencia"><option value="">Todas</option></select>
+                  </div>
+                  <div>
+                    <label for="filtroStatusPrazo">Prazo</label>
+                    <select id="filtroStatusPrazo">
+                      <option value="">Todos</option>
+                      <option value="No prazo">No prazo</option>
+                      <option value="Vence hoje">Vence hoje</option>
+                      <option value="Vencendo">Vencendo</option>
+                      <option value="Atrasado">Atrasado</option>
+                      <option value="Sem prazo">Sem prazo</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="filters-bottom">
+                  <div>
+                    <label for="filtroDataInicial">Data final de</label>
+                    <input type="date" id="filtroDataInicial" />
+                  </div>
+                  <div>
+                    <label for="filtroDataFinal">Data final até</label>
+                    <input type="date" id="filtroDataFinal" />
+                  </div>
+                  <div>
+                    <label for="ordenacao">Ordenação principal</label>
+                    <select id="ordenacao">
+                      <option value="dataCadastroDesc" selected>Data e hora do preenchimento (mais recente)</option>
+                      <option value="dataCadastroAsc">Data e hora do preenchimento (mais antiga)</option>
+                      <option value="anoProcessoDesc">Ano do processo (mais recente)</option>
+                      <option value="anoProcessoAsc">Ano do processo (mais antigo)</option>
+                      <option value="alfabeticaAsc">Ordem alfabética</option>
+                      <option value="dataFinalAsc">Data final</option>
+                      <option value="processoAsc">Processo</option>
+                      <option value="interessadoAsc">Interessado</option>
+                      <option value="gerenciaAsc">Gerência</option>
+                      <option value="areaAsc">Área</option>
+                      <option value="diasRestantesAsc">Dias restantes</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-              <div>
-                <label for="limiteVencendo">Avisar quando faltar</label>
-                <select id="limiteVencendo">
-                  <option value="1">1 dia</option>
-                  <option value="2">2 dias</option>
-                  <option value="3" selected>3 dias</option>
-                  <option value="5">5 dias</option>
-                  <option value="7">7 dias</option>
-                </select>
+              <div class="toolbar" style="margin-top:14px; justify-content:space-between;">
+                <label class="checkbox-inline" for="filtroAtrasados" style="margin-top:0;"><input type="checkbox" id="filtroAtrasados" /> <span>Mostrar apenas atrasados</span></label>
+                <button type="button" class="light" id="btnLimparFiltros" style="width:auto; min-width:130px; margin-top:0;">Limpar filtros</button>
               </div>
-              <div>
-                <label for="responsavelManual">Responsável</label>
-                <input type="text" id="responsavelManual" placeholder="Quem está acompanhando o processo?" />
-              </div>
-              <div>
-                <label for="prioridadeManual">Prioridade</label>
-                <select id="prioridadeManual"></select>
+              <div class="chips" id="chipsRapidos" style="margin-top:16px;">
+                <button type="button" class="chip" data-chip-type="area" data-chip-value="Superintendência de Gestão Integrada">SGI</button>
+                <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Atrasado">Atrasados</button>
+                <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vence hoje">Vence hoje</button>
+                <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vencendo">Vencendo</button>
+                <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Sem prazo">Sem prazo</button>
               </div>
             </div>
-            <label class="checkbox-inline" for="semPrazoManual"><input type="checkbox" id="semPrazoManual" /> <span>Processo sem prazo definido</span></label>
-            <div style="margin-top:10px;">
-              <label for="observacoesManual">Observações</label>
-              <textarea id="observacoesManual" style="min-height:90px;" placeholder="Anotações internas importantes"></textarea>
-            </div>
-          </div>
-        </div>
-
-        <div class="btn-row" style="margin-top:18px;">
-          <button type="button" id="btnGerarProcesso">Salvar processo</button>
-          <button type="button" class="outline" id="btnLimparFormulario">Limpar formulário</button>
-          <button type="button" id="btnExportarExcelVisiveis">Exportar Excel</button>
-          <button type="button" id="btnExportarPDFVisiveis">Exportar PDF</button>
-        </div>
-
-        <div id="mensagemSistema" class="hidden"></div>
-
-        <div class="card" style="margin-top:18px; padding:18px; background:linear-gradient(180deg,#fbfdff 0%,#f8fbff 100%);">
-          <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
-          <div class="page-note" style="margin-bottom:14px;">A lista abre por data e hora do preenchimento mais recente. O cadastro permanece sempre visível, sem necessidade de clique extra, e o dashboard continua acessível normalmente.</div>
-          <div class="filters-wrap">
-            <div class="filters-top">
-              <div>
-                <label for="busca">Busca rápida</label>
-                <input id="busca" placeholder="Buscar por processo, interessado, assunto, área ou gerência..." />
+          </aside>
+          <section class="right-pane">
+            <div class="compact-kpis metric-grid" style="margin-top:0;">
+              <div class="metric summary-card kpi-neutral" data-summary-type="" data-summary-value="">
+                <div class="icon">📁</div>
+                <div class="label">Mostrando</div>
+                <div class="value" id="sumMostrando">0</div>
+                <small>registros visíveis</small>
               </div>
-              <div>
-                <label for="filtroArea">Área</label>
-                <select id="filtroArea"><option value="">Todas</option></select>
+              <div class="metric summary-card kpi-sgi" data-summary-type="area" data-summary-value="Superintendência de Gestão Integrada">
+                <div class="icon">🏢</div>
+                <div class="label">SGI</div>
+                <div class="value" id="sumSGI">0</div>
+                <small>sua área</small>
               </div>
-              <div>
-                <label for="filtroGerencia">Gerência/Seção</label>
-                <select id="filtroGerencia"><option value="">Todas</option></select>
+              <div class="metric summary-card amber kpi-vencendo" data-summary-type="statusPrazo" data-summary-value="Vencendo">
+                <div class="icon">⏳</div>
+                <div class="label">Vencendo</div>
+                <div class="value" id="sumVencendo">0</div>
+                <small>prioridade</small>
               </div>
-              <div>
-                <label for="filtroStatusPrazo">Prazo</label>
-                <select id="filtroStatusPrazo">
-                  <option value="">Todos</option>
-                  <option value="No prazo">No prazo</option>
-                  <option value="Vence hoje">Vence hoje</option>
-                  <option value="Vencendo">Vencendo</option>
-                  <option value="Atrasado">Atrasado</option>
-                  <option value="Sem prazo">Sem prazo</option>
-                </select>
+              <div class="metric summary-card red kpi-atrasado" data-summary-type="statusPrazo" data-summary-value="Atrasado">
+                <div class="icon">⚠️</div>
+                <div class="label">Atrasados</div>
+                <div class="value" id="sumAtrasados">0</div>
+                <small>ação imediata</small>
               </div>
             </div>
-
-            <div class="filters-bottom">
-              <div>
-                <label for="filtroDataInicial">Data final de</label>
-                <input type="date" id="filtroDataInicial" />
+            <div class="quick-filters" id="quickFilters">
+              <button type="button" class="quick-filter-chip active" data-quick-type="all" id="contadorRegistros">0 registro(s)</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Atrasado" id="counterAtrasados">Atrasados: 0</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Vence hoje" id="counterHoje">Vence hoje: 0</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Vencendo" id="counterVencendo">Vencendo: 0</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Sem prazo" id="counterSemPrazo">Sem prazo: 0</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="area" data-quick-value="Superintendência de Gestão Integrada" id="counterSGI">SGI: 0</button>
+            </div>
+            <div id="alertasPrazo" class="alertas hidden"></div>
+            <div id="noResults" class="no-results hidden">
+              <div class="empty-state">
+                <div class="empty-state-icon">🗂️</div>
+                <h4>Nenhum processo encontrado</h4>
+                <p>Revise os filtros aplicados ou ajuste a busca para localizar registros.</p>
               </div>
-              <div>
-                <label for="filtroDataFinal">Data final até</label>
-                <input type="date" id="filtroDataFinal" />
-              </div>
-              <div>
-                <label for="ordenacao">Ordenar por</label>
-                <select id="ordenacao">
-                  <option value="dataCadastroDesc" selected>Data e hora do preenchimento (mais recente)</option>
-                  <option value="dataCadastroAsc">Data e hora do preenchimento (mais antiga)</option>
-                  <option value="dataFinalAsc">Data final</option>
-                  <option value="processoAsc">Processo</option>
-                  <option value="interessadoAsc">Interessado</option>
-                  <option value="gerenciaAsc">Gerência</option>
-                  <option value="areaAsc">Área</option>
-                  <option value="diasRestantesAsc">Dias restantes</option>
-                  <option value="prioridadeUrgencia">Urgência e prioridade</option>
-                </select>
-              </div>
-              <div>
-                <label style="display:block; margin-bottom:8px;">Ações</label>
-                <div class="toolbar">
-                  <label style="width:auto; white-space:nowrap;"><input type="checkbox" id="filtroAtrasados" /> só atrasados</label>
-                  <button type="button" class="light" id="btnLimparFiltros" style="width:auto; min-width:130px; margin-top:0;">Limpar</button>
+            </div>
+            <div class="table-toolbar">
+              <div class="title">↕️ Ordenar registros<small>Altere a ordem dos registros sem sair da área da tabela.</small></div>
+              <div class="controls">
+                <div>
+                  <label for="ordenacaoTabela">Ordenação rápida</label>
+                  <select id="ordenacaoTabela">
+                    <option value="dataCadastroDesc">Data e hora do preenchimento (mais recente)</option>
+                    <option value="dataCadastroAsc">Data e hora do preenchimento (mais antiga)</option>
+                    <option value="anoProcessoDesc">Ano do processo (mais recente)</option>
+                    <option value="anoProcessoAsc">Ano do processo (mais antigo)</option>
+                    <option value="alfabeticaAsc">Ordem alfabética</option>
+                    <option value="dataFinalAsc">Data final</option>
+                    <option value="processoAsc">Processo</option>
+                    <option value="interessadoAsc">Interessado</option>
+                    <option value="gerenciaAsc">Gerência</option>
+                    <option value="areaAsc">Área</option>
+                    <option value="diasRestantesAsc">Dias restantes</option>
+                  </select>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="chips" id="chipsRapidos" style="margin-top:16px;">
-            <button type="button" class="chip" data-chip-type="area" data-chip-value="Superintendência de Gestão Integrada">SGI</button>
-            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Atrasado">Atrasados</button>
-            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vence hoje">Vence hoje</button>
-            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vencendo">Vencendo</button>
-            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Sem prazo">Sem prazo</button>
-            <button type="button" class="chip" data-chip-type="situacao" data-chip-value="Concluído">Concluídos</button>
-          </div>
-        </div>
-
-        <div id="alertasPrazo" class="alertas hidden"></div>
-
-        <div class="metric-grid" style="margin-top:18px;">
-          <div class="metric summary-card" data-summary-type="" data-summary-value="">
-            <div class="label">Mostrando</div>
-            <div class="value" id="sumMostrando">0</div>
-            <small>registros visíveis</small>
-          </div>
-          <div class="metric summary-card" data-summary-type="area" data-summary-value="Superintendência de Gestão Integrada">
-            <div class="label">SGI</div>
-            <div class="value" id="sumSGI">0</div>
-            <small>sua área</small>
-          </div>
-          <div class="metric summary-card amber" data-summary-type="statusPrazo" data-summary-value="Vencendo">
-            <div class="label">Vencendo</div>
-            <div class="value" id="sumVencendo">0</div>
-            <small>prioridade</small>
-          </div>
-          <div class="metric summary-card red" data-summary-type="statusPrazo" data-summary-value="Atrasado">
-            <div class="label">Atrasados</div>
-            <div class="value" id="sumAtrasados">0</div>
-            <small>ação imediata</small>
-          </div>
-        </div>
-
-        <div class="stats-strip">
-          <span class="counter-pill" id="contadorRegistros">0 registro(s)</span>
-          <span class="counter-pill" id="counterAtrasados">Atrasados: 0</span>
-          <span class="counter-pill" id="counterHoje">Vence hoje: 0</span>
-          <span class="counter-pill" id="counterVencendo">Vencendo: 0</span>
-          <span class="counter-pill" id="counterSemPrazo">Sem prazo: 0</span>
-          <span class="counter-pill" id="counterSGI">SGI: 0</span>
-        </div>
-
-        <div id="activeFiltersBar" class="active-filters-bar hidden"></div>
-        <div id="noResults" class="no-results hidden">
-          <div class="empty-state">
-            <div class="empty-state-icon">🗂️</div>
-            <h4>Nenhum processo encontrado</h4>
-            <p>Revise os filtros aplicados ou retorne para todos os registros.</p>
-            <div class="btn-row" style="justify-content:center; margin-top:14px;">
-              <button type="button" class="outline" id="btnVoltarTodos">Voltar para todos os registros</button>
+            <div class="table-wrap">
+              <table id="tabela" class="hidden">
+                <thead>
+                  <tr>
+                    <th style="width:55px;">Detalhe</th>
+                    <th class="sortable" data-sort="processoAsc">Processo <small>⇅</small></th>
+                    <th>Interessado</th>
+                    <th>Assunto</th>
+                    <th class="sortable" data-sort="dataCadastroDesc">Data/hora do preenchimento <small>⇅</small></th>
+                    <th class="sortable" data-sort="areaAsc">Área <small>⇅</small></th>
+                    <th class="sortable" data-sort="gerenciaAsc">Gerência/Seção <small>⇅</small></th>
+                    <th class="sortable" data-sort="dataFinalAsc">Data final <small>⇅</small></th>
+                    <th>Status do prazo</th>
+                    <th class="sortable" data-sort="diasRestantesAsc">Dias restantes <small>⇅</small></th>
+                    <th>Última alteração</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyProcessos"></tbody>
+              </table>
             </div>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table id="tabela" class="hidden">
-            <thead>
-              <tr>
-                <th class="sortable" data-sort="processoAsc">Processo <small>⇅</small></th>
-                <th>Interessado / Responsável</th>
-                <th>Assunto / Prioridade</th>
-                <th class="sortable" data-sort="dataCadastroDesc">Data/hora do preenchimento <small>⇅</small></th>
-                <th>Situação</th>
-                <th class="sortable" data-sort="gerenciaAsc">Gerência/Seção <small>⇅</small></th>
-                <th class="sortable" data-sort="dataFinalAsc">Data final <small>⇅</small></th>
-                <th>Status do prazo</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="tbodyProcessos"></tbody>
-          </table>
+          </section>
         </div>
       </div>
-
-      <div id="abaDashboard" class="hidden">
+<div id="abaDashboard" class="hidden">
         <div class="dashboard-grid">
           <div class="charts-stack">
             <div class="card chart-card">
-              <h4>Prazos dos processos</h4>
-              <div class="muted">Mostra rapidamente o volume de processos em cada situação de prazo.</div>
+              <h4>Visão geral de prazos</h4>
+              <div class="muted">Resumo dos processos visíveis por status de prazo.</div>
               <canvas id="graficoPrazo"></canvas>
             </div>
             <div class="card chart-card">
-              <h4>Distribuição por área</h4>
-              <div class="muted">Mostra onde está concentrado o maior volume de processos.</div>
+              <h4>Processos por área</h4>
+              <div class="muted">Distribuição entre SGI e demais áreas.</div>
               <canvas id="graficoOutrasAreas"></canvas>
             </div>
             <div class="card chart-card">
-              <h4>Unidades com mais processos</h4>
-              <div class="muted">As 12 unidades com maior volume de processos no filtro atual.</div>
+              <h4>Ranking de unidades</h4>
+              <div class="muted">Top 12 gerências / seções com mais processos.</div>
               <canvas id="graficoGerencia"></canvas>
             </div>
           </div>
 
           <div class="sidebar-cards">
             <div class="card">
-              <h4>Resumo rápido</h4>
+              <h4>Painel executivo</h4>
               <div class="metric-grid" style="grid-template-columns:1fr 1fr; margin-top:12px;">
                 <div class="metric"><div class="label">Total</div><div class="value" id="kpiTotal">0</div></div>
                 <div class="metric slate"><div class="label">Sem prazo</div><div class="value" id="kpiSemPrazo">0</div></div>
@@ -934,13 +1089,13 @@ Gerência: GECONT"></textarea>
             </div>
 
             <div class="card chart-card">
-              <h4>Situação dos processos</h4>
+              <h4>Processos por situação</h4>
               <canvas id="graficoSituacao"></canvas>
             </div>
 
             <div class="card chart-card">
-              <h4>SGI por unidade</h4>
-              <div class="muted">Mostra rapidamente quais unidades da SGI concentram mais processos.</div>
+              <h4>SGI — gerências e seções</h4>
+              <div class="muted">Detalhamento rápido para sua área.</div>
               <canvas id="graficoSGI"></canvas>
             </div>
           </div>
@@ -959,7 +1114,6 @@ Gerência: GECONT"></textarea>
       <button type="button" class="drawer-close" id="btnFecharDrawer">Fechar</button>
     </div>
     <div id="drawerConteudo" class="drawer-grid"></div>
-    <div class="drawer-box"><div class="label">Histórico recente</div><div id="drawerHistorico" class="history-list"></div></div>
     <div class="btn-row">
       <button type="button" id="drawerBtnEditar">Editar</button>
       <button type="button" class="danger" id="drawerBtnExcluir">Excluir</button>
@@ -985,13 +1139,7 @@ Gerência: GECONT"></textarea>
         <div><label for="editGerencia">Gerência/Seção</label><select id="editGerencia"><option value="">Selecione...</option></select></div>
         <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
       </div>
-      <div class="grid-3" style="margin-top:12px;">
-        <div><label for="editResponsavel">Responsável</label><input type="text" id="editResponsavel" /></div>
-        <div><label for="editPrioridade">Prioridade</label><select id="editPrioridade"></select></div>
-        <div><label for="editDataConclusao">Data de conclusão</label><input type="date" id="editDataConclusao" /></div>
-      </div>
       <label class="checkbox-inline" for="editSemPrazo"><input type="checkbox" id="editSemPrazo" /> <span>Processo sem prazo definido</span></label>
-      <div style="margin-top:10px;"><label for="editObservacoes">Observações</label><textarea id="editObservacoes" style="min-height:90px;"></textarea></div>
       <div class="btn-row"><button type="button" id="btnSalvarEdicao">Salvar alterações</button></div>
     </div>
   </div>
@@ -1084,8 +1232,7 @@ Gerência: GECONT"></textarea>
     const COLLECTION_PROCESSOS = "processos";
     const STATUS_OPERACIONAIS = ["Em análise", "Pendente", "Em andamento", "Concluído", "Arquivado"];
     const STATUS_PRAZO_LIST = ["No prazo", "Vence hoje", "Vencendo", "Atrasado", "Sem prazo"];
-    const PRIORIDADES = ["Alta", "Média", "Baixa"];
-    const STORAGE_KEYS = { filtros: "sgp_clean_filters_v1", aba: "sgp_clean_aba_v1", subaba: "sgp_clean_subaba_v3" };
+    const STORAGE_KEYS = { filtros: "sgp_clean_filters_v1", aba: "sgp_clean_aba_v1" };
 
     let allItems = [];
     let filteredItems = [];
@@ -1094,7 +1241,6 @@ Gerência: GECONT"></textarea>
     let chartSGI = null;
     let chartOutrasAreas = null;
     let chartGerencia = null;
-    let chartEntradas = null;
     let unsubscribeSnapshot = null;
     let expandedIds = new Set();
     let selectedDrawerId = null;
@@ -1103,53 +1249,8 @@ Gerência: GECONT"></textarea>
 
     const $ = (id) => document.getElementById(id);
     function setTextIfExists(idOrEl, value) { const el = typeof idOrEl === "string" ? $(idOrEl) : idOrEl; if (el) el.textContent = value; }
-    function getOrdenacaoLabel(valor) {
-      const mapa = {
-        dataCadastroDesc: 'Data e hora do preenchimento (mais recente)',
-        dataCadastroAsc: 'Data e hora do preenchimento (mais antiga)',
-        dataFinalAsc: 'Data final',
-        processoAsc: 'Processo',
-        interessadoAsc: 'Interessado',
-        gerenciaAsc: 'Gerência',
-        areaAsc: 'Área',
-        diasRestantesAsc: 'Dias restantes',
-        prioridadeUrgencia: 'Urgência e prioridade'
-      };
-      return mapa[valor] || valor || '-';
-    }
-    function obterResumoFiltrosAtivos() {
-      const itens = [];
-      if (busca?.value) itens.push(['Busca', busca.value]);
-      if (filtroArea?.value) itens.push(['Área', filtroArea.value]);
-      if (filtroGerencia?.value) itens.push(['Gerência', filtroGerencia.value]);
-      if (filtroStatusPrazo?.value) itens.push(['Prazo', filtroStatusPrazo.value]);
-      if (filtroDataInicial?.value || filtroDataFinal?.value) {
-        const de = filtroDataInicial?.value ? formatarDataISOparaBR(filtroDataInicial.value) : 'início';
-        const ate = filtroDataFinal?.value ? formatarDataISOparaBR(filtroDataFinal.value) : 'fim';
-        itens.push(['Período', `${de} até ${ate}`]);
-      }
-      if (filtroAtrasados?.checked) itens.push(['Filtro ativo', 'Apenas atrasados']);
-      itens.push(['Ordenação', getOrdenacaoLabel(ordenacao?.value)]);
-      return itens;
-    }
-    function renderResumoFiltrosAtivos() {
-      if (!activeFiltersBar) return;
-      const itens = obterResumoFiltrosAtivos();
-      if (!itens.length || (itens.length === 1 && itens[0][0] === 'Ordenação')) {
-        activeFiltersBar.classList.add('hidden');
-        activeFiltersBar.innerHTML = '';
-        return;
-      }
-      activeFiltersBar.innerHTML = `<strong>Resumo do filtro ativo</strong><div class="active-filters-tags">${itens.map(([k,v]) => `<span class="active-filter-pill"><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}</span>`).join('')}</div>`;
-      activeFiltersBar.classList.remove('hidden');
-    }
-    function contextoExportacao(apenasVisiveis, total) {
-      const filtros = obterResumoFiltrosAtivos().map(([k,v]) => `${k}: ${v}`).join(' | ') || 'Nenhum filtro específico';
-      const usuario = auth.currentUser?.email || '-';
-      const em = new Date().toLocaleString('pt-BR');
-      return { usuario, em, filtros, total, escopo: apenasVisiveis ? 'Registros visíveis (filtrados)' : 'Todos os registros' };
-    }
-    function criarEventoHistorico(tipo, detalhes = "") { return { tipo, detalhes, em: new Date().toISOString(), por: auth.currentUser?.email || "" }; }
+    function aplicarTema(modoEscuro) { document.body.classList.toggle("dark-mode", !!modoEscuro); if (btnTema) btnTema.textContent = modoEscuro ? "☀️ Modo claro" : "🌙 Modo escuro"; localStorage.setItem("sgp_theme_dark", modoEscuro ? "1" : "0"); }
+    function inicializarTema() { aplicarTema(localStorage.getItem("sgp_theme_dark") === "1"); }
     const loginBox = $("loginBox");
     const appBox = $("appBox");
     const emailInput = $("email");
@@ -1159,25 +1260,19 @@ Gerência: GECONT"></textarea>
     const btnCadastrar = $("btnCadastrar");
     const btnResetar = $("btnResetar");
     const btnSair = $("btnSair");
+    const btnTema = $("btnTema");
     const btnNotificacao = $("btnNotificacao");
     const usuarioLogado = $("usuarioLogado");
     const tabProcessosBtn = $("tabProcessosBtn");
     const tabDashboardBtn = $("tabDashboardBtn");
     const abaProcessos = $("abaProcessos");
     const abaDashboard = $("abaDashboard");
-    const subtabConsultaBtn = $("subtabConsultaBtn");
-    const subtabCadastroBtn = $("subtabCadastroBtn");
-    const blocoCadastro = $("blocoCadastro");
-    const btnAbrirCadastro = $("btnAbrirCadastro");
     const entrada = $("entrada");
     const gerenciaManual = $("gerenciaManual");
     const situacaoManual = $("situacaoManual");
     const dataFinalManual = $("dataFinalManual");
     const semPrazoManual = $("semPrazoManual");
     const limiteVencendo = $("limiteVencendo");
-    const responsavelManual = $("responsavelManual");
-    const prioridadeManual = $("prioridadeManual");
-    const observacoesManual = $("observacoesManual");
     const btnGerarProcesso = $("btnGerarProcesso");
     const btnLimparFormulario = $("btnLimparFormulario");
     const mensagemSistema = $("mensagemSistema");
@@ -1191,6 +1286,8 @@ Gerência: GECONT"></textarea>
     const filtroDataFinal = $("filtroDataFinal");
     const filtroAtrasados = $("filtroAtrasados");
     const ordenacao = $("ordenacao");
+    const ordenacaoTabela = $("ordenacaoTabela");
+    const quickFilters = $("quickFilters");
     const btnLimparFiltros = $("btnLimparFiltros");
     const btnExportarExcelTodos = $("btnExportarExcelTodos");
     const btnExportarExcelVisiveis = $("btnExportarExcelVisiveis");
@@ -1200,8 +1297,6 @@ Gerência: GECONT"></textarea>
     const tabela = $("tabela");
     const tbodyProcessos = $("tbodyProcessos");
     const noResults = $("noResults");
-    const activeFiltersBar = $("activeFiltersBar");
-    const btnVoltarTodos = $("btnVoltarTodos");
     const contadorRegistros = $("contadorRegistros");
     const counterAtrasados = $("counterAtrasados");
     const counterHoje = $("counterHoje");
@@ -1235,12 +1330,7 @@ Gerência: GECONT"></textarea>
     const editGerencia = $("editGerencia");
     const editDataFinal = $("editDataFinal");
     const editSemPrazo = $("editSemPrazo");
-    const editResponsavel = $("editResponsavel");
-    const editPrioridade = $("editPrioridade");
-    const editObservacoes = $("editObservacoes");
-    const editDataConclusao = $("editDataConclusao");
     const btnSalvarEdicao = $("btnSalvarEdicao");
-    const drawerHistorico = $("drawerHistorico");
     const toasts = $("toasts");
 
     function normalizarBusca(texto) {
@@ -1248,6 +1338,7 @@ Gerência: GECONT"></textarea>
     }
 
     function obterAreaPorUnidade(unidade) {
+      if (AREAS.includes(unidade)) return unidade;
       for (const [area, unidades] of Object.entries(ESTRUTURA_ORGANIZACIONAL)) {
         if (unidades.includes(unidade)) return area;
       }
@@ -1261,11 +1352,11 @@ Gerência: GECONT"></textarea>
     function resolverGerenciaPorTexto(texto) {
       const bruto = String(texto || "").trim();
       if (!bruto) return "";
-      if (TODAS_UNIDADES.includes(bruto)) return bruto;
+      if (TODAS_UNIDADES.includes(bruto) || AREAS.includes(bruto)) return bruto;
       const sigla = bruto.toUpperCase();
       if (SIGLAS_PARA_UNIDADE[sigla]) return SIGLAS_PARA_UNIDADE[sigla];
       const alvoNorm = normalizarBusca(bruto);
-      return TODAS_UNIDADES.find(u => normalizarBusca(u) === alvoNorm) || "";
+      return TODAS_UNIDADES.find(u => normalizarBusca(u) === alvoNorm) || AREAS.find(a => normalizarBusca(a) === alvoNorm) || "";
     }
 
     function classeSituacaoBadge(situacao) {
@@ -1280,20 +1371,61 @@ Gerência: GECONT"></textarea>
     function classeAreaBadge(area) {
       return area === "Superintendência de Gestão Integrada" ? "sgi" : "";
     }
-    function prioridadeValor(prioridade) {
-      const p = normalizarBusca(prioridade);
-      if (p.includes("alta")) return 0;
-      if (p.includes("media") || p.includes("média")) return 1;
-      if (p.includes("baixa")) return 2;
-      return 3;
+    function extrairAnoDoIdentificador(valor) {
+      const txt = String(valor || '');
+      const m1 = txt.match(/(?:\/|\b)(20\d{2})(?:\/|\b)/);
+      if (m1) return parseInt(m1[1], 10);
+      const m2 = txt.match(/\b(20\d{2})\b/);
+      if (m2) return parseInt(m2[1], 10);
+      if (/^20\d{11,}$/.test(txt)) return parseInt(txt.slice(0, 4), 10);
+      return 0;
     }
-    function abrirSubAba(nome) {
-      if (blocoCadastro) blocoCadastro.classList.remove("hidden-section");
-      if (subtabCadastroBtn) subtabCadastroBtn.classList.remove("active");
-      if (subtabConsultaBtn) subtabConsultaBtn.classList.remove("active");
-      localStorage.setItem(STORAGE_KEYS.subaba, "cadastro");
+    function extrairIdentificadorPrincipal(texto) {
+      const processoPadrao = normalizarProcesso(extrairCampo(texto, [/Processo\s*(?:n[º°o]\s*)?:?\s*(.+)/i]).trim());
+      if (processoPadrao) return processoPadrao;
+      const oficio = extrairCampo(texto, [/OF[ÍI]CIO\s*(?:N[º°o]\s*)?:?\s*(.+)/i, /OF[ÍI]CIO\s*(.+)/i]);
+      if (oficio) return normalizarProcesso(`OFÍCIO Nº ${oficio.replace(/^N[º°o]?\s*/i,'').trim()}`);
+      const sei = extrairCampo(texto, [/^(20\d{11,})/m, /\b(20\d{11,})\b/m]);
+      if (sei) return normalizarProcesso(sei);
+      return "";
     }
-    function aplicarSubAbaSalva() { abrirSubAba("cadastro"); }
+    function valorNormalizadoComparacao(v) {
+      return normalizarBusca(String(v ?? ''));
+    }
+    function ehRegistroExatamenteIgual(itemA, itemB) {
+      return valorNormalizadoComparacao(itemA.processoNormalizado || itemA.processo) === valorNormalizadoComparacao(itemB.processoNormalizado || itemB.processo)
+        && valorNormalizadoComparacao(itemA.interessado) === valorNormalizadoComparacao(itemB.interessado)
+        && valorNormalizadoComparacao(itemA.assunto) === valorNormalizadoComparacao(itemB.assunto)
+        && valorNormalizadoComparacao(itemA.gerencia) === valorNormalizadoComparacao(itemB.gerencia)
+        && valorNormalizadoComparacao(itemA.area) === valorNormalizadoComparacao(itemB.area)
+        && valorNormalizadoComparacao(itemA.situacao) === valorNormalizadoComparacao(itemB.situacao)
+        && String(itemA.dataFinal || '') === String(itemB.dataFinal || '')
+        && !!itemA.semPrazo === !!itemB.semPrazo;
+    }
+    async function verificarDuplicidadeDetalhada(registroBase, ignorarId = null) {
+      const processoNormalizado = normalizarProcesso(registroBase.processo || registroBase.processoNormalizado || '');
+      if (!processoNormalizado) return { mesmoNumero: false, identico: false, encontrados: [] };
+      const snapshot = await db.collection(COLLECTION_PROCESSOS).where('processoNormalizado', '==', processoNormalizado).get();
+      const encontrados = [];
+      snapshot.forEach(doc => {
+        if (doc.id === ignorarId) return;
+        const dados = doc.data() || {};
+        encontrados.push({
+          id: doc.id,
+          processo: dados.processo || '',
+          processoNormalizado: dados.processoNormalizado || normalizarProcesso(dados.processo || ''),
+          interessado: dados.interessado || '',
+          assunto: dados.assunto || '',
+          situacao: dados.situacao || (!dados.dataFinal || dados.semPrazo ? 'Concluído' : 'Em análise'),
+          area: dados.area || obterAreaPorUnidade(dados.gerencia || ''),
+          gerencia: resolverGerenciaPorTexto(dados.gerencia || '') || dados.gerencia || '',
+          dataFinal: dados.dataFinal || '',
+          semPrazo: !!dados.semPrazo || !dados.dataFinal
+        });
+      });
+      const identico = encontrados.some(item => ehRegistroExatamenteIgual(item, { ...registroBase, processoNormalizado }));
+      return { mesmoNumero: encontrados.length > 0, identico, encontrados };
+    }
 
     function setLoading(botao, carregando, textoOriginal = "Salvar") {
       if (!botao) return;
@@ -1495,6 +1627,13 @@ Gerência: GECONT"></textarea>
         opArea.textContent = area;
         filtroArea.appendChild(opArea);
 
+        [gerenciaManual, filtroGerencia, editGerencia].forEach(sel => {
+          const op = document.createElement("option");
+          op.value = area;
+          op.textContent = area;
+          sel.appendChild(op);
+        });
+
         const g1 = document.createElement("optgroup");
         const g2 = document.createElement("optgroup");
         const g3 = document.createElement("optgroup");
@@ -1526,9 +1665,6 @@ Gerência: GECONT"></textarea>
         });
       });
 
-      PRIORIDADES.forEach(p => { [prioridadeManual, editPrioridade].forEach(sel => { const op = document.createElement("option"); op.value = p; op.textContent = p; sel.appendChild(op); }); });
-      prioridadeManual.value = "Média";
-      editPrioridade.value = "Média";
       situacaoManual.value = "Em análise";
       editSituacao.value = "Em análise";
     }
@@ -1544,7 +1680,7 @@ Gerência: GECONT"></textarea>
         filtroDataInicial: filtroDataInicial.value,
         filtroDataFinal: filtroDataFinal.value,
         filtroAtrasados: filtroAtrasados.checked,
-        ordenacao: ordenacao.value || "dataCadastroDesc",
+        ordenacao: (ordenacaoTabela?.value || ordenacao.value || "dataCadastroDesc"),
         limiteVencendo: limiteVencendo.value
       }));
     }
@@ -1564,6 +1700,7 @@ Gerência: GECONT"></textarea>
         filtroDataFinal.value = p.filtroDataFinal || "";
         filtroAtrasados.checked = !!p.filtroAtrasados;
         ordenacao.value = p.ordenacao || "dataCadastroDesc";
+        if (ordenacaoTabela) ordenacaoTabela.value = p.ordenacao || "dataCadastroDesc";
         limiteVencendo.value = p.limiteVencendo || "3";
       } catch (e) { console.warn(e); }
     }
@@ -1652,18 +1789,15 @@ Gerência: GECONT"></textarea>
       return duplicado;
     }
 
-    async function atualizarDocumento(id, dadosAtualizados, detalhesHistorico = "Registro atualizado") {
+    async function atualizarDocumento(id, dadosAtualizados) {
       const usuario = auth.currentUser;
       const payload = { ...dadosAtualizados };
       if (payload.gerencia !== undefined) {
         payload.gerencia = resolverGerenciaPorTexto(payload.gerencia) || payload.gerencia;
         payload.area = obterAreaPorUnidade(payload.gerencia);
       }
-      if (payload.situacao === "Concluído" && payload.dataConclusao === undefined) payload.dataConclusao = todayISO();
-      if (payload.situacao && payload.situacao !== "Concluído" && payload.dataConclusao === undefined) payload.dataConclusao = "";
       await db.collection(COLLECTION_PROCESSOS).doc(id).update({
         ...payload,
-        historico: firebase.firestore.FieldValue.arrayUnion(criarEventoHistorico("atualização", detalhesHistorico)),
         alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
         alteradoPor: usuario?.email || ""
       });
@@ -1685,16 +1819,11 @@ Gerência: GECONT"></textarea>
             assunto: dados.assunto || "",
             dataCadastro: dados.dataCadastro || "",
             dataCadastroISO: dados.dataCadastroISO || "",
-            situacao: dados.situacao || "Em análise",
+            situacao: dados.situacao || ((!dados.dataFinal || dados.semPrazo) ? "Concluído" : "Em análise"),
             gerencia: gerenciaNormalizada,
             area,
             dataFinal: dados.dataFinal || "",
             semPrazo: !!dados.semPrazo || !dados.dataFinal,
-            responsavel: dados.responsavel || "",
-            prioridade: dados.prioridade || "Média",
-            observacoes: dados.observacoes || "",
-            dataConclusao: dados.dataConclusao || "",
-            historico: Array.isArray(dados.historico) ? dados.historico : [],
             criadoEm: dados.criadoEm || null,
             criadoPor: dados.criadoPor || "",
             alteradoEm: dados.alteradoEm || null,
@@ -1715,18 +1844,22 @@ Gerência: GECONT"></textarea>
         setLoading(btnGerarProcesso, true, "Salvar processo");
         mostrarMensagem("Salvando processo...", "info");
         const texto = entrada.value.trim();
-        const processo = normalizarProcesso(extrairCampo(texto, [/Processo\s*(?:n[º°o]\s*)?:?\s*(.+)/i]).trim());
-        const interessado = extrairCampo(texto, [/Interessado\(a\)\s*:?\s*(.+)/i, /Interessado\s*:?\s*(.+)/i]);
+        const processo = extrairIdentificadorPrincipal(texto);
+        const interessado = extrairCampo(texto, [/Interessado\(a\)\s*:?\s*(.+)/i, /Interessado\s*:?\s*(.+)/i, /Destinat[aá]rio\s*:?\s*(.+)/i]);
         const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]);
         const dataFinal = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
         const gerencia = resolverGerenciaPorTexto(gerenciaManual.value || extrairGerencia(texto));
-        const situacao = situacaoManual.value || "Em análise";
-        const responsavel = responsavelManual.value.trim();
-        const prioridade = prioridadeManual.value || "Média";
-        const observacoes = observacoesManual.value.trim();
+        const situacao = (!dataFinal || semPrazoManual.checked) ? "Concluído" : (situacaoManual.value || "Em análise");
         const area = obterAreaPorUnidade(gerencia);
 
         if (!processo && !interessado && !assunto && !texto) return mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
+        if (processo) {
+          const duplicidade = await verificarDuplicidadeDetalhada({ processo, processoNormalizado: processo, interessado, assunto, gerencia, area, situacao, dataFinal, semPrazo: !dataFinal });
+          if (duplicidade.identico) {
+            const continuarMesmoAssim = confirm("Já existe um registro exatamente igual na tabela. Clique em OK para continuar mesmo assim ou em Cancelar para revisar antes de salvar.");
+            if (!continuarMesmoAssim) return mostrarMensagem("Revise o registro antes de salvar.", "warning");
+          }
+        }
 
         const user = auth.currentUser;
         await db.collection(COLLECTION_PROCESSOS).add({
@@ -1741,11 +1874,6 @@ Gerência: GECONT"></textarea>
           gerencia: gerencia || "",
           dataFinal: dataFinal || "",
           semPrazo: !dataFinal,
-          responsavel: responsavel || "",
-          prioridade: prioridade || "Média",
-          observacoes: observacoes || "",
-          dataConclusao: situacao === "Concluído" ? todayISO() : "",
-          historico: [criarEventoHistorico("criação", "Processo cadastrado no sistema")],
           criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
           criadoPor: user?.email || "",
           alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
@@ -1770,21 +1898,27 @@ Gerência: GECONT"></textarea>
         setLoading(btnSalvarEdicao, true, "Salvar alterações");
         const processoNormalizado = normalizarProcesso(editProcesso.value);
         const gerenciaResolvida = resolverGerenciaPorTexto(editGerencia.value);
-        await atualizarDocumento(editingId, {
+        const dataFinalEdicao = editSemPrazo.checked ? "" : (editDataFinal.value || "");
+        const situacaoEdicao = (!dataFinalEdicao || editSemPrazo.checked) ? "Concluído" : editSituacao.value;
+        const payloadEdicao = {
           processo: processoNormalizado,
           processoNormalizado,
           interessado: editInteressado.value.trim(),
           assunto: editAssunto.value.trim(),
-          situacao: editSituacao.value,
+          situacao: situacaoEdicao,
           gerencia: gerenciaResolvida,
           area: obterAreaPorUnidade(gerenciaResolvida),
-          dataFinal: editSemPrazo.checked ? "" : (editDataFinal.value || ""),
-          semPrazo: editSemPrazo.checked || !editDataFinal.value,
-          responsavel: editResponsavel.value.trim(),
-          prioridade: editPrioridade.value || "Média",
-          observacoes: editObservacoes.value.trim(),
-          dataConclusao: editSituacao.value === "Concluído" ? (editDataConclusao.value || todayISO()) : ""
-        }, "Dados do processo editados");
+          dataFinal: dataFinalEdicao,
+          semPrazo: editSemPrazo.checked || !editDataFinal.value
+        };
+        if (processoNormalizado) {
+          const duplicidade = await verificarDuplicidadeDetalhada(payloadEdicao, editingId);
+          if (duplicidade.identico) {
+            const continuarMesmoAssim = confirm("Já existe outro registro exatamente igual na tabela. Clique em OK para continuar mesmo assim ou em Cancelar para revisar.");
+            if (!continuarMesmoAssim) { setLoading(btnSalvarEdicao, false, "Salvar alterações"); return; }
+          }
+        }
+        await atualizarDocumento(editingId, payloadEdicao);
         fecharModal();
         toast("Registro atualizado com sucesso.", "success");
       } catch (error) {
@@ -1798,7 +1932,7 @@ Gerência: GECONT"></textarea>
     async function alterarSituacaoRapida(id, situacao) {
       if (!id) return;
       try {
-        await atualizarDocumento(id, { situacao }, `Situação alterada para ${situacao}`);
+        await atualizarDocumento(id, { situacao });
         toast(`Situação atualizada para \"${situacao}\".`, "success");
       } catch (error) {
         console.error(error);
@@ -1845,9 +1979,6 @@ Gerência: GECONT"></textarea>
           item.situacao,
           item.area,
           item.gerencia,
-          item.responsavel,
-          item.prioridade,
-          item.observacoes,
           item.statusPrazo,
           nomeCurtoSGI(item.gerencia)
         ].join(" "));
@@ -1866,6 +1997,9 @@ Gerência: GECONT"></textarea>
 
       if (ordem === "dataCadastroDesc") itens.sort((a, b) => obterTimestampPreenchimento(b) - obterTimestampPreenchimento(a));
       else if (ordem === "dataCadastroAsc") itens.sort((a, b) => obterTimestampPreenchimento(a) - obterTimestampPreenchimento(b));
+      else if (ordem === "anoProcessoDesc") itens.sort((a, b) => extrairAnoDoIdentificador(b.processo) - extrairAnoDoIdentificador(a.processo) || (b.dataCadastroISO || "").localeCompare(a.dataCadastroISO || ""));
+      else if (ordem === "anoProcessoAsc") itens.sort((a, b) => extrairAnoDoIdentificador(a.processo) - extrairAnoDoIdentificador(b.processo) || (a.dataCadastroISO || "").localeCompare(b.dataCadastroISO || ""));
+      else if (ordem === "alfabeticaAsc") itens.sort((a, b) => ((a.processo || a.assunto || a.interessado || "").localeCompare((b.processo || b.assunto || b.interessado || ""), "pt-BR", { sensitivity: "base" })));
       else if (ordem === "dataFinalAsc") itens.sort((a, b) => (a.dataFinal || "9999-12-31").localeCompare(b.dataFinal || "9999-12-31"));
       else if (ordem === "processoAsc") itens.sort((a, b) => (a.processo || "").localeCompare(b.processo || "", "pt-BR", { sensitivity: "base" }));
       else if (ordem === "interessadoAsc") itens.sort((a, b) => (a.interessado || "").localeCompare(b.interessado || "", "pt-BR", { sensitivity: "base" }));
@@ -1892,50 +2026,46 @@ Gerência: GECONT"></textarea>
       }
       noResults.classList.add("hidden");
       tabela.classList.remove("hidden");
+
       tbodyProcessos.innerHTML = itens.map(item => {
         const classeLinha = obterClasseLinha(item.statusPrazo);
-        const unidadeExibida = item.area === "Superintendência de Gestão Integrada" && ABREVIACOES_SGI[item.gerencia]
-          ? `${item.gerencia} (${ABREVIACOES_SGI[item.gerencia]})`
-          : item.gerencia;
-        const prioridadeStyle = item.prioridade === "Alta"
-          ? { bg: '#fef3f2', co: '#b42318', bd: '#fecdca' }
-          : item.prioridade === "Média"
-            ? { bg: '#fffaeb', co: '#b54708', bd: '#fedf89' }
-            : { bg: '#f2f4f7', co: '#475467', bd: '#d0d5dd' };
-        const prioridadeBadge = `<span class="badge" style="background:${prioridadeStyle.bg}; color:${prioridadeStyle.co}; border:1px solid ${prioridadeStyle.bd};">${escapeHtml(item.prioridade || 'Média')}</span>`;
+        const unidadeExibida = item.gerencia || item.area;
+
         return `
           <tr class="main-row ${classeLinha}" data-id="${item.id}">
-            <td data-label="Processo">
-              <div>${highlightText(item.processo || "", termo) || "<span class='muted'>(sem número)</span>"}</div>
-              <div class="muted-mini" style="margin-top:6px;">${escapeHtml(item.area || '-')}</div>
-            </td>
-            <td data-label="Interessado / Responsável">
-              <div>${highlightText(item.interessado || "", termo) || "-"}</div>
-              <div class="muted" style="margin-top:6px;">Responsável: ${highlightText(item.responsavel || "-", termo)}</div>
-            </td>
-            <td data-label="Assunto / Prioridade">
-              <div>${highlightText(item.assunto || "", termo) || "-"}</div>
-              <div class="muted" style="margin-top:6px;">${prioridadeBadge}</div>
-            </td>
-            <td data-label="Data/hora do preenchimento">${escapeHtml(formatarDataHora(item.criadoEm) !== "-" ? formatarDataHora(item.criadoEm) : (item.dataCadastro || "-"))}</td>
-            <td data-label="Situação"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></td>
-            <td data-label="Gerência/Seção">${highlightText(unidadeExibida || "-", termo)}</td>
-            <td data-label="Data final">${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</td>
-            <td data-label="Status do prazo">${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</td>
-            <td data-label="Ações">
-              <div class="acoes compact-actions">
+            <td><button type="button" class="expand-btn" data-action="expand">${expandedIds.has(item.id) ? "−" : "+"}</button></td>
+            <td>${highlightText(item.processo || "", termo) || "<span class='muted'>(sem número)</span>"}</td>
+            <td>${highlightText(item.interessado || "", termo) || "-"}</td>
+            <td>${highlightText(item.assunto || "", termo) || "-"}</td>
+            <td>${escapeHtml(formatarDataHora(item.criadoEm) !== "-" ? formatarDataHora(item.criadoEm) : (item.dataCadastro || "-"))}</td>
+            <td><span class="badge-area ${classeAreaBadge(item.area)}">${highlightText(item.area || "", termo) || "-"}</span></td>
+            <td><span class="muted-mini">${highlightText(unidadeExibida || "-", termo)}</span></td>
+            <td>${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</td>
+            <td>${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</td>
+            <td>${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(item.diasRestantes))}</td>
+            <td><div><strong>${escapeHtml(item.alteradoPor || "-")}</strong></div><div class="muted">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></td>
+            <td>
+              <div class="acoes">
                 <button type="button" data-action="view">Ver</button>
                 <button type="button" class="secondary" data-action="edit">Editar</button>
                 <button type="button" class="danger" data-action="delete">Excluir</button>
               </div>
             </td>
           </tr>
-          <tr class="detail-row hidden" data-detail-for="${item.id}">
-            <td colspan="9"><div class="row-details-box"></div></td>
+          <tr class="detail-row ${expandedIds.has(item.id) ? "" : "hidden"}" data-detail-for="${item.id}">
+            <td colspan="12">
+              <div class="row-details-box">
+                <div class="detail-mini"><div class="tt">Área</div><div>${escapeHtml(item.area || "-")}</div></div>
+                <div class="detail-mini"><div class="tt">Criado por</div><div>${escapeHtml(item.criadoPor || "-")}</div></div>
+                <div class="detail-mini"><div class="tt">Criado em</div><div>${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
+                <div class="detail-mini"><div class="tt">Última alteração</div><div>${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
+              </div>
+            </td>
           </tr>
         `;
       }).join("");
     }
+
     function renderResumo(itens) {
       const atrasados = itens.filter(i => i.statusPrazo === "Atrasado").length;
       const hoje = itens.filter(i => i.statusPrazo === "Vence hoje").length;
@@ -1957,11 +2087,13 @@ Gerência: GECONT"></textarea>
       setTextIfExists(sumHoje, hoje);
       setTextIfExists(sumSemPrazo, semPrazo);
       setTextIfExists(sumConcluidos, concluidos);
-      setTextIfExists("prioAtrasados", atrasados);
-      setTextIfExists("prioHoje", hoje);
-      setTextIfExists("prioVencendo", vencendo);
-      setTextIfExists("prioSemPrazo", semPrazo);
-      renderResumoFiltrosAtivos();
+      document.querySelectorAll(".quick-filter-chip").forEach(ch => ch.classList.remove("active"));
+      if (!filtroArea.value && !filtroStatusPrazo.value) contadorRegistros?.classList.add("active");
+      if (filtroStatusPrazo.value === "Atrasado") counterAtrasados?.classList.add("active");
+      if (filtroStatusPrazo.value === "Vence hoje") counterHoje?.classList.add("active");
+      if (filtroStatusPrazo.value === "Vencendo") counterVencendo?.classList.add("active");
+      if (filtroStatusPrazo.value === "Sem prazo") counterSemPrazo?.classList.add("active");
+      if (filtroArea.value === "Superintendência de Gestão Integrada") counterSGI?.classList.add("active");
     }
 
     function renderAlertas(itens, enviarNotificacao = false) {
@@ -1993,7 +2125,7 @@ Gerência: GECONT"></textarea>
     }
 
     function destroyCharts() {
-      [chartSituacao, chartPrazo, chartSGI, chartOutrasAreas, chartGerencia, chartEntradas].forEach(c => { if (c) c.destroy(); });
+      [chartSituacao, chartPrazo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
     }
 
     function renderDashboard(itens) {
@@ -2003,21 +2135,45 @@ Gerência: GECONT"></textarea>
       setTextIfExists("kpiAtrasados", itens.filter(i => i.statusPrazo === "Atrasado").length);
       setTextIfExists("kpiConcluidos", itens.filter(i => i.situacao === "Concluído").length);
       setTextIfExists("kpiPendentes", itens.filter(i => i.situacao === "Pendente").length);
+
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
       const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
       const mapAreas = {}; AREAS.forEach(a => mapAreas[a] = 0); itens.forEach(i => mapAreas[i.area] = (mapAreas[i.area] || 0) + 1);
       const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const key = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[key] = (geralMap[key] || 0) + 1; });
       const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
-      const ultimos30 = [];
-      for (let d = 29; d >= 0; d--) { const data = addDays(todayISO(), -d); ultimos30.push({ data, total: itens.filter(i => i.dataCadastroISO === data).length }); }
+
       destroyCharts();
-      chartPrazo = new Chart($("graficoPrazo"), { type: "doughnut", data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, padding: 16, color: '#344054', font: { size: 12, weight: '600' } } } } } });
-      chartOutrasAreas = new Chart($("graficoOutrasAreas"), { type: "bar", data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } } });
-      chartGerencia = new Chart($("graficoGerencia"), { type: "bar", data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } } });
-      chartSituacao = new Chart($("graficoSituacao"), { type: "bar", data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } } });
-      if ($("graficoEntradas")) chartEntradas = new Chart($("graficoEntradas"), { type: "line", data: { labels: ultimos30.map(i => formatarDataISOparaBR(i.data).slice(0,5)), datasets: [{ label: "Entradas", data: ultimos30.map(i => i.total), borderColor: "#155eef", backgroundColor: "rgba(21,94,239,.12)", fill: true, tension: 0.35, pointRadius: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } } });
-      chartSGI = new Chart($("graficoSGI"), { type: "bar", data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } } });
+
+      chartPrazo = new Chart($("graficoPrazo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+
+      chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
+        type: "bar",
+        data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartGerencia = new Chart($("graficoGerencia"), {
+        type: "bar",
+        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } }
+      });
+
+      chartSituacao = new Chart($("graficoSituacao"), {
+        type: "bar",
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartSGI = new Chart($("graficoSGI"), {
+        type: "bar",
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } }
+      });
     }
 
     function atualizarCardsAtivos() {
@@ -2041,7 +2197,6 @@ Gerência: GECONT"></textarea>
       renderResumo(filteredItems);
       renderAlertas(filteredItems, notificar);
       renderDashboard(filteredItems);
-      renderResumoFiltrosAtivos();
       atualizarCardsAtivos();
       atualizarDrawerSeAberto();
       aplicarFiltrosVisuaisNosChips();
@@ -2090,6 +2245,7 @@ Gerência: GECONT"></textarea>
       filtroDataFinal.value = "";
       filtroAtrasados.checked = false;
       ordenacao.value = "dataCadastroDesc";
+      if (ordenacaoTabela) ordenacaoTabela.value = "dataCadastroDesc";
       salvarFiltros();
       renderEverything();
       if (mostrarToast) toast("Filtros limpos.", "info");
@@ -2101,9 +2257,6 @@ Gerência: GECONT"></textarea>
       situacaoManual.value = "Em análise";
       dataFinalManual.value = "";
       semPrazoManual.checked = false;
-      responsavelManual.value = "";
-      prioridadeManual.value = "Média";
-      observacoesManual.value = "";
       dataFinalManual.disabled = false;
       mostrarMensagem("Formulário limpo.", "info");
     }
@@ -2113,57 +2266,25 @@ Gerência: GECONT"></textarea>
       const item = allItems.find(i => i.id === id);
       if (!item) return;
       drawerSubtitulo.textContent = item.processo || "(sem número)";
-      const prioridadeStyle = item.prioridade === "Alta"
-        ? { bg: '#fef3f2', co: '#b42318', bd: '#fecdca' }
-        : item.prioridade === "Média"
-          ? { bg: '#fffaeb', co: '#b54708', bd: '#fedf89' }
-          : { bg: '#f2f4f7', co: '#475467', bd: '#d0d5dd' };
       drawerConteudo.innerHTML = `
-        <div class="detail-group">
-          <div class="detail-group-title">Identificação</div>
-          <div class="detail-grid-2">
-            <div class="drawer-box"><div class="label">Processo</div><div class="value">${escapeHtml(item.processo || "-")}</div></div>
-            <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || "-")}</div></div>
-            <div class="drawer-box"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || "-")}</div></div>
-            <div class="drawer-box"><div class="label">Área</div><div class="value"><span class="badge-area ${classeAreaBadge(item.area)}">${escapeHtml(item.area || "-")}</span></div></div>
-            <div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || "-")}</div></div>
-            <div class="drawer-box"><div class="label">Responsável</div><div class="value">${escapeHtml(item.responsavel || "-")}</div></div>
-            <div class="drawer-box"><div class="label">Prioridade</div><div class="value"><span class="badge" style="background:${prioridadeStyle.bg}; color:${prioridadeStyle.co}; border:1px solid ${prioridadeStyle.bd};">${escapeHtml(item.prioridade || 'Média')}</span></div></div>
-            <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></div></div>
-          </div>
-        </div>
-        <div class="detail-group">
-          <div class="detail-group-title">Prazo</div>
-          <div class="detail-grid-2">
-            <div class="drawer-box"><div class="label">Data/hora do preenchimento</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm) !== '-' ? formatarDataHora(item.criadoEm) : (item.dataCadastro || '-'))}</div></div>
-            <div class="drawer-box"><div class="label">Data final</div><div class="value">${escapeHtml(item.semPrazo ? 'Sem prazo' : formatarDataISOparaBR(item.dataFinal))}</div></div>
-            <div class="drawer-box"><div class="label">Status do prazo</div><div class="value">${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</div></div>
-            <div class="drawer-box"><div class="label">Dias restantes</div><div class="value">${escapeHtml(item.semPrazo ? 'Sem prazo' : textoDiasRestantes(calcDiasRestantes(item.dataFinal)))}</div></div>
-            <div class="drawer-box"><div class="label">Data de conclusão</div><div class="value">${escapeHtml(item.dataConclusao ? formatarDataISOparaBR(item.dataConclusao) : '-')}</div></div>
-            <div class="drawer-box"><div class="label">Observações</div><div class="value">${escapeHtml(item.observacoes || '-')}</div></div>
-          </div>
-        </div>
-        <div class="detail-group">
-          <div class="detail-group-title">Auditoria</div>
-          <div class="detail-grid-2">
-            <div class="drawer-box"><div class="label">Criado por</div><div class="value">${escapeHtml(item.criadoPor || '-')}</div></div>
-            <div class="drawer-box"><div class="label">Criado em</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
-            <div class="drawer-box"><div class="label">Última alteração por</div><div class="value">${escapeHtml(item.alteradoPor || '-')}</div></div>
-            <div class="drawer-box"><div class="label">Última alteração em</div><div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
-          </div>
-        </div>
+        <div class="drawer-box"><div class="label">Processo</div><div class="value">${escapeHtml(item.processo || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></div></div>
+        <div class="drawer-box"><div class="label">Área</div><div class="value"><span class="badge-area ${classeAreaBadge(item.area)}">${escapeHtml(item.area || "-")}</span></div></div>
+        <div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Data final</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</div></div>
+        <div class="drawer-box"><div class="label">Status do prazo</div><div class="value">${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</div></div>
+        <div class="drawer-box"><div class="label">Dias restantes</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(calcDiasRestantes(item.dataFinal)))}</div></div>
+        <div class="drawer-box"><div class="label">Criado por</div><div class="value">${escapeHtml(item.criadoPor || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Criado em</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
+        <div class="drawer-box"><div class="label">Última alteração por</div><div class="value">${escapeHtml(item.alteradoPor || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Última alteração em</div><div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
       `;
-      const historico = Array.isArray(item.historico) ? [...item.historico].sort((a,b) => String(b.em || '').localeCompare(String(a.em || ''))).slice(0, 8) : [];
-      if (drawerHistorico) drawerHistorico.innerHTML = historico.length ? historico.map(h => `
-        <div class="history-item">
-          <div class="ht">${escapeHtml(formatarDataHora(h.em))} — ${escapeHtml(h.por || '-')}</div>
-          <div><strong>${escapeHtml(h.tipo || 'Evento')}</strong></div>
-          <div class="muted" style="margin-top:4px;">${escapeHtml(h.detalhes || '-')}</div>
-        </div>
-      `).join("") : '<div class="muted">Sem histórico registrado.</div>';
       drawerOverlay.classList.remove("hidden");
       drawer.classList.remove("hidden");
     }
+
     function fecharDrawer() {
       drawerOverlay.classList.add("hidden");
       drawer.classList.add("hidden");
@@ -2188,10 +2309,6 @@ Gerência: GECONT"></textarea>
       editSituacao.value = item.situacao || "Em análise";
       editGerencia.value = item.gerencia || "";
       editDataFinal.value = item.dataFinal || "";
-      editResponsavel.value = item.responsavel || "";
-      editPrioridade.value = item.prioridade || "Média";
-      editObservacoes.value = item.observacoes || "";
-      editDataConclusao.value = item.dataConclusao || "";
       editSemPrazo.checked = !!item.semPrazo;
       editDataFinal.disabled = !!item.semPrazo;
       modalOverlay.classList.remove("hidden");
@@ -2218,8 +2335,6 @@ Gerência: GECONT"></textarea>
           <td>${escapeHtml(d.interessado)}</td>
           <td>${escapeHtml(d.assunto)}</td>
           <td>${escapeHtml(formatarDataHora(d.criadoEm) !== "-" ? formatarDataHora(d.criadoEm) : d.dataCadastro)}</td>
-          <td>${escapeHtml(d.responsavel || "-")}</td>
-          <td>${escapeHtml(d.prioridade || "Média")}</td>
           <td>${escapeHtml(d.situacao)}</td>
           <td>${escapeHtml(d.area || "-")}</td>
           <td>${escapeHtml(d.gerencia || "")}</td>
@@ -2229,14 +2344,13 @@ Gerência: GECONT"></textarea>
           <td>${escapeHtml(d.alteradoPor || "-")} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
         </tr>
       `).join("");
-      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data de Cadastro</th><th>Responsável</th><th>Prioridade</th><th>Situação</th><th>Área</th><th>Gerência/Seção</th><th>Data Final</th><th>Status do Prazo</th><th>Dias Restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
+      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data de Cadastro</th><th>Situação</th><th>Área</th><th>Gerência/Seção</th><th>Data Final</th><th>Status do Prazo</th><th>Dias Restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
     }
 
     function exportarExcel(apenasVisiveis = false) {
       const dados = obterDadosExportacao(apenasVisiveis);
       if (!dados.length) return toast("Não há registros para exportar.", "warning");
-      const ctx = contextoExportacao(apenasVisiveis, dados.length);
-      const html = `<html><head><meta charset="UTF-8"></head><body><h2>Relatório de Processos</h2><div><strong>Escopo:</strong> ${ctx.escopo}</div><div><strong>Exportado em:</strong> ${ctx.em}</div><div><strong>Usuário:</strong> ${escapeHtml(ctx.usuario)}</div><div><strong>Filtros aplicados:</strong> ${escapeHtml(ctx.filtros)}</div><div><strong>Total exportado:</strong> ${ctx.total}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`;
+      const html = `<html><head><meta charset="UTF-8"></head><body><h2>Relatório de Processos</h2><div>${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`;
       const blob = new Blob([html], { type: "application/vnd.ms-excel" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
@@ -2250,8 +2364,7 @@ Gerência: GECONT"></textarea>
       const dados = obterDadosExportacao(apenasVisiveis);
       if (!dados.length) return toast("Não há registros para exportar.", "warning");
       const janela = window.open("", "_blank");
-      const ctx = contextoExportacao(apenasVisiveis, dados.length);
-      janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } .meta { margin-bottom: 12px; font-size: 12px; color:#444; display:grid; gap:4px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }</style></head><body><h2>Relatório de Processos</h2><div class="sub">${ctx.escopo}</div><div class="meta"><div><strong>Exportado em:</strong> ${ctx.em}</div><div><strong>Usuário:</strong> ${escapeHtml(ctx.usuario)}</div><div><strong>Filtros aplicados:</strong> ${escapeHtml(ctx.filtros)}</div><div><strong>Total exportado:</strong> ${ctx.total}</div></div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
+      janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }</style></head><body><h2>Relatório de Processos</h2><div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
       janela.document.close();
       janela.focus();
       janela.print();
@@ -2267,6 +2380,58 @@ Gerência: GECONT"></textarea>
       } else {
         toast("Permissão de notificação não concedida.", "warning");
       }
+    }
+
+    function destroyCharts() {
+      [chartSituacao, chartPrazo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
+    }
+
+    function renderDashboard(itens) {
+      setTextIfExists("kpiTotal", itens.length);
+      setTextIfExists("kpiSemPrazo", itens.filter(i => i.statusPrazo === "Sem prazo").length);
+      setTextIfExists("kpiVencendo", itens.filter(i => i.statusPrazo === "Vencendo").length);
+      setTextIfExists("kpiAtrasados", itens.filter(i => i.statusPrazo === "Atrasado").length);
+      setTextIfExists("kpiConcluidos", itens.filter(i => i.situacao === "Concluído").length);
+      setTextIfExists("kpiPendentes", itens.filter(i => i.situacao === "Pendente").length);
+
+      const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
+      const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
+      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
+      const mapAreas = {}; AREAS.forEach(a => mapAreas[a] = 0); itens.forEach(i => mapAreas[i.area] = (mapAreas[i.area] || 0) + 1);
+      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const key = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[key] = (geralMap[key] || 0) + 1; });
+      const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
+
+      destroyCharts();
+
+      chartPrazo = new Chart($("graficoPrazo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+
+      chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
+        type: "bar",
+        data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartGerencia = new Chart($("graficoGerencia"), {
+        type: "bar",
+        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } }
+      });
+
+      chartSituacao = new Chart($("graficoSituacao"), {
+        type: "bar",
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartSGI = new Chart($("graficoSGI"), {
+        type: "bar",
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } }
+      });
     }
 
     function atualizarCardsAtivos() {
@@ -2290,13 +2455,13 @@ Gerência: GECONT"></textarea>
       renderResumo(filteredItems);
       renderAlertas(filteredItems, notificar);
       renderDashboard(filteredItems);
-      renderResumoFiltrosAtivos();
       atualizarCardsAtivos();
       atualizarDrawerSeAberto();
       aplicarFiltrosVisuaisNosChips();
     }
 
     function registrarEventos() {
+      if (btnTema) btnTema.addEventListener("click", () => aplicarTema(!document.body.classList.contains("dark-mode")));
       btnEntrar.addEventListener("click", login);
       btnCadastrar.addEventListener("click", cadastrar);
       btnResetar.addEventListener("click", resetarSenha);
@@ -2304,9 +2469,6 @@ Gerência: GECONT"></textarea>
       btnNotificacao.addEventListener("click", solicitarPermissaoNotificacao);
       tabProcessosBtn.addEventListener("click", () => abrirAba("processos"));
       tabDashboardBtn.addEventListener("click", () => abrirAba("dashboard"));
-      if (subtabConsultaBtn) subtabConsultaBtn.addEventListener("click", () => abrirSubAba("consulta"));
-      if (subtabCadastroBtn) subtabCadastroBtn.addEventListener("click", () => abrirSubAba("cadastro"));
-      if (btnAbrirCadastro) btnAbrirCadastro.addEventListener("click", () => abrirSubAba("cadastro"));
 
       semPrazoManual.addEventListener("change", () => {
         dataFinalManual.disabled = semPrazoManual.checked;
@@ -2330,24 +2492,50 @@ Gerência: GECONT"></textarea>
       if (drawerBtnArquivar) drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
       drawerBtnExcluir.addEventListener("click", () => remover(selectedDrawerId));
 
-      [busca, filtroArea, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao].filter(Boolean).forEach(el => {
+      [busca, filtroArea, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao, ordenacaoTabela].filter(Boolean).forEach(el => {
         const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input");
         el.addEventListener(evt, aplicarFiltrosEOrdenacao);
       });
 
       limiteVencendo.addEventListener("change", () => { salvarFiltros(); renderEverything(); });
+      if (ordenacaoTabela) {
+        ordenacaoTabela.addEventListener("change", () => {
+          ordenacao.value = ordenacaoTabela.value;
+          aplicarFiltrosEOrdenacao();
+        });
+      }
+      if (quickFilters) {
+        quickFilters.addEventListener("click", (e) => {
+          const btn = e.target.closest(".quick-filter-chip");
+          if (!btn) return;
+          const tipo = btn.dataset.quickType;
+          const valor = btn.dataset.quickValue || "";
+          if (tipo === "all") {
+            filtroArea.value = "";
+            filtroStatusPrazo.value = "";
+          } else if (tipo === "area") {
+            filtroStatusPrazo.value = "";
+            filtroArea.value = filtroArea.value === valor ? "" : valor;
+          } else if (tipo === "statusPrazo") {
+            filtroArea.value = "";
+            filtroStatusPrazo.value = filtroStatusPrazo.value === valor ? "" : valor;
+          }
+          aplicarFiltrosEOrdenacao();
+        });
+      }
       btnLimparFiltros.addEventListener("click", limparFiltros);
-      if (btnVoltarTodos) btnVoltarTodos.addEventListener("click", () => limparFiltros(false));
       if (btnExportarExcelTodos) btnExportarExcelTodos.addEventListener("click", () => exportarExcel(false));
       if (btnExportarExcelVisiveis) btnExportarExcelVisiveis.addEventListener("click", () => exportarExcel(true));
       if (btnExportarPDFTodos) btnExportarPDFTodos.addEventListener("click", () => exportarPDF(false));
       if (btnExportarPDFVisiveis) btnExportarPDFVisiveis.addEventListener("click", () => exportarPDF(true));
 
       const chipsRapidos = $("chipsRapidos");
-      if (chipsRapidos) chipsRapidos.addEventListener("click", (e) => {
-        const chip = e.target.closest(".chip");
-        if (chip) aplicarChip(chip);
-      });
+      if (chipsRapidos) {
+        chipsRapidos.addEventListener("click", (e) => {
+          const chip = e.target.closest(".chip");
+          if (chip) aplicarChip(chip);
+        });
+      }
 
       document.addEventListener("click", (e) => {
         const summary = e.target.closest(".summary-card");
@@ -2364,6 +2552,7 @@ Gerência: GECONT"></textarea>
         if (!id) return;
         if (btn) {
           const action = btn.dataset.action;
+          if (action === "expand") { e.stopPropagation(); toggleExpand(id); return; }
           if (action === "view") { e.stopPropagation(); abrirDrawer(id); return; }
           if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
           if (action === "delete") { e.stopPropagation(); remover(id); return; }
@@ -2373,6 +2562,7 @@ Gerência: GECONT"></textarea>
 
       document.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
         ordenacao.value = th.dataset.sort || "dataCadastroDesc";
+        if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value;
         salvarFiltros();
         aplicarFiltrosEOrdenacao();
       }));
@@ -2388,8 +2578,9 @@ Gerência: GECONT"></textarea>
 
     preencherSelects();
     restaurarFiltros();
+    if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value || "dataCadastroDesc";
+    inicializarTema();
     aplicarAbaSalva();
-    aplicarSubAbaSalva();
     registrarEventos();
 
     auth.onAuthStateChanged((user) => {
