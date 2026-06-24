@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<index.html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -1942,6 +1942,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             </div>
             <div class="card filters-card">
               <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
+              <div class="page-note" style="margin-bottom:12px;">A tabela consolidada abre por data e hora do preenchimento mais recente. O nome Superintendência de Gestão Integrada foi padronizado em todo o sistema, inclusive para registros antigos. O acompanhamento agora prioriza a data final e o prazo, que já indicam se o processo segue em curso e precisa de resposta. Use o resumo de filtros ativos, consultas salvas e a ordenação rápida para navegar mais rápido.</div>
               <div class="filters-wrap">
                 <div class="filters-top">
                   <div>
@@ -2427,6 +2428,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         busca: busca?.value || '',
         filtroArea: filtroArea?.value || '',
         filtroGerencia: filtroGerencia?.value || '',
+        filtroPrazo: filtroPrazo?.value || '',
         filtroStatusPrazo: filtroStatusPrazo?.value || '',
         filtroDataInicial: filtroDataInicial?.value || '',
         filtroDataFinal: filtroDataFinal?.value || '',
@@ -2446,6 +2448,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (busca) busca.value = preset.busca || '';
       if (filtroArea) filtroArea.value = preset.filtroArea || '';
       if (filtroGerencia) filtroGerencia.value = preset.filtroGerencia || '';
+      if (filtroPrazo) filtroPrazo.value = preset.filtroPrazo || '';
       if (filtroStatusPrazo) filtroStatusPrazo.value = preset.filtroStatusPrazo || '';
       if (filtroDataInicial) filtroDataInicial.value = preset.filtroDataInicial || '';
       if (filtroDataFinal) filtroDataFinal.value = preset.filtroDataFinal || '';
@@ -3351,6 +3354,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const hoje = itens.filter(i => i.statusPrazo === "Vence hoje").length;
       const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
       const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
+      const comPrazo = itens.filter(i => !i.semPrazo && !!i.dataFinal).length;
       const sgi = itens.filter(i => normalizarNomeInstitucional(i.area) === "Superintendência de Gestão Integrada").length;
       const concluidos = itens.filter(i => i.situacao === "Concluído").length;
 
@@ -3359,6 +3363,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       setTextIfExists(counterHoje, `Vence hoje: ${hoje}`);
       setTextIfExists(counterVencendo, `Vencendo: ${vencendo}`);
       setTextIfExists(counterSemPrazo, `Sem prazo: ${semPrazo}`);
+      setTextIfExists(counterComPrazo, `📅 Com prazo: ${comPrazo}`);
       setTextIfExists(counterSGI, `SGI: ${sgi}`);
       setTextIfExists(sumMostrando, itens.length);
       setTextIfExists(sumSGI, sgi);
@@ -3368,11 +3373,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       setTextIfExists(sumSemPrazo, semPrazo);
       setTextIfExists(sumConcluidos, concluidos);
       document.querySelectorAll(".quick-filter-chip").forEach(ch => ch.classList.remove("active"));
-      if (!filtroArea.value && !filtroStatusPrazo.value) contadorRegistros?.classList.add("active");
+      if (!filtroArea.value && !filtroStatusPrazo.value && !(filtroPrazo?.value)) contadorRegistros?.classList.add("active");
       if (filtroStatusPrazo.value === "Atrasado") counterAtrasados?.classList.add("active");
       if (filtroStatusPrazo.value === "Vence hoje") counterHoje?.classList.add("active");
       if (filtroStatusPrazo.value === "Vencendo") counterVencendo?.classList.add("active");
       if (filtroStatusPrazo.value === "Sem prazo") counterSemPrazo?.classList.add("active");
+      if (filtroPrazo?.value === "comPrazo") counterComPrazo?.classList.add("active");
       if (normalizarNomeInstitucional(filtroArea.value) === "Superintendência de Gestão Integrada") counterSGI?.classList.add("active");
       renderResumoFiltrosAtivos();
     }
