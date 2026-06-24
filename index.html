@@ -1,20 +1,9 @@
-<index.html>
-<html>
-<head>
-  <title>Contratos</title>
-</head>
-<body>
-
-<h2>📊 Lista de Contratos</h2>
-
-<ul id="lista"></ul>
-
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-console.log("✅ script iniciou");
+alert("script rodando ✅"); // ← TESTE
 
 const firebaseConfig = {
   apiKey: "AIzaSyAdNNEoLtJUHayFl7Idb7jGeTM5wJTnUGI",
@@ -26,44 +15,28 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 async function carregarContratos() {
-
-  console.log("🔎 buscando dados...");
+  alert("buscando dados"); // ← TESTE
 
   const lista = document.getElementById("lista");
 
-  try {
-    const snapshot = await getDocs(collection(db, "contratos"));
+  const snapshot = await getDocs(collection(db, "contratos"));
 
-    console.log("📦 total:", snapshot.size);
+  alert("dados carregados: " + snapshot.size); // ← TESTE
 
-    if (snapshot.empty) {
-      lista.innerHTML = "<li>⚠️ Nenhum contrato encontrado</li>";
-      return;
-    }
+  snapshot.forEach((doc) => {
+    const dados = doc.data();
 
-    snapshot.forEach((doc) => {
-      const dados = doc.data();
+    const li = document.createElement("li");
 
-      console.log("📄 contrato:", dados);
+    li.textContent =
+      "Contrato: " + dados.numero_contrato +
+      " | Empresa: " + dados.empresa +
+      " | Vencimento: " + dados.data_fim_vigencia;
 
-      const li = document.createElement("li");
-
-      li.textContent =
-        "Contrato: " + dados.numero_contrato +
-        " | Empresa: " + dados.empresa +
-        " | Vencimento: " + dados.data_fim_vigencia;
-
-      lista.appendChild(li);
-    });
-
-  } catch (erro) {
-    console.error("❌ erro:", erro);
-  }
+    lista.appendChild(li);
+  });
 }
 
 carregarContratos();
 
 </script>
-
-</body>
-</html>
