@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contratos</title>
+</head>
+<body>
+
+<h2>📊 Lista de Contratos</h2>
+
+<ul id="lista"></ul>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAdNNEoLtJUHayFl7Idb7jGeTM5wJTnUGI",
+  authDomain: "contratos-sgi.firebaseapp.com",
+  projectId: "contratos-sgi"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function carregarContratos() {
+  const lista = document.getElementById("lista");
+
+  const snapshot = await getDocs(collection(db, "contratos"));
+
+  snapshot.forEach((doc) => {
+    const dados = doc.data();
+
+    const li = document.createElement("li");
+
+    li.textContent =
+      "Contrato: " + dados.numero_contrato +
+      " | Empresa: " + dados.empresa +
+      " | Vencimento: " + dados.data_fim_vigencia;
+
+    lista.appendChild(li);
+  });
+}
+
+carregarContratos();
+</script>
+
+</body>
+</html>
