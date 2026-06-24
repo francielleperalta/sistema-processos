@@ -2471,7 +2471,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function classeAreaBadge(area) {
-      return area === "Superintendência de Gestão Integrada" ? "sgi" : "";
+      return area === "Superintendência de Gestão Integrada";
     }
     function extrairAnoDoIdentificador(valor) {
       const txt = String(valor || '');
@@ -3191,7 +3191,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (filtroStatusPrazo.value === "Vence hoje") counterHoje?.classList.add("active");
       if (filtroStatusPrazo.value === "Vencendo") counterVencendo?.classList.add("active");
       if (filtroStatusPrazo.value === "Sem prazo") counterSemPrazo?.classList.add("active");
-      if (filtroArea.value === "Superintendência de Gestão Integrada") counterSGI?.classList.add("active");
+      if (filtroArea.value === "Superintendência de Gestão Integrada").classList.add("active");
       renderResumoFiltrosAtivos();
     }
 
