@@ -1799,6 +1799,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             </div>
             <div class="card filters-card">
               <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
+              <div class="page-note" style="margin-bottom:12px;">A tabela consolidada abre por data e hora do preenchimento mais recente. Use o resumo de filtros ativos, consultas salvas e a ordenação rápida para navegar mais rápido.</div>
               <div class="filters-wrap">
                 <div class="filters-top">
                   <div>
@@ -1873,7 +1874,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               </div>
               <div id="activeFiltersBar" class="active-filters-bar hidden"></div>
               <div class="chips" id="chipsRapidos" style="margin-top:16px;">
-                <button type="button" class="chip" data-chip-type="area" data-chip-value="Superintendência de Gestão Integrada"</button>
+                <button type="button" class="chip" data-chip-type="area" data-chip-value="Superintendência de Gestão Integrada">SGI</button>
                 <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Atrasado">Atrasados</button>
                 <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vence hoje">Vence hoje</button>
                 <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vencendo">Vencendo</button>
@@ -1914,7 +1915,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Vence hoje" id="counterHoje">Vence hoje: 0</button>
               <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Vencendo" id="counterVencendo">Vencendo: 0</button>
               <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Sem prazo" id="counterSemPrazo">Sem prazo: 0</button>
-              <button type="button" class="quick-filter-chip" data-quick-type="area" data-quick-value="Superintendência de Gestão Integrada" id="counterSGI": 0</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="area" data-quick-value="Superintendência de Gestão Integrada" id="counterSGI">SGI: 0</button>
             </div>
             <div id="alertasPrazo" class="alertas hidden"></div>
             <div id="noResults" class="no-results hidden">
@@ -2471,7 +2472,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function classeAreaBadge(area) {
-      return area === "Superintendência de Gestão Integrada";
+      return area === "Superintendência de Gestão Integrada" ? "sgi" : "";
     }
     function extrairAnoDoIdentificador(valor) {
       const txt = String(valor || '');
@@ -3191,7 +3192,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (filtroStatusPrazo.value === "Vence hoje") counterHoje?.classList.add("active");
       if (filtroStatusPrazo.value === "Vencendo") counterVencendo?.classList.add("active");
       if (filtroStatusPrazo.value === "Sem prazo") counterSemPrazo?.classList.add("active");
-      if (filtroArea.value === "Superintendência de Gestão Integrada").classList.add("active");
+      if (filtroArea.value === "Superintendência de Gestão Integrada") counterSGI?.classList.add("active");
       renderResumoFiltrosAtivos();
     }
 
