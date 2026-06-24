@@ -3358,6 +3358,199 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       aplicarFiltrosVisuaisNosChips();
     }
 
+
+    function toggleExpand(id) {
+      if (expandedIds.has(id)) expandedIds.delete(id);
+      else expandedIds.add(id);
+      renderTable(filteredItems);
+    }
+    function aplicarChip(chip) {
+      const type = chip.dataset.chipType;
+      const value = chip.dataset.chipValue;
+      const alvo = type === 'statusPrazo' ? filtroStatusPrazo : (type === 'area' ? filtroArea : null);
+      if (!alvo) return;
+      alvo.value = alvo.value === value ? '' : value;
+      salvarFiltros();
+      renderEverything();
+    }
+    function aplicarResumoClicavel(card) {
+      const type = card.dataset.summaryType;
+      const value = card.dataset.summaryValue;
+      abrirAba('processos');
+      if (!type) return limparFiltros(false);
+      const alvo = type === 'statusPrazo' ? filtroStatusPrazo : filtroArea;
+      alvo.value = alvo.value === value ? '' : value;
+      salvarFiltros();
+      renderEverything();
+    }
+    function aplicarFiltrosEOrdenacao() {
+      salvarFiltros();
+      renderEverything();
+    }
+    function limparFiltros(mostrarToast=true) {
+      if (busca) busca.value = '';
+      if (filtroArea) filtroArea.value = '';
+      if (filtroGerencia) filtroGerencia.value = '';
+      if (filtroSituacao) filtroSituacao.value = '';
+      if (filtroPrazo) filtroPrazo.value = '';
+      if (filtroStatusPrazo) filtroStatusPrazo.value = '';
+      if (filtroDataInicial) filtroDataInicial.value = '';
+      if (filtroDataFinal) filtroDataFinal.value = '';
+      if (filtroAtrasados) filtroAtrasados.checked = false;
+      if (ordenacao) ordenacao.value = 'dataCadastroDesc';
+      if (ordenacaoTabela) ordenacaoTabela.value = 'dataCadastroDesc';
+      salvarFiltros();
+      renderEverything();
+      if (mostrarToast) toast('Filtros limpos.', 'info');
+    }
+    function limparFormulario() {
+      if (entrada) entrada.value = '';
+      if (gerenciaManual) gerenciaManual.value='';
+      if (situacaoManual) situacaoManual.value='Em análise';
+      if (dataFinalManual) dataFinalManual.value='';
+      if (semPrazoManual) semPrazoManual.checked=false;
+      if (dataFinalManual) dataFinalManual.disabled=false;
+      limparRascunhoCadastro();
+      renderPreviewCadastro();
+      mostrarMensagem('Formulário limpo.', 'info');
+    }
+    function abrirDrawer(id) {
+      selectedDrawerId = id;
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+      const statusPrazo = gerarBadgePrazo(item.dataFinal, item.semPrazo);
+      const unidade = item.gerencia || item.area || '-';
+      if (drawerSubtitulo) drawerSubtitulo.textContent = item.processo || '(sem número)';
+      if (drawerConteudo) drawerConteudo.innerHTML = `
+        <div class="drawer-hero">
+          <div class="drawer-hero-title">${escapeHtml(item.processo || '(sem número)')}</div>
+          <div class="drawer-hero-sub">
+            <span class="drawer-subpill">${escapeHtml(item.area || '-')}</span>
+            <span class="drawer-subpill">${escapeHtml(unidade)}</span>
+            ${statusPrazo}
+          </div>
+        </div>
+        <div class="drawer-section detail-group">
+          <div class="detail-group-title">Identificação</div>
+          <div class="detail-grid-2">
+            <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || '-')}</div></div>
+            <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || '-')}</span></div></div>
+            <div class="drawer-box" style="grid-column:1 / -1;"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || '-')}</div></div>
+          </div>
+        </div>
+        <div class="drawer-section detail-group">
+          <div class="detail-group-title">Prazo</div>
+          <div class="detail-grid-2">
+            <div class="drawer-box"><div class="label">Data/hora do preenchimento</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm) !== '-' ? formatarDataHora(item.criadoEm) : (item.dataCadastro || '-'))}</div></div>
+            <div class="drawer-box"><div class="label">Data final</div><div class="value">${escapeHtml(item.semPrazo ? 'Sem prazo' : formatarDataISOparaBR(item.dataFinal))}</div></div>
+            <div class="drawer-box"><div class="label">Status do prazo</div><div class="value">${statusPrazo}</div></div>
+            <div class="drawer-box"><div class="label">Dias restantes</div><div class="value">${escapeHtml(item.semPrazo ? 'Sem prazo' : textoDiasRestantes(calcDiasRestantes(item.dataFinal)))}</div></div>
+          </div>
+        </div>
+        <div class="drawer-section detail-group">
+          <div class="detail-group-title">Auditoria</div>
+          <div class="detail-grid-2">
+            <div class="drawer-box"><div class="label">Criado por</div><div class="value">${escapeHtml(item.criadoPor || '-')}</div></div>
+            <div class="drawer-box"><div class="label">Criado em</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
+            <div class="drawer-box"><div class="label">Última alteração por</div><div class="value">${escapeHtml(item.alteradoPor || '-')}</div></div>
+            <div class="drawer-box"><div class="label">Última alteração em</div><div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
+          </div>
+        </div>`;
+      const hist = Array.isArray(item.historico) ? [...item.historico].sort((a,b) => String(b.em || '').localeCompare(String(a.em || ''))).slice(0, 8) : [];
+      if (drawerHistorico) drawerHistorico.innerHTML = hist.length ? hist.map(h => `
+        <div class="history-item">
+          <div class="ht">${escapeHtml(formatarDataHora(h.em))} — ${escapeHtml(h.por || '-')}</div>
+          <div><strong>${escapeHtml(h.tipo || 'Evento')}</strong></div>
+          <div class="muted" style="margin-top:4px;">${escapeHtml(h.detalhes || '-')}</div>
+        </div>`).join('') : '<div class="muted">Sem histórico registrado.</div>';
+      drawerOverlay?.classList.remove('hidden');
+      drawer?.classList.remove('hidden');
+    }
+    function fecharDrawer() {
+      drawerOverlay?.classList.add('hidden');
+      drawer?.classList.add('hidden');
+      selectedDrawerId = null;
+    }
+    function atualizarDrawerSeAberto() {
+      if (!selectedDrawerId) return;
+      const item = allItems.find(i => i.id === selectedDrawerId);
+      if (!item) { fecharDrawer(); return; }
+      abrirDrawer(selectedDrawerId);
+    }
+    function abrirModalEdicao(id) {
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+      editingId = id;
+      if (modalSubtitulo) modalSubtitulo.textContent = item.processo || '(sem número)';
+      if (editProcesso) editProcesso.value = item.processo || '';
+      if (editInteressado) editInteressado.value = item.interessado || '';
+      if (editAssunto) editAssunto.value = item.assunto || '';
+      if (editSituacao) editSituacao.value = item.situacao || 'Em análise';
+      if (editGerencia) editGerencia.value = item.gerencia || '';
+      if (editDataFinal) editDataFinal.value = item.dataFinal || '';
+      if (editSemPrazo) editSemPrazo.checked = !!item.semPrazo;
+      if (editDataFinal) editDataFinal.disabled = !!item.semPrazo;
+      modalOverlay?.classList.remove('hidden');
+    }
+    function fecharModal() {
+      modalOverlay?.classList.add('hidden');
+      editingId = null;
+    }
+    function obterDadosExportacao(apenasVisiveis=false) {
+      const origem = apenasVisiveis ? filteredItems : allItems;
+      return origem.map(i => ({...i, diasRestantes: i.semPrazo ? null : calcDiasRestantes(i.dataFinal), statusPrazo: obterStatusPrazo(i.dataFinal, i.semPrazo)}));
+    }
+    function obterHTMLTabelaExportacao(dados) {
+      const linhas = dados.map(d => `
+        <tr>
+          <td>${escapeHtml(d.processo)}</td>
+          <td>${escapeHtml(d.interessado)}</td>
+          <td>${escapeHtml(d.assunto)}</td>
+          <td>${escapeHtml(formatarDataHora(d.criadoEm) !== '-' ? formatarDataHora(d.criadoEm) : d.dataCadastro)}</td>
+          <td>${escapeHtml(d.area || '-')}</td>
+          <td>${escapeHtml(d.gerencia || '')}</td>
+          <td>${escapeHtml(d.semPrazo ? 'Sem prazo' : formatarDataISOparaBR(d.dataFinal))}</td>
+          <td>${escapeHtml(d.statusPrazo)}</td>
+          <td>${escapeHtml(d.semPrazo ? 'Sem prazo' : textoDiasRestantes(d.diasRestantes))}</td>
+          <td>${escapeHtml(d.alteradoPor || '-')} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
+        </tr>`).join('');
+      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data/hora do preenchimento</th><th>Área</th><th>Gerência/Seção</th><th>Data final</th><th>Status do prazo</th><th>Dias restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
+    }
+    function exportarExcel(apenasVisiveis=false) {
+      const dados = obterDadosExportacao(apenasVisiveis);
+      if (!dados.length) return toast('Não há registros para exportar.', 'warning');
+      const ctx = contextoExportacao(apenasVisiveis, dados.length);
+      const htmlRel = `<html><head><meta charset="UTF-8"></head><body><h2>Relatório de Processos</h2><div><strong>Escopo:</strong> ${ctx.escopo}</div><div><strong>Exportado em:</strong> ${ctx.em}</div><div><strong>Usuário:</strong> ${escapeHtml(ctx.usuario)}</div><div><strong>Filtros aplicados:</strong> ${escapeHtml(ctx.filtros)}</div><div><strong>Total exportado:</strong> ${ctx.total}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`;
+      const blob = new Blob([htmlRel], { type: 'application/vnd.ms-excel' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = apenasVisiveis ? 'processos_visiveis.xls' : 'processos_todos.xls';
+      link.click();
+      URL.revokeObjectURL(link.href);
+      toast('Exportação Excel concluída.', 'success');
+    }
+    function exportarPDF(apenasVisiveis=false) {
+      const dados = obterDadosExportacao(apenasVisiveis);
+      if (!dados.length) return toast('Não há registros para exportar.', 'warning');
+      const ctx = contextoExportacao(apenasVisiveis, dados.length);
+      const janela = window.open('', '_blank');
+      janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } .meta { margin-bottom: 12px; font-size: 12px; color:#444; display:grid; gap:4px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }</style></head><body><h2>Relatório de Processos</h2><div class="sub">${ctx.escopo}</div><div class="meta"><div><strong>Exportado em:</strong> ${ctx.em}</div><div><strong>Usuário:</strong> ${escapeHtml(ctx.usuario)}</div><div><strong>Filtros aplicados:</strong> ${escapeHtml(ctx.filtros)}</div><div><strong>Total exportado:</strong> ${ctx.total}</div></div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
+      janela.document.close();
+      janela.focus();
+      janela.print();
+      toast('Exportação para impressão/PDF iniciada.', 'success');
+    }
+    async function solicitarPermissaoNotificacao() {
+      if (!("Notification" in window)) return alert("Seu navegador não suporta notificações.");
+      const status = await Notification.requestPermission();
+      if (status === 'granted') {
+        toast('Avisos do navegador ativados.', 'success');
+        renderAlertas(filteredItems, true);
+      } else {
+        toast('Permissão de notificação não concedida.', 'warning');
+      }
+    }
+
     function registrarEventos() {
       if (btnTema) btnTema.addEventListener("click", () => aplicarTema(!document.body.classList.contains("dark-mode")));
       btnEntrar.addEventListener("click", login);
