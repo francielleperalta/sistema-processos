@@ -1688,6 +1688,146 @@
     .modal .grid-3 { grid-template-columns: 1fr 1fr; }
     .history-list { max-height: 240px; overflow: auto; }
     @media (max-width: 900px) { .modal .grid-3 { grid-template-columns: 1fr; } }
+
+    /* ===== Modo patricinha + filtros/com prazo + barra horizontal fixa ===== */
+    .quick-filter-chip-com-prazo {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .table-scroll-proxy {
+      position: sticky;
+      bottom: 8px;
+      z-index: 8;
+      overflow-x: auto;
+      overflow-y: hidden;
+      height: 18px;
+      border: 1px solid #c9d3d8;
+      border-radius: 999px;
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 4px 12px rgba(16,24,40,.08);
+      margin: 8px 0 10px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+    .table-scroll-proxy::-webkit-scrollbar { height: 14px; }
+    .table-scroll-proxy::-webkit-scrollbar-thumb {
+      background: #97a6ae;
+      border-radius: 999px;
+      border: 3px solid rgba(255,255,255,.1);
+    }
+    .table-scroll-proxy-inner { height: 1px; }
+    #tableWrap { margin-top: 0; }
+    @media (max-width: 760px) {
+      .table-scroll-proxy { display: none !important; }
+    }
+
+    body.patricinha-mode {
+      background: #fff0f7;
+      color: #6f2e57;
+    }
+    body.patricinha-mode header {
+      background: #ffd7ea;
+      color: #7e315f;
+      border-bottom-color: #f4b4d4;
+    }
+    body.patricinha-mode .card,
+    body.patricinha-mode .box-soft,
+    body.patricinha-mode .table-wrap,
+    body.patricinha-mode table,
+    body.patricinha-mode .drawer,
+    body.patricinha-mode .modal,
+    body.patricinha-mode .toast,
+    body.patricinha-mode .detail-mini,
+    body.patricinha-mode .drawer-box,
+    body.patricinha-mode .metric,
+    body.patricinha-mode .user-box,
+    body.patricinha-mode .counter-pill,
+    body.patricinha-mode .table-toolbar,
+    body.patricinha-mode .quick-filter-chip,
+    body.patricinha-mode .empty-state,
+    body.patricinha-mode input,
+    body.patricinha-mode textarea,
+    body.patricinha-mode select,
+    body.patricinha-mode .outline,
+    body.patricinha-mode .light,
+    body.patricinha-mode .tab-btn,
+    body.patricinha-mode .search-input-wrap,
+    body.patricinha-mode .preview-card,
+    body.patricinha-mode .active-filters-bar,
+    body.patricinha-mode .active-filter-pill,
+    body.patricinha-mode .history-item,
+    body.patricinha-mode .table-scroll-proxy {
+      background: #fff8fc !important;
+      color: #6f2e57 !important;
+      border-color: #f1bfd8 !important;
+    }
+    body.patricinha-mode .hero,
+    body.patricinha-mode .filters-card,
+    body.patricinha-mode .chart-card {
+      background: linear-gradient(180deg, #fff7fb 0%, #ffe7f2 100%) !important;
+      border-color: #f1bfd8 !important;
+    }
+    body.patricinha-mode .muted,
+    body.patricinha-mode .page-note,
+    body.patricinha-mode .drawer-box .label,
+    body.patricinha-mode .detail-mini .tt,
+    body.patricinha-mode .table-toolbar .title small,
+    body.patricinha-mode .table-toolbar label,
+    body.patricinha-mode .muted-mini,
+    body.patricinha-mode .empty-state p,
+    body.patricinha-mode .history-item .ht {
+      color: #9a5f82 !important;
+    }
+    body.patricinha-mode button {
+      background: linear-gradient(180deg, #f59bc5 0%, #e779af 100%);
+      color: #fffafb;
+      box-shadow: 0 6px 14px rgba(231, 121, 175, 0.22);
+    }
+    body.patricinha-mode .secondary { background: linear-gradient(180deg, #e89ac0 0%, #d97eb0 100%) !important; }
+    body.patricinha-mode .danger { background: linear-gradient(180deg, #ee90b4 0%, #db6b96 100%) !important; }
+    body.patricinha-mode .outline,
+    body.patricinha-mode .light,
+    body.patricinha-mode .tab-btn,
+    body.patricinha-mode .chip,
+    body.patricinha-mode .quick-filter-chip {
+      color: #7d345f !important;
+      background: linear-gradient(180deg, #fff8fc 0%, #ffeef6 100%) !important;
+      border-color: #efbfd8 !important;
+      box-shadow: none;
+    }
+    body.patricinha-mode .tab-btn.active,
+    body.patricinha-mode .chip.active,
+    body.patricinha-mode .quick-filter-chip.active {
+      color: #fffafb !important;
+      background: linear-gradient(180deg, #ec89ba 0%, #d96fa6 100%) !important;
+      border-color: transparent !important;
+    }
+    body.patricinha-mode thead th {
+      background: linear-gradient(180deg, #ec89ba 0%, #d96fa6 100%) !important;
+      color: #fffafb !important;
+      border-bottom-color: #ebb4cf !important;
+    }
+    body.patricinha-mode tbody td {
+      color: #6f2e57 !important;
+      border-bottom-color: #f6d5e6 !important;
+      background: transparent !important;
+    }
+    body.patricinha-mode tbody tr.main-row:nth-of-type(4n+1) td { background: rgba(255, 214, 235, .22) !important; }
+    body.patricinha-mode tbody tr.main-row:hover td { background: #ffe6f1 !important; }
+    body.patricinha-mode #tabela tbody td:nth-child(1),
+    body.patricinha-mode #tabela tbody td:nth-child(2),
+    body.patricinha-mode #tabela tbody td:last-child {
+      background: linear-gradient(180deg, rgba(255,248,252,.98) 0%, rgba(255,238,246,.98) 100%) !important;
+    }
+    body.patricinha-mode .badge-no-prazo { background: #ffe4ef !important; color: #a54b79 !important; border-color: #f5bfd8 !important; }
+    body.patricinha-mode .badge-vencendo { background: #ffe8f2 !important; color: #b05482 !important; border-color: #f2bfd8 !important; }
+    body.patricinha-mode .badge-vence-hoje { background: #ffdce9 !important; color: #b04d7a !important; border-color: #efaccb !important; }
+    body.patricinha-mode .badge-atrasado { background: #ffd7e7 !important; color: #ad3f70 !important; border-color: #ed9bbd !important; }
+    body.patricinha-mode .badge-sem-prazo { background: #fff0f7 !important; color: #8f5171 !important; border-color: #f2c6db !important; }
+    body.patricinha-mode .badge-area,
+    body.patricinha-mode .drawer-subpill { color: #8a456f !important; border-color: #efbfd8 !important; background: rgba(255,255,255,.55) !important; }
+    body.patricinha-mode .table-scroll-proxy::-webkit-scrollbar-thumb { background: #e37aae; }
 </style>
 </head>
 <body>
@@ -1926,6 +2066,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Vence hoje" id="counterHoje">Vence hoje: 0</button>
               <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Vencendo" id="counterVencendo">Vencendo: 0</button>
               <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Sem prazo" id="counterSemPrazo">Sem prazo: 0</button>
+              <button type="button" class="quick-filter-chip quick-filter-chip-com-prazo" data-quick-type="prazo" data-quick-value="comPrazo" id="counterComPrazo">📅 Com prazo: 0</button>
               <button type="button" class="quick-filter-chip" data-quick-type="area" data-quick-value="Superintendência de Gestão Integrada" id="counterSGI">SGI: 0</button>
             </div>
             <div id="alertasPrazo" class="alertas hidden"></div>
@@ -1960,7 +2101,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                 </div>
               </div>
             </div>
-            <div class="table-wrap">
+            <div id="tableScrollProxy" class="table-scroll-proxy hidden"><div id="tableScrollProxyInner" class="table-scroll-proxy-inner"></div></div>
+            <div id="tableWrap" class="table-wrap">
               <table id="tabela" class="hidden">
                 <thead>
                   <tr>
@@ -2196,6 +2338,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (busca?.value) itens.push(['Busca', busca.value]);
       if (filtroArea?.value) itens.push(['Área', filtroArea.value]);
       if (filtroGerencia?.value) itens.push(['Gerência', filtroGerencia.value]);
+      if (filtroPrazo?.value) itens.push(['Prazo definido', filtroPrazo.value === "comPrazo" ? "Com prazo" : "Sem prazo"]);
       if (filtroStatusPrazo?.value) itens.push(['Exige resposta', filtroStatusPrazo.value]);
       if (filtroDataInicial?.value || filtroDataFinal?.value) {
         const de = filtroDataInicial?.value ? formatarDataISOparaBR(filtroDataInicial.value) : 'início';
@@ -2343,8 +2486,37 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       });
       setTimeout(() => { if (div.isConnected) div.remove(); ultimoRegistroExcluido = null; }, 10000);
     }
-    function aplicarTema(modoEscuro) { document.body.classList.toggle("dark-mode", !!modoEscuro); if (btnTema) btnTema.textContent = modoEscuro ? "☀️ Modo claro" : "🌙 Modo escuro"; localStorage.setItem("sgp_theme_dark", modoEscuro ? "1" : "0"); if (!appBox?.classList.contains("hidden")) { if (filteredItems?.length) renderDashboard(filteredItems); renderTable(filteredItems || []); } }
-    function inicializarTema() { aplicarTema(localStorage.getItem("sgp_theme_dark") === "1"); }
+    function obterTemaAtual() {
+      if (document.body.classList.contains("dark-mode")) return "dark";
+      if (document.body.classList.contains("patricinha-mode")) return "patricinha";
+      return "light";
+    }
+    function aplicarTema(modo = "light") {
+      document.body.classList.remove("dark-mode", "patricinha-mode");
+      if (modo === "dark") document.body.classList.add("dark-mode");
+      if (modo === "patricinha") document.body.classList.add("patricinha-mode");
+      const rotulos = { light: "☀️ Claro", dark: "🌙 Escuro", patricinha: "🎀 Patricinha" };
+      if (btnTema) btnTema.textContent = `Tema: ${rotulos[modo]}`;
+      localStorage.setItem("sgp_theme_mode", modo);
+      // mantém compatibilidade com preferências antigas
+      localStorage.setItem("sgp_theme_dark", modo === "dark" ? "1" : "0");
+      if (!appBox?.classList.contains("hidden")) {
+        if (filteredItems?.length) renderDashboard(filteredItems);
+        renderTable(filteredItems || []);
+        sincronizarScrollTabela();
+      }
+    }
+    function alternarTema() {
+      const ordem = ["light", "dark", "patricinha"];
+      const atual = obterTemaAtual();
+      const idx = ordem.indexOf(atual);
+      aplicarTema(ordem[(idx + 1) % ordem.length]);
+    }
+    function inicializarTema() {
+      const salvo = localStorage.getItem("sgp_theme_mode");
+      if (salvo) return aplicarTema(salvo);
+      return aplicarTema(localStorage.getItem("sgp_theme_dark") === "1" ? "dark" : "light");
+    }
     const loginBox = $("loginBox");
     const appBox = $("appBox");
     const emailInput = $("email");
@@ -2401,6 +2573,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const btnExportarPDFVisiveis = $("btnExportarPDFVisiveis");
     const alertasPrazo = $("alertasPrazo");
     const tabela = $("tabela");
+    const tableWrap = $("tableWrap");
+    const tableScrollProxy = $("tableScrollProxy");
+    const tableScrollProxyInner = $("tableScrollProxyInner");
     const tbodyProcessos = $("tbodyProcessos");
     const noResults = $("noResults");
     const contadorRegistros = $("contadorRegistros");
@@ -2408,6 +2583,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const counterHoje = $("counterHoje");
     const counterVencendo = $("counterVencendo");
     const counterSemPrazo = $("counterSemPrazo");
+    const counterComPrazo = $("counterComPrazo");
     const counterSGI = $("counterSGI");
     const sumMostrando = $("sumMostrando");
     const sumSGI = $("sumSGI");
@@ -3330,6 +3506,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       atualizarCardsAtivos();
       atualizarDrawerSeAberto();
       aplicarFiltrosVisuaisNosChips();
+      registrarSincroniaScrollTabela();
+      sincronizarScrollTabela();
     }
 
 
@@ -3510,8 +3688,37 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       }
     }
 
+
+    let syncingTableScroll = false;
+    function sincronizarScrollTabela() {
+      if (!tableWrap || !tableScrollProxy || !tableScrollProxyInner) return;
+      const precisaScroll = tableWrap.scrollWidth > tableWrap.clientWidth + 2;
+      tableScrollProxy.classList.toggle('hidden', !precisaScroll);
+      tableScrollProxyInner.style.width = `${tableWrap.scrollWidth}px`;
+      if (!syncingTableScroll) tableScrollProxy.scrollLeft = tableWrap.scrollLeft;
+    }
+    function registrarSincroniaScrollTabela() {
+      if (!tableWrap || !tableScrollProxy || tableWrap.dataset.scrollSyncReady === '1') return;
+      tableWrap.dataset.scrollSyncReady = '1';
+      const syncFromWrap = () => {
+        if (syncingTableScroll) return;
+        syncingTableScroll = true;
+        tableScrollProxy.scrollLeft = tableWrap.scrollLeft;
+        requestAnimationFrame(() => { syncingTableScroll = false; });
+      };
+      const syncFromProxy = () => {
+        if (syncingTableScroll) return;
+        syncingTableScroll = true;
+        tableWrap.scrollLeft = tableScrollProxy.scrollLeft;
+        requestAnimationFrame(() => { syncingTableScroll = false; });
+      };
+      tableWrap.addEventListener('scroll', syncFromWrap, { passive: true });
+      tableScrollProxy.addEventListener('scroll', syncFromProxy, { passive: true });
+      window.addEventListener('resize', sincronizarScrollTabela);
+    }
+
     function registrarEventos() {
-      if (btnTema) btnTema.addEventListener("click", () => aplicarTema(!document.body.classList.contains("dark-mode")));
+      if (btnTema) btnTema.addEventListener("click", alternarTema);
       btnEntrar.addEventListener("click", login);
       btnCadastrar.addEventListener("click", cadastrar);
       btnResetar.addEventListener("click", resetarSenha);
@@ -3570,12 +3777,19 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           if (tipo === "all") {
             filtroArea.value = "";
             filtroStatusPrazo.value = "";
+            if (filtroPrazo) filtroPrazo.value = "";
           } else if (tipo === "area") {
+            if (filtroPrazo) filtroPrazo.value = "";
             filtroStatusPrazo.value = "";
             filtroArea.value = filtroArea.value === valor ? "" : valor;
           } else if (tipo === "statusPrazo") {
+            if (filtroPrazo) filtroPrazo.value = "";
             filtroArea.value = "";
             filtroStatusPrazo.value = filtroStatusPrazo.value === valor ? "" : valor;
+          } else if (tipo === "prazo") {
+            filtroArea.value = "";
+            filtroStatusPrazo.value = "";
+            if (filtroPrazo) filtroPrazo.value = filtroPrazo.value === valor ? "" : valor;
           }
           aplicarFiltrosEOrdenacao();
         });
