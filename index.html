@@ -1680,6 +1680,14 @@
         flex-wrap: nowrap !important;
       }
     }
+
+    /* Ajustes finais: foco em data final e resposta */
+    .badge-situacao { display: none !important; }
+    .drawer-box .value .badge.status-strong { min-width: 0; width: auto; }
+    .drawer-hero-sub .badge { margin-left: auto; }
+    .modal .grid-3 { grid-template-columns: 1fr 1fr; }
+    .history-list { max-height: 240px; overflow: auto; }
+    @media (max-width: 900px) { .modal .grid-3 { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -1759,10 +1767,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                   <select id="gerenciaManual"><option value="">Selecione...</option></select>
                 </div>
                 <div>
-                  <label for="situacaoManual">Situação</label>
-                  <select id="situacaoManual"></select>
-                </div>
-                <div>
                   <label for="dataFinalManual">Data final</label>
                   <input type="date" id="dataFinalManual" />
                 </div>
@@ -1779,14 +1783,13 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               </div>
               <label class="checkbox-inline" for="semPrazoManual"><input type="checkbox" id="semPrazoManual" /> <span>Processo sem prazo definido</span></label>
               <div class="preview-card" id="previewCadastro">
-                <div class="section-mini-title">Pré-visualização da leitura automática</div>
+                <div class="section-mini-title">Pré-visualização da leitura automática (foco em prazo)</div>
                 <div class="preview-grid">
                   <div><span>Processo</span><strong id="previewProcesso">-</strong></div>
                   <div><span>Interessado</span><strong id="previewInteressado">-</strong></div>
                   <div><span>Assunto</span><strong id="previewAssunto">-</strong></div>
                   <div><span>Prazo</span><strong id="previewPrazo">-</strong></div>
                   <div><span>Gerência/Área</span><strong id="previewGerencia">-</strong></div>
-                  <div><span>Situação</span><strong id="previewSituacao">-</strong></div>
                 </div>
               </div>
               <div class="btn-row" style="margin-top:16px;">
@@ -1799,6 +1802,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             </div>
             <div class="card filters-card">
               <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
+              <div class="page-note" style="margin-bottom:12px;">A tabela consolidada abre por data e hora do preenchimento mais recente. O nome Superintendência de Gestão Integrada foi padronizado em todo o sistema, inclusive para registros antigos. O acompanhamento agora prioriza a data final e o prazo, que já indicam se o processo segue em curso e precisa de resposta. Use o resumo de filtros ativos, consultas salvas e a ordenação rápida para navegar mais rápido.</div>
               <div class="filters-wrap">
                 <div class="filters-top">
                   <div>
@@ -1818,7 +1822,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                     <select id="filtroGerencia"><option value="">Todas</option></select>
                   </div>
                   <div>
-                    <label for="filtroStatusPrazo">Prazo</label>
+                    <label for="filtroStatusPrazo">Exige resposta</label>
                     <select id="filtroStatusPrazo">
                       <option value="">Todos</option>
                       <option value="No prazo">No prazo</option>
@@ -1897,9 +1901,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               </div>
               <div class="metric summary-card amber kpi-vencendo" data-summary-type="statusPrazo" data-summary-value="Vencendo">
                 <div class="icon icon-deadline" aria-hidden="true"></div>
-                <div class="label">Vencendo</div>
+                <div class="label">Exige resposta</div>
                 <div class="value" id="sumVencendo">0</div>
-                <small>prioridade</small>
+                <small>com base na data final</small>
               </div>
               <div class="metric summary-card red kpi-atrasado" data-summary-type="statusPrazo" data-summary-value="Atrasado">
                 <div class="icon icon-alert" aria-hidden="true"></div>
@@ -1959,7 +1963,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                     <th class="sortable" data-sort="areaAsc">Área <small>⇅</small></th>
                     <th class="sortable" data-sort="gerenciaAsc">Gerência/Seção <small>⇅</small></th>
                     <th class="sortable" data-sort="dataFinalAsc">Data final <small>⇅</small></th>
-                    <th>Status do prazo</th>
+                    <th>Exige resposta</th>
                     <th class="sortable" data-sort="diasRestantesAsc">Dias restantes <small>⇅</small></th>
                     <th>Última alteração</th>
                     <th>Ações</th>
@@ -1975,8 +1979,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         <div class="dashboard-grid">
           <div class="charts-stack">
             <div class="card chart-card">
-              <h4>Visão geral de prazos</h4>
-              <div class="muted">Resumo dos processos visíveis por status de prazo.</div>
+              <h4>Prioridade de resposta</h4>
+              <div class="muted">Resumo dos processos visíveis por prioridade de resposta com base na data final.</div>
               <div class="chart-box"><canvas id="graficoPrazo"></canvas></div>
             </div>
             <div class="card chart-card">
@@ -1992,16 +1996,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               <div class="metric-grid" style="grid-template-columns:1fr 1fr; margin-top:12px;">
                 <div class="metric"><div class="label">Total</div><div class="value" id="kpiTotal">0</div></div>
                 <div class="metric slate"><div class="label">Sem prazo</div><div class="value" id="kpiSemPrazo">0</div></div>
-                <div class="metric amber"><div class="label">Vencendo</div><div class="value" id="kpiVencendo">0</div></div>
+                <div class="metric amber"><div class="label">Exige resposta</div><div class="value" id="kpiVencendo">0</div></div>
                 <div class="metric red"><div class="label">Atrasados</div><div class="value" id="kpiAtrasados">0</div></div>
-                <div class="metric green"><div class="label">Concluídos</div><div class="value" id="kpiConcluidos">0</div></div>
-                <div class="metric"><div class="label">Pendentes</div><div class="value" id="kpiPendentes">0</div></div>
               </div>
-            </div>
-
-            <div class="card chart-card">
-              <h4>Processos por situação</h4>
-              <div class="chart-box"><canvas id="graficoSituacao"></canvas></div>
             </div>
 
             <div class="card chart-card">
@@ -2040,7 +2037,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       <div class="modal-header">
         <div>
           <h3 style="margin-bottom:6px;">Editar processo</h3>
-          <div class="muted" id="modalSubtitulo">Atualize os dados do processo</div>
+          <div class="muted" id="modalSubtitulo">Atualize os dados essenciais. O acompanhamento principal considera a data final e o prazo.</div>
         </div>
         <button type="button" class="modal-close" id="btnFecharModal">Fechar</button>
       </div>
@@ -2049,8 +2046,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         <div><label for="editInteressado">Interessado</label><input type="text" id="editInteressado" /></div>
       </div>
       <div><label for="editAssunto">Assunto</label><textarea id="editAssunto" style="min-height:100px;"></textarea></div>
-      <div class="grid-3">
-        <div><label for="editSituacao">Situação</label><select id="editSituacao"></select></div>
+      <div class="grid-3" style="margin-top:6px;">
         <div><label for="editGerencia">Gerência/Seção</label><select id="editGerencia"><option value="">Selecione...</option></select></div>
         <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
       </div>
@@ -2151,7 +2147,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
     let allItems = [];
     let filteredItems = [];
-    let chartSituacao = null;
     let chartPrazo = null;
     let chartSGI = null;
     let chartEntradas = null;
@@ -2193,7 +2188,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (busca?.value) itens.push(['Busca', busca.value]);
       if (filtroArea?.value) itens.push(['Área', filtroArea.value]);
       if (filtroGerencia?.value) itens.push(['Gerência', filtroGerencia.value]);
-      if (filtroStatusPrazo?.value) itens.push(['Prazo', filtroStatusPrazo.value]);
+      if (filtroStatusPrazo?.value) itens.push(['Exige resposta', filtroStatusPrazo.value]);
       if (filtroDataInicial?.value || filtroDataFinal?.value) {
         const de = filtroDataInicial?.value ? formatarDataISOparaBR(filtroDataInicial.value) : 'início';
         const ate = filtroDataFinal?.value ? formatarDataISOparaBR(filtroDataFinal.value) : 'fim';
@@ -2227,8 +2222,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]) || '-';
       const dataFinal = semPrazoManual?.checked ? '' : (dataFinalManual?.value || extrairDataFinalOuPrazo(texto));
       const gerencia = resolverGerenciaPorTexto((gerenciaManual?.value || extrairGerencia(texto))) || '-';
-      const situacao = (!dataFinal || semPrazoManual?.checked) ? 'Concluído' : (situacaoManual?.value || 'Em análise');
-      return { processo, interessado, assunto, prazo: dataFinal ? formatarDataISOparaBR(dataFinal) : 'Sem prazo', gerencia, situacao };
+      return { processo, interessado, assunto, prazo: dataFinal ? formatarDataISOparaBR(dataFinal) : 'Sem prazo', gerencia };
     }
     function renderPreviewCadastro() {
       const p = obterPreviewCadastro();
@@ -2237,14 +2231,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       setTextIfExists(previewAssunto, p.assunto);
       setTextIfExists(previewPrazo, p.prazo);
       setTextIfExists(previewGerencia, p.gerencia);
-      setTextIfExists(previewSituacao, p.situacao);
       if (btnLimparBusca) btnLimparBusca.classList.toggle('hidden', !(busca?.value || '').trim());
     }
     function salvarRascunhoCadastro() {
       localStorage.setItem('sgp_rascunho_cadastro_v1', JSON.stringify({
         entrada: entrada?.value || '',
         gerenciaManual: gerenciaManual?.value || '',
-        situacaoManual: situacaoManual?.value || 'Em análise',
         dataFinalManual: dataFinalManual?.value || '',
         semPrazoManual: !!semPrazoManual?.checked
       }));
@@ -2256,7 +2248,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         const r = JSON.parse(bruto);
         if (entrada && !entrada.value) entrada.value = r.entrada || '';
         if (gerenciaManual && !gerenciaManual.value) gerenciaManual.value = r.gerenciaManual || '';
-        if (situacaoManual && !situacaoManual.value) situacaoManual.value = r.situacaoManual || 'Em análise';
         if (dataFinalManual && !dataFinalManual.value) dataFinalManual.value = r.dataFinalManual || '';
         if (semPrazoManual) semPrazoManual.checked = !!r.semPrazoManual;
         if (dataFinalManual) dataFinalManual.disabled = !!r.semPrazoManual;
@@ -2395,7 +2386,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const previewAssunto = $("previewAssunto");
     const previewPrazo = $("previewPrazo");
     const previewGerencia = $("previewGerencia");
-    const previewSituacao = $("previewSituacao");
     const btnLimparFiltros = $("btnLimparFiltros");
     const btnExportarExcelTodos = $("btnExportarExcelTodos");
     const btnExportarExcelVisiveis = $("btnExportarExcelVisiveis");
@@ -2727,9 +2717,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       filtroGerencia.innerHTML = '<option value="">Todas</option>';
       editGerencia.innerHTML = '<option value="">Selecione...</option>';
       filtroArea.innerHTML = '<option value="">Todas</option>';
-      situacaoManual.innerHTML = '';
+      if (situacaoManual) situacaoManual.innerHTML = '';
       if (filtroSituacao) filtroSituacao.innerHTML = '<option value="">Todas</option>';
-      editSituacao.innerHTML = '';
+      if (editSituacao) editSituacao.innerHTML = '';
 
       AREAS.forEach(area => {
         const opArea = document.createElement("option");
@@ -2775,8 +2765,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         });
       });
 
-      situacaoManual.value = "Em análise";
-      editSituacao.value = "Em análise";
+      if (situacaoManual) situacaoManual.value = "Em análise";
+      if (editSituacao) editSituacao.value = "Em análise";
     }
 
     function salvarFiltros() {
@@ -2961,7 +2951,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]);
         const dataFinal = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
         const gerencia = normalizarNomeInstitucional(resolverGerenciaPorTexto(gerenciaManual.value || extrairGerencia(texto)));
-        const situacao = (!dataFinal || semPrazoManual.checked) ? "Concluído" : (situacaoManual.value || "Em análise");
+        const situacao = (!dataFinal || semPrazoManual.checked) ? "Concluído" : "Em análise";
         const area = normalizarNomeInstitucional(obterAreaPorUnidade(gerencia));
 
         if (!processo && !interessado && !assunto && !texto) return mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
@@ -3013,7 +3003,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         const processoNormalizado = normalizarProcesso(editProcesso.value);
         const gerenciaResolvida = normalizarNomeInstitucional(resolverGerenciaPorTexto(editGerencia.value));
         const dataFinalEdicao = editSemPrazo.checked ? "" : (editDataFinal.value || "");
-        const situacaoEdicao = (!dataFinalEdicao || editSemPrazo.checked) ? "Concluído" : editSituacao.value;
+        const situacaoEdicao = (!dataFinalEdicao || editSemPrazo.checked) ? "Concluído" : "Em análise";
         const payloadEdicao = {
           processo: processoNormalizado,
           processoNormalizado,
@@ -3159,7 +3149,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             <td data-label="Área"><span class="badge-area ${classeAreaBadge(item.area)}">${highlightText(item.area || "", termo) || "-"}</span></td>
             <td data-label="Gerência/Seção"><span class="muted-mini">${highlightText(unidadeExibida || "-", termo)}</span></td>
             <td data-label="Data final">${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</td>
-            <td data-label="Status do prazo">${badgePrazo}</td>
+            <td data-label="Exige resposta">${badgePrazo}</td>
             <td data-label="Dias restantes"><strong style="font-size:13px; font-weight:800; color:inherit;">${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(item.diasRestantes))}</strong></td>
             <td data-label="Última alteração"><div><strong>${escapeHtml(item.alteradoPor || "-")}</strong></div><div class="muted">${escapeHtml(ultimaAlteracao)}</div></td>
             <td data-label="Ações">
@@ -3217,7 +3207,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         return `<li><strong>${escapeHtml(i.processo || "(sem número)")}</strong> — ${escapeHtml(i.assunto || "Sem assunto")} — ${escapeHtml(i.gerencia || "Sem gerência")} — ${escapeHtml(status)}</li>`;
       }).join("");
 
-      alertasPrazo.innerHTML = `<strong>Avisos de prazo</strong><div>Processos vencendo ou vencidos considerando o limite de ${limite} dia(s):</div><ul>${lista}</ul>`;
+      alertasPrazo.innerHTML = `<strong>Avisos de prazo</strong><div>Processos que exigem resposta considerando o limite de ${limite} dia(s):</div><ul>${lista}</ul>`;
       alertasPrazo.classList.remove("hidden");
 
       if (enviarNotificacao && "Notification" in window && Notification.permission === "granted") {
@@ -3232,7 +3222,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function destroyCharts() {
-      [chartSituacao, chartPrazo, chartSGI, chartEntradas].forEach(c => { if (c) c.destroy(); });
+      [chartPrazo, chartSGI, chartEntradas].forEach(c => { if (c) c.destroy(); });
     }
 
     function renderDashboard(itens) {
@@ -3240,9 +3230,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       setTextIfExists("kpiSemPrazo", itens.filter(i => i.statusPrazo === "Sem prazo").length);
       setTextIfExists("kpiVencendo", itens.filter(i => i.statusPrazo === "Vencendo").length);
       setTextIfExists("kpiAtrasados", itens.filter(i => i.statusPrazo === "Atrasado").length);
-      setTextIfExists("kpiConcluidos", itens.filter(i => i.situacao === "Concluído").length);
-      setTextIfExists("kpiPendentes", itens.filter(i => i.situacao === "Pendente").length);
-      const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
       const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); itens.filter(i => normalizarNomeInstitucional(i.area) === "Superintendência de Gestão Integrada").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
       destroyCharts();
@@ -3283,19 +3270,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       chartEntradas = new Chart($("graficoEntradas"), {
         type: "line",
         data: { labels: serieMeses.map(i => i.rotulo), datasets: [{ label: 'Entradas', data: serieMeses.map(i => i.total), borderColor: '#677982', backgroundColor: 'rgba(103,121,130,.16)', fill: true, tension: 0.38, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#677982' }] },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: commonPlugins,
-          scales: {
-            x: { ticks: { color: tickColor }, grid: { display: false, drawBorder: false } },
-            y: { beginAtZero: true, ticks: { precision: 0, color: tickColor }, grid: { color: gridColor, drawBorder: false } }
-          }
-        }
-      });
-      chartSituacao = new Chart($("graficoSituacao"), {
-        type: "bar",
-        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#7a8f99", "#b19575", "#8ea0aa", "#7a8f83", "#8b9aa3"], borderRadius: 12, maxBarThickness: 40, borderSkipped: false }] },
         options: {
           responsive: true,
           maintainAspectRatio: false,
@@ -3394,7 +3368,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     function limparFormulario() {
       if (entrada) entrada.value = '';
       if (gerenciaManual) gerenciaManual.value='';
-      if (situacaoManual) situacaoManual.value='Em análise';
       if (dataFinalManual) dataFinalManual.value='';
       if (semPrazoManual) semPrazoManual.checked=false;
       if (dataFinalManual) dataFinalManual.disabled=false;
@@ -3419,35 +3392,26 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           </div>
         </div>
         <div class="drawer-section detail-group">
-          <div class="detail-group-title">Identificação</div>
+          <div class="detail-group-title">Essencial</div>
           <div class="detail-grid-2">
             <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || '-')}</div></div>
-            <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || '-')}</span></div></div>
+            <div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || item.area || '-')}</div></div>
             <div class="drawer-box" style="grid-column:1 / -1;"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || '-')}</div></div>
           </div>
         </div>
         <div class="drawer-section detail-group">
-          <div class="detail-group-title">Prazo</div>
+          <div class="detail-group-title">Prazo e resposta</div>
           <div class="detail-grid-2">
-            <div class="drawer-box"><div class="label">Data/hora do preenchimento</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm) !== '-' ? formatarDataHora(item.criadoEm) : (item.dataCadastro || '-'))}</div></div>
             <div class="drawer-box"><div class="label">Data final</div><div class="value">${escapeHtml(item.semPrazo ? 'Sem prazo' : formatarDataISOparaBR(item.dataFinal))}</div></div>
-            <div class="drawer-box"><div class="label">Status do prazo</div><div class="value">${statusPrazo}</div></div>
+            <div class="drawer-box"><div class="label">Exige resposta</div><div class="value">${statusPrazo}</div></div>
             <div class="drawer-box"><div class="label">Dias restantes</div><div class="value">${escapeHtml(item.semPrazo ? 'Sem prazo' : textoDiasRestantes(calcDiasRestantes(item.dataFinal)))}</div></div>
-          </div>
-        </div>
-        <div class="drawer-section detail-group">
-          <div class="detail-group-title">Auditoria</div>
-          <div class="detail-grid-2">
-            <div class="drawer-box"><div class="label">Criado por</div><div class="value">${escapeHtml(item.criadoPor || '-')}</div></div>
-            <div class="drawer-box"><div class="label">Criado em</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
-            <div class="drawer-box"><div class="label">Última alteração por</div><div class="value">${escapeHtml(item.alteradoPor || '-')}</div></div>
-            <div class="drawer-box"><div class="label">Última alteração em</div><div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
+            <div class="drawer-box"><div class="label">Última alteração</div><div class="value">${escapeHtml((item.alteradoPor || '-') + ' — ' + formatarDataHora(item.alteradoEm))}</div></div>
           </div>
         </div>`;
-      const hist = Array.isArray(item.historico) ? [...item.historico].sort((a,b) => String(b.em || '').localeCompare(String(a.em || ''))).slice(0, 8) : [];
+      const hist = Array.isArray(item.historico) ? [...item.historico].sort((a,b) => String(b.em || '').localeCompare(String(a.em || ''))).slice(0, 5) : [];
       if (drawerHistorico) drawerHistorico.innerHTML = hist.length ? hist.map(h => `
         <div class="history-item">
-          <div class="ht">${escapeHtml(formatarDataHora(h.em))} — ${escapeHtml(h.por || '-')}</div>
+          <div class="ht">${escapeHtml(formatarDataHora(h.em))}</div>
           <div><strong>${escapeHtml(h.tipo || 'Evento')}</strong></div>
           <div class="muted" style="margin-top:4px;">${escapeHtml(h.detalhes || '-')}</div>
         </div>`).join('') : '<div class="muted">Sem histórico registrado.</div>';
@@ -3473,7 +3437,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (editProcesso) editProcesso.value = item.processo || '';
       if (editInteressado) editInteressado.value = item.interessado || '';
       if (editAssunto) editAssunto.value = item.assunto || '';
-      if (editSituacao) editSituacao.value = item.situacao || 'Em análise';
       if (editGerencia) editGerencia.value = item.gerencia || '';
       if (editDataFinal) editDataFinal.value = item.dataFinal || '';
       if (editSemPrazo) editSemPrazo.checked = !!item.semPrazo;
@@ -3502,7 +3465,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           <td>${escapeHtml(d.semPrazo ? 'Sem prazo' : textoDiasRestantes(d.diasRestantes))}</td>
           <td>${escapeHtml(d.alteradoPor || '-')} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
         </tr>`).join('');
-      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data/hora do preenchimento</th><th>Área</th><th>Gerência/Seção</th><th>Data final</th><th>Status do prazo</th><th>Dias restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
+      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data/hora do preenchimento</th><th>Área</th><th>Gerência/Seção</th><th>Data final</th><th>Exige resposta</th><th>Dias restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
     }
     function exportarExcel(apenasVisiveis=false) {
       const dados = obterDadosExportacao(apenasVisiveis);
@@ -3576,7 +3539,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         el.addEventListener(evt, aplicarFiltrosEOrdenacao);
       });
 
-      [entrada, gerenciaManual, situacaoManual, dataFinalManual, semPrazoManual].filter(Boolean).forEach(el => { const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input"); el.addEventListener(evt, () => { salvarRascunhoCadastro(); renderPreviewCadastro(); }); });
+      [entrada, gerenciaManual, dataFinalManual, semPrazoManual].filter(Boolean).forEach(el => { const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input"); el.addEventListener(evt, () => { salvarRascunhoCadastro(); renderPreviewCadastro(); }); });
       if (btnLimparBusca) btnLimparBusca.addEventListener("click", () => { busca.value = ""; aplicarFiltrosEOrdenacao(); renderPreviewCadastro(); busca.focus(); });
       if (btnSalvarPreset) btnSalvarPreset.addEventListener("click", salvarPresetAtual);
       if (btnAplicarPreset) btnAplicarPreset.addEventListener("click", aplicarPresetSelecionado);
