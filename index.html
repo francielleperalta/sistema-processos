@@ -1832,7 +1832,7 @@
     /* ===== Dashboard reformulado ===== */
     .dashboard-kpi-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 12px;
       margin-top: 12px;
     }
@@ -1842,33 +1842,103 @@
       padding: 14px;
       background: linear-gradient(180deg, rgba(255,255,255,.46) 0%, rgba(255,255,255,.20) 100%);
       box-shadow: 0 4px 12px rgba(16,24,40,.05);
+      min-width: 0;
     }
     .mini-kpi .k { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #66747d; font-weight: 800; }
     .mini-kpi .v { font-size: 28px; font-weight: 800; color: #243741; margin-top: 6px; }
     .mini-kpi .s { font-size: 12px; color: #6b7280; margin-top: 4px; }
+
     .dashboard-actions { display: grid; gap: 12px; margin-top: 10px; }
-    .dashboard-action-item { border: 1px solid #d4dde1; border-radius: 14px; padding: 12px; background: rgba(255,255,255,.34); box-shadow: 0 2px 8px rgba(16,24,40,.04); }
+    .dashboard-action-item {
+      border: 1px solid #d4dde1;
+      border-radius: 14px;
+      padding: 12px;
+      background: rgba(255,255,255,.34);
+      box-shadow: 0 2px 8px rgba(16,24,40,.04);
+      min-width: 0;
+    }
     .dashboard-action-item .title { font-size: 13px; font-weight: 800; color: #243741; line-height: 1.35; }
     .dashboard-action-item .meta { font-size: 12px; color: #66747d; margin-top: 6px; line-height: 1.4; }
-    .dashboard-empty { border: 1px dashed #c8d2d7; border-radius: 14px; padding: 18px; text-align: center; color: #67757d; background: rgba(255,255,255,.22); font-size: 13px; }
-    .dashboard-section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+
+    .dashboard-empty {
+      border: 1px dashed #c8d2d7;
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+      color: #67757d;
+      background: rgba(255,255,255,.22);
+      font-size: 13px;
+    }
+    .dashboard-section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
     .dashboard-section-title small { color: #6b7280; font-size: 12px; }
+
     .dashboard-list { display: grid; gap: 10px; margin-top: 12px; }
-    .dashboard-list-item { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: rgba(255,255,255,.28); border: 1px solid #d4dde1; border-radius: 14px; padding: 12px; }
+    .dashboard-list-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      background: rgba(255,255,255,.28);
+      border: 1px solid #d4dde1;
+      border-radius: 14px;
+      padding: 12px;
+      min-width: 0;
+    }
     .dashboard-list-item strong { display: block; color: #243741; font-size: 13px; line-height: 1.35; }
     .dashboard-list-item span { display: block; color: #6b7280; font-size: 12px; margin-top: 4px; }
     .dashboard-list-item .num { font-size: 26px; font-weight: 800; color: #334854; min-width: 44px; text-align: right; }
-    .dashboard-two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-    .dashboard-chart-tall { min-height: 380px; }
-    .dashboard-chart-medium { min-height: 320px; }
-    .dashboard-chart-short { min-height: 280px; }
-    @media (max-width: 1200px) {
-      .dashboard-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .dashboard-two-cols { grid-template-columns: 1fr; }
+
+    .dashboard-two-cols {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+      min-width: 0;
+      grid-column: 1 / -1;
     }
-    @media (max-width: 760px) {
-      .dashboard-kpi-grid { grid-template-columns: 1fr; }
+
+    .dashboard-chart-tall { min-height: 380px; overflow: hidden; }
+    .dashboard-chart-medium { min-height: 320px; overflow: hidden; }
+    .dashboard-chart-short { min-height: 280px; overflow: hidden; }
+
+    /* ===== Correções do grid do dashboard para evitar sobreposição ===== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) !important;
+      gap: 18px;
+      align-items: start;
     }
+    .dashboard-grid > *, .charts-stack, .sidebar-cards, .chart-card, .chart-box, .card { min-width: 0; }
+    .charts-stack {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+      gap: 18px;
+      align-content: start;
+    }
+    .charts-stack > .dashboard-chart-medium:last-child { grid-column: 1 / -1; }
+    .sidebar-cards {
+      display: grid !important;
+      gap: 18px;
+      align-content: start;
+    }
+    .chart-box canvas {
+      width: 100% !important;
+      max-width: 100%;
+      display: block;
+    }
+
+    @media (max-width: 1280px) {
+      .dashboard-grid { grid-template-columns: 1fr !important; }
+      .charts-stack { grid-template-columns: 1fr !important; }
+      .dashboard-two-cols { grid-template-columns: 1fr !important; }
+      .charts-stack > .dashboard-chart-medium:last-child { grid-column: auto; }
+    }
+
     body.dark-mode .mini-kpi,
     body.dark-mode .dashboard-action-item,
     body.dark-mode .dashboard-list-item,
@@ -3105,7 +3175,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function aplicarAbaSalva() {
-      abrirAba(localStorage.getItem(STORAGE_KEYS.aba) || "processos");
+      abrirAba("processos");
     }
 
     async function login() {
@@ -3515,8 +3585,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (!box) return;
       const prioridade = [...itens].filter(i => !i.semPrazo).sort((a, b) => {
         const peso = (item) => item.statusPrazo === "Atrasado" ? -10000 + (item.diasRestantes || 0) : item.statusPrazo === "Vence hoje" ? -5000 : item.statusPrazo === "Vencendo" ? -1000 + (item.diasRestantes || 0) : 99999;
-        const pa = peso(a), pb = peso(b);
-        return pa - pb || (a.diasRestantes ?? 99999) - (b.diasRestantes ?? 99999);
+        return peso(a) - peso(b) || (a.diasRestantes ?? 99999) - (b.diasRestantes ?? 99999);
       }).slice(0, 5);
       if (!prioridade.length) {
         box.innerHTML = '<div class="dashboard-empty">Nenhum processo crítico na visão atual.</div>';
@@ -3540,7 +3609,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       });
       const ranking = Object.entries(mapa)
         .map(([area, dados]) => ({ area, score: dados.atrasados * 3 + dados.vencendo * 2, atrasados: dados.atrasados, vencendo: dados.vencendo }))
-        .filter(i => i.score > 0)
+        .filter(item => item.score > 0)
         .sort((a, b) => b.score - a.score)
         .slice(0, 6);
       if (!ranking.length) {
@@ -3560,12 +3629,14 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
       const hoje = itens.filter(i => i.statusPrazo === "Vence hoje").length;
       const atrasados = itens.filter(i => i.statusPrazo === "Atrasado").length;
+
       setTextIfExists("kpiTotal", total);
       setTextIfExists("kpiComPrazo", comPrazo);
       setTextIfExists("kpiSemPrazo", semPrazo);
       setTextIfExists("kpiHoje", hoje);
       setTextIfExists("kpiVencendo", vencendo);
       setTextIfExists("kpiAtrasados", atrasados);
+
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao || 'Em análise'] = (situacaoMap[i.situacao || 'Em análise'] || 0) + 1);
       const areaMap = {}; itens.forEach(i => { const k = i.area || 'Sem área'; areaMap[k] = (areaMap[k] || 0) + 1; });
@@ -3579,23 +3650,69 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         else if (i.statusPrazo === 'Vencendo') criticidadeGerencia[chave] += 1;
       });
       const rankingCritico = Object.entries(criticidadeGerencia).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 10);
+
       destroyCharts();
       const dark = document.body.classList.contains('dark-mode');
       const tickColor = dark ? '#d7e1e8' : '#5f6f79';
       const gridColor = dark ? 'rgba(148,163,184,.18)' : 'rgba(98,115,125,.12)';
       const chartBg = dark ? '#314153' : '#d7dfe2';
       const tooltipBg = dark ? '#111827' : '#334854';
-      const commonScales = { x: { ticks: { color: tickColor }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } } };
-      chartPrazo = new Chart($("graficoPrazo"), {type: "doughnut", data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#2f6b4d", "#9a6334", "#8a6226", "#8f4e4e", "#54656f"], borderColor: chartBg, borderWidth: 3, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', color: tickColor } }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } } });
-      const serieMeses = []; const refHoje = new Date(todayISO() + 'T00:00:00');
-      for (let m = 11; m >= 0; m--) { const d = new Date(refHoje.getFullYear(), refHoje.getMonth() - m, 1); const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; serieMeses.push({ key, rotulo: `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(2)}`, total: 0 }); }
-      itens.forEach(i => { const dt = i.criadoEm?.toDate ? i.criadoEm.toDate() : (i.criadoEm ? new Date(i.criadoEm) : (i.dataCadastroISO ? new Date(i.dataCadastroISO + 'T00:00:00') : null)); if (!dt || isNaN(dt.getTime())) return; const key = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}`; const alvo = serieMeses.find(s => s.key === key); if (alvo) alvo.total += 1; });
-      chartEntradas = new Chart($("graficoEntradas"), { type: "line", data: { labels: serieMeses.map(i => i.rotulo), datasets: [{ label: 'Entradas', data: serieMeses.map(i => i.total), borderColor: '#677982', backgroundColor: 'rgba(103,121,130,.16)', fill: true, tension: 0.38, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#677982' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales } });
-      chartSituacao = new Chart($("graficoSituacao"), { type: "bar", data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ['#6b8796','#9f937b','#7a8f83','#8b9aa3','#a07d7d'], borderRadius: 10, maxBarThickness: 42 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales } });
+      const commonScales = {
+        x: { ticks: { color: tickColor }, grid: { color: gridColor, drawBorder: false } },
+        y: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }
+      };
+
+      chartPrazo = new Chart($("graficoPrazo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#2f6b4d", "#9a6334", "#8a6226", "#8f4e4e", "#54656f"], borderColor: chartBg, borderWidth: 3, hoverOffset: 4 }] },
+        options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', color: tickColor } }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
+      });
+
+      const serieMeses = [];
+      const refHoje = new Date(todayISO() + 'T00:00:00');
+      for (let m = 11; m >= 0; m--) {
+        const d = new Date(refHoje.getFullYear(), refHoje.getMonth() - m, 1);
+        const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+        serieMeses.push({ key, rotulo: `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(2)}`, total: 0 });
+      }
+      itens.forEach(i => {
+        const dt = i.criadoEm?.toDate ? i.criadoEm.toDate() : (i.criadoEm ? new Date(i.criadoEm) : (i.dataCadastroISO ? new Date(i.dataCadastroISO + 'T00:00:00') : null));
+        if (!dt || isNaN(dt.getTime())) return;
+        const key = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}`;
+        const alvo = serieMeses.find(s => s.key === key);
+        if (alvo) alvo.total += 1;
+      });
+      chartEntradas = new Chart($("graficoEntradas"), {
+        type: "line",
+        data: { labels: serieMeses.map(i => i.rotulo), datasets: [{ label: 'Entradas', data: serieMeses.map(i => i.total), borderColor: '#677982', backgroundColor: 'rgba(103,121,130,.16)', fill: true, tension: 0.38, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#677982' }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales }
+      });
+
+      chartSituacao = new Chart($("graficoSituacao"), {
+        type: "bar",
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ['#6b8796','#9f937b','#7a8f83','#8b9aa3','#a07d7d'], borderRadius: 10, maxBarThickness: 42 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales }
+      });
+
       const areasOrdenadas = Object.entries(areaMap).sort((a,b) => b[1]-a[1]).slice(0, 8);
-      chartAreas = new Chart($("graficoAreas"), { type: "bar", data: { labels: areasOrdenadas.map(i => i[0]), datasets: [{ data: areasOrdenadas.map(i => i[1]), backgroundColor: ['#748791','#8f7c58','#60717d','#8b6767','#6f8577','#9aa7ad','#5f6f79','#a7926c'], borderRadius: 10, maxBarThickness: 44 }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: { x: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor }, grid: { display: false, drawBorder: false } } } } });
-      chartCriticidadeGerencia = new Chart($("graficoCriticidadeGerencia"), { type: "bar", data: { labels: rankingCritico.map(i => i[0]), datasets: [{ data: rankingCritico.map(i => i[1]), backgroundColor: '#8b6767', borderRadius: 12, maxBarThickness: 30 }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { label: ctx => `Pontuação crítica: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } }, grid: { display: false, drawBorder: false } } } } });
-      chartSGI = new Chart($("graficoSGI"), { type: "bar", data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: '#748791', borderRadius: 12, maxBarThickness: 34, borderSkipped: false }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0, color: tickColor }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } }, grid: { display: false, drawBorder: false } } } } });
+      chartAreas = new Chart($("graficoAreas"), {
+        type: "bar",
+        data: { labels: areasOrdenadas.map(i => i[0]), datasets: [{ data: areasOrdenadas.map(i => i[1]), backgroundColor: ['#748791','#8f7c58','#60717d','#8b6767','#6f8577','#9aa7ad','#5f6f79','#a7926c'], borderRadius: 10, maxBarThickness: 44 }] },
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: { x: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor }, grid: { display: false, drawBorder: false } } } }
+      });
+
+      chartCriticidadeGerencia = new Chart($("graficoCriticidadeGerencia"), {
+        type: "bar",
+        data: { labels: rankingCritico.map(i => i[0]), datasets: [{ data: rankingCritico.map(i => i[1]), backgroundColor: '#8b6767', borderRadius: 12, maxBarThickness: 30 }] },
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { label: ctx => `Pontuação crítica: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } }, grid: { display: false, drawBorder: false } } } }
+      });
+
+      chartSGI = new Chart($("graficoSGI"), {
+        type: "bar",
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: '#748791', borderRadius: 12, maxBarThickness: 34, borderSkipped: false }] },
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0, color: tickColor }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } }, grid: { display: false, drawBorder: false } } } }
+      });
+
       renderDashboardTopCriticos(itens);
       renderDashboardRankingAtrasos(itens);
     }
@@ -3793,7 +3910,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     /* ===== Dashboard reformulado ===== */
     .dashboard-kpi-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 12px;
       margin-top: 12px;
     }
@@ -3803,33 +3920,103 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       padding: 14px;
       background: linear-gradient(180deg, rgba(255,255,255,.46) 0%, rgba(255,255,255,.20) 100%);
       box-shadow: 0 4px 12px rgba(16,24,40,.05);
+      min-width: 0;
     }
     .mini-kpi .k { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #66747d; font-weight: 800; }
     .mini-kpi .v { font-size: 28px; font-weight: 800; color: #243741; margin-top: 6px; }
     .mini-kpi .s { font-size: 12px; color: #6b7280; margin-top: 4px; }
+
     .dashboard-actions { display: grid; gap: 12px; margin-top: 10px; }
-    .dashboard-action-item { border: 1px solid #d4dde1; border-radius: 14px; padding: 12px; background: rgba(255,255,255,.34); box-shadow: 0 2px 8px rgba(16,24,40,.04); }
+    .dashboard-action-item {
+      border: 1px solid #d4dde1;
+      border-radius: 14px;
+      padding: 12px;
+      background: rgba(255,255,255,.34);
+      box-shadow: 0 2px 8px rgba(16,24,40,.04);
+      min-width: 0;
+    }
     .dashboard-action-item .title { font-size: 13px; font-weight: 800; color: #243741; line-height: 1.35; }
     .dashboard-action-item .meta { font-size: 12px; color: #66747d; margin-top: 6px; line-height: 1.4; }
-    .dashboard-empty { border: 1px dashed #c8d2d7; border-radius: 14px; padding: 18px; text-align: center; color: #67757d; background: rgba(255,255,255,.22); font-size: 13px; }
-    .dashboard-section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+
+    .dashboard-empty {
+      border: 1px dashed #c8d2d7;
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+      color: #67757d;
+      background: rgba(255,255,255,.22);
+      font-size: 13px;
+    }
+    .dashboard-section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
     .dashboard-section-title small { color: #6b7280; font-size: 12px; }
+
     .dashboard-list { display: grid; gap: 10px; margin-top: 12px; }
-    .dashboard-list-item { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: rgba(255,255,255,.28); border: 1px solid #d4dde1; border-radius: 14px; padding: 12px; }
+    .dashboard-list-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      background: rgba(255,255,255,.28);
+      border: 1px solid #d4dde1;
+      border-radius: 14px;
+      padding: 12px;
+      min-width: 0;
+    }
     .dashboard-list-item strong { display: block; color: #243741; font-size: 13px; line-height: 1.35; }
     .dashboard-list-item span { display: block; color: #6b7280; font-size: 12px; margin-top: 4px; }
     .dashboard-list-item .num { font-size: 26px; font-weight: 800; color: #334854; min-width: 44px; text-align: right; }
-    .dashboard-two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-    .dashboard-chart-tall { min-height: 380px; }
-    .dashboard-chart-medium { min-height: 320px; }
-    .dashboard-chart-short { min-height: 280px; }
-    @media (max-width: 1200px) {
-      .dashboard-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .dashboard-two-cols { grid-template-columns: 1fr; }
+
+    .dashboard-two-cols {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+      min-width: 0;
+      grid-column: 1 / -1;
     }
-    @media (max-width: 760px) {
-      .dashboard-kpi-grid { grid-template-columns: 1fr; }
+
+    .dashboard-chart-tall { min-height: 380px; overflow: hidden; }
+    .dashboard-chart-medium { min-height: 320px; overflow: hidden; }
+    .dashboard-chart-short { min-height: 280px; overflow: hidden; }
+
+    /* ===== Correções do grid do dashboard para evitar sobreposição ===== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) !important;
+      gap: 18px;
+      align-items: start;
     }
+    .dashboard-grid > *, .charts-stack, .sidebar-cards, .chart-card, .chart-box, .card { min-width: 0; }
+    .charts-stack {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+      gap: 18px;
+      align-content: start;
+    }
+    .charts-stack > .dashboard-chart-medium:last-child { grid-column: 1 / -1; }
+    .sidebar-cards {
+      display: grid !important;
+      gap: 18px;
+      align-content: start;
+    }
+    .chart-box canvas {
+      width: 100% !important;
+      max-width: 100%;
+      display: block;
+    }
+
+    @media (max-width: 1280px) {
+      .dashboard-grid { grid-template-columns: 1fr !important; }
+      .charts-stack { grid-template-columns: 1fr !important; }
+      .dashboard-two-cols { grid-template-columns: 1fr !important; }
+      .charts-stack > .dashboard-chart-medium:last-child { grid-column: auto; }
+    }
+
     body.dark-mode .mini-kpi,
     body.dark-mode .dashboard-action-item,
     body.dark-mode .dashboard-list-item,
@@ -4031,6 +4218,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     renderPreviewCadastro();
     if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value || "dataCadastroDesc";
     inicializarTema();
+    localStorage.setItem(STORAGE_KEYS.aba, "processos");
     aplicarAbaSalva();
     registrarEventos();
 
