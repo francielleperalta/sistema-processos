@@ -1995,6 +1995,274 @@
       .composer-card .btn-row button { width:100% !important; min-width:0 !important; }
     }
 
+
+    /* ===== Segunda lapidação visual: área Novo processo ===== */
+    .composer-card.lux {
+      background: linear-gradient(180deg, #e9eff1 0%, #e3eaed 100%);
+      border: 1px solid #c9d4d9;
+      border-radius: 22px;
+      box-shadow: 0 10px 26px rgba(16,24,40,.06);
+      padding: 20px;
+    }
+    .composer-hero {
+      display: grid;
+      gap: 8px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.20) 100%);
+      border: 1px solid #d4dde1;
+      margin-bottom: 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.34);
+    }
+    .composer-hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .composer-eyebrow {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #6a7b85;
+      font-weight: 800;
+    }
+    .composer-hero h3 {
+      margin: 0;
+      font-size: 22px;
+      color: #243741;
+      line-height: 1.2;
+    }
+    .composer-hero p {
+      margin: 0;
+      font-size: 13px;
+      color: #60707a;
+      line-height: 1.5;
+      max-width: 620px;
+    }
+    .composer-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid #d1dbe0;
+      background: rgba(255,255,255,.55);
+      color: #445660;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .composer-status-pill::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #748791;
+      opacity: .75;
+    }
+    .composer-stage-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .composer-shell-elevated {
+      border-radius: 20px;
+      border: 1px solid #d4dde1;
+      background: linear-gradient(180deg, rgba(255,255,255,.34) 0%, rgba(255,255,255,.22) 100%);
+      box-shadow: 0 4px 14px rgba(16,24,40,.04);
+      padding: 14px;
+    }
+    .composer-shell-elevated textarea {
+      min-height: 150px;
+      background: #f0f4f6;
+      border-color: #d4dde1;
+      border-radius: 14px;
+      margin-top: 0;
+    }
+    .composer-panel {
+      border-radius: 20px;
+      border: 1px solid #d3dde1;
+      background: linear-gradient(180deg, rgba(255,255,255,.34) 0%, rgba(255,255,255,.18) 100%);
+      padding: 14px;
+      box-shadow: 0 3px 10px rgba(16,24,40,.03);
+    }
+    .composer-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .composer-panel-kicker {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #6a7a84;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .composer-panel-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #2b404b;
+      margin: 0;
+    }
+    .composer-panel-desc {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: #667782;
+      line-height: 1.45;
+    }
+    .composer-chip-soft {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.58);
+      border: 1px solid #d4dde1;
+      color: #50616b;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .composer-chip-soft .mini-dot {
+      width: 7px; height: 7px; border-radius: 999px; background: currentColor; opacity: .7;
+    }
+    .composer-card-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px;
+    }
+    .composer-card-grid-3 {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr .95fr;
+      gap: 12px;
+      align-items: start;
+    }
+    .field-lux {
+      border: 1px solid #d7dfe3;
+      border-radius: 18px;
+      background: rgba(255,255,255,.45);
+      padding: 12px;
+      min-width: 0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+    }
+    .field-lux label {
+      display: block;
+      margin: 0;
+      font-size: 13px;
+      font-weight: 800;
+      color: #30434f;
+      line-height: 1.3;
+    }
+    .field-lux .field-caption {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #6d7c85;
+      line-height: 1.4;
+      min-height: 34px;
+    }
+    .field-lux input,
+    .field-lux select {
+      margin-top: 10px;
+      min-height: 46px;
+      background: #f1f5f7;
+      border-color: #d5dde1;
+      border-radius: 14px;
+    }
+    .checkbox-lux {
+      padding: 11px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.36);
+      border: 1px solid #d6dee2;
+      margin-top: 12px;
+    }
+    .preview-lux {
+      border-radius: 20px;
+      border: 1px solid #d4dde1;
+      background: linear-gradient(180deg, rgba(255,255,255,.40) 0%, rgba(255,255,255,.25) 100%);
+      padding: 14px;
+      box-shadow: 0 4px 12px rgba(16,24,40,.03);
+    }
+    .preview-lux .section-mini-title {
+      margin-bottom: 12px;
+    }
+    .preview-lux .preview-grid {
+      gap: 12px 14px;
+    }
+    .preview-lux strong {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .composer-toolbar-lux {
+      display: grid;
+      grid-template-columns: 1.2fr .9fr .9fr .9fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .composer-toolbar-lux button {
+      margin-top: 0;
+      min-width: 0;
+      min-height: 46px;
+    }
+    .composer-toolbar-lux .save-main {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: .01em;
+    }
+    .composer-mini-divider {
+      margin: 2px 0 0;
+      height: 1px;
+      border: 0;
+      background: linear-gradient(90deg, rgba(183,195,200,0) 0%, rgba(183,195,200,.9) 18%, rgba(183,195,200,.9) 82%, rgba(183,195,200,0) 100%);
+    }
+    @media (max-width: 980px) {
+      .composer-card-grid-2,
+      .composer-card-grid-3,
+      .composer-toolbar-lux {
+        grid-template-columns: 1fr;
+      }
+      .field-lux .field-caption { min-height: 0; }
+    }
+    @media (max-width: 560px) {
+      .composer-card.lux { padding: 14px; }
+      .composer-hero { padding: 12px; }
+      .composer-shell-elevated,
+      .composer-panel,
+      .preview-lux { padding: 12px; border-radius: 18px; }
+      .field-lux { padding: 11px; }
+      .composer-hero h3 { font-size: 20px; }
+    }
+    body.dark-mode .composer-card.lux,
+    body.dark-mode .composer-hero,
+    body.dark-mode .composer-shell-elevated,
+    body.dark-mode .composer-panel,
+    body.dark-mode .field-lux,
+    body.dark-mode .checkbox-lux,
+    body.dark-mode .preview-lux {
+      background: rgba(255,255,255,.03) !important;
+      border-color: #374151 !important;
+      color: #e5e7eb !important;
+    }
+    body.dark-mode .field-lux input,
+    body.dark-mode .field-lux select,
+    body.dark-mode .composer-shell-elevated textarea,
+    body.dark-mode .composer-status-pill,
+    body.dark-mode .composer-chip-soft {
+      background: #1f2937 !important;
+      border-color: #374151 !important;
+      color: #f3f4f6 !important;
+    }
+    body.dark-mode .composer-eyebrow,
+    body.dark-mode .composer-hero p,
+    body.dark-mode .composer-panel-kicker,
+    body.dark-mode .composer-panel-desc,
+    body.dark-mode .field-lux .field-caption {
+      color: #9fb0bd !important;
+    }
+
 </style>
 </head>
 <body>
@@ -2054,9 +2322,22 @@
       <div id="abaProcessos">
         <div class="workspace-grid">
           <aside class="left-pane">
-            <div class="box-soft composer-card">
-              <div class="section-title">Novo processo</div>
-              <textarea id="entrada" placeholder="Cole o texto do processo aqui...
+            <div class="box-soft composer-card lux">
+              <div class="composer-hero">
+                <div class="composer-hero-top">
+                  <div>
+                    <div class="composer-eyebrow">Cadastro inteligente</div>
+                    <h3>Novo processo</h3>
+                  </div>
+                  <div class="composer-status-pill">Fluxo organizado</div>
+                </div>
+                <p>Separei a entrada do processo em etapas visuais mais claras: texto-base, encaminhamento, prazo/retorno e conferência final.</p>
+              </div>
+
+              <div class="composer-stage-grid">
+                <div class="composer-shell-elevated">
+                  <div class="composer-panel-kicker">1. Conteúdo base</div>
+                  <textarea id="entrada" placeholder="Cole o texto do processo aqui...
 Exemplo:
 Processo nº 12345/2026
 Interessado(a): Maria Silva
@@ -2067,56 +2348,90 @@ OU
 202600005016709
 OFÍCIO Nº 4702/2026/SEAD
 Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inservíveis."></textarea>
-              <div class="encaminhamento-grid">
-                <div class="encaminhamento-box">
-                  <label for="gerenciaManual">Gerência/Seção principal</label>
-                  <select id="gerenciaManual"><option value="">Selecione...</option></select>
                 </div>
-                <div class="encaminhamento-box">
-                  <label for="gerenciaManual2">Gerência/Seção complementar</label>
-                  <select id="gerenciaManual2"><option value="">Selecione...</option></select>
+
+                <div class="composer-panel">
+                  <div class="composer-panel-header">
+                    <div>
+                      <div class="composer-panel-kicker">2. Encaminhamento</div>
+                      <h4 class="composer-panel-title">Gerências responsáveis</h4>
+                      <p class="composer-panel-desc">Defina a unidade principal e, se necessário, uma unidade complementar.</p>
+                    </div>
+                    <div class="composer-chip-soft"><span class="mini-dot"></span> Até 2 unidades</div>
+                  </div>
+                  <div class="composer-card-grid-2">
+                    <div class="field-lux">
+                      <label for="gerenciaManual">Gerência/Seção principal</label>
+                      <div class="field-caption">Unidade que conduz a resposta ou a manifestação principal.</div>
+                      <select id="gerenciaManual"><option value="">Selecione...</option></select>
+                    </div>
+                    <div class="field-lux">
+                      <label for="gerenciaManual2">Gerência/Seção complementar</label>
+                      <div class="field-caption">Opcional. Use quando o processo seguir para outra gerência em paralelo.</div>
+                      <select id="gerenciaManual2"><option value="">Selecione...</option></select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="composer-panel">
+                  <div class="composer-panel-header">
+                    <div>
+                      <div class="composer-panel-kicker">3. Prazo e retorno</div>
+                      <h4 class="composer-panel-title">Controle do prazo</h4>
+                      <p class="composer-panel-desc">Registre a data de retorno, a hora de referência e o gatilho de aviso.</p>
+                    </div>
+                    <div class="composer-chip-soft"><span class="mini-dot"></span> Data + hora</div>
+                  </div>
+                  <div class="composer-card-grid-3">
+                    <div class="field-lux">
+                      <label for="dataFinalManual">Data final</label>
+                      <div class="field-caption">Data em que o processo precisa voltar ou ser respondido.</div>
+                      <input type="date" id="dataFinalManual" />
+                    </div>
+                    <div class="field-lux">
+                      <label for="horaFinalManual">Hora de retorno (opcional)</label>
+                      <div class="field-caption">Preencha quando o prazo exigir um horário exato, como 12:00 ou 17:30.</div>
+                      <input type="time" id="horaFinalManual" />
+                    </div>
+                    <div class="field-lux">
+                      <label for="limiteVencendo">Avisar quando faltar</label>
+                      <div class="field-caption">Define com quantos dias de antecedência o sistema sinaliza o vencimento.</div>
+                      <select id="limiteVencendo">
+                        <option value="1">1 dia</option>
+                        <option value="2">2 dias</option>
+                        <option value="3" selected>3 dias</option>
+                        <option value="5">5 dias</option>
+                        <option value="7">7 dias</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="checkbox-lux">
+                    <label class="checkbox-inline" for="semPrazoManual"><input type="checkbox" id="semPrazoManual" /> <span>Processo sem prazo definido</span></label>
+                  </div>
+                </div>
+
+                <hr class="composer-mini-divider" />
+
+                <div class="preview-lux preview-card" id="previewCadastro">
+                  <div class="composer-panel-kicker">4. Conferência</div>
+                  <div class="section-mini-title">Pré-visualização da leitura automática</div>
+                  <div class="preview-grid">
+                    <div><span>Processo</span><strong id="previewProcesso">-</strong></div>
+                    <div><span>Interessado</span><strong id="previewInteressado">-</strong></div>
+                    <div><span>Assunto</span><strong id="previewAssunto">-</strong></div>
+                    <div><span>Prazo</span><strong id="previewPrazo">-</strong></div>
+                    <div><span>Gerência/Área</span><strong id="previewGerencia">-</strong></div>
+                  </div>
+                </div>
+
+                <div class="composer-toolbar-lux btn-row">
+                  <button type="button" id="btnGerarProcesso" class="save-main">Salvar processo</button>
+                  <button type="button" class="outline" id="btnLimparFormulario">Limpar</button>
+                  <button type="button" class="outline" id="btnExportarExcelVisiveis">Excel</button>
+                  <button type="button" class="outline" id="btnExportarPDFVisiveis">PDF</button>
                 </div>
               </div>
-              <div class="prazo-grid">
-                <div>
-                  <label for="dataFinalManual">Data final</label>
-                  <input type="date" id="dataFinalManual" />
-                </div>
-                <div>
-                  <label for="horaFinalManual">Hora de retorno (opcional)</label>
-                  <input type="time" id="horaFinalManual" />
-                </div>
-                <div>
-                  
-                  <label for="limiteVencendo">Avisar quando faltar</label>
-                  <select id="limiteVencendo">
-                    <option value="1">1 dia</option>
-                    <option value="2">2 dias</option>
-                    <option value="3" selected>3 dias</option>
-                    <option value="5">5 dias</option>
-                    <option value="7">7 dias</option>
-                  </select>
-                </div>
-              </div>
-              
-              <div class="encaminhamento-note">Agora o cadastro permite registrar até duas gerências/seções por processo e, quando houver prazo, informar também a hora exata de retorno.</div>
-              <label class="checkbox-inline" for="semPrazoManual"><input type="checkbox" id="semPrazoManual" /> <span>Processo sem prazo definido</span></label>
-              <div class="preview-card" id="previewCadastro">
-                <div class="section-mini-title">Pré-visualização da leitura automática (foco em prazo)</div>
-                <div class="preview-grid">
-                  <div><span>Processo</span><strong id="previewProcesso">-</strong></div>
-                  <div><span>Interessado</span><strong id="previewInteressado">-</strong></div>
-                  <div><span>Assunto</span><strong id="previewAssunto">-</strong></div>
-                  <div><span>Prazo</span><strong id="previewPrazo">-</strong></div>
-                  <div><span>Gerência/Área</span><strong id="previewGerencia">-</strong></div>
-                </div>
-              </div>
-              <div class="btn-row" style="margin-top:16px;">
-                <button type="button" id="btnGerarProcesso">Salvar processo</button>
-                <button type="button" class="outline" id="btnLimparFormulario">Limpar</button>
-                <button type="button" class="outline" id="btnExportarExcelVisiveis">Excel</button>
-                <button type="button" class="outline" id="btnExportarPDFVisiveis">PDF</button>
-              </div>
+
               <div id="mensagemSistema" class="hidden"></div>
             </div>
             <div class="card filters-card">
@@ -4205,6 +4520,274 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       .composer-card .preview-grid { grid-template-columns:1fr !important; gap:8px !important; }
       .composer-card .btn-row { display:grid !important; grid-template-columns:1fr !important; gap:8px !important; }
       .composer-card .btn-row button { width:100% !important; min-width:0 !important; }
+    }
+
+
+    /* ===== Segunda lapidação visual: área Novo processo ===== */
+    .composer-card.lux {
+      background: linear-gradient(180deg, #e9eff1 0%, #e3eaed 100%);
+      border: 1px solid #c9d4d9;
+      border-radius: 22px;
+      box-shadow: 0 10px 26px rgba(16,24,40,.06);
+      padding: 20px;
+    }
+    .composer-hero {
+      display: grid;
+      gap: 8px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.20) 100%);
+      border: 1px solid #d4dde1;
+      margin-bottom: 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.34);
+    }
+    .composer-hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .composer-eyebrow {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #6a7b85;
+      font-weight: 800;
+    }
+    .composer-hero h3 {
+      margin: 0;
+      font-size: 22px;
+      color: #243741;
+      line-height: 1.2;
+    }
+    .composer-hero p {
+      margin: 0;
+      font-size: 13px;
+      color: #60707a;
+      line-height: 1.5;
+      max-width: 620px;
+    }
+    .composer-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid #d1dbe0;
+      background: rgba(255,255,255,.55);
+      color: #445660;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .composer-status-pill::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #748791;
+      opacity: .75;
+    }
+    .composer-stage-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .composer-shell-elevated {
+      border-radius: 20px;
+      border: 1px solid #d4dde1;
+      background: linear-gradient(180deg, rgba(255,255,255,.34) 0%, rgba(255,255,255,.22) 100%);
+      box-shadow: 0 4px 14px rgba(16,24,40,.04);
+      padding: 14px;
+    }
+    .composer-shell-elevated textarea {
+      min-height: 150px;
+      background: #f0f4f6;
+      border-color: #d4dde1;
+      border-radius: 14px;
+      margin-top: 0;
+    }
+    .composer-panel {
+      border-radius: 20px;
+      border: 1px solid #d3dde1;
+      background: linear-gradient(180deg, rgba(255,255,255,.34) 0%, rgba(255,255,255,.18) 100%);
+      padding: 14px;
+      box-shadow: 0 3px 10px rgba(16,24,40,.03);
+    }
+    .composer-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .composer-panel-kicker {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #6a7a84;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .composer-panel-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #2b404b;
+      margin: 0;
+    }
+    .composer-panel-desc {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: #667782;
+      line-height: 1.45;
+    }
+    .composer-chip-soft {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.58);
+      border: 1px solid #d4dde1;
+      color: #50616b;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .composer-chip-soft .mini-dot {
+      width: 7px; height: 7px; border-radius: 999px; background: currentColor; opacity: .7;
+    }
+    .composer-card-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px;
+    }
+    .composer-card-grid-3 {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr .95fr;
+      gap: 12px;
+      align-items: start;
+    }
+    .field-lux {
+      border: 1px solid #d7dfe3;
+      border-radius: 18px;
+      background: rgba(255,255,255,.45);
+      padding: 12px;
+      min-width: 0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+    }
+    .field-lux label {
+      display: block;
+      margin: 0;
+      font-size: 13px;
+      font-weight: 800;
+      color: #30434f;
+      line-height: 1.3;
+    }
+    .field-lux .field-caption {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #6d7c85;
+      line-height: 1.4;
+      min-height: 34px;
+    }
+    .field-lux input,
+    .field-lux select {
+      margin-top: 10px;
+      min-height: 46px;
+      background: #f1f5f7;
+      border-color: #d5dde1;
+      border-radius: 14px;
+    }
+    .checkbox-lux {
+      padding: 11px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.36);
+      border: 1px solid #d6dee2;
+      margin-top: 12px;
+    }
+    .preview-lux {
+      border-radius: 20px;
+      border: 1px solid #d4dde1;
+      background: linear-gradient(180deg, rgba(255,255,255,.40) 0%, rgba(255,255,255,.25) 100%);
+      padding: 14px;
+      box-shadow: 0 4px 12px rgba(16,24,40,.03);
+    }
+    .preview-lux .section-mini-title {
+      margin-bottom: 12px;
+    }
+    .preview-lux .preview-grid {
+      gap: 12px 14px;
+    }
+    .preview-lux strong {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .composer-toolbar-lux {
+      display: grid;
+      grid-template-columns: 1.2fr .9fr .9fr .9fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .composer-toolbar-lux button {
+      margin-top: 0;
+      min-width: 0;
+      min-height: 46px;
+    }
+    .composer-toolbar-lux .save-main {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: .01em;
+    }
+    .composer-mini-divider {
+      margin: 2px 0 0;
+      height: 1px;
+      border: 0;
+      background: linear-gradient(90deg, rgba(183,195,200,0) 0%, rgba(183,195,200,.9) 18%, rgba(183,195,200,.9) 82%, rgba(183,195,200,0) 100%);
+    }
+    @media (max-width: 980px) {
+      .composer-card-grid-2,
+      .composer-card-grid-3,
+      .composer-toolbar-lux {
+        grid-template-columns: 1fr;
+      }
+      .field-lux .field-caption { min-height: 0; }
+    }
+    @media (max-width: 560px) {
+      .composer-card.lux { padding: 14px; }
+      .composer-hero { padding: 12px; }
+      .composer-shell-elevated,
+      .composer-panel,
+      .preview-lux { padding: 12px; border-radius: 18px; }
+      .field-lux { padding: 11px; }
+      .composer-hero h3 { font-size: 20px; }
+    }
+    body.dark-mode .composer-card.lux,
+    body.dark-mode .composer-hero,
+    body.dark-mode .composer-shell-elevated,
+    body.dark-mode .composer-panel,
+    body.dark-mode .field-lux,
+    body.dark-mode .checkbox-lux,
+    body.dark-mode .preview-lux {
+      background: rgba(255,255,255,.03) !important;
+      border-color: #374151 !important;
+      color: #e5e7eb !important;
+    }
+    body.dark-mode .field-lux input,
+    body.dark-mode .field-lux select,
+    body.dark-mode .composer-shell-elevated textarea,
+    body.dark-mode .composer-status-pill,
+    body.dark-mode .composer-chip-soft {
+      background: #1f2937 !important;
+      border-color: #374151 !important;
+      color: #f3f4f6 !important;
+    }
+    body.dark-mode .composer-eyebrow,
+    body.dark-mode .composer-hero p,
+    body.dark-mode .composer-panel-kicker,
+    body.dark-mode .composer-panel-desc,
+    body.dark-mode .field-lux .field-caption {
+      color: #9fb0bd !important;
     }
 
 </style></head><body><h2>Relatório de Processos</h2><div class="sub">${ctx.escopo}</div><div class="meta"><div><strong>Exportado em:</strong> ${ctx.em}</div><div><strong>Usuário:</strong> ${escapeHtml(ctx.usuario)}</div><div><strong>Filtros aplicados:</strong> ${escapeHtml(ctx.filtros)}</div><div><strong>Total exportado:</strong> ${ctx.total}</div></div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
