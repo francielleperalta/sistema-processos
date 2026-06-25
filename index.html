@@ -1,4 +1,4 @@
-<index.html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -1846,60 +1846,19 @@
     .mini-kpi .k { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #66747d; font-weight: 800; }
     .mini-kpi .v { font-size: 28px; font-weight: 800; color: #243741; margin-top: 6px; }
     .mini-kpi .s { font-size: 12px; color: #6b7280; margin-top: 4px; }
-    .dashboard-actions {
-      display: grid;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .dashboard-action-item {
-      border: 1px solid #d4dde1;
-      border-radius: 14px;
-      padding: 12px;
-      background: rgba(255,255,255,.34);
-      box-shadow: 0 2px 8px rgba(16,24,40,.04);
-    }
+    .dashboard-actions { display: grid; gap: 12px; margin-top: 10px; }
+    .dashboard-action-item { border: 1px solid #d4dde1; border-radius: 14px; padding: 12px; background: rgba(255,255,255,.34); box-shadow: 0 2px 8px rgba(16,24,40,.04); }
     .dashboard-action-item .title { font-size: 13px; font-weight: 800; color: #243741; line-height: 1.35; }
     .dashboard-action-item .meta { font-size: 12px; color: #66747d; margin-top: 6px; line-height: 1.4; }
-    .dashboard-empty {
-      border: 1px dashed #c8d2d7;
-      border-radius: 14px;
-      padding: 18px;
-      text-align: center;
-      color: #67757d;
-      background: rgba(255,255,255,.22);
-      font-size: 13px;
-    }
-    .dashboard-section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
+    .dashboard-empty { border: 1px dashed #c8d2d7; border-radius: 14px; padding: 18px; text-align: center; color: #67757d; background: rgba(255,255,255,.22); font-size: 13px; }
+    .dashboard-section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
     .dashboard-section-title small { color: #6b7280; font-size: 12px; }
-    .dashboard-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 12px;
-    }
-    .dashboard-list-item {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-      background: rgba(255,255,255,.28);
-      border: 1px solid #d4dde1;
-      border-radius: 14px;
-      padding: 12px;
-    }
+    .dashboard-list { display: grid; gap: 10px; margin-top: 12px; }
+    .dashboard-list-item { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: rgba(255,255,255,.28); border: 1px solid #d4dde1; border-radius: 14px; padding: 12px; }
     .dashboard-list-item strong { display: block; color: #243741; font-size: 13px; line-height: 1.35; }
     .dashboard-list-item span { display: block; color: #6b7280; font-size: 12px; margin-top: 4px; }
     .dashboard-list-item .num { font-size: 26px; font-weight: 800; color: #334854; min-width: 44px; text-align: right; }
-    .dashboard-two-cols {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
+    .dashboard-two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .dashboard-chart-tall { min-height: 380px; }
     .dashboard-chart-medium { min-height: 320px; }
     .dashboard-chart-short { min-height: 280px; }
@@ -1923,15 +1882,11 @@
     body.dark-mode .dashboard-action-item .meta,
     body.dark-mode .dashboard-list-item span,
     body.dark-mode .dashboard-section-title small,
-    body.dark-mode .dashboard-empty {
-      color: #9fb0bd !important;
-    }
+    body.dark-mode .dashboard-empty { color: #9fb0bd !important; }
     body.dark-mode .mini-kpi .v,
     body.dark-mode .dashboard-action-item .title,
     body.dark-mode .dashboard-list-item strong,
-    body.dark-mode .dashboard-list-item .num {
-      color: #f3f4f6 !important;
-    }
+    body.dark-mode .dashboard-list-item .num { color: #f3f4f6 !important; }
 
 </style>
 </head>
@@ -2235,50 +2190,25 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         <div class="dashboard-grid">
           <div class="charts-stack">
             <div class="card chart-card dashboard-chart-tall">
-              <div class="dashboard-section-title">
-                <div>
-                  <h4>Radar de prioridade</h4>
-                  <small>Leitura imediata do volume por status de prazo.</small>
-                </div>
-              </div>
+              <div class="dashboard-section-title"><div><h4>Radar de prioridade</h4><small>Leitura imediata do volume por status de prazo.</small></div></div>
               <div class="chart-box"><canvas id="graficoPrazo"></canvas></div>
             </div>
             <div class="card chart-card dashboard-chart-tall">
-              <div class="dashboard-section-title">
-                <div>
-                  <h4>Evolução de entradas</h4>
-                  <small>Cadastros nos últimos 12 meses.</small>
-                </div>
-              </div>
+              <div class="dashboard-section-title"><div><h4>Evolução de entradas</h4><small>Cadastros nos últimos 12 meses.</small></div></div>
               <div class="chart-box"><canvas id="graficoEntradas"></canvas></div>
             </div>
             <div class="dashboard-two-cols">
               <div class="card chart-card dashboard-chart-medium">
-                <div class="dashboard-section-title">
-                  <div>
-                    <h4>Situação operacional</h4>
-                    <small>Como os processos visíveis se distribuem por fase.</small>
-                  </div>
-                </div>
+                <div class="dashboard-section-title"><div><h4>Situação operacional</h4><small>Como os processos visíveis se distribuem por fase.</small></div></div>
                 <div class="chart-box"><canvas id="graficoSituacao"></canvas></div>
               </div>
               <div class="card chart-card dashboard-chart-medium">
-                <div class="dashboard-section-title">
-                  <div>
-                    <h4>Distribuição por área</h4>
-                    <small>Comparação entre áreas a partir da visão filtrada.</small>
-                  </div>
-                </div>
+                <div class="dashboard-section-title"><div><h4>Distribuição por área</h4><small>Comparação entre áreas a partir da visão filtrada.</small></div></div>
                 <div class="chart-box"><canvas id="graficoAreas"></canvas></div>
               </div>
             </div>
             <div class="card chart-card dashboard-chart-medium">
-              <div class="dashboard-section-title">
-                <div>
-                  <h4>Ranking de gerências mais críticas</h4>
-                  <small>Peso maior para atrasados e vencimentos imediatos.</small>
-                </div>
-              </div>
+              <div class="dashboard-section-title"><div><h4>Ranking de gerências mais críticas</h4><small>Peso maior para atrasados e vencimentos imediatos.</small></div></div>
               <div class="chart-box"><canvas id="graficoCriticidadeGerencia"></canvas></div>
             </div>
           </div>
@@ -2295,30 +2225,15 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               </div>
             </div>
             <div class="card chart-card dashboard-chart-short">
-              <div class="dashboard-section-title">
-                <div>
-                  <h4>SGI — gerências e seções</h4>
-                  <small>Detalhamento da Superintendência de Gestão Integrada.</small>
-                </div>
-              </div>
+              <div class="dashboard-section-title"><div><h4>SGI — gerências e seções</h4><small>Detalhamento da Superintendência de Gestão Integrada.</small></div></div>
               <div class="chart-box"><canvas id="graficoSGI"></canvas></div>
             </div>
             <div class="card">
-              <div class="dashboard-section-title">
-                <div>
-                  <h4>Ação imediata</h4>
-                  <small>Top 5 processos mais críticos da visão atual.</small>
-                </div>
-              </div>
+              <div class="dashboard-section-title"><div><h4>Ação imediata</h4><small>Top 5 processos mais críticos da visão atual.</small></div></div>
               <div id="dashboardTopCriticos" class="dashboard-actions"></div>
             </div>
             <div class="card">
-              <div class="dashboard-section-title">
-                <div>
-                  <h4>Ranking de áreas por atrasos</h4>
-                  <small>Onde concentrar resposta e apoio.</small>
-                </div>
-              </div>
+              <div class="dashboard-section-title"><div><h4>Ranking de áreas por atrasos</h4><small>Onde concentrar resposta e apoio.</small></div></div>
               <div id="dashboardRankingAtrasos" class="dashboard-list"></div>
             </div>
           </div>
@@ -2478,6 +2393,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let chartPrazo = null;
     let chartSGI = null;
     let chartEntradas = null;
+    let chartSituacao = null;
+    let chartAreas = null;
+    let chartCriticidadeGerencia = null;
     let ultimoRegistroExcluido = null;
     let unsubscribeSnapshot = null;
     let expandedIds = new Set();
@@ -3607,9 +3525,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       box.innerHTML = prioridade.map(i => `
         <div class="dashboard-action-item">
           <div class="title">${escapeHtml(i.processo || '(sem número)')}</div>
-          <div class="meta">${escapeHtml(i.assunto || 'Sem assunto')}<br>${escapeHtml(i.gerencia || i.area || '-') } • ${escapeHtml(i.semPrazo ? 'Sem prazo' : formatarDataISOparaBR(i.dataFinal))} • ${escapeHtml(i.statusPrazo)}</div>
-        </div>
-      `).join('');
+          <div class="meta">${escapeHtml(i.assunto || 'Sem assunto')}<br>${escapeHtml(i.gerencia || i.area || '-')} • ${escapeHtml(i.semPrazo ? 'Sem prazo' : formatarDataISOparaBR(i.dataFinal))} • ${escapeHtml(i.statusPrazo)}</div>
+        </div>`).join('');
     }
     function renderDashboardRankingAtrasos(itens) {
       const box = $("dashboardRankingAtrasos");
@@ -3632,13 +3549,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       }
       box.innerHTML = ranking.map(i => `
         <div class="dashboard-list-item">
-          <div>
-            <strong>${escapeHtml(i.area)}</strong>
-            <span>Atrasados: ${i.atrasados} • Vencendo/hoje: ${i.vencendo}</span>
-          </div>
+          <div><strong>${escapeHtml(i.area)}</strong><span>Atrasados: ${i.atrasados} • Vencendo/hoje: ${i.vencendo}</span></div>
           <div class="num">${i.score}</div>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
     function renderDashboard(itens) {
       const total = itens.length;
@@ -3653,7 +3566,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       setTextIfExists("kpiHoje", hoje);
       setTextIfExists("kpiVencendo", vencendo);
       setTextIfExists("kpiAtrasados", atrasados);
-
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao || 'Em análise'] = (situacaoMap[i.situacao || 'Em análise'] || 0) + 1);
       const areaMap = {}; itens.forEach(i => { const k = i.area || 'Sem área'; areaMap[k] = (areaMap[k] || 0) + 1; });
@@ -3667,69 +3579,23 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         else if (i.statusPrazo === 'Vencendo') criticidadeGerencia[chave] += 1;
       });
       const rankingCritico = Object.entries(criticidadeGerencia).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 10);
-
       destroyCharts();
       const dark = document.body.classList.contains('dark-mode');
       const tickColor = dark ? '#d7e1e8' : '#5f6f79';
       const gridColor = dark ? 'rgba(148,163,184,.18)' : 'rgba(98,115,125,.12)';
       const chartBg = dark ? '#314153' : '#d7dfe2';
       const tooltipBg = dark ? '#111827' : '#334854';
-      const commonScales = {
-        x: { ticks: { color: tickColor }, grid: { color: gridColor, drawBorder: false } },
-        y: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }
-      };
-
-      chartPrazo = new Chart($("graficoPrazo"), {
-        type: "doughnut",
-        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#2f6b4d", "#9a6334", "#8a6226", "#8f4e4e", "#54656f"], borderColor: chartBg, borderWidth: 3, hoverOffset: 4 }] },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', color: tickColor } }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
-      });
-
-      const serieMeses = [];
-      const refHoje = new Date(todayISO() + 'T00:00:00');
-      for (let m = 11; m >= 0; m--) {
-        const d = new Date(refHoje.getFullYear(), refHoje.getMonth() - m, 1);
-        const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-        serieMeses.push({ key, rotulo: `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(2)}`, total: 0 });
-      }
-      itens.forEach(i => {
-        const dt = i.criadoEm?.toDate ? i.criadoEm.toDate() : (i.criadoEm ? new Date(i.criadoEm) : (i.dataCadastroISO ? new Date(i.dataCadastroISO + 'T00:00:00') : null));
-        if (!dt || isNaN(dt.getTime())) return;
-        const key = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}`;
-        const alvo = serieMeses.find(s => s.key === key);
-        if (alvo) alvo.total += 1;
-      });
-      chartEntradas = new Chart($("graficoEntradas"), {
-        type: "line",
-        data: { labels: serieMeses.map(i => i.rotulo), datasets: [{ label: 'Entradas', data: serieMeses.map(i => i.total), borderColor: '#677982', backgroundColor: 'rgba(103,121,130,.16)', fill: true, tension: 0.38, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#677982' }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales }
-      });
-
-      chartSituacao = new Chart($("graficoSituacao"), {
-        type: "bar",
-        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ['#6b8796','#9f937b','#7a8f83','#8b9aa3','#a07d7d'], borderRadius: 10, maxBarThickness: 42 }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales }
-      });
-
+      const commonScales = { x: { ticks: { color: tickColor }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } } };
+      chartPrazo = new Chart($("graficoPrazo"), {type: "doughnut", data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#2f6b4d", "#9a6334", "#8a6226", "#8f4e4e", "#54656f"], borderColor: chartBg, borderWidth: 3, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', color: tickColor } }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } } });
+      const serieMeses = []; const refHoje = new Date(todayISO() + 'T00:00:00');
+      for (let m = 11; m >= 0; m--) { const d = new Date(refHoje.getFullYear(), refHoje.getMonth() - m, 1); const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; serieMeses.push({ key, rotulo: `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(2)}`, total: 0 }); }
+      itens.forEach(i => { const dt = i.criadoEm?.toDate ? i.criadoEm.toDate() : (i.criadoEm ? new Date(i.criadoEm) : (i.dataCadastroISO ? new Date(i.dataCadastroISO + 'T00:00:00') : null)); if (!dt || isNaN(dt.getTime())) return; const key = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}`; const alvo = serieMeses.find(s => s.key === key); if (alvo) alvo.total += 1; });
+      chartEntradas = new Chart($("graficoEntradas"), { type: "line", data: { labels: serieMeses.map(i => i.rotulo), datasets: [{ label: 'Entradas', data: serieMeses.map(i => i.total), borderColor: '#677982', backgroundColor: 'rgba(103,121,130,.16)', fill: true, tension: 0.38, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#677982' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales } });
+      chartSituacao = new Chart($("graficoSituacao"), { type: "bar", data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ['#6b8796','#9f937b','#7a8f83','#8b9aa3','#a07d7d'], borderRadius: 10, maxBarThickness: 42 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales } });
       const areasOrdenadas = Object.entries(areaMap).sort((a,b) => b[1]-a[1]).slice(0, 8);
-      chartAreas = new Chart($("graficoAreas"), {
-        type: "bar",
-        data: { labels: areasOrdenadas.map(i => i[0]), datasets: [{ data: areasOrdenadas.map(i => i[1]), backgroundColor: ['#748791','#8f7c58','#60717d','#8b6767','#6f8577','#9aa7ad','#5f6f79','#a7926c'], borderRadius: 10, maxBarThickness: 44 }] },
-        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: { x: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor }, grid: { display: false, drawBorder: false } } } }
-      });
-
-      chartCriticidadeGerencia = new Chart($("graficoCriticidadeGerencia"), {
-        type: "bar",
-        data: { labels: rankingCritico.map(i => i[0]), datasets: [{ data: rankingCritico.map(i => i[1]), backgroundColor: '#8b6767', borderRadius: 12, maxBarThickness: 30 }] },
-        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { label: ctx => `Pontuação crítica: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } }, grid: { display: false, drawBorder: false } } } }
-      });
-
-      chartSGI = new Chart($("graficoSGI"), {
-        type: "bar",
-        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: '#748791', borderRadius: 12, maxBarThickness: 34, borderSkipped: false }] },
-        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0, color: tickColor }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } }, grid: { display: false, drawBorder: false } } } }
-      });
-
+      chartAreas = new Chart($("graficoAreas"), { type: "bar", data: { labels: areasOrdenadas.map(i => i[0]), datasets: [{ data: areasOrdenadas.map(i => i[1]), backgroundColor: ['#748791','#8f7c58','#60717d','#8b6767','#6f8577','#9aa7ad','#5f6f79','#a7926c'], borderRadius: 10, maxBarThickness: 44 }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: { x: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor }, grid: { display: false, drawBorder: false } } } } });
+      chartCriticidadeGerencia = new Chart($("graficoCriticidadeGerencia"), { type: "bar", data: { labels: rankingCritico.map(i => i[0]), datasets: [{ data: rankingCritico.map(i => i[1]), backgroundColor: '#8b6767', borderRadius: 12, maxBarThickness: 30 }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { label: ctx => `Pontuação crítica: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } }, grid: { display: false, drawBorder: false } } } } });
+      chartSGI = new Chart($("graficoSGI"), { type: "bar", data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: '#748791', borderRadius: 12, maxBarThickness: 34, borderSkipped: false }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0, color: tickColor }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } }, grid: { display: false, drawBorder: false } } } } });
       renderDashboardTopCriticos(itens);
       renderDashboardRankingAtrasos(itens);
     }
@@ -3941,60 +3807,19 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     .mini-kpi .k { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #66747d; font-weight: 800; }
     .mini-kpi .v { font-size: 28px; font-weight: 800; color: #243741; margin-top: 6px; }
     .mini-kpi .s { font-size: 12px; color: #6b7280; margin-top: 4px; }
-    .dashboard-actions {
-      display: grid;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .dashboard-action-item {
-      border: 1px solid #d4dde1;
-      border-radius: 14px;
-      padding: 12px;
-      background: rgba(255,255,255,.34);
-      box-shadow: 0 2px 8px rgba(16,24,40,.04);
-    }
+    .dashboard-actions { display: grid; gap: 12px; margin-top: 10px; }
+    .dashboard-action-item { border: 1px solid #d4dde1; border-radius: 14px; padding: 12px; background: rgba(255,255,255,.34); box-shadow: 0 2px 8px rgba(16,24,40,.04); }
     .dashboard-action-item .title { font-size: 13px; font-weight: 800; color: #243741; line-height: 1.35; }
     .dashboard-action-item .meta { font-size: 12px; color: #66747d; margin-top: 6px; line-height: 1.4; }
-    .dashboard-empty {
-      border: 1px dashed #c8d2d7;
-      border-radius: 14px;
-      padding: 18px;
-      text-align: center;
-      color: #67757d;
-      background: rgba(255,255,255,.22);
-      font-size: 13px;
-    }
-    .dashboard-section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
+    .dashboard-empty { border: 1px dashed #c8d2d7; border-radius: 14px; padding: 18px; text-align: center; color: #67757d; background: rgba(255,255,255,.22); font-size: 13px; }
+    .dashboard-section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
     .dashboard-section-title small { color: #6b7280; font-size: 12px; }
-    .dashboard-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 12px;
-    }
-    .dashboard-list-item {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-      background: rgba(255,255,255,.28);
-      border: 1px solid #d4dde1;
-      border-radius: 14px;
-      padding: 12px;
-    }
+    .dashboard-list { display: grid; gap: 10px; margin-top: 12px; }
+    .dashboard-list-item { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: rgba(255,255,255,.28); border: 1px solid #d4dde1; border-radius: 14px; padding: 12px; }
     .dashboard-list-item strong { display: block; color: #243741; font-size: 13px; line-height: 1.35; }
     .dashboard-list-item span { display: block; color: #6b7280; font-size: 12px; margin-top: 4px; }
     .dashboard-list-item .num { font-size: 26px; font-weight: 800; color: #334854; min-width: 44px; text-align: right; }
-    .dashboard-two-cols {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
+    .dashboard-two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .dashboard-chart-tall { min-height: 380px; }
     .dashboard-chart-medium { min-height: 320px; }
     .dashboard-chart-short { min-height: 280px; }
@@ -4018,15 +3843,11 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     body.dark-mode .dashboard-action-item .meta,
     body.dark-mode .dashboard-list-item span,
     body.dark-mode .dashboard-section-title small,
-    body.dark-mode .dashboard-empty {
-      color: #9fb0bd !important;
-    }
+    body.dark-mode .dashboard-empty { color: #9fb0bd !important; }
     body.dark-mode .mini-kpi .v,
     body.dark-mode .dashboard-action-item .title,
     body.dark-mode .dashboard-list-item strong,
-    body.dark-mode .dashboard-list-item .num {
-      color: #f3f4f6 !important;
-    }
+    body.dark-mode .dashboard-list-item .num { color: #f3f4f6 !important; }
 
 </style></head><body><h2>Relatório de Processos</h2><div class="sub">${ctx.escopo}</div><div class="meta"><div><strong>Exportado em:</strong> ${ctx.em}</div><div><strong>Usuário:</strong> ${escapeHtml(ctx.usuario)}</div><div><strong>Filtros aplicados:</strong> ${escapeHtml(ctx.filtros)}</div><div><strong>Total exportado:</strong> ${ctx.total}</div></div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
       janela.document.close();
