@@ -1,42 +1,2684 @@
-<script type="module">
+<index.html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Gestão de Processos — Premium</title>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-alert("script rodando ✅"); // ← TESTE
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-soft: #fafcff;
+      --text: #1d2939;
+      --muted: #667085;
+      --border: #e4e7ec;
+      --primary: #155eef;
+      --primary-dark: #0047ab;
+      --primary-soft: #eef4ff;
+      --success: #039855;
+      --warning: #dc6803;
+      --danger: #d92d20;
+      --shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAdNNEoLtJUHayFl7Idb7jGeTM5wJTnUGI",
-  authDomain: "contratos-sgi.firebaseapp.com",
-  projectId: "contratos-sgi"
-};
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #f9fbff 0%, var(--bg) 100%);
+      color: var(--text);
+    }
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    header {
+      background: linear-gradient(120deg, #0b3b91 0%, var(--primary) 100%);
+      color: #fff;
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 10px 24px rgba(21, 94, 239, 0.22);
+    }
 
-async function carregarContratos() {
-  alert("buscando dados"); // ← TESTE
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
 
-  const lista = document.getElementById("lista");
+    header p {
+      margin: 6px 0 0;
+      opacity: 0.88;
+      font-size: 14px;
+    }
 
-  const snapshot = await getDocs(collection(db, "contratos"));
+    .container {
+      max-width: 1600px;
+      margin: 24px auto;
+      padding: 0 16px 28px;
+    }
 
-  alert("dados carregados: " + snapshot.size); // ← TESTE
+    .card {
+      background: var(--surface);
+      border: 1px solid rgba(16, 24, 40, 0.05);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      margin-bottom: 18px;
+    }
 
-  snapshot.forEach((doc) => {
-    const dados = doc.data();
+    .hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fbff 60%, #eef4ff 100%);
+      border-color: #dbe6ff;
+    }
 
-    const li = document.createElement("li");
+    .hidden { display: none !important; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .section-title { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
 
-    li.textContent =
-      "Contrato: " + dados.numero_contrato +
-      " | Empresa: " + dados.empresa +
-      " | Vencimento: " + dados.data_fim_vigencia;
+    .topbar, .toolbar, .tabs, .chips, .stats-strip {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
 
-    lista.appendChild(li);
-  });
-}
+    .topbar { justify-content: space-between; }
 
-carregarContratos();
+    .grid-2, .grid-3, .grid-4, .grid-5 {
+      display: grid;
+      gap: 14px;
+    }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid-5 { grid-template-columns: repeat(5, 1fr); }
 
-</script>
+    @media (max-width: 1280px) { .grid-5 { grid-template-columns: repeat(3, 1fr); } .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+      .topbar { flex-direction: column; align-items: stretch; }
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      padding: 12px 13px;
+      border-radius: 12px;
+      border: 1px solid #d0d5dd;
+      font-size: 14px;
+      font-family: inherit;
+      background: #fff;
+      transition: 0.2s ease;
+      outline: none;
+      margin-top: 8px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #84adff;
+      box-shadow: 0 0 0 4px rgba(21, 94, 239, 0.12);
+    }
+
+    textarea { resize: vertical; min-height: 130px; }
+
+    input:disabled, select:disabled, textarea:disabled {
+      background: #f8fafc;
+      color: var(--muted);
+    }
+
+    button {
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-weight: 700;
+      background: linear-gradient(180deg, #2e73ff 0%, var(--primary) 100%);
+      box-shadow: 0 8px 18px rgba(21, 94, 239, 0.14);
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: 0.65; cursor: not-allowed; box-shadow: none; }
+
+    .secondary { background: linear-gradient(180deg, #667085 0%, #475467 100%); }
+    .success { background: linear-gradient(180deg, #12b76a 0%, var(--success) 100%); }
+    .warning { background: linear-gradient(180deg, #f79009 0%, var(--warning) 100%); }
+    .danger { background: linear-gradient(180deg, #f04438 0%, var(--danger) 100%); }
+    .outline { background: #fff; color: #344054; border: 1px solid #d0d5dd; box-shadow: none; }
+    .light { background: linear-gradient(180deg, #f4f8ff 0%, #eaf1ff 100%); color: #114a9f; border: 1px solid #cdddff; box-shadow: none; }
+
+    .tab-btn {
+      width: auto;
+      min-width: 160px;
+      background: #f4f7fb;
+      color: #344054;
+      border: 1px solid #dfe4ea;
+      box-shadow: none;
+      margin-top: 0;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(180deg, #2e73ff 0%, var(--primary) 100%);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .feedback {
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      border: 1px solid transparent;
+      margin-top: 12px;
+    }
+    .feedback.info { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
+    .feedback.success { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
+    .feedback.warning { background: #fffaeb; color: #b54708; border-color: #fedf89; }
+    .feedback.error { background: #fef3f2; color: #b42318; border-color: #fecdca; }
+
+    .user-box {
+      display: inline-flex;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #eaecf0;
+      background: #fcfcfd;
+      color: #344054;
+      font-size: 14px;
+    }
+
+    .composer {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 1100px) { .composer { grid-template-columns: 1fr; } }
+
+    .box-soft {
+      background: var(--surface-soft);
+      border: 1px solid #edf2f7;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .filters-wrap {
+      display: grid;
+      gap: 16px;
+    }
+
+    .filters-top {
+      display: grid;
+      grid-template-columns: 1.4fr repeat(4, 1fr);
+      gap: 12px;
+      align-items: end;
+    }
+    .filters-bottom {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      align-items: end;
+    }
+    @media (max-width: 1300px) {
+      .filters-top, .filters-bottom { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 800px) {
+      .filters-top, .filters-bottom { grid-template-columns: 1fr; }
+    }
+
+    .chip {
+      width: auto;
+      margin-top: 0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 700;
+      font-size: 13px;
+      background: #fff;
+      color: #344054;
+      border: 1px solid #d0d5dd;
+      box-shadow: none;
+    }
+    .chip.active {
+      color: #fff;
+      background: linear-gradient(180deg, #2e73ff 0%, var(--primary) 100%);
+      border-color: transparent;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 1200px) { .metric-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 700px) { .metric-grid { grid-template-columns: 1fr; } }
+
+    .metric {
+      position: relative;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid #eaecf0;
+      border-radius: 18px;
+      padding: 18px;
+      transition: 0.16s ease;
+    }
+    .metric::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #60a5fa 0%, #1d4ed8 100%);
+    }
+    .metric.green::before { background: linear-gradient(90deg, #34d399 0%, #059669 100%); }
+    .metric.amber::before { background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%); }
+    .metric.red::before { background: linear-gradient(90deg, #fb7185 0%, #dc2626 100%); }
+    .metric.slate::before { background: linear-gradient(90deg, #94a3b8 0%, #475569 100%); }
+    .metric:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(16,24,40,.08); }
+    .metric .label { font-size: 13px; color: var(--muted); }
+    .metric .value { font-size: 30px; font-weight: 800; margin-top: 8px; }
+    .metric small { display: block; margin-top: 8px; color: var(--muted); }
+
+    .stats-strip { margin-top: 14px; }
+    .counter-pill {
+      background: #fff;
+      border: 1px solid #eaecf0;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 13px;
+      color: #344054;
+    }
+
+    .alertas {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #fffaeb;
+      border: 1px solid #fedf89;
+      color: #8a3204;
+    }
+    .alertas ul { margin: 8px 0 0 18px; padding: 0; }
+
+    .table-wrap {
+      margin-top: 16px;
+      overflow: auto;
+      max-height: 72vh;
+      border-radius: 16px;
+      border: 1px solid #eaecf0;
+      background: #fff;
+    }
+    table {
+      width: 100%;
+      min-width: 1750px;
+      border-collapse: collapse;
+      background: white;
+    }
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background: linear-gradient(180deg, #1d67c8 0%, var(--primary) 100%);
+      color: white;
+      text-align: left;
+      padding: 12px;
+      border: 1px solid #dbe4f0;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    tbody td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    tbody tr.main-row:hover td { background: #f8fbff; }
+    tr.linha-atrasada td { background: #fff6f6; }
+    tr.linha-vencendo td, tr.linha-hoje td { background: #fffaf0; }
+    tr.linha-sem-prazo td { background: #fafafa; }
+
+    .detail-row td {
+      background: #fcfcfd !important;
+      padding: 0;
+    }
+    .row-details-box {
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      border-top: 1px dashed #ddd;
+    }
+    @media (max-width: 900px) { .row-details-box { grid-template-columns: 1fr; } }
+    .detail-mini {
+      background: white;
+      border: 1px solid #eaecf0;
+      border-radius: 11px;
+      padding: 10px;
+      font-size: 13px;
+    }
+    .detail-mini .tt { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+
+    .acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .acoes button {
+      width: auto;
+      margin: 0;
+      padding: 7px 10px;
+      font-size: 12px;
+      box-shadow: none;
+    }
+
+    .expand-btn {
+      width: auto;
+      margin: 0;
+      padding: 6px 8px;
+      background: #f2f4f7;
+      color: #344054;
+      border: 1px solid #d0d5dd;
+      box-shadow: none;
+    }
+
+    .sortable { cursor: pointer; user-select: none; }
+    .sortable small { opacity: .85; font-weight: 400; margin-left: 4px; }
+
+    .badge, .badge-situacao, .badge-area {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-no-prazo { background: #ecfdf3; color: #027a48; border: 1px solid #abefc6; }
+    .badge-vencendo { background: #fffaeb; color: #b54708; border: 1px solid #fedf89; }
+    .badge-vence-hoje { background: #fff3e6; color: #b54708; border: 1px solid #f7b27a; }
+    .badge-atrasado { background: #fef3f2; color: #b42318; border: 1px solid #fecdca; }
+    .badge-sem-prazo { background: #f2f4f7; color: #475467; border: 1px solid #d0d5dd; }
+
+    .badge-situacao, .badge-area { background: #f8fafc; color: #344054; border: 1px solid #d0d5dd; }
+    .badge-situacao.concluido { background: #ecfdf3; color: #027a48; border-color: #abefc6; }
+    .badge-situacao.andamento { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
+    .badge-situacao.pendente { background: #fff7ed; color: #c2410c; border-color: #fdba74; }
+    .badge-situacao.arquivado { background: #f2f4f7; color: #344054; border-color: #d0d5dd; }
+    .badge-area.sgi { background: #eff8ff; color: #175cd3; border-color: #b2ddff; }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 18px;
+    }
+    @media (max-width: 1200px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+    .charts-stack {
+      display: grid;
+      gap: 18px;
+    }
+    .chart-card {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+    canvas {
+      margin-top: 10px;
+      max-height: 360px;
+      background: white;
+      border-radius: 10px;
+    }
+
+    .sidebar-cards {
+      display: grid;
+      gap: 18px;
+    }
+
+    .drawer-overlay, .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.35);
+    }
+    .drawer-overlay { z-index: 1000; }
+    .modal-overlay {
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(460px, 94vw);
+      height: 100vh;
+      background: white;
+      box-shadow: -6px 0 30px rgba(0,0,0,.18);
+      z-index: 1001;
+      overflow-y: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .drawer-head, .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .drawer-close, .modal-close {
+      width: auto;
+      margin: 0;
+      padding: 8px 12px;
+      background: #f2f4f7;
+      color: #344054;
+      border: 1px solid #d0d5dd;
+      box-shadow: none;
+    }
+    .drawer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .drawer-box {
+      background: #fcfcfd;
+      border: 1px solid #eaecf0;
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .drawer-box .label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .drawer-box .value { font-size: 14px; color: #101828; word-break: break-word; }
+
+    .modal {
+      width: min(780px, 100%);
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.20);
+      padding: 20px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .toasts {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1200;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: min(360px, calc(100vw - 32px));
+    }
+    .toast {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      padding: 12px 14px;
+      border-left: 5px solid var(--primary);
+      font-size: 14px;
+    }
+    .toast.success { border-left-color: var(--success); }
+    .toast.error { border-left-color: var(--danger); }
+    .toast.warning { border-left-color: var(--warning); }
+  
+
+    /* ===== PREMIUM OVERRIDES ===== */
+    :root {
+      --bg: #f3f6fb;
+      --surface: #ffffff;
+      --surface-soft: #f8fbff;
+      --text: #182230;
+      --muted: #667085;
+      --border: #e6eaf2;
+      --primary: #155eef;
+      --primary-dark: #0b4bc4;
+      --primary-soft: #eef4ff;
+      --success: #039855;
+      --warning: #dc6803;
+      --danger: #d92d20;
+      --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 6px 18px rgba(16, 24, 40, 0.06);
+      --radius: 22px;
+      --radius-sm: 14px;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(21, 94, 239, 0.05), transparent 28%),
+        radial-gradient(circle at top right, rgba(3, 152, 85, 0.04), transparent 24%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(120deg, rgba(11,75,196,.96) 0%, rgba(21,94,239,.96) 100%);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .card {
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at right top, rgba(21,94,239,.10), transparent 26%),
+        linear-gradient(135deg, #ffffff 0%, #f7faff 55%, #eef4ff 100%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(21,94,239,.15) 0%, rgba(21,94,239,0) 70%);
+      pointer-events: none;
+    }
+
+    .topbar {
+      gap: 18px;
+      align-items: center;
+    }
+
+    .toolbar {
+      gap: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .user-box {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      box-shadow: var(--shadow-soft);
+      border-color: #e8eef7;
+    }
+
+    .section-title {
+      font-size: 19px;
+      letter-spacing: .1px;
+      margin-bottom: 14px;
+    }
+
+    .box-soft, .filtros-box {
+      background: linear-gradient(180deg, #fcfdff 0%, #f8fbff 100%);
+      border: 1px solid #edf2fa;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+    }
+
+    .composer {
+      gap: 22px;
+    }
+
+    .filters-wrap {
+      gap: 18px;
+    }
+
+    .filters-top, .filters-bottom {
+      gap: 14px;
+    }
+
+    input, textarea, select {
+      border-radius: 14px;
+      border-color: #d8dde7;
+      background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+    }
+
+    button {
+      border-radius: 14px;
+      min-height: 44px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      box-shadow: 0 1px 0 rgba(16,24,40,.03);
+    }
+
+    .metric {
+      border-radius: 20px;
+      box-shadow: var(--shadow-soft);
+      padding: 20px;
+    }
+
+    .metric .value {
+      font-size: 32px;
+    }
+
+    .stats-strip {
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .counter-pill {
+      box-shadow: 0 1px 0 rgba(16,24,40,.03);
+      background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
+    }
+
+    .table-wrap {
+      border-radius: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    thead th {
+      background: linear-gradient(180deg, #1d67c8 0%, #155eef 100%);
+    }
+
+    tbody td {
+      line-height: 1.45;
+    }
+
+    tbody tr.main-row {
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    tbody tr.main-row:hover {
+      transform: scale(1.001);
+    }
+
+    .acoes button {
+      border-radius: 12px;
+      min-height: auto;
+    }
+
+    .dashboard-grid {
+      gap: 22px;
+    }
+
+    .charts-stack, .sidebar-cards {
+      gap: 20px;
+    }
+
+    .chart-card {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+    .chart-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #60a5fa 0%, #155eef 100%);
+      opacity: .95;
+    }
+
+    .drawer, .modal {
+      border-radius: 22px 0 0 22px;
+    }
+    .modal {
+      border-radius: 22px;
+    }
+
+    .drawer-box, .detail-mini {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .toast {
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(16,24,40,.12);
+    }
+
+    .quick-help {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .quick-help .help-item {
+      padding: 14px;
+      border: 1px solid #eaecf0;
+      border-radius: 16px;
+      background: linear-gradient(180deg,#ffffff 0%, #f9fbff 100%);
+      box-shadow: var(--shadow-soft);
+    }
+    .quick-help .help-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .quick-help .help-item span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    @media (max-width: 1000px) {
+      .quick-help { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏛️ Sistema de Gestão de Processos</h1>
+    <p>Interface premium, limpa e orientada a produtividade</p>
+  </header>
+
+  <div class="toasts" id="toasts"></div>
+
+  <div id="loginBox" class="container">
+    <div class="card hero">
+      <h3 style="margin-bottom:8px;">Acesso ao sistema</h3>
+      <div class="muted" style="margin-bottom:12px;">Entre com seu usuário do Firebase Authentication.</div>
+
+      <div class="grid-2">
+        <div>
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="Digite seu e-mail" />
+        </div>
+        <div>
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" placeholder="Digite sua senha" />
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" id="btnEntrar">Entrar</button>
+        <button type="button" class="success" id="btnCadastrar">Cadastrar usuário</button>
+        <button type="button" class="secondary" id="btnResetar">Esqueci a senha</button>
+      </div>
+
+      <div id="statusLogin" class="feedback hidden"></div>
+    </div>
+  </div>
+
+  <div id="appBox" class="container hidden">
+    <div class="card hero">
+      <div class="topbar">
+        <div>
+          <h3 style="margin-bottom:6px;">Painel de Processos</h3>
+          <div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong></div>
+        </div>
+        <div class="toolbar">
+          <button type="button" class="secondary" style="width:auto; min-width:220px;" id="btnNotificacao">Ativar avisos</button>
+          <button type="button" class="danger" style="width:auto; min-width:140px;" id="btnSair">Sair</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quick-help">
+        <div class="help-item">
+          <strong>1. Cadastre ou cole um processo</strong>
+          <span>Use o campo de texto para colar informações ou preencha os campos laterais para complementar rapidamente.</span>
+        </div>
+        <div class="help-item">
+          <strong>2. Filtre com clareza</strong>
+          <span>Busque por palavra-chave e refine por área, gerência, situação ou prazo sem lotar a tela de informações.</span>
+        </div>
+        <div class="help-item">
+          <strong>3. Acompanhe prioridades</strong>
+          <span>O painel executivo destaca vencimentos, atrasos, SGI e ranking de unidades para decisão mais rápida.</span>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button type="button" id="tabProcessosBtn" class="tab-btn active">Processos</button>
+        <button type="button" id="tabDashboardBtn" class="tab-btn">Dashboard</button>
+      </div>
+
+      <div id="abaProcessos">
+        <div class="composer">
+          <div class="box-soft">
+            <div class="section-title">Novo processo</div>
+            <textarea id="entrada" placeholder="Cole o texto do processo aqui...
+
+Exemplo:
+Processo nº 12345/2026
+Interessado(a): Maria Silva
+Assunto: Solicitação de revisão
+Prazo: 10 dias
+Gerência: GECONT"></textarea>
+          </div>
+
+          <div class="box-soft">
+            <div class="section-title">Complementos</div>
+            <div class="grid-2">
+              <div>
+                <label for="gerenciaManual">Gerência/Seção</label>
+                <select id="gerenciaManual"><option value="">Selecione...</option></select>
+              </div>
+              <div>
+                <label for="situacaoManual">Situação</label>
+                <select id="situacaoManual"></select>
+              </div>
+              <div>
+                <label for="dataFinalManual">Data final</label>
+                <input type="date" id="dataFinalManual" />
+              </div>
+              <div>
+                <label for="limiteVencendo">Avisar quando faltar</label>
+                <select id="limiteVencendo">
+                  <option value="1">1 dia</option>
+                  <option value="2">2 dias</option>
+                  <option value="3" selected>3 dias</option>
+                  <option value="5">5 dias</option>
+                  <option value="7">7 dias</option>
+                </select>
+              </div>
+            </div>
+            <label style="display:block; margin-top:10px;"><input type="checkbox" id="semPrazoManual" /> Processo sem prazo definido</label>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-top:18px;">
+          <button type="button" id="btnGerarProcesso">Cadastrar processo</button>
+          <button type="button" class="outline" id="btnLimparFormulario">Limpar formulário</button>
+          <button type="button" id="btnExportarExcelVisiveis">Exportar Excel</button>
+          <button type="button" id="btnExportarPDFVisiveis">Exportar PDF</button>
+        </div>
+
+        <div id="mensagemSistema" class="hidden"></div>
+
+        <div class="card" style="margin-top:18px; padding:18px; background:linear-gradient(180deg,#fbfdff 0%,#f8fbff 100%);">
+          <div class="section-title" style="margin-bottom:10px;">Busca e filtros</div>
+          <div class="filters-wrap">
+            <div class="filters-top">
+              <div>
+                <label for="busca">Busca rápida</label>
+                <input id="busca" placeholder="Buscar por processo, interessado, assunto, área ou gerência..." />
+              </div>
+              <div>
+                <label for="filtroArea">Área</label>
+                <select id="filtroArea"><option value="">Todas</option></select>
+              </div>
+              <div>
+                <label for="filtroGerencia">Gerência/Seção</label>
+                <select id="filtroGerencia"><option value="">Todas</option></select>
+              </div>
+              <div>
+                <label for="filtroSituacao">Situação</label>
+                <select id="filtroSituacao"><option value="">Todas</option></select>
+              </div>
+              <div>
+                <label for="filtroStatusPrazo">Prazo</label>
+                <select id="filtroStatusPrazo">
+                  <option value="">Todos</option>
+                  <option value="No prazo">No prazo</option>
+                  <option value="Vence hoje">Vence hoje</option>
+                  <option value="Vencendo">Vencendo</option>
+                  <option value="Atrasado">Atrasado</option>
+                  <option value="Sem prazo">Sem prazo</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="filters-bottom">
+              <div>
+                <label for="filtroPrazo">Tipo de prazo</label>
+                <select id="filtroPrazo">
+                  <option value="">Todos</option>
+                  <option value="comPrazo">Com prazo</option>
+                  <option value="semPrazo">Sem prazo</option>
+                </select>
+              </div>
+              <div>
+                <label for="filtroDataInicial">Data final de</label>
+                <input type="date" id="filtroDataInicial" />
+              </div>
+              <div>
+                <label for="filtroDataFinal">Data final até</label>
+                <input type="date" id="filtroDataFinal" />
+              </div>
+              <div>
+                <label for="ordenacao">Ordenar por</label>
+                <select id="ordenacao">
+                  <option value="">Padrão</option>
+                  <option value="dataFinalAsc">Data final</option>
+                  <option value="processoAsc">Processo</option>
+                  <option value="interessadoAsc">Interessado</option>
+                  <option value="gerenciaAsc">Gerência</option>
+                  <option value="areaAsc">Área</option>
+                  <option value="diasRestantesAsc">Dias restantes</option>
+                </select>
+              </div>
+              <div>
+                <label style="display:block; margin-bottom:8px;">Ações</label>
+                <div class="toolbar">
+                  <label style="width:auto; white-space:nowrap;"><input type="checkbox" id="filtroAtrasados" /> só atrasados</label>
+                  <button type="button" class="light" id="btnLimparFiltros" style="width:auto; min-width:130px; margin-top:0;">Limpar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chips" id="chipsRapidos" style="margin-top:16px;">
+            <button type="button" class="chip" data-chip-type="area" data-chip-value="Superintendência de Gestão Integrada (SGI)">SGI</button>
+            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Atrasado">Atrasados</button>
+            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vence hoje">Vence hoje</button>
+            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Vencendo">Vencendo</button>
+            <button type="button" class="chip" data-chip-type="statusPrazo" data-chip-value="Sem prazo">Sem prazo</button>
+            <button type="button" class="chip" data-chip-type="situacao" data-chip-value="Concluído">Concluídos</button>
+          </div>
+        </div>
+
+        <div id="alertasPrazo" class="alertas hidden"></div>
+
+        <div class="metric-grid" style="margin-top:18px;">
+          <div class="metric summary-card" data-summary-type="" data-summary-value="">
+            <div class="label">Mostrando</div>
+            <div class="value" id="sumMostrando">0</div>
+            <small>registros visíveis</small>
+          </div>
+          <div class="metric summary-card" data-summary-type="area" data-summary-value="Superintendência de Gestão Integrada (SGI)">
+            <div class="label">SGI</div>
+            <div class="value" id="sumSGI">0</div>
+            <small>sua área</small>
+          </div>
+          <div class="metric summary-card amber" data-summary-type="statusPrazo" data-summary-value="Vencendo">
+            <div class="label">Vencendo</div>
+            <div class="value" id="sumVencendo">0</div>
+            <small>prioridade</small>
+          </div>
+          <div class="metric summary-card red" data-summary-type="statusPrazo" data-summary-value="Atrasado">
+            <div class="label">Atrasados</div>
+            <div class="value" id="sumAtrasados">0</div>
+            <small>ação imediata</small>
+          </div>
+        </div>
+
+        <div class="stats-strip">
+          <span class="counter-pill" id="contadorRegistros">0 registro(s)</span>
+          <span class="counter-pill" id="counterAtrasados">Atrasados: 0</span>
+          <span class="counter-pill" id="counterHoje">Vence hoje: 0</span>
+          <span class="counter-pill" id="counterVencendo">Vencendo: 0</span>
+          <span class="counter-pill" id="counterSemPrazo">Sem prazo: 0</span>
+          <span class="counter-pill" id="counterSGI">SGI: 0</span>
+        </div>
+
+        <div id="noResults" class="no-results hidden">Nenhum processo encontrado com os filtros aplicados.</div>
+
+        <div class="table-wrap">
+          <table id="tabela" class="hidden">
+            <thead>
+              <tr>
+                <th style="width:55px;">Detalhe</th>
+                <th class="sortable" data-sort="processoAsc">Processo <small>⇅</small></th>
+                <th>Interessado</th>
+                <th>Assunto</th>
+                <th>Data de cadastro</th>
+                <th>Situação</th>
+                <th class="sortable" data-sort="areaAsc">Área <small>⇅</small></th>
+                <th class="sortable" data-sort="gerenciaAsc">Gerência/Seção <small>⇅</small></th>
+                <th class="sortable" data-sort="dataFinalAsc">Data final <small>⇅</small></th>
+                <th>Status do prazo</th>
+                <th class="sortable" data-sort="diasRestantesAsc">Dias restantes <small>⇅</small></th>
+                <th>Última alteração</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyProcessos"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="abaDashboard" class="hidden">
+        <div class="dashboard-grid">
+          <div class="charts-stack">
+            <div class="card chart-card">
+              <h4>Visão geral de prazos</h4>
+              <div class="muted">Resumo dos processos visíveis por status de prazo.</div>
+              <canvas id="graficoPrazo"></canvas>
+            </div>
+            <div class="card chart-card">
+              <h4>Processos por área</h4>
+              <div class="muted">Distribuição entre SGI e demais áreas.</div>
+              <canvas id="graficoOutrasAreas"></canvas>
+            </div>
+            <div class="card chart-card">
+              <h4>Ranking de unidades</h4>
+              <div class="muted">Top 12 gerências / seções com mais processos.</div>
+              <canvas id="graficoGerencia"></canvas>
+            </div>
+          </div>
+
+          <div class="sidebar-cards">
+            <div class="card">
+              <h4>Painel executivo</h4>
+              <div class="metric-grid" style="grid-template-columns:1fr 1fr; margin-top:12px;">
+                <div class="metric"><div class="label">Total</div><div class="value" id="kpiTotal">0</div></div>
+                <div class="metric slate"><div class="label">Sem prazo</div><div class="value" id="kpiSemPrazo">0</div></div>
+                <div class="metric amber"><div class="label">Vencendo</div><div class="value" id="kpiVencendo">0</div></div>
+                <div class="metric red"><div class="label">Atrasados</div><div class="value" id="kpiAtrasados">0</div></div>
+                <div class="metric green"><div class="label">Concluídos</div><div class="value" id="kpiConcluidos">0</div></div>
+                <div class="metric"><div class="label">Pendentes</div><div class="value" id="kpiPendentes">0</div></div>
+              </div>
+            </div>
+
+            <div class="card chart-card">
+              <h4>Processos por situação</h4>
+              <canvas id="graficoSituacao"></canvas>
+            </div>
+
+            <div class="card chart-card">
+              <h4>SGI — gerências e seções</h4>
+              <div class="muted">Detalhamento rápido para sua área.</div>
+              <canvas id="graficoSGI"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="drawerOverlay" class="drawer-overlay hidden"></div>
+  <aside id="drawer" class="drawer hidden">
+    <div class="drawer-head">
+      <div>
+        <h3 style="margin-bottom:6px;">Detalhes do processo</h3>
+        <div class="muted" id="drawerSubtitulo">Selecione um registro</div>
+      </div>
+      <button type="button" class="drawer-close" id="btnFecharDrawer">Fechar</button>
+    </div>
+    <div id="drawerConteudo" class="drawer-grid"></div>
+    <div class="btn-row">
+      <button type="button" id="drawerBtnEditar">Editar</button>
+      <button type="button" class="warning" id="drawerBtnPendente">Pendente</button>
+      <button type="button" class="success" id="drawerBtnConcluir">Concluir</button>
+      <button type="button" class="secondary" id="drawerBtnArquivar">Arquivar</button>
+      <button type="button" class="danger" id="drawerBtnExcluir">Excluir</button>
+    </div>
+  </aside>
+
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h3 style="margin-bottom:6px;">Editar processo</h3>
+          <div class="muted" id="modalSubtitulo">Atualize os dados do processo</div>
+        </div>
+        <button type="button" class="modal-close" id="btnFecharModal">Fechar</button>
+      </div>
+      <div class="grid-2">
+        <div><label for="editProcesso">Processo</label><input type="text" id="editProcesso" /></div>
+        <div><label for="editInteressado">Interessado</label><input type="text" id="editInteressado" /></div>
+      </div>
+      <div><label for="editAssunto">Assunto</label><textarea id="editAssunto" style="min-height:100px;"></textarea></div>
+      <div class="grid-3">
+        <div><label for="editSituacao">Situação</label><select id="editSituacao"></select></div>
+        <div><label for="editGerencia">Gerência/Seção</label><select id="editGerencia"><option value="">Selecione...</option></select></div>
+        <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
+      </div>
+      <label style="display:block; margin-top:10px;"><input type="checkbox" id="editSemPrazo" /> Sem prazo</label>
+      <div class="btn-row"><button type="button" id="btnSalvarEdicao">Salvar alterações</button></div>
+    </div>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0i9yuUVpRNesYFrBEGGgqxW-8Nw_w68A",
+      authDomain: "meu-sistema-processos.firebaseapp.com",
+      databaseURL: "https://meu-sistema-processos-default-rtdb.firebaseio.com",
+      projectId: "meu-sistema-processos",
+      storageBucket: "meu-sistema-processos.firebasestorage.app",
+      messagingSenderId: "773592641691",
+      appId: "1:773592641691:web:8d07e9e83e293f0017d63e",
+      measurementId: "G-68LQKR6HK0"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const ESTRUTURA_ORGANIZACIONAL = {
+      "Superintendência de Gestão Integrada (SGI)": [
+        "Gerência de Consolidação e Tratamento de Dados",
+        "Gerência de Planejamento Institucional",
+        "Gerência de Gestão e Desenvolvimento de Pessoas",
+        "Gerência de Compras Governamentais",
+        "Gerência de Execução Orçamentária e Financeira",
+        "Gerência de Apoio Administrativo e Logístico",
+        "Gerência de Convênios e Governança Corporativa",
+        "Gerência de Infraestrutura e Manutenção Predial",
+        "Gerência de Modernização Institucional e Processos",
+        "Gerência de Contabilidade",
+        "Seção de Patrimônio",
+        "Seção de Contratos",
+        "Seção de Transporte"
+      ],
+      "Gabinete do Secretário": [
+        "Chefia de Gabinete",
+        "Procuradoria Setorial",
+        "Assessoria de Harmonização Institucional",
+        "Assessoria de Gestão Estratégica e Projetos",
+        "Assessoria de Comunicação",
+        "Ouvidoria Setorial",
+        "Unidade de Controle Interno",
+        "Comissão Permanente de Avaliação de Documentos e Acesso à Informação (CPAD)"
+      ],
+      "Subsecretaria de Gestão e Desenvolvimento de Pessoas": [
+        "Superintendência Central de Desenvolvimento Estratégico de Pessoal",
+        "Superintendência Central de Gestão de Pessoal",
+        "Superintendência de Recrutamento e Seleção"
+      ],
+      "Subsecretaria de Inovação da Gestão e dos Serviços Públicos": [
+        "Superintendência Central de Transformação Pública",
+        "Gerência de Modelos Organizacionais",
+        "Gerência de Experiência do Usuário",
+        "Gerência do Escritório de Processos",
+        "Gerência de Avaliação da Gestão e dos Serviços Públicos",
+        "Superintendência de Inovação da Gestão Pública",
+        "Superintendência da Gestão do Atendimento ao Cidadão"
+      ],
+      "Subsecretaria de Logística e Patrimônio": [
+        "Superintendência Central do Patrimônio Imobiliário",
+        "Superintendência Central de Logística e Patrimônio Mobiliário",
+        "Superintendência Central de Compras e Contratos"
+      ],
+      "Diretoria Executiva da Escola de Governo": ["Diretoria Executiva da Escola de Governo"],
+      "Diretoria Executiva de Saúde e Segurança do Servidor": ["Diretoria Executiva de Saúde e Segurança do Servidor"],
+      "Diretoria Executiva da Liquidação de Estatais": ["Diretoria Executiva da Liquidação de Estatais"]
+    };
+
+    const ABREVIACOES_SGI = {
+      "Gerência de Consolidação e Tratamento de Dados": "GESTD",
+      "Gerência de Planejamento Institucional": "GPI",
+      "Gerência de Gestão e Desenvolvimento de Pessoas": "GGDP",
+      "Gerência de Compras Governamentais": "GECG",
+      "Gerência de Execução Orçamentária e Financeira": "GEOF",
+      "Gerência de Apoio Administrativo e Logístico": "GEAAL",
+      "Gerência de Convênios e Governança Corporativa": "GCGC",
+      "Gerência de Infraestrutura e Manutenção Predial": "GEINFRA",
+      "Gerência de Modernização Institucional e Processos": "GEMOP",
+      "Gerência de Contabilidade": "GECONT",
+      "Seção de Patrimônio": "SEP",
+      "Seção de Contratos": "SEC",
+      "Seção de Transporte": "SET"
+    };
+
+    const SIGLAS_PARA_UNIDADE = Object.fromEntries(Object.entries(ABREVIACOES_SGI).map(([nome, sigla]) => [sigla.toUpperCase(), nome]));
+    const AREAS = Object.keys(ESTRUTURA_ORGANIZACIONAL);
+    const TODAS_UNIDADES = Object.values(ESTRUTURA_ORGANIZACIONAL).flat();
+
+    const COLLECTION_PROCESSOS = "processos";
+    const STATUS_OPERACIONAIS = ["Em análise", "Pendente", "Em andamento", "Concluído", "Arquivado"];
+    const STATUS_PRAZO_LIST = ["No prazo", "Vence hoje", "Vencendo", "Atrasado", "Sem prazo"];
+    const STORAGE_KEYS = { filtros: "sgp_clean_filters_v1", aba: "sgp_clean_aba_v1" };
+
+    let allItems = [];
+    let filteredItems = [];
+    let chartSituacao = null;
+    let chartPrazo = null;
+    let chartSGI = null;
+    let chartOutrasAreas = null;
+    let chartGerencia = null;
+    let unsubscribeSnapshot = null;
+    let expandedIds = new Set();
+    let selectedDrawerId = null;
+    let editingId = null;
+    let chavesNotificadas = new Set();
+
+    const $ = (id) => document.getElementById(id);
+    const loginBox = $("loginBox");
+    const appBox = $("appBox");
+    const emailInput = $("email");
+    const senhaInput = $("senha");
+    const statusLogin = $("statusLogin");
+    const btnEntrar = $("btnEntrar");
+    const btnCadastrar = $("btnCadastrar");
+    const btnResetar = $("btnResetar");
+    const btnSair = $("btnSair");
+    const btnNotificacao = $("btnNotificacao");
+    const usuarioLogado = $("usuarioLogado");
+    const tabProcessosBtn = $("tabProcessosBtn");
+    const tabDashboardBtn = $("tabDashboardBtn");
+    const abaProcessos = $("abaProcessos");
+    const abaDashboard = $("abaDashboard");
+    const entrada = $("entrada");
+    const gerenciaManual = $("gerenciaManual");
+    const situacaoManual = $("situacaoManual");
+    const dataFinalManual = $("dataFinalManual");
+    const semPrazoManual = $("semPrazoManual");
+    const limiteVencendo = $("limiteVencendo");
+    const btnGerarProcesso = $("btnGerarProcesso");
+    const btnLimparFormulario = $("btnLimparFormulario");
+    const mensagemSistema = $("mensagemSistema");
+    const busca = $("busca");
+    const filtroArea = $("filtroArea");
+    const filtroGerencia = $("filtroGerencia");
+    const filtroSituacao = $("filtroSituacao");
+    const filtroPrazo = $("filtroPrazo");
+    const filtroStatusPrazo = $("filtroStatusPrazo");
+    const filtroDataInicial = $("filtroDataInicial");
+    const filtroDataFinal = $("filtroDataFinal");
+    const filtroAtrasados = $("filtroAtrasados");
+    const ordenacao = $("ordenacao");
+    const btnLimparFiltros = $("btnLimparFiltros");
+    const btnExportarExcelTodos = $("btnExportarExcelTodos");
+    const btnExportarExcelVisiveis = $("btnExportarExcelVisiveis");
+    const btnExportarPDFTodos = $("btnExportarPDFTodos");
+    const btnExportarPDFVisiveis = $("btnExportarPDFVisiveis");
+    const alertasPrazo = $("alertasPrazo");
+    const tabela = $("tabela");
+    const tbodyProcessos = $("tbodyProcessos");
+    const noResults = $("noResults");
+    const contadorRegistros = $("contadorRegistros");
+    const counterAtrasados = $("counterAtrasados");
+    const counterHoje = $("counterHoje");
+    const counterVencendo = $("counterVencendo");
+    const counterSemPrazo = $("counterSemPrazo");
+    const counterSGI = $("counterSGI");
+    const sumMostrando = $("sumMostrando");
+    const sumSGI = $("sumSGI");
+    const sumAtrasados = $("sumAtrasados");
+    const sumHoje = $("sumHoje");
+    const sumSemPrazo = $("sumSemPrazo");
+    const sumConcluidos = $("sumConcluidos");
+    const sumVencendo = $("sumVencendo");
+    const drawerOverlay = $("drawerOverlay");
+    const drawer = $("drawer");
+    const btnFecharDrawer = $("btnFecharDrawer");
+    const drawerSubtitulo = $("drawerSubtitulo");
+    const drawerConteudo = $("drawerConteudo");
+    const drawerBtnEditar = $("drawerBtnEditar");
+    const drawerBtnPendente = $("drawerBtnPendente");
+    const drawerBtnConcluir = $("drawerBtnConcluir");
+    const drawerBtnArquivar = $("drawerBtnArquivar");
+    const drawerBtnExcluir = $("drawerBtnExcluir");
+    const modalOverlay = $("modalOverlay");
+    const btnFecharModal = $("btnFecharModal");
+    const modalSubtitulo = $("modalSubtitulo");
+    const editProcesso = $("editProcesso");
+    const editInteressado = $("editInteressado");
+    const editAssunto = $("editAssunto");
+    const editSituacao = $("editSituacao");
+    const editGerencia = $("editGerencia");
+    const editDataFinal = $("editDataFinal");
+    const editSemPrazo = $("editSemPrazo");
+    const btnSalvarEdicao = $("btnSalvarEdicao");
+    const toasts = $("toasts");
+
+    function normalizarBusca(texto) {
+      return String(texto || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    }
+
+    function obterAreaPorUnidade(unidade) {
+      for (const [area, unidades] of Object.entries(ESTRUTURA_ORGANIZACIONAL)) {
+        if (unidades.includes(unidade)) return area;
+      }
+      return "Outras áreas";
+    }
+
+    function nomeCurtoSGI(unidade) {
+      return ABREVIACOES_SGI[unidade] || unidade;
+    }
+
+    function resolverGerenciaPorTexto(texto) {
+      const bruto = String(texto || "").trim();
+      if (!bruto) return "";
+      if (TODAS_UNIDADES.includes(bruto)) return bruto;
+      const sigla = bruto.toUpperCase();
+      if (SIGLAS_PARA_UNIDADE[sigla]) return SIGLAS_PARA_UNIDADE[sigla];
+      const alvoNorm = normalizarBusca(bruto);
+      return TODAS_UNIDADES.find(u => normalizarBusca(u) === alvoNorm) || "";
+    }
+
+    function classeSituacaoBadge(situacao) {
+      const s = normalizarBusca(situacao);
+      if (s.includes("concluido")) return "concluido";
+      if (s.includes("pendente")) return "pendente";
+      if (s.includes("andamento") || s.includes("analise")) return "andamento";
+      if (s.includes("arquivado")) return "arquivado";
+      return "";
+    }
+
+    function classeAreaBadge(area) {
+      return area === "Superintendência de Gestão Integrada (SGI)" ? "sgi" : "";
+    }
+
+    function setLoading(botao, carregando, textoOriginal = "Salvar") {
+      if (!botao) return;
+      botao.disabled = carregando;
+      botao.textContent = carregando ? "Processando..." : textoOriginal;
+    }
+
+    function mostrarStatusLogin(texto, tipo = "info", esconder = false) {
+      if (esconder || !texto) {
+        statusLogin.className = "feedback hidden";
+        statusLogin.textContent = "";
+        return;
+      }
+      statusLogin.className = `feedback ${tipo}`;
+      statusLogin.textContent = texto;
+    }
+
+    function mostrarMensagem(texto, tipo = "info") {
+      mensagemSistema.className = `feedback ${tipo}`;
+      mensagemSistema.textContent = texto;
+      mensagemSistema.classList.remove("hidden");
+      clearTimeout(mensagemSistema._timer);
+      mensagemSistema._timer = setTimeout(() => {
+        mensagemSistema.classList.add("hidden");
+        mensagemSistema.textContent = "";
+      }, 3500);
+    }
+
+    function toast(texto, tipo = "info") {
+      const div = document.createElement("div");
+      div.className = `toast ${tipo}`;
+      div.textContent = texto;
+      toasts.appendChild(div);
+      setTimeout(() => div.remove(), 3300);
+    }
+
+    function escapeHtml(texto) {
+      return String(texto ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function escaparRegex(texto) {
+      return String(texto).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    function highlightText(texto, termo) {
+      const safe = escapeHtml(texto || "");
+      if (!termo) return safe;
+      const termoEscapado = escaparRegex(termo.trim());
+      if (!termoEscapado) return safe;
+      const regex = new RegExp(`(${termoEscapado})`, "gi");
+      return safe.replace(regex, '<mark class="search-mark">$1</mark>');
+    }
+
+    function todayISO() {
+      const hoje = new Date();
+      const offset = hoje.getTimezoneOffset();
+      return new Date(hoje.getTime() - offset * 60000).toISOString().split("T")[0];
+    }
+
+    function addDays(dataISO, dias) {
+      if (!dataISO) return "";
+      const data = new Date(dataISO + "T00:00:00");
+      data.setDate(data.getDate() + dias);
+      return data.toISOString().split("T")[0];
+    }
+
+    function calcDiasRestantes(dataFinalISO) {
+      if (!dataFinalISO) return null;
+      const hoje = new Date(); hoje.setHours(0,0,0,0);
+      const dataFinal = new Date(dataFinalISO + "T00:00:00"); dataFinal.setHours(0,0,0,0);
+      return Math.ceil((dataFinal - hoje) / (1000 * 60 * 60 * 24));
+    }
+
+    function textoDiasRestantes(dias) {
+      if (dias === null || dias === undefined || dias === "") return "Sem prazo";
+      if (dias > 0) return `${dias} dia(s)`;
+      if (dias === 0) return "Vence hoje";
+      return `Atrasado ${Math.abs(dias)} dia(s)`;
+    }
+
+    function obterStatusPrazo(dataFinalISO, semPrazo = false) {
+      if (semPrazo || !dataFinalISO) return "Sem prazo";
+      const dias = calcDiasRestantes(dataFinalISO);
+      const limite = parseInt(limiteVencendo.value, 10) || 3;
+      if (dias < 0) return "Atrasado";
+      if (dias === 0) return "Vence hoje";
+      if (dias <= limite) return "Vencendo";
+      return "No prazo";
+    }
+
+    function gerarBadgePrazo(dataFinalISO, semPrazo = false) {
+      const status = obterStatusPrazo(dataFinalISO, semPrazo);
+      const dias = semPrazo ? null : calcDiasRestantes(dataFinalISO);
+      if (status === "No prazo") return `<span class="badge badge-no-prazo">Faltam ${dias} dia(s)</span>`;
+      if (status === "Vencendo") return `<span class="badge badge-vencendo">Vence em ${dias} dia(s)</span>`;
+      if (status === "Vence hoje") return `<span class="badge badge-vence-hoje">Vence hoje</span>`;
+      if (status === "Atrasado") return `<span class="badge badge-atrasado">Atrasado ${Math.abs(dias)} dia(s)</span>`;
+      return `<span class="badge badge-sem-prazo">Sem prazo</span>`;
+    }
+
+    function obterClasseLinha(statusPrazo) {
+      if (statusPrazo === "Atrasado") return "linha-atrasada";
+      if (statusPrazo === "Vencendo") return "linha-vencendo";
+      if (statusPrazo === "Vence hoje") return "linha-hoje";
+      if (statusPrazo === "Sem prazo") return "linha-sem-prazo";
+      return "";
+    }
+
+    function normalizarProcesso(valor) {
+      return String(valor || "").trim().replace(/\s+/g, " ").replace(/\s*\/\s*/g, "/").toUpperCase();
+    }
+
+    function converterBRparaISO(dataBR) {
+      if (!dataBR) return "";
+      const limpo = dataBR.trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(limpo)) return limpo;
+      const match = limpo.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if (!match) return "";
+      return `${match[3]}-${match[2]}-${match[1]}`;
+    }
+
+    function formatarDataISOparaBR(dataISO) {
+      if (!dataISO) return "Sem prazo";
+      const [ano, mes, dia] = dataISO.split("-");
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    function formatarDataHora(valor) {
+      if (!valor) return "-";
+      const data = valor?.toDate ? valor.toDate() : (valor instanceof Date ? valor : new Date(valor));
+      if (isNaN(data.getTime())) return "-";
+      return data.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+    }
+
+    function extrairCampo(texto, regexList) {
+      for (const regex of regexList) {
+        const match = texto.match(regex);
+        if (match && match[1]) return match[1].split("\n")[0].trim();
+      }
+      return "";
+    }
+
+    function extrairDataFinalOuPrazo(texto) {
+      if (/sem\s*prazo/i.test(texto)) return "";
+      const dataFinalTexto = extrairCampo(texto, [/Data\s*Final\s*:?\s*(.+)/i, /Prazo\s*Final\s*:?\s*(.+)/i]);
+      if (dataFinalTexto) {
+        const iso = converterBRparaISO(dataFinalTexto);
+        if (iso) return iso;
+      }
+      const prazoDiasTexto = extrairCampo(texto, [/Prazo\s*:?\s*(\d+)\s*dias?/i]);
+      if (prazoDiasTexto) {
+        const dias = parseInt(prazoDiasTexto, 10);
+        if (!isNaN(dias)) return addDays(todayISO(), dias);
+      }
+      return "";
+    }
+
+    function extrairGerencia(texto) {
+      const valor = extrairCampo(texto, [/Ger[eê]ncia\s*:?\s*(.+)/i, /Se[cç][aã]o\s*:?\s*(.+)/i, /Encaminhado\s*para\s*:?\s*(.+)/i]);
+      return resolverGerenciaPorTexto(valor);
+    }
+
+    function traduzirErroFirebase(error) {
+      const code = error.code || "";
+      if (code.includes("invalid-email")) return "e-mail inválido.";
+      if (code.includes("missing-password")) return "senha não informada.";
+      if (code.includes("email-already-in-use")) return "este e-mail já está cadastrado.";
+      if (code.includes("weak-password")) return "senha fraca. Use pelo menos 6 caracteres.";
+      if (code.includes("user-not-found")) return "usuário não encontrado.";
+      if (code.includes("wrong-password")) return "senha incorreta.";
+      if (code.includes("invalid-credential")) return "credenciais inválidas.";
+      if (code.includes("too-many-requests")) return "muitas tentativas. Tente mais tarde.";
+      return error.message || "erro desconhecido.";
+    }
+
+    function preencherSelects() {
+      gerenciaManual.innerHTML = '<option value="">Selecione...</option>';
+      filtroGerencia.innerHTML = '<option value="">Todas</option>';
+      editGerencia.innerHTML = '<option value="">Selecione...</option>';
+      filtroArea.innerHTML = '<option value="">Todas</option>';
+      situacaoManual.innerHTML = '';
+      filtroSituacao.innerHTML = '<option value="">Todas</option>';
+      editSituacao.innerHTML = '';
+
+      AREAS.forEach(area => {
+        const opArea = document.createElement("option");
+        opArea.value = area;
+        opArea.textContent = area;
+        filtroArea.appendChild(opArea);
+
+        const g1 = document.createElement("optgroup");
+        const g2 = document.createElement("optgroup");
+        const g3 = document.createElement("optgroup");
+        g1.label = area; g2.label = area; g3.label = area;
+
+        ESTRUTURA_ORGANIZACIONAL[area].forEach(unidade => {
+          const nomeExibir = area === "Superintendência de Gestão Integrada (SGI)" && ABREVIACOES_SGI[unidade]
+            ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
+            : unidade;
+          [g1, g2, g3].forEach(grupo => {
+            const op = document.createElement("option");
+            op.value = unidade;
+            op.textContent = nomeExibir;
+            grupo.appendChild(op);
+          });
+        });
+
+        gerenciaManual.appendChild(g1);
+        filtroGerencia.appendChild(g2);
+        editGerencia.appendChild(g3);
+      });
+
+      STATUS_OPERACIONAIS.forEach(s => {
+        [situacaoManual, filtroSituacao, editSituacao].forEach(sel => {
+          const op = document.createElement("option");
+          op.value = s;
+          op.textContent = s;
+          sel.appendChild(op);
+        });
+      });
+
+      situacaoManual.value = "Em análise";
+      editSituacao.value = "Em análise";
+    }
+
+    function salvarFiltros() {
+      localStorage.setItem(STORAGE_KEYS.filtros, JSON.stringify({
+        busca: busca.value,
+        filtroArea: filtroArea.value,
+        filtroGerencia: filtroGerencia.value,
+        filtroSituacao: filtroSituacao.value,
+        filtroPrazo: filtroPrazo.value,
+        filtroStatusPrazo: filtroStatusPrazo.value,
+        filtroDataInicial: filtroDataInicial.value,
+        filtroDataFinal: filtroDataFinal.value,
+        filtroAtrasados: filtroAtrasados.checked,
+        ordenacao: ordenacao.value,
+        limiteVencendo: limiteVencendo.value
+      }));
+    }
+
+    function restaurarFiltros() {
+      try {
+        const bruto = localStorage.getItem(STORAGE_KEYS.filtros);
+        if (!bruto) return;
+        const p = JSON.parse(bruto);
+        busca.value = p.busca || "";
+        filtroArea.value = p.filtroArea || "";
+        filtroGerencia.value = p.filtroGerencia || "";
+        filtroSituacao.value = p.filtroSituacao || "";
+        filtroPrazo.value = p.filtroPrazo || "";
+        filtroStatusPrazo.value = p.filtroStatusPrazo || "";
+        filtroDataInicial.value = p.filtroDataInicial || "";
+        filtroDataFinal.value = p.filtroDataFinal || "";
+        filtroAtrasados.checked = !!p.filtroAtrasados;
+        ordenacao.value = p.ordenacao || "";
+        limiteVencendo.value = p.limiteVencendo || "3";
+      } catch (e) { console.warn(e); }
+    }
+
+    function abrirAba(aba) {
+      if (aba === "dashboard") {
+        abaProcessos.classList.add("hidden");
+        abaDashboard.classList.remove("hidden");
+        tabProcessosBtn.classList.remove("active");
+        tabDashboardBtn.classList.add("active");
+        localStorage.setItem(STORAGE_KEYS.aba, "dashboard");
+        renderDashboard(filteredItems);
+      } else {
+        abaProcessos.classList.remove("hidden");
+        abaDashboard.classList.add("hidden");
+        tabProcessosBtn.classList.add("active");
+        tabDashboardBtn.classList.remove("active");
+        localStorage.setItem(STORAGE_KEYS.aba, "processos");
+      }
+    }
+
+    function aplicarAbaSalva() {
+      abrirAba(localStorage.getItem(STORAGE_KEYS.aba) || "processos");
+    }
+
+    async function login() {
+      try {
+        const email = emailInput.value.trim();
+        const senha = senhaInput.value;
+        if (!email || !senha) return mostrarStatusLogin("Informe o e-mail e a senha.", "warning");
+        setLoading(btnEntrar, true, "Entrar");
+        mostrarStatusLogin("Entrando...", "info");
+        await auth.signInWithEmailAndPassword(email, senha);
+        mostrarStatusLogin("", "info", true);
+      } catch (error) {
+        console.error(error);
+        mostrarStatusLogin("Erro no login: " + traduzirErroFirebase(error), "error");
+      } finally {
+        setLoading(btnEntrar, false, "Entrar");
+      }
+    }
+
+    async function cadastrar() {
+      try {
+        const email = emailInput.value.trim();
+        const senha = senhaInput.value;
+        if (!email || !senha) return mostrarStatusLogin("Informe o e-mail e a senha para cadastrar.", "warning");
+        if (senha.length < 6) return mostrarStatusLogin("A senha precisa ter pelo menos 6 caracteres.", "warning");
+        setLoading(btnCadastrar, true, "Cadastrar usuário");
+        mostrarStatusLogin("Cadastrando usuário...", "info");
+        await auth.createUserWithEmailAndPassword(email, senha);
+        mostrarStatusLogin("Usuário cadastrado com sucesso.", "success");
+      } catch (error) {
+        console.error(error);
+        mostrarStatusLogin("Erro ao cadastrar: " + traduzirErroFirebase(error), "error");
+      } finally {
+        setLoading(btnCadastrar, false, "Cadastrar usuário");
+      }
+    }
+
+    async function resetarSenha() {
+      try {
+        const email = emailInput.value.trim();
+        if (!email) return mostrarStatusLogin("Digite o e-mail para recuperação de senha.", "warning");
+        setLoading(btnResetar, true, "Esqueci a senha");
+        await auth.sendPasswordResetEmail(email);
+        mostrarStatusLogin("E-mail de recuperação enviado com sucesso.", "success");
+      } catch (error) {
+        console.error(error);
+        mostrarStatusLogin("Erro ao enviar recuperação: " + traduzirErroFirebase(error), "error");
+      } finally {
+        setLoading(btnResetar, false, "Esqueci a senha");
+      }
+    }
+
+    async function logout() {
+      try { await auth.signOut(); }
+      catch (error) { console.error(error); toast("Erro ao sair: " + error.message, "error"); }
+    }
+
+    async function existeProcessoDuplicado(processoNormalizado, ignorarId = null) {
+      if (!processoNormalizado) return false;
+      const snapshot = await db.collection(COLLECTION_PROCESSOS).where("processoNormalizado", "==", processoNormalizado).get();
+      let duplicado = false;
+      snapshot.forEach(doc => { if (doc.id !== ignorarId) duplicado = true; });
+      return duplicado;
+    }
+
+    async function atualizarDocumento(id, dadosAtualizados) {
+      const usuario = auth.currentUser;
+      const payload = { ...dadosAtualizados };
+      if (payload.gerencia !== undefined) {
+        payload.gerencia = resolverGerenciaPorTexto(payload.gerencia) || payload.gerencia;
+        payload.area = obterAreaPorUnidade(payload.gerencia);
+      }
+      await db.collection(COLLECTION_PROCESSOS).doc(id).update({
+        ...payload,
+        alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
+        alteradoPor: usuario?.email || ""
+      });
+    }
+
+    function iniciarEscutaProcessos() {
+      if (unsubscribeSnapshot) unsubscribeSnapshot();
+      unsubscribeSnapshot = db.collection(COLLECTION_PROCESSOS).onSnapshot((snapshot) => {
+        allItems = [];
+        snapshot.forEach((doc) => {
+          const dados = doc.data();
+          const gerenciaNormalizada = resolverGerenciaPorTexto(dados.gerencia || "") || dados.gerencia || "";
+          const area = dados.area || obterAreaPorUnidade(gerenciaNormalizada);
+          allItems.push({
+            id: doc.id,
+            processo: dados.processo || "",
+            processoNormalizado: dados.processoNormalizado || normalizarProcesso(dados.processo || ""),
+            interessado: dados.interessado || "",
+            assunto: dados.assunto || "",
+            dataCadastro: dados.dataCadastro || "",
+            dataCadastroISO: dados.dataCadastroISO || "",
+            situacao: dados.situacao || "Em análise",
+            gerencia: gerenciaNormalizada,
+            area,
+            dataFinal: dados.dataFinal || "",
+            semPrazo: !!dados.semPrazo || !dados.dataFinal,
+            criadoEm: dados.criadoEm || null,
+            criadoPor: dados.criadoPor || "",
+            alteradoEm: dados.alteradoEm || null,
+            alteradoPor: dados.alteradoPor || ""
+          });
+        });
+        allItems.sort((a, b) => (b.dataCadastroISO || "").localeCompare(a.dataCadastroISO || ""));
+        renderEverything();
+      }, (error) => {
+        console.error(error);
+        mostrarMensagem("Erro ao carregar processos em tempo real.", "error");
+        toast("Erro ao escutar coleção de processos.", "error");
+      });
+    }
+
+    async function gerarProcesso() {
+      try {
+        setLoading(btnGerarProcesso, true, "Cadastrar processo");
+        mostrarMensagem("Salvando processo...", "info");
+        const texto = entrada.value.trim();
+        const processo = normalizarProcesso(extrairCampo(texto, [/Processo\s*(?:n[º°o]\s*)?:?\s*(.+)/i]).trim());
+        const interessado = extrairCampo(texto, [/Interessado\(a\)\s*:?\s*(.+)/i, /Interessado\s*:?\s*(.+)/i]);
+        const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]);
+        const dataFinal = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
+        const gerencia = resolverGerenciaPorTexto(gerenciaManual.value || extrairGerencia(texto));
+        const situacao = situacaoManual.value || "Em análise";
+        const area = obterAreaPorUnidade(gerencia);
+
+        if (!processo && !interessado && !assunto && !texto) return mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
+        if (processo) {
+          const duplicado = await existeProcessoDuplicado(processo);
+          if (duplicado) return mostrarMensagem("Já existe um processo cadastrado com esse número.", "error");
+        }
+
+        const user = auth.currentUser;
+        await db.collection(COLLECTION_PROCESSOS).add({
+          processo: processo || "",
+          processoNormalizado: processo || "",
+          interessado: interessado || "",
+          assunto: assunto || "",
+          dataCadastro: new Date().toLocaleDateString("pt-BR"),
+          dataCadastroISO: todayISO(),
+          situacao,
+          area: area || "",
+          gerencia: gerencia || "",
+          dataFinal: dataFinal || "",
+          semPrazo: !dataFinal,
+          criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
+          criadoPor: user?.email || "",
+          alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
+          alteradoPor: user?.email || ""
+        });
+
+        limparFormulario();
+        mostrarMensagem("Processo cadastrado com sucesso.", "success");
+        toast("Processo cadastrado com sucesso.", "success");
+      } catch (error) {
+        console.error(error);
+        mostrarMensagem("Erro ao salvar processo: " + error.message, "error");
+        toast("Erro ao salvar processo.", "error");
+      } finally {
+        setLoading(btnGerarProcesso, false, "Cadastrar processo");
+      }
+    }
+
+    async function salvarEdicao() {
+      if (!editingId) return;
+      try {
+        setLoading(btnSalvarEdicao, true, "Salvar alterações");
+        const processoNormalizado = normalizarProcesso(editProcesso.value);
+        if (processoNormalizado) {
+          const duplicado = await existeProcessoDuplicado(processoNormalizado, editingId);
+          if (duplicado) { toast("Já existe outro processo com esse número.", "error"); return; }
+        }
+        const gerenciaResolvida = resolverGerenciaPorTexto(editGerencia.value);
+        await atualizarDocumento(editingId, {
+          processo: processoNormalizado,
+          processoNormalizado,
+          interessado: editInteressado.value.trim(),
+          assunto: editAssunto.value.trim(),
+          situacao: editSituacao.value,
+          gerencia: gerenciaResolvida,
+          area: obterAreaPorUnidade(gerenciaResolvida),
+          dataFinal: editSemPrazo.checked ? "" : (editDataFinal.value || ""),
+          semPrazo: editSemPrazo.checked || !editDataFinal.value
+        });
+        fecharModal();
+        toast("Registro atualizado com sucesso.", "success");
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao salvar alterações.", "error");
+      } finally {
+        setLoading(btnSalvarEdicao, false, "Salvar alterações");
+      }
+    }
+
+    async function alterarSituacaoRapida(id, situacao) {
+      if (!id) return;
+      try {
+        await atualizarDocumento(id, { situacao });
+        toast(`Situação atualizada para \"${situacao}\".`, "success");
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao atualizar situação.", "error");
+      }
+    }
+
+    async function remover(id) {
+      if (!id) return;
+      if (!confirm("Deseja realmente excluir este processo?")) return;
+      try {
+        await db.collection(COLLECTION_PROCESSOS).doc(id).delete();
+        toast("Processo excluído com sucesso.", "success");
+        if (selectedDrawerId === id) fecharDrawer();
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao excluir registro.", "error");
+      }
+    }
+
+    function getFilteredItems() {
+      const termo = normalizarBusca(busca.value);
+      const area = filtroArea.value;
+      const gerencia = filtroGerencia.value;
+      const situacao = filtroSituacao.value;
+      const prazo = filtroPrazo.value;
+      const statusPrazoFiltro = filtroStatusPrazo.value;
+      const dataInicial = filtroDataInicial.value;
+      const dataFim = filtroDataFinal.value;
+      const somenteAtrasados = filtroAtrasados.checked;
+      const ordem = ordenacao.value;
+
+      let itens = allItems.map(item => ({
+        ...item,
+        diasRestantes: item.semPrazo ? null : calcDiasRestantes(item.dataFinal),
+        statusPrazo: obterStatusPrazo(item.dataFinal, item.semPrazo)
+      }));
+
+      itens = itens.filter(item => {
+        const textoBusca = normalizarBusca([
+          item.processo,
+          item.interessado,
+          item.assunto,
+          item.situacao,
+          item.area,
+          item.gerencia,
+          item.statusPrazo,
+          nomeCurtoSGI(item.gerencia)
+        ].join(" "));
+        if (termo && !textoBusca.includes(termo)) return false;
+        if (area && item.area !== area) return false;
+        if (gerencia && item.gerencia !== gerencia) return false;
+        if (situacao && item.situacao !== situacao) return false;
+        if (prazo === "comPrazo" && item.semPrazo) return false;
+        if (prazo === "semPrazo" && !item.semPrazo) return false;
+        if (statusPrazoFiltro && item.statusPrazo !== statusPrazoFiltro) return false;
+        if (somenteAtrasados && item.statusPrazo !== "Atrasado") return false;
+        if (dataInicial && (item.semPrazo || !item.dataFinal || item.dataFinal < dataInicial)) return false;
+        if (dataFim && (item.semPrazo || !item.dataFinal || item.dataFinal > dataFim)) return false;
+        return true;
+      });
+
+      if (ordem === "dataFinalAsc") itens.sort((a, b) => (a.dataFinal || "9999-12-31").localeCompare(b.dataFinal || "9999-12-31"));
+      else if (ordem === "processoAsc") itens.sort((a, b) => (a.processo || "").localeCompare(b.processo || "", "pt-BR", { sensitivity: "base" }));
+      else if (ordem === "interessadoAsc") itens.sort((a, b) => (a.interessado || "").localeCompare(b.interessado || "", "pt-BR", { sensitivity: "base" }));
+      else if (ordem === "gerenciaAsc") itens.sort((a, b) => (a.gerencia || "").localeCompare(b.gerencia || "", "pt-BR", { sensitivity: "base" }));
+      else if (ordem === "areaAsc") itens.sort((a, b) => (a.area || "").localeCompare(b.area || "", "pt-BR", { sensitivity: "base" }));
+      else if (ordem === "diasRestantesAsc") itens.sort((a, b) => ((a.semPrazo ? Number.MAX_SAFE_INTEGER : a.diasRestantes) - (b.semPrazo ? Number.MAX_SAFE_INTEGER : b.diasRestantes)));
+
+      return itens;
+    }
+
+    function renderTable(itens) {
+      const termo = busca.value.trim();
+      if (!allItems.length) {
+        tabela.classList.add("hidden");
+        noResults.classList.add("hidden");
+        tbodyProcessos.innerHTML = "";
+        return;
+      }
+      if (!itens.length) {
+        tabela.classList.add("hidden");
+        noResults.classList.remove("hidden");
+        tbodyProcessos.innerHTML = "";
+        return;
+      }
+      noResults.classList.add("hidden");
+      tabela.classList.remove("hidden");
+
+      tbodyProcessos.innerHTML = itens.map(item => {
+        const classeLinha = obterClasseLinha(item.statusPrazo);
+        const unidadeExibida = item.area === "Superintendência de Gestão Integrada (SGI)" && ABREVIACOES_SGI[item.gerencia]
+          ? `${item.gerencia} (${ABREVIACOES_SGI[item.gerencia]})`
+          : item.gerencia;
+
+        return `
+          <tr class="main-row ${classeLinha}" data-id="${item.id}">
+            <td><button type="button" class="expand-btn" data-action="expand">${expandedIds.has(item.id) ? "−" : "+"}</button></td>
+            <td>${highlightText(item.processo || "", termo) || "<span class='muted'>(sem número)</span>"}</td>
+            <td>${highlightText(item.interessado || "", termo) || "-"}</td>
+            <td>${highlightText(item.assunto || "", termo) || "-"}</td>
+            <td>${escapeHtml(item.dataCadastro || "-")}</td>
+            <td><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></td>
+            <td><span class="badge-area ${classeAreaBadge(item.area)}">${highlightText(item.area || "", termo) || "-"}</span></td>
+            <td>${highlightText(unidadeExibida || "-", termo)}</td>
+            <td>${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</td>
+            <td>${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</td>
+            <td>${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(item.diasRestantes))}</td>
+            <td><div><strong>${escapeHtml(item.alteradoPor || "-")}</strong></div><div class="muted">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></td>
+            <td>
+              <div class="acoes">
+                <button type="button" data-action="view">Ver</button>
+                <button type="button" class="secondary" data-action="edit">Editar</button>
+                <button type="button" class="warning" data-action="pendente">Pendente</button>
+                <button type="button" class="success" data-action="concluir">Concluir</button>
+                <button type="button" class="danger" data-action="delete">Excluir</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="detail-row ${expandedIds.has(item.id) ? "" : "hidden"}" data-detail-for="${item.id}">
+            <td colspan="13">
+              <div class="row-details-box">
+                <div class="detail-mini"><div class="tt">Área</div><div>${escapeHtml(item.area || "-")}</div></div>
+                <div class="detail-mini"><div class="tt">Criado por</div><div>${escapeHtml(item.criadoPor || "-")}</div></div>
+                <div class="detail-mini"><div class="tt">Criado em</div><div>${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
+                <div class="detail-mini"><div class="tt">Última alteração</div><div>${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderResumo(itens) {
+      const atrasados = itens.filter(i => i.statusPrazo === "Atrasado").length;
+      const hoje = itens.filter(i => i.statusPrazo === "Vence hoje").length;
+      const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
+      const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
+      const sgi = itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").length;
+      const concluidos = itens.filter(i => i.situacao === "Concluído").length;
+
+      contadorRegistros.textContent = `${itens.length} de ${allItems.length} registro(s)`;
+      counterAtrasados.textContent = `Atrasados: ${atrasados}`;
+      counterHoje.textContent = `Vence hoje: ${hoje}`;
+      counterVencendo.textContent = `Vencendo: ${vencendo}`;
+      counterSemPrazo.textContent = `Sem prazo: ${semPrazo}`;
+      counterSGI.textContent = `SGI: ${sgi}`;
+      sumMostrando.textContent = itens.length;
+      sumSGI.textContent = sgi;
+      sumVencendo.textContent = vencendo;
+      sumAtrasados.textContent = atrasados;
+      sumHoje.textContent = hoje;
+      sumSemPrazo.textContent = semPrazo;
+      sumConcluidos.textContent = concluidos;
+    }
+
+    function renderAlertas(itens, enviarNotificacao = false) {
+      const limite = parseInt(limiteVencendo.value, 10) || 3;
+      const alertaveis = itens.filter(i => !i.semPrazo && i.diasRestantes !== null && i.diasRestantes <= limite && !["Concluído", "Arquivado"].includes(i.situacao));
+      if (!alertaveis.length) {
+        alertasPrazo.classList.add("hidden");
+        alertasPrazo.innerHTML = "";
+        return;
+      }
+
+      const lista = alertaveis.map(i => {
+        const status = i.diasRestantes < 0 ? `atrasado há ${Math.abs(i.diasRestantes)} dia(s)` : i.diasRestantes === 0 ? "vence hoje" : `vence em ${i.diasRestantes} dia(s)`;
+        return `<li><strong>${escapeHtml(i.processo || "(sem número)")}</strong> — ${escapeHtml(i.assunto || "Sem assunto")} — ${escapeHtml(i.gerencia || "Sem gerência")} — ${escapeHtml(status)}</li>`;
+      }).join("");
+
+      alertasPrazo.innerHTML = `<strong>Avisos de prazo</strong><div>Processos vencendo ou vencidos considerando o limite de ${limite} dia(s):</div><ul>${lista}</ul>`;
+      alertasPrazo.classList.remove("hidden");
+
+      if (enviarNotificacao && "Notification" in window && Notification.permission === "granted") {
+        alertaveis.forEach(i => {
+          const chave = `${i.id}-${i.diasRestantes}`;
+          if (chavesNotificadas.has(chave)) return;
+          chavesNotificadas.add(chave);
+          const corpo = i.diasRestantes < 0 ? `${i.processo || "Processo"} está atrasado há ${Math.abs(i.diasRestantes)} dia(s).` : i.diasRestantes === 0 ? `${i.processo || "Processo"} vence hoje.` : `${i.processo || "Processo"} vence em ${i.diasRestantes} dia(s).`;
+          new Notification("Aviso de prazo", { body: corpo });
+        });
+      }
+    }
+
+    function destroyCharts() {
+      [chartSituacao, chartPrazo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
+    }
+
+    function renderDashboard(itens) {
+      $("kpiTotal").textContent = itens.length;
+      $("kpiSemPrazo").textContent = itens.filter(i => i.statusPrazo === "Sem prazo").length;
+      $("kpiVencendo").textContent = itens.filter(i => i.statusPrazo === "Vencendo").length;
+      $("kpiAtrasados").textContent = itens.filter(i => i.statusPrazo === "Atrasado").length;
+      $("kpiConcluidos").textContent = itens.filter(i => i.situacao === "Concluído").length;
+      $("kpiPendentes").textContent = itens.filter(i => i.situacao === "Pendente").length;
+
+      const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
+      const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
+      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
+      const mapAreas = {}; AREAS.forEach(a => mapAreas[a] = 0); itens.forEach(i => mapAreas[i.area] = (mapAreas[i.area] || 0) + 1);
+      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const key = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[key] = (geralMap[key] || 0) + 1; });
+      const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
+
+      destroyCharts();
+
+      chartPrazo = new Chart($("graficoPrazo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+
+      chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
+        type: "bar",
+        data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartGerencia = new Chart($("graficoGerencia"), {
+        type: "bar",
+        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } }
+      });
+
+      chartSituacao = new Chart($("graficoSituacao"), {
+        type: "bar",
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartSGI = new Chart($("graficoSGI"), {
+        type: "bar",
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } }
+      });
+    }
+
+    function atualizarCardsAtivos() {
+      document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
+      if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(filtroArea.value)}']`).forEach(card => card.classList.add("active"));
+      if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
+    }
+
+    function aplicarFiltrosVisuaisNosChips() {
+      document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
+      [["area", filtroArea.value], ["situacao", filtroSituacao.value], ["statusPrazo", filtroStatusPrazo.value]].forEach(([tipo, valor]) => {
+        if (!valor) return;
+        const chip = document.querySelector(`.chip[data-chip-type="${tipo}"][data-chip-value="${CSS.escape(valor)}"]`);
+        if (chip) chip.classList.add("active");
+      });
+    }
+
+    function renderEverything(notificar = true) {
+      filteredItems = getFilteredItems();
+      renderTable(filteredItems);
+      renderResumo(filteredItems);
+      renderAlertas(filteredItems, notificar);
+      renderDashboard(filteredItems);
+      atualizarCardsAtivos();
+      atualizarDrawerSeAberto();
+      aplicarFiltrosVisuaisNosChips();
+    }
+
+    function toggleExpand(id) {
+      if (expandedIds.has(id)) expandedIds.delete(id);
+      else expandedIds.add(id);
+      renderTable(filteredItems);
+    }
+
+    function aplicarChip(chip) {
+      const type = chip.dataset.chipType;
+      const value = chip.dataset.chipValue;
+      const wasActive = chip.classList.contains("active");
+      const alvo = type === "statusPrazo" ? filtroStatusPrazo : type === "situacao" ? filtroSituacao : filtroArea;
+      alvo.value = wasActive ? "" : value;
+      salvarFiltros();
+      aplicarFiltrosEOrdenacao();
+    }
+
+    function aplicarResumoClicavel(card) {
+      const type = card.dataset.summaryType;
+      const value = card.dataset.summaryValue;
+      abrirAba("processos");
+      if (!type) { limparFiltros(false); return; }
+      const alvo = type === "statusPrazo" ? filtroStatusPrazo : filtroArea;
+      alvo.value = (alvo.value === value) ? "" : value;
+      salvarFiltros();
+      aplicarFiltrosEOrdenacao();
+    }
+
+    function aplicarFiltrosEOrdenacao() {
+      salvarFiltros();
+      renderEverything();
+    }
+
+    function limparFiltros(mostrarToast = true) {
+      busca.value = "";
+      filtroArea.value = "";
+      filtroGerencia.value = "";
+      filtroSituacao.value = "";
+      filtroPrazo.value = "";
+      filtroStatusPrazo.value = "";
+      filtroDataInicial.value = "";
+      filtroDataFinal.value = "";
+      filtroAtrasados.checked = false;
+      ordenacao.value = "";
+      salvarFiltros();
+      renderEverything();
+      if (mostrarToast) toast("Filtros limpos.", "info");
+    }
+
+    function limparFormulario() {
+      entrada.value = "";
+      gerenciaManual.value = "";
+      situacaoManual.value = "Em análise";
+      dataFinalManual.value = "";
+      semPrazoManual.checked = false;
+      dataFinalManual.disabled = false;
+      mostrarMensagem("Formulário limpo.", "info");
+    }
+
+    function abrirDrawer(id) {
+      selectedDrawerId = id;
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+      drawerSubtitulo.textContent = item.processo || "(sem número)";
+      drawerConteudo.innerHTML = `
+        <div class="drawer-box"><div class="label">Processo</div><div class="value">${escapeHtml(item.processo || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || "-")}</span></div></div>
+        <div class="drawer-box"><div class="label">Área</div><div class="value"><span class="badge-area ${classeAreaBadge(item.area)}">${escapeHtml(item.area || "-")}</span></div></div>
+        <div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Data final</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : formatarDataISOparaBR(item.dataFinal))}</div></div>
+        <div class="drawer-box"><div class="label">Status do prazo</div><div class="value">${gerarBadgePrazo(item.dataFinal, item.semPrazo)}</div></div>
+        <div class="drawer-box"><div class="label">Dias restantes</div><div class="value">${escapeHtml(item.semPrazo ? "Sem prazo" : textoDiasRestantes(calcDiasRestantes(item.dataFinal)))}</div></div>
+        <div class="drawer-box"><div class="label">Criado por</div><div class="value">${escapeHtml(item.criadoPor || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Criado em</div><div class="value">${escapeHtml(formatarDataHora(item.criadoEm))}</div></div>
+        <div class="drawer-box"><div class="label">Última alteração por</div><div class="value">${escapeHtml(item.alteradoPor || "-")}</div></div>
+        <div class="drawer-box"><div class="label">Última alteração em</div><div class="value">${escapeHtml(formatarDataHora(item.alteradoEm))}</div></div>
+      `;
+      drawerOverlay.classList.remove("hidden");
+      drawer.classList.remove("hidden");
+    }
+
+    function fecharDrawer() {
+      drawerOverlay.classList.add("hidden");
+      drawer.classList.add("hidden");
+      selectedDrawerId = null;
+    }
+
+    function atualizarDrawerSeAberto() {
+      if (!selectedDrawerId) return;
+      const item = allItems.find(i => i.id === selectedDrawerId);
+      if (!item) { fecharDrawer(); return; }
+      abrirDrawer(selectedDrawerId);
+    }
+
+    function abrirModalEdicao(id) {
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+      editingId = id;
+      modalSubtitulo.textContent = item.processo || "(sem número)";
+      editProcesso.value = item.processo || "";
+      editInteressado.value = item.interessado || "";
+      editAssunto.value = item.assunto || "";
+      editSituacao.value = item.situacao || "Em análise";
+      editGerencia.value = item.gerencia || "";
+      editDataFinal.value = item.dataFinal || "";
+      editSemPrazo.checked = !!item.semPrazo;
+      editDataFinal.disabled = !!item.semPrazo;
+      modalOverlay.classList.remove("hidden");
+    }
+
+    function fecharModal() {
+      modalOverlay.classList.add("hidden");
+      editingId = null;
+    }
+
+    function obterDadosExportacao(apenasVisiveis = false) {
+      const origem = apenasVisiveis ? filteredItems : allItems;
+      return origem.map(i => ({
+        ...i,
+        diasRestantes: i.semPrazo ? null : calcDiasRestantes(i.dataFinal),
+        statusPrazo: obterStatusPrazo(i.dataFinal, i.semPrazo)
+      }));
+    }
+
+    function obterHTMLTabelaExportacao(dados) {
+      const linhas = dados.map(d => `
+        <tr>
+          <td>${escapeHtml(d.processo)}</td>
+          <td>${escapeHtml(d.interessado)}</td>
+          <td>${escapeHtml(d.assunto)}</td>
+          <td>${escapeHtml(d.dataCadastro)}</td>
+          <td>${escapeHtml(d.situacao)}</td>
+          <td>${escapeHtml(d.area || "-")}</td>
+          <td>${escapeHtml(d.gerencia || "")}</td>
+          <td>${escapeHtml(d.semPrazo ? "Sem prazo" : formatarDataISOparaBR(d.dataFinal))}</td>
+          <td>${escapeHtml(d.statusPrazo)}</td>
+          <td>${escapeHtml(d.semPrazo ? "Sem prazo" : textoDiasRestantes(d.diasRestantes))}</td>
+          <td>${escapeHtml(d.alteradoPor || "-")} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
+        </tr>
+      `).join("");
+      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data de Cadastro</th><th>Situação</th><th>Área</th><th>Gerência/Seção</th><th>Data Final</th><th>Status do Prazo</th><th>Dias Restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
+    }
+
+    function exportarExcel(apenasVisiveis = false) {
+      const dados = obterDadosExportacao(apenasVisiveis);
+      if (!dados.length) return toast("Não há registros para exportar.", "warning");
+      const html = `<html><head><meta charset="UTF-8"></head><body><h2>Relatório de Processos</h2><div>${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`;
+      const blob = new Blob([html], { type: "application/vnd.ms-excel" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = apenasVisiveis ? "processos_visiveis.xls" : "processos_todos.xls";
+      link.click();
+      URL.revokeObjectURL(link.href);
+      toast("Exportação Excel concluída.", "success");
+    }
+
+    function exportarPDF(apenasVisiveis = false) {
+      const dados = obterDadosExportacao(apenasVisiveis);
+      if (!dados.length) return toast("Não há registros para exportar.", "warning");
+      const janela = window.open("", "_blank");
+      janela.document.write(`<html><head><title>Relatório de Processos</title><meta charset="UTF-8"><style>body { font-family: Arial, sans-serif; padding: 20px; color: #111; } h2 { margin-bottom: 10px; } .sub { margin-bottom: 16px; color: #555; font-size: 13px; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #999; padding: 8px; font-size: 12px; text-align: left; } th { background: #eaeaea; }
+
+    /* ===== PREMIUM OVERRIDES ===== */
+    :root {
+      --bg: #f3f6fb;
+      --surface: #ffffff;
+      --surface-soft: #f8fbff;
+      --text: #182230;
+      --muted: #667085;
+      --border: #e6eaf2;
+      --primary: #155eef;
+      --primary-dark: #0b4bc4;
+      --primary-soft: #eef4ff;
+      --success: #039855;
+      --warning: #dc6803;
+      --danger: #d92d20;
+      --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 6px 18px rgba(16, 24, 40, 0.06);
+      --radius: 22px;
+      --radius-sm: 14px;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(21, 94, 239, 0.05), transparent 28%),
+        radial-gradient(circle at top right, rgba(3, 152, 85, 0.04), transparent 24%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(120deg, rgba(11,75,196,.96) 0%, rgba(21,94,239,.96) 100%);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .card {
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at right top, rgba(21,94,239,.10), transparent 26%),
+        linear-gradient(135deg, #ffffff 0%, #f7faff 55%, #eef4ff 100%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(21,94,239,.15) 0%, rgba(21,94,239,0) 70%);
+      pointer-events: none;
+    }
+
+    .topbar {
+      gap: 18px;
+      align-items: center;
+    }
+
+    .toolbar {
+      gap: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .user-box {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      box-shadow: var(--shadow-soft);
+      border-color: #e8eef7;
+    }
+
+    .section-title {
+      font-size: 19px;
+      letter-spacing: .1px;
+      margin-bottom: 14px;
+    }
+
+    .box-soft, .filtros-box {
+      background: linear-gradient(180deg, #fcfdff 0%, #f8fbff 100%);
+      border: 1px solid #edf2fa;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+    }
+
+    .composer {
+      gap: 22px;
+    }
+
+    .filters-wrap {
+      gap: 18px;
+    }
+
+    .filters-top, .filters-bottom {
+      gap: 14px;
+    }
+
+    input, textarea, select {
+      border-radius: 14px;
+      border-color: #d8dde7;
+      background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+    }
+
+    button {
+      border-radius: 14px;
+      min-height: 44px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      box-shadow: 0 1px 0 rgba(16,24,40,.03);
+    }
+
+    .metric {
+      border-radius: 20px;
+      box-shadow: var(--shadow-soft);
+      padding: 20px;
+    }
+
+    .metric .value {
+      font-size: 32px;
+    }
+
+    .stats-strip {
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .counter-pill {
+      box-shadow: 0 1px 0 rgba(16,24,40,.03);
+      background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
+    }
+
+    .table-wrap {
+      border-radius: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    thead th {
+      background: linear-gradient(180deg, #1d67c8 0%, #155eef 100%);
+    }
+
+    tbody td {
+      line-height: 1.45;
+    }
+
+    tbody tr.main-row {
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    tbody tr.main-row:hover {
+      transform: scale(1.001);
+    }
+
+    .acoes button {
+      border-radius: 12px;
+      min-height: auto;
+    }
+
+    .dashboard-grid {
+      gap: 22px;
+    }
+
+    .charts-stack, .sidebar-cards {
+      gap: 20px;
+    }
+
+    .chart-card {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+    .chart-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #60a5fa 0%, #155eef 100%);
+      opacity: .95;
+    }
+
+    .drawer, .modal {
+      border-radius: 22px 0 0 22px;
+    }
+    .modal {
+      border-radius: 22px;
+    }
+
+    .drawer-box, .detail-mini {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .toast {
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(16,24,40,.12);
+    }
+
+    .quick-help {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .quick-help .help-item {
+      padding: 14px;
+      border: 1px solid #eaecf0;
+      border-radius: 16px;
+      background: linear-gradient(180deg,#ffffff 0%, #f9fbff 100%);
+      box-shadow: var(--shadow-soft);
+    }
+    .quick-help .help-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .quick-help .help-item span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    @media (max-width: 1000px) {
+      .quick-help { grid-template-columns: 1fr; }
+    }
+
+  </style></head><body><h2>Relatório de Processos</h2><div class="sub">${apenasVisiveis ? "Registros visíveis (filtrados)" : "Todos os registros"}</div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
+      janela.document.close();
+      janela.focus();
+      janela.print();
+      toast("Exportação para impressão/PDF iniciada.", "success");
+    }
+
+    async function solicitarPermissaoNotificacao() {
+      if (!("Notification" in window)) return alert("Seu navegador não suporta notificações.");
+      const status = await Notification.requestPermission();
+      if (status === "granted") {
+        toast("Avisos do navegador ativados.", "success");
+        renderAlertas(filteredItems, true);
+      } else {
+        toast("Permissão de notificação não concedida.", "warning");
+      }
+    }
+
+    function destroyCharts() {
+      [chartSituacao, chartPrazo, chartSGI, chartOutrasAreas, chartGerencia].forEach(c => { if (c) c.destroy(); });
+    }
+
+    function renderDashboard(itens) {
+      $("kpiTotal").textContent = itens.length;
+      $("kpiSemPrazo").textContent = itens.filter(i => i.statusPrazo === "Sem prazo").length;
+      $("kpiVencendo").textContent = itens.filter(i => i.statusPrazo === "Vencendo").length;
+      $("kpiAtrasados").textContent = itens.filter(i => i.statusPrazo === "Atrasado").length;
+      $("kpiConcluidos").textContent = itens.filter(i => i.situacao === "Concluído").length;
+      $("kpiPendentes").textContent = itens.filter(i => i.situacao === "Pendente").length;
+
+      const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao] = (situacaoMap[i.situacao] || 0) + 1);
+      const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
+      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada (SGI)"].forEach(u => mapSGI[u] = 0); itens.filter(i => i.area === "Superintendência de Gestão Integrada (SGI)").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
+      const mapAreas = {}; AREAS.forEach(a => mapAreas[a] = 0); itens.forEach(i => mapAreas[i.area] = (mapAreas[i.area] || 0) + 1);
+      const geralMap = {}; TODAS_UNIDADES.forEach(u => geralMap[u] = 0); itens.forEach(i => { const key = i.gerencia && TODAS_UNIDADES.includes(i.gerencia) ? i.gerencia : "Sem gerência"; geralMap[key] = (geralMap[key] || 0) + 1; });
+      const ranking = Object.entries(geralMap).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 12);
+
+      destroyCharts();
+
+      chartPrazo = new Chart($("graficoPrazo"), {
+        type: "doughnut",
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#16a34a", "#f59e0b", "#fb923c", "#ef4444", "#94a3b8"] }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+
+      chartOutrasAreas = new Chart($("graficoOutrasAreas"), {
+        type: "bar",
+        data: { labels: Object.keys(mapAreas), datasets: [{ data: Object.values(mapAreas), backgroundColor: ["#155eef", "#7c3aed", "#0891b2", "#ea580c", "#4f46e5", "#64748b", "#16a34a", "#d97706"], borderRadius: 10, maxBarThickness: 46 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartGerencia = new Chart($("graficoGerencia"), {
+        type: "bar",
+        data: { labels: ranking.map(i => i[0]), datasets: [{ data: ranking.map(i => i[1]), backgroundColor: "#1d4ed8", borderRadius: 10, maxBarThickness: 42 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } } } } }
+      });
+
+      chartSituacao = new Chart($("graficoSituacao"), {
+        type: "bar",
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ["#60a5fa", "#fb923c", "#38bdf8", "#10b981", "#94a3b8"], borderRadius: 10, maxBarThickness: 48 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+      });
+
+      chartSGI = new Chart($("graficoSGI"), {
+        type: "bar",
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: "#155eef", borderRadius: 10, maxBarThickness: 40 }] },
+        options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } } } } }
+      });
+    }
+
+    function atualizarCardsAtivos() {
+      document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
+      if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(filtroArea.value)}']`).forEach(card => card.classList.add("active"));
+      if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
+    }
+
+    function aplicarFiltrosVisuaisNosChips() {
+      document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
+      [["area", filtroArea.value], ["situacao", filtroSituacao.value], ["statusPrazo", filtroStatusPrazo.value]].forEach(([tipo, valor]) => {
+        if (!valor) return;
+        const chip = document.querySelector(`.chip[data-chip-type="${tipo}"][data-chip-value="${CSS.escape(valor)}"]`);
+        if (chip) chip.classList.add("active");
+      });
+    }
+
+    function renderEverything(notificar = true) {
+      filteredItems = getFilteredItems();
+      renderTable(filteredItems);
+      renderResumo(filteredItems);
+      renderAlertas(filteredItems, notificar);
+      renderDashboard(filteredItems);
+      atualizarCardsAtivos();
+      atualizarDrawerSeAberto();
+      aplicarFiltrosVisuaisNosChips();
+    }
+
+    function registrarEventos() {
+      btnEntrar.addEventListener("click", login);
+      btnCadastrar.addEventListener("click", cadastrar);
+      btnResetar.addEventListener("click", resetarSenha);
+      btnSair.addEventListener("click", logout);
+      btnNotificacao.addEventListener("click", solicitarPermissaoNotificacao);
+      tabProcessosBtn.addEventListener("click", () => abrirAba("processos"));
+      tabDashboardBtn.addEventListener("click", () => abrirAba("dashboard"));
+
+      semPrazoManual.addEventListener("change", () => {
+        dataFinalManual.disabled = semPrazoManual.checked;
+        if (semPrazoManual.checked) dataFinalManual.value = "";
+      });
+      editSemPrazo.addEventListener("change", () => {
+        editDataFinal.disabled = editSemPrazo.checked;
+        if (editSemPrazo.checked) editDataFinal.value = "";
+      });
+
+      btnGerarProcesso.addEventListener("click", gerarProcesso);
+      btnLimparFormulario.addEventListener("click", limparFormulario);
+      btnSalvarEdicao.addEventListener("click", salvarEdicao);
+      btnFecharModal.addEventListener("click", fecharModal);
+      modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) fecharModal(); });
+      btnFecharDrawer.addEventListener("click", fecharDrawer);
+      drawerOverlay.addEventListener("click", fecharDrawer);
+      drawerBtnEditar.addEventListener("click", () => { if (selectedDrawerId) abrirModalEdicao(selectedDrawerId); });
+      drawerBtnPendente.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Pendente"));
+      drawerBtnConcluir.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Concluído"));
+      drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
+      drawerBtnExcluir.addEventListener("click", () => remover(selectedDrawerId));
+
+      [busca, filtroArea, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao].forEach(el => {
+        const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input");
+        el.addEventListener(evt, aplicarFiltrosEOrdenacao);
+      });
+
+      limiteVencendo.addEventListener("change", () => { salvarFiltros(); renderEverything(); });
+      btnLimparFiltros.addEventListener("click", limparFiltros);
+      btnExportarExcelTodos.addEventListener("click", () => exportarExcel(false));
+      btnExportarExcelVisiveis.addEventListener("click", () => exportarExcel(true));
+      btnExportarPDFTodos.addEventListener("click", () => exportarPDF(false));
+      btnExportarPDFVisiveis.addEventListener("click", () => exportarPDF(true));
+
+      $("chipsRapidos").addEventListener("click", (e) => {
+        const chip = e.target.closest(".chip");
+        if (chip) aplicarChip(chip);
+      });
+
+      document.addEventListener("click", (e) => {
+        const summary = e.target.closest(".summary-card");
+        if (!summary) return;
+        if (summary.closest(".drawer") || summary.closest(".modal")) return;
+        aplicarResumoClicavel(summary);
+      });
+
+      tbodyProcessos.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        const row = e.target.closest("tr.main-row");
+        if (!row) return;
+        const id = row.dataset.id;
+        if (!id) return;
+        if (btn) {
+          const action = btn.dataset.action;
+          if (action === "expand") { e.stopPropagation(); toggleExpand(id); return; }
+          if (action === "view") { e.stopPropagation(); abrirDrawer(id); return; }
+          if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
+          if (action === "pendente") { e.stopPropagation(); alterarSituacaoRapida(id, "Pendente"); return; }
+          if (action === "concluir") { e.stopPropagation(); alterarSituacaoRapida(id, "Concluído"); return; }
+          if (action === "delete") { e.stopPropagation(); remover(id); return; }
+        }
+        abrirDrawer(id);
+      });
+
+      document.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
+        ordenacao.value = th.dataset.sort || "";
+        salvarFiltros();
+        aplicarFiltrosEOrdenacao();
+      }));
+
+      document.addEventListener("keydown", (e) => {
+        if (appBox.classList.contains("hidden") && e.key === "Enter") login();
+        if (!appBox.classList.contains("hidden") && e.key === "Escape") {
+          if (!modalOverlay.classList.contains("hidden")) fecharModal();
+          if (!drawer.classList.contains("hidden")) fecharDrawer();
+        }
+      });
+    }
+
+    preencherSelects();
+    restaurarFiltros();
+    aplicarAbaSalva();
+    registrarEventos();
+
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        loginBox.classList.add("hidden");
+        appBox.classList.remove("hidden");
+        usuarioLogado.textContent = user.email || "Usuário";
+        iniciarEscutaProcessos();
+      } else {
+        if (unsubscribeSnapshot) {
+          unsubscribeSnapshot();
+          unsubscribeSnapshot = null;
+        }
+        loginBox.classList.remove("hidden");
+        appBox.classList.add("hidden");
+        usuarioLogado.textContent = "-";
+        allItems = [];
+        filteredItems = [];
+        renderEverything();
+      }
+    });
+
+    setInterval(() => {
+      if (!appBox.classList.contains("hidden")) renderEverything(false);
+    }, 60000);
+  </script>
+</body>
+</html>
