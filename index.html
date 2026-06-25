@@ -1959,72 +1959,40 @@
     body.dark-mode .dashboard-list-item .num { color: #f3f4f6 !important; }
 
 
-    /* ===== Ajuste de responsividade para múltiplas gerências + prazo/hora ===== */
+    /* ===== Encaminhamento múltiplo + prazo com hora ===== */
+    .encaminhamento-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:14px; }
+    .encaminhamento-box { padding:12px; border-radius:16px; background:rgba(255,255,255,.22); border:1px solid rgba(183,195,200,.45); min-width:0; }
+    .encaminhamento-note { margin-top:10px; padding:10px 12px; border-radius:12px; background:rgba(255,255,255,.18); border:1px dashed #c7d2d8; color:#60707a; font-size:12px; line-height:1.45; }
+    .prazo-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(160px,.7fr) minmax(0,1fr); gap:12px; margin-top:12px; align-items:end; }
+    .tag-gerencia { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:#eef2f4; border:1px solid #d4dde1; color:#42545f; font-size:12px; font-weight:700; margin:2px 6px 2px 0; flex-wrap:wrap; }
+    .submeta { display:block; font-size:12px; color:#6b7280; margin-top:4px; line-height:1.35; }
+    body.dark-mode .encaminhamento-box, body.dark-mode .encaminhamento-note, body.dark-mode .tag-gerencia { background:rgba(255,255,255,.03) !important; border-color:#374151 !important; color:#dbe4ea !important; }
+    /* ===== Ajuste de responsividade para evitar campos espremidos ===== */
     .composer-card .encaminhamento-grid,
-    .composer-card .prazo-grid {
-      min-width: 0;
-    }
+    .composer-card .prazo-grid { min-width:0; }
     .composer-card .encaminhamento-box,
-    .composer-card .preview-card {
-      overflow: hidden;
-    }
+    .composer-card .preview-card { overflow:hidden; }
     .composer-card .encaminhamento-box select,
     .composer-card .encaminhamento-box input,
     .composer-card .prazo-grid input,
-    .composer-card .prazo-grid select {
-      width: 100%;
-      min-width: 0;
-    }
-    .composer-card .encaminhamento-note {
-      font-size: 12px;
-      line-height: 1.45;
-    }
-    .composer-card .submeta {
-      font-size: 12px;
-      line-height: 1.4;
-    }
+    .composer-card .prazo-grid select { width:100%; min-width:0; }
+    .composer-card .encaminhamento-note,
+    .composer-card .submeta { font-size:12px; line-height:1.45; }
     @media (max-width: 860px) {
-      .composer-card .encaminhamento-grid {
-        grid-template-columns: 1fr !important;
-      }
-      .composer-card .prazo-grid {
-        grid-template-columns: 1fr 1fr !important;
-      }
-      .composer-card .prazo-grid > div:last-child {
-        grid-column: 1 / -1;
-      }
+      .composer-card .encaminhamento-grid { grid-template-columns:1fr !important; }
+      .composer-card .prazo-grid { grid-template-columns:1fr 1fr !important; }
+      .composer-card .prazo-grid > div:last-child { grid-column:1 / -1; }
     }
     @media (max-width: 560px) {
-      .composer-card {
-        padding: 14px !important;
-      }
-      .composer-card textarea {
-        min-height: 120px;
-      }
+      .composer-card { padding:14px !important; }
+      .composer-card textarea { min-height:120px; }
       .composer-card .encaminhamento-grid,
-      .composer-card .prazo-grid {
-        grid-template-columns: 1fr !important;
-        gap: 10px !important;
-      }
-      .composer-card .encaminhamento-box {
-        padding: 10px !important;
-      }
-      .composer-card .encaminhamento-note {
-        padding: 10px !important;
-      }
-      .composer-card .preview-grid {
-        grid-template-columns: 1fr !important;
-        gap: 8px !important;
-      }
-      .composer-card .btn-row {
-        display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 8px !important;
-      }
-      .composer-card .btn-row button {
-        width: 100% !important;
-        min-width: 0 !important;
-      }
+      .composer-card .prazo-grid { grid-template-columns:1fr !important; gap:10px !important; }
+      .composer-card .encaminhamento-box { padding:10px !important; }
+      .composer-card .encaminhamento-note { padding:10px !important; }
+      .composer-card .preview-grid { grid-template-columns:1fr !important; gap:8px !important; }
+      .composer-card .btn-row { display:grid !important; grid-template-columns:1fr !important; gap:8px !important; }
+      .composer-card .btn-row button { width:100% !important; min-width:0 !important; }
     }
 
 </style>
@@ -2100,14 +2068,26 @@ OU
 202600005016709
 OFÍCIO Nº 4702/2026/SEAD
 Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inservíveis."></textarea>
-              <div class="grid-2" style="margin-top:14px;">
-                <div>
-                  <label for="gerenciaManual">Gerência/Seção</label>
+              <div class="encaminhamento-grid">
+                <div class="encaminhamento-box">
+                  <label for="gerenciaManual">Gerência/Seção principal</label>
                   <select id="gerenciaManual"><option value="">Selecione...</option></select>
+                  <span class="submeta">Use este campo para a unidade principal responsável.</span>
                 </div>
+                <div class="encaminhamento-box">
+                  <label for="gerenciaManual2">Gerência/Seção complementar</label>
+                  <select id="gerenciaManual2"><option value="">Selecione...</option></select>
+                  <span class="submeta">Opcional — útil quando o processo é encaminhado para duas gerências ao mesmo tempo.</span>
+                </div>
+              </div>
+              <div class="prazo-grid">
                 <div>
                   <label for="dataFinalManual">Data final</label>
                   <input type="date" id="dataFinalManual" />
+                </div>
+                <div>
+                  <label for="horaFinalManual">Hora de retorno (opcional)</label>
+                  <input type="time" id="horaFinalManual" />
                 </div>
                 <div>
                   <label for="limiteVencendo">Avisar quando faltar</label>
@@ -2120,6 +2100,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                   </select>
                 </div>
               </div>
+              <div class="encaminhamento-note">Agora o cadastro permite registrar até duas gerências/seções por processo e, quando houver prazo, informar também a hora exata de retorno.</div>
               <label class="checkbox-inline" for="semPrazoManual"><input type="checkbox" id="semPrazoManual" /> <span>Processo sem prazo definido</span></label>
               <div class="preview-card" id="previewCadastro">
                 <div class="section-mini-title">Pré-visualização da leitura automática (foco em prazo)</div>
@@ -2428,9 +2409,13 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         <div><label for="editInteressado">Interessado</label><input type="text" id="editInteressado" /></div>
       </div>
       <div><label for="editAssunto">Assunto</label><textarea id="editAssunto" style="min-height:100px;"></textarea></div>
-      <div class="grid-3" style="margin-top:6px;">
-        <div><label for="editGerencia">Gerência/Seção</label><select id="editGerencia"><option value="">Selecione...</option></select></div>
+      <div class="encaminhamento-grid" style="margin-top:6px;">
+        <div class="encaminhamento-box"><label for="editGerencia">Gerência/Seção principal</label><select id="editGerencia"><option value="">Selecione...</option></select></div>
+        <div class="encaminhamento-box"><label for="editGerencia2">Gerência/Seção complementar</label><select id="editGerencia2"><option value="">Selecione...</option></select></div>
+      </div>
+      <div class="prazo-grid" style="margin-top:10px;">
         <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
+        <div><label for="editHoraFinal">Hora de retorno (opcional)</label><input type="time" id="editHoraFinal" /></div>
       </div>
       <label class="checkbox-inline" for="editSemPrazo"><input type="checkbox" id="editSemPrazo" /> <span>Processo sem prazo definido</span></label>
       <div class="btn-row"><button type="button" id="btnSalvarEdicao">Salvar alterações</button></div>
@@ -2623,7 +2608,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       localStorage.setItem('sgp_rascunho_cadastro_v1', JSON.stringify({
         entrada: entrada?.value || '',
         gerenciaManual: gerenciaManual?.value || '',
+        gerenciaManual2: gerenciaManual2?.value || '',
         dataFinalManual: dataFinalManual?.value || '',
+        horaFinalManual: horaFinalManual?.value || '',
         semPrazoManual: !!semPrazoManual?.checked
       }));
     }
@@ -2634,9 +2621,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         const r = JSON.parse(bruto);
         if (entrada && !entrada.value) entrada.value = r.entrada || '';
         if (gerenciaManual && !gerenciaManual.value) gerenciaManual.value = r.gerenciaManual || '';
+        if (gerenciaManual2 && !gerenciaManual2.value) gerenciaManual2.value = r.gerenciaManual2 || '';
         if (dataFinalManual && !dataFinalManual.value) dataFinalManual.value = r.dataFinalManual || '';
+        if (horaFinalManual && !horaFinalManual.value) horaFinalManual.value = r.horaFinalManual || '';
         if (semPrazoManual) semPrazoManual.checked = !!r.semPrazoManual;
         if (dataFinalManual) dataFinalManual.disabled = !!r.semPrazoManual;
+        if (horaFinalManual) horaFinalManual.disabled = !!r.semPrazoManual;
       } catch (e) { console.warn(e); }
     }
     function limparRascunhoCadastro() {
@@ -2772,8 +2762,10 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const abaDashboard = $("abaDashboard");
     const entrada = $("entrada");
     const gerenciaManual = $("gerenciaManual");
+    const gerenciaManual2 = $("gerenciaManual2");
     const situacaoManual = $("situacaoManual");
     const dataFinalManual = $("dataFinalManual");
+    const horaFinalManual = $("horaFinalManual");
     const semPrazoManual = $("semPrazoManual");
     const limiteVencendo = $("limiteVencendo");
     const btnGerarProcesso = $("btnGerarProcesso");
@@ -2848,7 +2840,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const editAssunto = $("editAssunto");
     const editSituacao = $("editSituacao");
     const editGerencia = $("editGerencia");
+    const editGerencia2 = $("editGerencia2");
     const editDataFinal = $("editDataFinal");
+    const editHoraFinal = $("editHoraFinal");
     const editSemPrazo = $("editSemPrazo");
     const btnSalvarEdicao = $("btnSalvarEdicao");
     const toasts = $("toasts");
@@ -3018,37 +3012,42 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       return data.toISOString().split("T")[0];
     }
 
-    function calcDiasRestantes(dataFinalISO) {
+    function calcDiasRestantes(dataFinalISO, horaFinal = "") {
       if (!dataFinalISO) return null;
-      const hoje = new Date(); hoje.setHours(0,0,0,0);
-      const dataFinal = new Date(dataFinalISO + "T00:00:00"); dataFinal.setHours(0,0,0,0);
-      return Math.ceil((dataFinal - hoje) / (1000 * 60 * 60 * 24));
+      const agora = new Date();
+      const prazo = obterDataPrazo(dataFinalISO, horaFinal);
+      if (!prazo) return null;
+      const diffMs = prazo.getTime() - agora.getTime();
+      if (diffMs < 0) return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      if (prazo.toDateString() === agora.toDateString()) return 0;
+      return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
     }
-
     function textoDiasRestantes(dias) {
       if (dias === null || dias === undefined || dias === "") return "Sem prazo";
       if (dias > 0) return `${dias} dia(s)`;
       if (dias === 0) return "Vence hoje";
       return `Atrasado ${Math.abs(dias)} dia(s)`;
     }
-
-    function obterStatusPrazo(dataFinalISO, semPrazo = false) {
+    function obterStatusPrazo(dataFinalISO, semPrazo = false, horaFinal = "") {
       if (semPrazo || !dataFinalISO) return "Sem prazo";
-      const dias = calcDiasRestantes(dataFinalISO);
+      const agora = new Date();
+      const prazo = obterDataPrazo(dataFinalISO, horaFinal);
+      if (!prazo) return "Sem prazo";
+      const diffMs = prazo.getTime() - agora.getTime();
       const limite = parseInt(limiteVencendo.value, 10) || 3;
-      if (dias < 0) return "Atrasado";
-      if (dias === 0) return "Vence hoje";
-      if (dias <= limite) return "Vencendo";
+      if (diffMs < 0) return "Atrasado";
+      if (prazo.toDateString() === agora.toDateString()) return "Vence hoje";
+      if (diffMs <= limite * 24 * 60 * 60 * 1000) return "Vencendo";
       return "No prazo";
     }
-
-    function gerarBadgePrazo(dataFinalISO, semPrazo = false) {
-      const status = obterStatusPrazo(dataFinalISO, semPrazo);
-      const dias = semPrazo ? null : calcDiasRestantes(dataFinalISO);
-      if (status === "No prazo") return `<span class="badge badge-no-prazo">Faltam ${dias} dia(s)</span>`;
-      if (status === "Vencendo") return `<span class="badge badge-vencendo">Vence em ${dias} dia(s)</span>`;
-      if (status === "Vence hoje") return `<span class="badge badge-vence-hoje">Vence hoje</span>`;
-      if (status === "Atrasado") return `<span class="badge badge-atrasado">Atrasado ${Math.abs(dias)} dia(s)</span>`;
+    function gerarBadgePrazo(dataFinalISO, semPrazo = false, horaFinal = "") {
+      const status = obterStatusPrazo(dataFinalISO, semPrazo, horaFinal);
+      const dias = semPrazo ? null : calcDiasRestantes(dataFinalISO, horaFinal);
+      const horaTxt = normalizarHora(horaFinal);
+      if (status === "No prazo") return `<span class="badge badge-no-prazo">${horaTxt ? `Até ${horaTxt} • ` : ''}Faltam ${dias} dia(s)</span>`;
+      if (status === "Vencendo") return `<span class="badge badge-vencendo">${horaTxt ? `Até ${horaTxt} • ` : ''}Vence em ${dias} dia(s)</span>`;
+      if (status === "Vence hoje") return `<span class="badge badge-vence-hoje">${horaTxt ? `Hoje às ${horaTxt}` : 'Vence hoje'}</span>`;
+      if (status === "Atrasado") return `<span class="badge badge-atrasado">${horaTxt ? `Prazo ${horaTxt}` : 'Atrasado'} • ${Math.abs(dias || 0)} dia(s)</span>`;
       return `<span class="badge badge-sem-prazo">Sem prazo</span>`;
     }
 
@@ -3078,6 +3077,58 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const [ano, mes, dia] = dataISO.split("-");
       return `${dia}/${mes}/${ano}`;
     }
+    function normalizarHora(valor) {
+      const txt = String(valor || '').trim();
+      if (!txt) return '';
+      const m = txt.match(/^(\d{1,2}):(\d{2})/);
+      if (!m) return '';
+      return `${String(m[1]).padStart(2,'0')}:${m[2]}`;
+    }
+    function extrairHoraFinal(texto) {
+      const h = extrairCampo(texto, [/(?:às|as)\s*(\d{1,2}:\d{2})/i, /(?:retorno|voltar)\s*(?:às|as)?\s*(\d{1,2}:\d{2})/i]);
+      return normalizarHora(h);
+    }
+    function obterDataPrazo(dataISO, hora="") {
+      if (!dataISO) return null;
+      const horaBase = normalizarHora(hora) || '23:59';
+      const dt = new Date(`${dataISO}T${horaBase}:00`);
+      return isNaN(dt.getTime()) ? null : dt;
+    }
+    function formatarPrazoCompleto(dataISO, hora="") {
+      if (!dataISO) return 'Sem prazo';
+      const base = formatarDataISOparaBR(dataISO);
+      const horaFmt = normalizarHora(hora);
+      return horaFmt ? `${base} às ${horaFmt}` : base;
+    }
+    function obterGerenciasSelecionadas(valor1, valor2, textoFallback='') {
+      const itens = [];
+      const g1 = normalizarNomeInstitucional(resolverGerenciaPorTexto(valor1 || extrairGerencia(textoFallback) || ''));
+      const g2 = normalizarNomeInstitucional(resolverGerenciaPorTexto(valor2 || '') || '');
+      [g1, g2].forEach(v => { if (v && !itens.includes(v)) itens.push(v); });
+      return itens;
+    }
+    function formatarListaGerencias(item) {
+      return Array.isArray(item?.gerencias) && item.gerencias.length ? item.gerencias : [item?.gerencia, item?.gerenciaSecundaria].filter(Boolean);
+    }
+    function obterDescricaoTempoRestante(item) {
+      if (item?.semPrazo || !item?.dataFinal) return 'Sem prazo';
+      const agora = new Date();
+      const prazo = obterDataPrazo(item.dataFinal, item.horaFinal || '');
+      if (!prazo) return 'Sem prazo';
+      const diffMs = prazo.getTime() - agora.getTime();
+      const absMin = Math.floor(Math.abs(diffMs) / 60000);
+      const dias = Math.floor(absMin / 1440);
+      const horas = Math.floor((absMin % 1440) / 60);
+      const mins = absMin % 60;
+      const mesmoDia = prazo.toDateString() === agora.toDateString();
+      if (diffMs < 0) {
+        if (mesmoDia) return `Atrasado há ${horas}h ${String(mins).padStart(2,'0')}min`;
+        return dias > 0 ? `Atrasado há ${dias} dia(s)` : `Atrasado há ${horas}h ${String(mins).padStart(2,'0')}min`;
+      }
+      if (mesmoDia) return horas > 0 ? `${horas}h ${String(mins).padStart(2,'0')}min` : `${mins} min`;
+      return `${calcDiasRestantes(item.dataFinal, item.horaFinal)} dia(s)`;
+    }
+
 
     function formatarDataHora(valor) {
       if (!valor) return "-";
@@ -3137,6 +3188,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       gerenciaManual.innerHTML = '<option value="">Selecione...</option>';
       filtroGerencia.innerHTML = '<option value="">Todas</option>';
       editGerencia.innerHTML = '<option value="">Selecione...</option>';
+      if (gerenciaManual2) gerenciaManual2.innerHTML = '<option value="">Selecione...</option>';
+      if (editGerencia2) editGerencia2.innerHTML = '<option value="">Selecione...</option>';
       filtroArea.innerHTML = '<option value="">Todas</option>';
       if (situacaoManual) situacaoManual.innerHTML = '';
       if (filtroSituacao) filtroSituacao.innerHTML = '<option value="">Todas</option>';
@@ -3148,7 +3201,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         opArea.textContent = normalizarNomeInstitucional(area);
         filtroArea.appendChild(opArea);
 
-        [gerenciaManual, filtroGerencia, editGerencia].forEach(sel => {
+        [gerenciaManual, gerenciaManual2, filtroGerencia, editGerencia, editGerencia2].filter(Boolean).forEach(sel => {
           const op = document.createElement("option");
           op.value = normalizarNomeInstitucional(area);
           op.textContent = normalizarNomeInstitucional(area);
@@ -3173,8 +3226,10 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         });
 
         gerenciaManual.appendChild(g1);
+        if (gerenciaManual2) gerenciaManual2.appendChild(g1.cloneNode(true));
         filtroGerencia.appendChild(g2);
         editGerencia.appendChild(g3);
+        if (editGerencia2) editGerencia2.appendChild(g3.cloneNode(true));
       });
 
       STATUS_OPERACIONAIS.forEach(s => {
@@ -3332,6 +3387,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         snapshot.forEach((doc) => {
           const dados = doc.data();
           const gerenciaNormalizada = normalizarNomeInstitucional(resolverGerenciaPorTexto(dados.gerencia || "") || dados.gerencia || "");
+          const gerenciaSecundaria = normalizarNomeInstitucional(resolverGerenciaPorTexto(dados.gerenciaSecundaria || "") || dados.gerenciaSecundaria || "");
+          const gerenciasLista = Array.isArray(dados.gerencias) && dados.gerencias.length ? dados.gerencias.map(g => normalizarNomeInstitucional(g)).filter(Boolean) : [gerenciaNormalizada, gerenciaSecundaria].filter(Boolean);
           const area = normalizarNomeInstitucional(dados.area || obterAreaPorUnidade(gerenciaNormalizada));
           allItems.push({
             id: doc.id,
@@ -3343,8 +3400,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             dataCadastroISO: dados.dataCadastroISO || "",
             situacao: dados.situacao || ((!dados.dataFinal || dados.semPrazo) ? "Concluído" : "Em análise"),
             gerencia: gerenciaNormalizada,
+            gerenciaSecundaria: gerenciaSecundaria || "",
+            gerencias: gerenciasLista,
             area,
             dataFinal: dados.dataFinal || "",
+            horaFinal: dados.horaFinal || "",
+            prazoFinalISO: dados.prazoFinalISO || "",
             semPrazo: !!dados.semPrazo || !dados.dataFinal,
             criadoEm: dados.criadoEm || null,
             criadoPor: dados.criadoPor || "",
@@ -3371,10 +3432,13 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         const interessado = extrairCampo(texto, [/Interessado\(a\)\s*:?\s*(.+)/i, /Interessado\s*:?\s*(.+)/i, /Destinat[aá]rio\s*:?\s*(.+)/i]);
         const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]);
         const dataFinal = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
-        const gerencia = normalizarNomeInstitucional(resolverGerenciaPorTexto(gerenciaManual.value || extrairGerencia(texto)));
+        const horaFinal = semPrazoManual.checked ? "" : (horaFinalManual?.value || extrairHoraFinal(texto));
+        const gerencias = obterGerenciasSelecionadas(gerenciaManual.value, gerenciaManual2?.value, texto);
+        const gerencia = gerencias[0] || "";
+        const gerenciaSecundaria = gerencias[1] || "";
         const situacao = (!dataFinal || semPrazoManual.checked) ? "Concluído" : "Em análise";
         const area = normalizarNomeInstitucional(obterAreaPorUnidade(gerencia));
-
+        const prazoFinalISO = dataFinal ? `${dataFinal}T${normalizarHora(horaFinal) || '23:59'}:00` : "";
         if (!processo && !interessado && !assunto && !texto) return mostrarMensagem("Preencha pelo menos um dado do processo.", "warning");
         if (processo) {
           const duplicidade = await verificarDuplicidadeDetalhada({ processo, processoNormalizado: processo, interessado, assunto, gerencia, area, situacao, dataFinal, semPrazo: !dataFinal });
@@ -3383,7 +3447,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             if (!continuarMesmoAssim) return mostrarMensagem("Revise o registro antes de salvar.", "warning");
           }
         }
-
         const user = auth.currentUser;
         await db.collection(COLLECTION_PROCESSOS).add({
           processo: processo || "",
@@ -3395,15 +3458,18 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           situacao,
           area: area || "",
           gerencia: gerencia || "",
+          gerenciaSecundaria: gerenciaSecundaria || "",
+          gerencias,
           dataFinal: dataFinal || "",
+          horaFinal: normalizarHora(horaFinal),
+          prazoFinalISO,
           semPrazo: !dataFinal,
           criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
           criadoPor: user?.email || "",
           alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
           alteradoPor: user?.email || "",
-          historico: [criarEventoHistorico("criação", "Processo cadastrado no sistema")]
+          historico: [criarEventoHistorico("criação", `Processo cadastrado no sistema${gerenciaSecundaria ? ' com encaminhamento para duas gerências' : ''}`)]
         });
-
         limparRascunhoCadastro();
         limparFormulario();
         mostrarMensagem("Processo cadastrado com sucesso.", "success");
@@ -3422,8 +3488,11 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       try {
         setLoading(btnSalvarEdicao, true, "Salvar alterações");
         const processoNormalizado = normalizarProcesso(editProcesso.value);
-        const gerenciaResolvida = normalizarNomeInstitucional(resolverGerenciaPorTexto(editGerencia.value));
+        const gerencias = obterGerenciasSelecionadas(editGerencia.value, editGerencia2?.value, '');
+        const gerenciaResolvida = gerencias[0] || "";
+        const gerenciaSecundaria = gerencias[1] || "";
         const dataFinalEdicao = editSemPrazo.checked ? "" : (editDataFinal.value || "");
+        const horaFinalEdicao = editSemPrazo.checked ? "" : (editHoraFinal?.value || "");
         const situacaoEdicao = (!dataFinalEdicao || editSemPrazo.checked) ? "Concluído" : "Em análise";
         const payloadEdicao = {
           processo: processoNormalizado,
@@ -3432,8 +3501,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           assunto: editAssunto.value.trim(),
           situacao: situacaoEdicao,
           gerencia: gerenciaResolvida,
+          gerenciaSecundaria: gerenciaSecundaria || "",
+          gerencias,
           area: normalizarNomeInstitucional(obterAreaPorUnidade(gerenciaResolvida)),
           dataFinal: dataFinalEdicao,
+          horaFinal: normalizarHora(horaFinalEdicao),
+          prazoFinalISO: dataFinalEdicao ? `${dataFinalEdicao}T${normalizarHora(horaFinalEdicao) || '23:59'}:00` : "",
           semPrazo: editSemPrazo.checked || !editDataFinal.value
         };
         if (processoNormalizado) {
@@ -3494,8 +3567,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       let itens = allItems.map(item => ({
         ...item,
-        diasRestantes: item.semPrazo ? null : calcDiasRestantes(item.dataFinal),
-        statusPrazo: obterStatusPrazo(item.dataFinal, item.semPrazo)
+        diasRestantes: item.semPrazo ? null : calcDiasRestantes(item.dataFinal, item.horaFinal),
+        statusPrazo: obterStatusPrazo(item.dataFinal, item.semPrazo, item.horaFinal)
       }));
 
       itens = itens.filter(item => {
@@ -3506,12 +3579,14 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           item.situacao,
           item.area,
           item.gerencia,
+          item.gerenciaSecundaria,
+          (item.gerencias || []).join(" "),
           item.statusPrazo,
           nomeCurtoSGI(item.gerencia)
         ].join(" "));
         if (termo && !textoBusca.includes(termo)) return false;
         if (area && normalizarNomeInstitucional(item.area) !== normalizarNomeInstitucional(area)) return false;
-        if (gerencia && item.gerencia !== gerencia) return false;
+        if (gerencia && item.gerencia !== gerencia && item.gerenciaSecundaria !== gerencia && !(item.gerencias || []).includes(gerencia)) return false;
         if (situacao && item.situacao !== situacao) return false;
         if (prazo === "comPrazo" && item.semPrazo) return false;
         if (prazo === "semPrazo" && !item.semPrazo) return false;
@@ -3858,9 +3933,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     function limparFormulario() {
       if (entrada) entrada.value = '';
       if (gerenciaManual) gerenciaManual.value='';
+      if (gerenciaManual2) gerenciaManual2.value='';
       if (dataFinalManual) dataFinalManual.value='';
+      if (horaFinalManual) horaFinalManual.value='';
       if (semPrazoManual) semPrazoManual.checked=false;
       if (dataFinalManual) dataFinalManual.disabled=false;
+      if (horaFinalManual) horaFinalManual.disabled=false;
       limparRascunhoCadastro();
       renderPreviewCadastro();
       mostrarMensagem('Formulário limpo.', 'info');
@@ -3949,10 +4027,10 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           <td>${escapeHtml(d.assunto)}</td>
           <td>${escapeHtml(formatarDataHora(d.criadoEm) !== '-' ? formatarDataHora(d.criadoEm) : d.dataCadastro)}</td>
           <td>${escapeHtml(d.area || '-')}</td>
-          <td>${escapeHtml(d.gerencia || '')}</td>
-          <td>${escapeHtml(d.semPrazo ? 'Sem prazo' : formatarDataISOparaBR(d.dataFinal))}</td>
+          <td>${escapeHtml((d.gerencias || [d.gerencia, d.gerenciaSecundaria].filter(Boolean)).join(" • ") || "")}</td>
+          <td>${escapeHtml(d.semPrazo ? 'Sem prazo' : formatarPrazoCompleto(d.dataFinal, d.horaFinal))}</td>
           <td>${escapeHtml(d.statusPrazo)}</td>
-          <td>${escapeHtml(d.semPrazo ? 'Sem prazo' : textoDiasRestantes(d.diasRestantes))}</td>
+          <td>${escapeHtml(obterDescricaoTempoRestante(d))}</td>
           <td>${escapeHtml(d.alteradoPor || '-')} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
         </tr>`).join('');
       return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data/hora do preenchimento</th><th>Área</th><th>Gerência/Seção</th><th>Data final</th><th>Exige resposta</th><th>Dias restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
@@ -4106,72 +4184,40 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     body.dark-mode .dashboard-list-item .num { color: #f3f4f6 !important; }
 
 
-    /* ===== Ajuste de responsividade para múltiplas gerências + prazo/hora ===== */
+    /* ===== Encaminhamento múltiplo + prazo com hora ===== */
+    .encaminhamento-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:14px; }
+    .encaminhamento-box { padding:12px; border-radius:16px; background:rgba(255,255,255,.22); border:1px solid rgba(183,195,200,.45); min-width:0; }
+    .encaminhamento-note { margin-top:10px; padding:10px 12px; border-radius:12px; background:rgba(255,255,255,.18); border:1px dashed #c7d2d8; color:#60707a; font-size:12px; line-height:1.45; }
+    .prazo-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(160px,.7fr) minmax(0,1fr); gap:12px; margin-top:12px; align-items:end; }
+    .tag-gerencia { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:#eef2f4; border:1px solid #d4dde1; color:#42545f; font-size:12px; font-weight:700; margin:2px 6px 2px 0; flex-wrap:wrap; }
+    .submeta { display:block; font-size:12px; color:#6b7280; margin-top:4px; line-height:1.35; }
+    body.dark-mode .encaminhamento-box, body.dark-mode .encaminhamento-note, body.dark-mode .tag-gerencia { background:rgba(255,255,255,.03) !important; border-color:#374151 !important; color:#dbe4ea !important; }
+    /* ===== Ajuste de responsividade para evitar campos espremidos ===== */
     .composer-card .encaminhamento-grid,
-    .composer-card .prazo-grid {
-      min-width: 0;
-    }
+    .composer-card .prazo-grid { min-width:0; }
     .composer-card .encaminhamento-box,
-    .composer-card .preview-card {
-      overflow: hidden;
-    }
+    .composer-card .preview-card { overflow:hidden; }
     .composer-card .encaminhamento-box select,
     .composer-card .encaminhamento-box input,
     .composer-card .prazo-grid input,
-    .composer-card .prazo-grid select {
-      width: 100%;
-      min-width: 0;
-    }
-    .composer-card .encaminhamento-note {
-      font-size: 12px;
-      line-height: 1.45;
-    }
-    .composer-card .submeta {
-      font-size: 12px;
-      line-height: 1.4;
-    }
+    .composer-card .prazo-grid select { width:100%; min-width:0; }
+    .composer-card .encaminhamento-note,
+    .composer-card .submeta { font-size:12px; line-height:1.45; }
     @media (max-width: 860px) {
-      .composer-card .encaminhamento-grid {
-        grid-template-columns: 1fr !important;
-      }
-      .composer-card .prazo-grid {
-        grid-template-columns: 1fr 1fr !important;
-      }
-      .composer-card .prazo-grid > div:last-child {
-        grid-column: 1 / -1;
-      }
+      .composer-card .encaminhamento-grid { grid-template-columns:1fr !important; }
+      .composer-card .prazo-grid { grid-template-columns:1fr 1fr !important; }
+      .composer-card .prazo-grid > div:last-child { grid-column:1 / -1; }
     }
     @media (max-width: 560px) {
-      .composer-card {
-        padding: 14px !important;
-      }
-      .composer-card textarea {
-        min-height: 120px;
-      }
+      .composer-card { padding:14px !important; }
+      .composer-card textarea { min-height:120px; }
       .composer-card .encaminhamento-grid,
-      .composer-card .prazo-grid {
-        grid-template-columns: 1fr !important;
-        gap: 10px !important;
-      }
-      .composer-card .encaminhamento-box {
-        padding: 10px !important;
-      }
-      .composer-card .encaminhamento-note {
-        padding: 10px !important;
-      }
-      .composer-card .preview-grid {
-        grid-template-columns: 1fr !important;
-        gap: 8px !important;
-      }
-      .composer-card .btn-row {
-        display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 8px !important;
-      }
-      .composer-card .btn-row button {
-        width: 100% !important;
-        min-width: 0 !important;
-      }
+      .composer-card .prazo-grid { grid-template-columns:1fr !important; gap:10px !important; }
+      .composer-card .encaminhamento-box { padding:10px !important; }
+      .composer-card .encaminhamento-note { padding:10px !important; }
+      .composer-card .preview-grid { grid-template-columns:1fr !important; gap:8px !important; }
+      .composer-card .btn-row { display:grid !important; grid-template-columns:1fr !important; gap:8px !important; }
+      .composer-card .btn-row button { width:100% !important; min-width:0 !important; }
     }
 
 </style></head><body><h2>Relatório de Processos</h2><div class="sub">${ctx.escopo}</div><div class="meta"><div><strong>Exportado em:</strong> ${ctx.em}</div><div><strong>Usuário:</strong> ${escapeHtml(ctx.usuario)}</div><div><strong>Filtros aplicados:</strong> ${escapeHtml(ctx.filtros)}</div><div><strong>Total exportado:</strong> ${ctx.total}</div></div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
@@ -4232,11 +4278,13 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       semPrazoManual.addEventListener("change", () => {
         dataFinalManual.disabled = semPrazoManual.checked;
-        if (semPrazoManual.checked) dataFinalManual.value = "";
+        if (horaFinalManual) horaFinalManual.disabled = semPrazoManual.checked;
+        if (semPrazoManual.checked) { dataFinalManual.value = ""; if (horaFinalManual) horaFinalManual.value = ""; }
       });
       editSemPrazo.addEventListener("change", () => {
         editDataFinal.disabled = editSemPrazo.checked;
-        if (editSemPrazo.checked) editDataFinal.value = "";
+        if (editHoraFinal) editHoraFinal.disabled = editSemPrazo.checked;
+        if (editSemPrazo.checked) { editDataFinal.value = ""; if (editHoraFinal) editHoraFinal.value = ""; }
       });
 
       btnGerarProcesso.addEventListener("click", gerarProcesso);
@@ -4257,7 +4305,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         el.addEventListener(evt, aplicarFiltrosEOrdenacao);
       });
 
-      [entrada, gerenciaManual, dataFinalManual, semPrazoManual].filter(Boolean).forEach(el => { const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input"); el.addEventListener(evt, () => { salvarRascunhoCadastro(); renderPreviewCadastro(); }); });
+      [entrada, gerenciaManual, gerenciaManual2, dataFinalManual, horaFinalManual, semPrazoManual].filter(Boolean).forEach(el => { const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input"); el.addEventListener(evt, () => { salvarRascunhoCadastro(); renderPreviewCadastro(); }); });
       if (btnLimparBusca) btnLimparBusca.addEventListener("click", () => { busca.value = ""; aplicarFiltrosEOrdenacao(); renderPreviewCadastro(); busca.focus(); });
       if (btnSalvarPreset) btnSalvarPreset.addEventListener("click", salvarPresetAtual);
       if (btnAplicarPreset) btnAplicarPreset.addEventListener("click", aplicarPresetSelecionado);
