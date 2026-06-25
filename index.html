@@ -1,4 +1,4 @@
-<index.html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -813,7 +813,7 @@
         </div>
         <div class="help-item">
           <strong>3. Acompanhe prioridades</strong>
-          <span>O painel executivo destaca vencimentos, atrasos, SGI e ranking de unidades para decisão mais rápida.</span>
+          <span>O painel executivo destaca vencimentos, atrasos, SGI e ranking de unidades para decisão mais rápida. Exporte sempre a visão filtrada em um clique.</span>
         </div>
       </div>
 
@@ -869,8 +869,8 @@ Gerência: GECONT"></textarea>
         <div class="btn-row" style="margin-top:18px;">
           <button type="button" id="btnGerarProcesso">Cadastrar processo</button>
           <button type="button" class="outline" id="btnLimparFormulario">Limpar formulário</button>
-          <button type="button" id="btnExportarExcelVisiveis">Exportar Excel</button>
-          <button type="button" id="btnExportarPDFVisiveis">Exportar PDF</button>
+          <button type="button" id="btnExportarExcelVisiveis">Baixar Excel</button>
+          <button type="button" id="btnExportarPDFVisiveis">Imprimir / PDF</button>
         </div>
 
         <div id="mensagemSistema" class="hidden"></div>
@@ -1248,9 +1248,7 @@ Gerência: GECONT"></textarea>
     const filtroAtrasados = $("filtroAtrasados");
     const ordenacao = $("ordenacao");
     const btnLimparFiltros = $("btnLimparFiltros");
-    const btnExportarExcelTodos = $("btnExportarExcelTodos");
     const btnExportarExcelVisiveis = $("btnExportarExcelVisiveis");
-    const btnExportarPDFTodos = $("btnExportarPDFTodos");
     const btnExportarPDFVisiveis = $("btnExportarPDFVisiveis");
     const alertasPrazo = $("alertasPrazo");
     const tabela = $("tabela");
@@ -2563,53 +2561,77 @@ Gerência: GECONT"></textarea>
       aplicarFiltrosVisuaisNosChips();
     }
 
-    function registrarEventos() {
-      btnEntrar.addEventListener("click", login);
-      btnCadastrar.addEventListener("click", cadastrar);
-      btnResetar.addEventListener("click", resetarSenha);
-      btnSair.addEventListener("click", logout);
-      btnNotificacao.addEventListener("click", solicitarPermissaoNotificacao);
-      tabProcessosBtn.addEventListener("click", () => abrirAba("processos"));
-      tabDashboardBtn.addEventListener("click", () => abrirAba("dashboard"));
+    function vincularEvento(elemento, evento, handler) {
+      if (elemento) elemento.addEventListener(evento, handler);
+    }
 
-      semPrazoManual.addEventListener("change", () => {
+    function exportarExcelSimples() {
+      exportarExcel(true);
+    }
+
+    function exportarPDFSimples() {
+      exportarPDF(true);
+    }
+    function registrarEventos() {
+      vincularEvento(btnEntrar, "click", login);
+      vincularEvento(btnCadastrar, "click", cadastrar);
+      vincularEvento(btnResetar, "click", resetarSenha);
+      vincularEvento(btnSair, "click", logout);
+      vincularEvento(btnNotificacao, "click", solicitarPermissaoNotificacao);
+
+      vincularEvento(tabProcessosBtn, "click", () => abrirAba("processos"));
+      vincularEvento(tabDashboardBtn, "click", () => abrirAba("dashboard"));
+
+      vincularEvento(semPrazoManual, "change", () => {
         dataFinalManual.disabled = semPrazoManual.checked;
         if (semPrazoManual.checked) dataFinalManual.value = "";
       });
-      editSemPrazo.addEventListener("change", () => {
+
+      vincularEvento(editSemPrazo, "change", () => {
         editDataFinal.disabled = editSemPrazo.checked;
         if (editSemPrazo.checked) editDataFinal.value = "";
       });
 
-      btnGerarProcesso.addEventListener("click", gerarProcesso);
-      btnLimparFormulario.addEventListener("click", limparFormulario);
-      btnSalvarEdicao.addEventListener("click", salvarEdicao);
-      btnFecharModal.addEventListener("click", fecharModal);
-      modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) fecharModal(); });
-      btnFecharDrawer.addEventListener("click", fecharDrawer);
-      drawerOverlay.addEventListener("click", fecharDrawer);
-      drawerBtnEditar.addEventListener("click", () => { if (selectedDrawerId) abrirModalEdicao(selectedDrawerId); });
-      drawerBtnPendente.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Pendente"));
-      drawerBtnConcluir.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Concluído"));
-      drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
-      drawerBtnExcluir.addEventListener("click", () => remover(selectedDrawerId));
+      vincularEvento(btnGerarProcesso, "click", gerarProcesso);
+      vincularEvento(btnLimparFormulario, "click", limparFormulario);
+      vincularEvento(btnSalvarEdicao, "click", salvarEdicao);
+
+      vincularEvento(btnFecharModal, "click", fecharModal);
+      vincularEvento(modalOverlay, "click", (e) => {
+        if (e.target === modalOverlay) fecharModal();
+      });
+
+      vincularEvento(btnFecharDrawer, "click", fecharDrawer);
+      vincularEvento(drawerOverlay, "click", fecharDrawer);
+
+      vincularEvento(drawerBtnEditar, "click", () => {
+        if (selectedDrawerId) abrirModalEdicao(selectedDrawerId);
+      });
+      vincularEvento(drawerBtnPendente, "click", () => alterarSituacaoRapida(selectedDrawerId, "Pendente"));
+      vincularEvento(drawerBtnConcluir, "click", () => alterarSituacaoRapida(selectedDrawerId, "Concluído"));
+      vincularEvento(drawerBtnArquivar, "click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
+      vincularEvento(drawerBtnExcluir, "click", () => remover(selectedDrawerId));
 
       [busca, filtroArea, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao].forEach(el => {
+        if (!el) return;
         const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input");
         el.addEventListener(evt, aplicarFiltrosEOrdenacao);
       });
 
-      limiteVencendo.addEventListener("change", () => { salvarFiltros(); renderEverything(); });
-      btnLimparFiltros.addEventListener("click", limparFiltros);
-      btnExportarExcelTodos.addEventListener("click", () => exportarExcel(false));
-      btnExportarExcelVisiveis.addEventListener("click", () => exportarExcel(true));
-      btnExportarPDFTodos.addEventListener("click", () => exportarPDF(false));
-      btnExportarPDFVisiveis.addEventListener("click", () => exportarPDF(true));
+      vincularEvento(limiteVencendo, "change", () => { salvarFiltros(); renderEverything(); });
+      vincularEvento(btnLimparFiltros, "click", limparFiltros);
 
-      $("chipsRapidos").addEventListener("click", (e) => {
-        const chip = e.target.closest(".chip");
-        if (chip) aplicarChip(chip);
-      });
+      // Exportações simplificadas: sempre usam os registros visíveis (filtrados).
+      vincularEvento(btnExportarExcelVisiveis, "click", exportarExcelSimples);
+      vincularEvento(btnExportarPDFVisiveis, "click", exportarPDFSimples);
+
+      const chipsRapidos = $("chipsRapidos");
+      if (chipsRapidos) {
+        chipsRapidos.addEventListener("click", (e) => {
+          const chip = e.target.closest(".chip");
+          if (chip) aplicarChip(chip);
+        });
+      }
 
       document.addEventListener("click", (e) => {
         const summary = e.target.closest(".summary-card");
@@ -2618,26 +2640,28 @@ Gerência: GECONT"></textarea>
         aplicarResumoClicavel(summary);
       });
 
-      tbodyProcessos.addEventListener("click", (e) => {
-        const btn = e.target.closest("button");
-        const row = e.target.closest("tr.main-row");
-        if (!row) return;
-        const id = row.dataset.id;
-        if (!id) return;
-        if (btn) {
-          const action = btn.dataset.action;
-          if (action === "expand") { e.stopPropagation(); toggleExpand(id); return; }
-          if (action === "view") { e.stopPropagation(); abrirDrawer(id); return; }
-          if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
-          if (action === "pendente") { e.stopPropagation(); alterarSituacaoRapida(id, "Pendente"); return; }
-          if (action === "concluir") { e.stopPropagation(); alterarSituacaoRapida(id, "Concluído"); return; }
-          if (action === "delete") { e.stopPropagation(); remover(id); return; }
-        }
-        abrirDrawer(id);
-      });
+      if (tbodyProcessos) {
+        tbodyProcessos.addEventListener("click", (e) => {
+          const btn = e.target.closest("button");
+          const row = e.target.closest("tr.main-row");
+          if (!row) return;
+          const id = row.dataset.id;
+          if (!id) return;
+          if (btn) {
+            const action = btn.dataset.action;
+            if (action === "expand") { e.stopPropagation(); toggleExpand(id); return; }
+            if (action === "view") { e.stopPropagation(); abrirDrawer(id); return; }
+            if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
+            if (action === "pendente") { e.stopPropagation(); alterarSituacaoRapida(id, "Pendente"); return; }
+            if (action === "concluir") { e.stopPropagation(); alterarSituacaoRapida(id, "Concluído"); return; }
+            if (action === "delete") { e.stopPropagation(); remover(id); return; }
+          }
+          abrirDrawer(id);
+        });
+      }
 
       document.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
-        ordenacao.value = th.dataset.sort || "";
+        if (ordenacao) ordenacao.value = th.dataset.sort || "";
         salvarFiltros();
         aplicarFiltrosEOrdenacao();
       }));
@@ -2645,8 +2669,8 @@ Gerência: GECONT"></textarea>
       document.addEventListener("keydown", (e) => {
         if (appBox.classList.contains("hidden") && e.key === "Enter") login();
         if (!appBox.classList.contains("hidden") && e.key === "Escape") {
-          if (!modalOverlay.classList.contains("hidden")) fecharModal();
-          if (!drawer.classList.contains("hidden")) fecharDrawer();
+          if (modalOverlay && !modalOverlay.classList.contains("hidden")) fecharModal();
+          if (drawer && !drawer.classList.contains("hidden")) fecharDrawer();
         }
       });
     }
