@@ -3634,27 +3634,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (situacaoManual) situacaoManual.innerHTML = '';
       if (filtroSituacao) filtroSituacao.innerHTML = '<option value="">Todas</option>';
       if (editSituacao) editSituacao.innerHTML = '';
-
+      });
+    });
       
-      };
-
-      AREAS.forEach(area => {
-        const areaNormalizada = normalizarNomeInstitucional(area);
-        const opArea = document.createElement('option');
-        opArea.value = areaNormalizada;
-        opArea.textContent = areaNormalizada;
-        filtroArea.appendChild(opArea);
-
-        [gerenciaManual, gerenciaManual2, filtroGerencia, editGerencia, editGerencia2].filter(Boolean).forEach(sel => {
-          const op = document.createElement('option');
-          op.value = areaNormalizada;
-          op.textContent = `${prefixosArea[areaNormalizada] || areaNormalizada} — ${areaNormalizada}`;
-          sel.appendChild(op);
-        });
-
-        const grupos = [document.createElement('optgroup'), document.createElement('optgroup'), document.createElement('optgroup'), document.createElement('optgroup'), document.createElement('optgroup')];
-        grupos.forEach(g => g.label = `${prefixosArea[areaNormalizada] || areaNormalizada} • ${areaNormalizada}`);
-
         ESTRUTURA_ORGANIZACIONAL[area].forEach(unidade => {
           const baseLabel = areaNormalizada === 'Superintendência de Gestão Integrada' && ABREVIACOES_SGI[unidade]
             ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
