@@ -2263,6 +2263,82 @@
       color: #9fb0bd !important;
     }
 
+
+    /* ===== Selects organizados visualmente por área ===== */
+    .select-helper {
+      display:block;
+      margin-top:6px;
+      font-size:12px;
+      color:#667782;
+      line-height:1.4;
+    }
+    .field-lux.select-structured,
+    .encaminhamento-box.select-structured {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,.48) 0%, rgba(255,255,255,.32) 100%);
+      border-color: #d6dee2;
+    }
+    .field-lux.select-structured::after,
+    .encaminhamento-box.select-structured::after {
+      content: 'Estrutura atualizada';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 800;
+      color: #748791;
+      background: rgba(255,255,255,.6);
+      border: 1px solid #d6dee2;
+      border-radius: 999px;
+      padding: 5px 8px;
+      pointer-events: none;
+    }
+    .select-badges-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin: 8px 0 4px;
+    }
+    .select-badge-area {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.04em;
+      color:#4d606b;
+      background: rgba(255,255,255,.58);
+      border:1px solid #d7dfe3;
+      border-radius:999px;
+      padding:6px 10px;
+    }
+    .select-badge-dot { width:8px; height:8px; border-radius:999px; display:inline-block; }
+    .dot-gab { background:#7c8891; }
+    .dot-sgi { background:#617b89; }
+    .dot-sis { background:#71839a; }
+    .dot-dir { background:#8c7a88; }
+    .dot-sub { background:#7c8d82; }
+    .select-prefix-note {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px dashed #d2dbe0;
+      background: rgba(255,255,255,.26);
+      color: #667782;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    body.dark-mode .field-lux.select-structured,
+    body.dark-mode .encaminhamento-box.select-structured,
+    body.dark-mode .select-prefix-note,
+    body.dark-mode .select-badge-area {
+      background: rgba(255,255,255,.03) !important;
+      border-color: #374151 !important;
+      color: #dbe4ea !important;
+    }
+
 </style>
 </head>
 <body>
@@ -2356,13 +2432,21 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                     </div>
                     <div class="composer-chip-soft"><span class="mini-dot"></span> Até 2 unidades</div>
                   </div>
+                  <div class="select-badges-row">
+                    <span class="select-badge-area"><span class="select-badge-dot dot-gab"></span>Gabinete / Diretorias</span>
+                    <span class="select-badge-area"><span class="select-badge-dot dot-sgi"></span>SGI</span>
+                    <span class="select-badge-area"><span class="select-badge-dot dot-sis"></span>Sistemas</span>
+                    <span class="select-badge-area"><span class="select-badge-dot dot-sub"></span>Subsecretarias</span>
+                  </div>
                   <div class="composer-card-grid-2">
-                    <div class="field-lux">
+                    <div class="field-lux select-structured">
                       <label for="gerenciaManual">Gerência/Seção principal</label>
+                      <span class="select-helper">Lista agrupada por área da nova estrutura da SEAD.</span>
                       <select id="gerenciaManual"><option value="">Selecione...</option></select>
                     </div>
-                    <div class="field-lux">
+                    <div class="field-lux select-structured">
                       <label for="gerenciaManual2">Gerência/Seção complementar</label>
+                      <span class="select-helper">Opcional — selecione uma segunda unidade da estrutura atual.</span>
                       <select id="gerenciaManual2"><option value="">Selecione...</option></select>
                     </div>
                   </div>
@@ -2703,8 +2787,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       </div>
       <div><label for="editAssunto">Assunto</label><textarea id="editAssunto" style="min-height:100px;"></textarea></div>
       <div class="encaminhamento-grid" style="margin-top:6px;">
-        <div class="encaminhamento-box"><label for="editGerencia">Gerência/Seção principal</label><select id="editGerencia"><option value="">Selecione...</option></select></div>
-        <div class="encaminhamento-box"><label for="editGerencia2">Gerência/Seção complementar</label><select id="editGerencia2"><option value="">Selecione...</option></select></div>
+        <div class="encaminhamento-box select-structured"><label for="editGerencia">Gerência/Seção principal</label><span class="select-helper">Unidades agrupadas conforme a estrutura atual da SEAD.</span><select id="editGerencia"><option value="">Selecione...</option></select></div>
+        <div class="encaminhamento-box select-structured"><label for="editGerencia2">Gerência/Seção complementar</label><span class="select-helper">Escolha adicional opcional.</span><select id="editGerencia2"><option value="">Selecione...</option></select></div>
       </div>
       <div class="prazo-grid" style="margin-top:10px;">
         <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
@@ -2731,6 +2815,21 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const db = firebase.firestore();
 
     const ESTRUTURA_ORGANIZACIONAL = {
+      "Gabinete do Secretário": [
+        "Gerência da Secretaria-Geral",
+        "Chefia de Gabinete",
+        "Comunicação Setorial",
+        "Procuradoria Setorial",
+        "Gerência de Processos Administrativos",
+        "Corregedoria Setorial",
+        "Gerência de Governança de Estatais",
+        "Gerência da Ouvidoria Setorial",
+        "Escritório de Projetos Setorial",
+        "Comissão de Avaliação do Contrato de Gestão"
+      ],
+      "Diretoria de Programas": [
+        "Gerência de Programas"
+      ],
       "Superintendência de Gestão Integrada": [
         "Gerência de Consolidação e Tratamento de Dados",
         "Gerência de Planejamento Institucional",
@@ -2741,48 +2840,94 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         "Gerência de Convênios e Governança Corporativa",
         "Gerência de Infraestrutura e Manutenção Predial",
         "Gerência de Modernização Institucional e Processos",
-        "Gerência de Contabilidade",
-        "Seção de Patrimônio",
-        "Seção de Contratos",
-        "Seção de Transporte"
+        "Gerência de Contabilidade"
       ],
-      "Gabinete do Secretário": [
-        "Chefia de Gabinete",
-        "Procuradoria Setorial",
-        "Gerência da Secretaria-Geral",
-        "Comunicação Setorial",
-        "Comissão de Avaliação do Contrato de Gestão,"
-        "Ouvidoria Setorial",
-        "Corregedoria Setorial",
-        "Comissão Permanente de Avaliação de Documentos e Acesso à Informação (CPAD),"
-        "Gerência de Governança de Estatais,"
-        "Gerência da Ouvidoria Setorial,"
-        "Escritório de Projetos Setorial,"
-        "
-    
+      "Superintendência de Sistemas de Informação": [
+        "Coordenação de Dados",
+        "Gerência de Desenvolvimento de Sistemas",
+        "Gerência de Infraestrutura Tecnológica e Serviços",
+        "Coordenação Digital"
+      ],
+      "Diretoria Executiva de Liquidação de Estatais": [
+        "Gerência de Gestão Financeira",
+        "Gerência de Gestão Administrativa"
+      ],
+      "Diretoria Executiva de Saúde e Segurança do Servidor": [
+        "Gerência Central de Saúde e Segurança do Servidor",
+        "Coordenação de Medicina do Trabalho",
+        "Coordenação de Perícia Médica",
+        "Coordenação de Engenharia do Trabalho",
+        "Coordenação Técnica de Segurança do Trabalho",
+        "Coordenação Psicossocial",
+        "Gerência de Apoio Administrativo"
+      ],
+      "Diretoria Executiva da Escola de Governo": [
+        "Coordenação Administrativa",
+        "Gerência do Laboratório de Inovação e Desenvolvimento de Pessoas – PequiLab",
+        "Assessoria do Laboratório de Inovação em Desenvolvimento de Pessoas – PequiLab",
+        "Gerência de Desenvolvimento Profissional",
+        "Gerência do Ensino Superior e Projetos Pedagógicos",
+        "Coordenação de Publicações e Produção Científica"
       ],
       "Subsecretaria de Gestão e Desenvolvimento de Pessoas": [
-        "Superintendência Central de Desenvolvimento Estratégico de Pessoal",
-        "Superintendência Central de Gestão de Pessoal",
-        "Superintendência de Recrutamento e Seleção"
+        "Gerência da Rede de Gestão e Desenvolvimento de Pessoas",
+        "Gerência de Estudos e Impactos de Pessoal",
+        "Gerência de Normas e Critérios de Produtividade",
+        "Gerência de Perfil e Alocação de Pessoas",
+        "Gerência de Gestão do Conhecimento e Competências",
+        "Gerência do Controle de Gasto com Pessoal",
+        "Gerência Central da Folha de Pagamento",
+        "Gerência de Gestão do Sistema de Pessoal",
+        "Gerência de Inteligência de Informações de Pessoal",
+        "Gerência de Obrigações Acessórias",
+        "Gerência de Consignação",
+        "Gerência de Concursos e Processos Seletivos",
+        "Gerência de Admissão de Pessoal"
       ],
       "Subsecretaria de Inovação da Gestão e dos Serviços Públicos": [
-        "Superintendência Central de Transformação Pública",
+        "Coordenação dos Aprendizes do Futuro",
         "Gerência de Modelos Organizacionais",
         "Gerência de Experiência do Usuário",
+        "Coordenação de Inovação de Serviços",
         "Gerência do Escritório de Processos",
         "Gerência de Avaliação da Gestão e dos Serviços Públicos",
-        "Superintendência de Inovação da Gestão Pública",
-        "Superintendência da Gestão do Atendimento ao Cidadão"
+        "Gerência de Inovação Aberta",
+        "Gerência de Inovação e Projetos de Gestão",
+        "Gerência de Inteligência de Negócios Públicos",
+        "Gerência de Estratégia do Atendimento ao Cidadão",
+        "Gerência de Operação do Atendimento ao Cidadão",
+        "Coordenação de Atendimento",
+        "Supervisão de Atendimento",
+        "Gerência de Relacionamento com Municípios e Parceiros",
+        "Coordenação de Relacionamento com os Municípios",
+        "Coordenação de Contratos e Convênios",
+        "Gerência de Gestão da Carta de Serviços"
       ],
       "Subsecretaria de Logística e Patrimônio": [
-        "Superintendência Central do Patrimônio Imobiliário",
-        "Superintendência Central de Logística e Patrimônio Mobiliário",
-        "Superintendência Central de Compras e Contratos"
-      ],
-      "Diretoria Executiva da Escola de Governo": ["Diretoria Executiva da Escola de Governo"],
-      "Diretoria Executiva de Saúde e Segurança do Servidor": ["Diretoria Executiva de Saúde e Segurança do Servidor"],
-      "Diretoria Executiva da Liquidação de Estatais": ["Diretoria Executiva da Liquidação de Estatais"]
+        "Gerência de Gestão de Informações Imobiliárias",
+        "Gerência de Avaliação de Imóveis",
+        "Gerência de Vistoria e Topografia",
+        "Gerência de Regularização Fundiária",
+        "Gerência de Regularização de Ocupações",
+        "Gerência de Patrimônio Mobiliário",
+        "Gerência de Frotas",
+        "Gerência de Suprimentos",
+        "Gerência de Logística Documental",
+        "Gerência de Normas e Padronização",
+        "Gerência Central de Governança de Contratações",
+        "Gerência de Processos e Sistemas de Compras",
+        "Gerência de Compras Centralizadas",
+        "Gerência de Planejamento de Compras",
+        "Gerência de Governança das Transferências Voluntárias",
+        "Coordenação de Monitoramento das Transferências Voluntárias",
+        "Coordenação de Acompanhamento de Prestação de Contas e Tomadas de Contas Especiais",
+        "Gerência de Normatização das Transferências Voluntárias",
+        "Coordenação de Interlocução Institucional",
+        "Coordenação de Normatização",
+        "Gerência de Gestão do Sistema das Transferências Voluntárias",
+        "Coordenação Técnica das Transferências Voluntárias",
+        "Coordenação de Gestão da Informação e da Inteligência de Dados"
+      ]
     };
 
     const ABREVIACOES_SGI = {
@@ -3493,54 +3638,65 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (filtroSituacao) filtroSituacao.innerHTML = '<option value="">Todas</option>';
       if (editSituacao) editSituacao.innerHTML = '';
 
+      const prefixosArea = {
+        'Gabinete do Secretário': 'Gabinete',
+        'Diretoria de Programas': 'Diretoria',
+        'Superintendência de Gestão Integrada': 'SGI',
+        'Superintendência de Sistemas de Informação': 'SSI',
+        'Diretoria Executiva de Liquidação de Estatais': 'Liquidação',
+        'Diretoria Executiva de Saúde e Segurança do Servidor': 'Saúde e Segurança',
+        'Diretoria Executiva da Escola de Governo': 'Escola de Governo',
+        'Subsecretaria de Gestão e Desenvolvimento de Pessoas': 'Gestão de Pessoas',
+        'Subsecretaria de Inovação da Gestão e dos Serviços Públicos': 'Inovação',
+        'Subsecretaria de Logística e Patrimônio': 'Logística e Patrimônio'
+      };
+
       AREAS.forEach(area => {
-        const opArea = document.createElement("option");
-        opArea.value = normalizarNomeInstitucional(area);
-        opArea.textContent = normalizarNomeInstitucional(area);
+        const areaNormalizada = normalizarNomeInstitucional(area);
+        const opArea = document.createElement('option');
+        opArea.value = areaNormalizada;
+        opArea.textContent = areaNormalizada;
         filtroArea.appendChild(opArea);
 
         [gerenciaManual, gerenciaManual2, filtroGerencia, editGerencia, editGerencia2].filter(Boolean).forEach(sel => {
-          const op = document.createElement("option");
-          op.value = normalizarNomeInstitucional(area);
-          op.textContent = normalizarNomeInstitucional(area);
+          const op = document.createElement('option');
+          op.value = areaNormalizada;
+          op.textContent = `${prefixosArea[areaNormalizada] || areaNormalizada} — ${areaNormalizada}`;
           sel.appendChild(op);
         });
 
-        const g1 = document.createElement("optgroup");
-        const g2 = document.createElement("optgroup");
-        const g3 = document.createElement("optgroup");
-        g1.label = normalizarNomeInstitucional(area); g2.label = normalizarNomeInstitucional(area); g3.label = normalizarNomeInstitucional(area);
+        const grupos = [document.createElement('optgroup'), document.createElement('optgroup'), document.createElement('optgroup'), document.createElement('optgroup'), document.createElement('optgroup')];
+        grupos.forEach(g => g.label = `${prefixosArea[areaNormalizada] || areaNormalizada} • ${areaNormalizada}`);
 
         ESTRUTURA_ORGANIZACIONAL[area].forEach(unidade => {
-          const nomeExibir = area === "Superintendência de Gestão Integrada" && ABREVIACOES_SGI[unidade]
+          const baseLabel = areaNormalizada === 'Superintendência de Gestão Integrada' && ABREVIACOES_SGI[unidade]
             ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
             : unidade;
-          [g1, g2, g3].forEach(grupo => {
-            const op = document.createElement("option");
+          grupos.forEach(grupo => {
+            const op = document.createElement('option');
             op.value = unidade;
-            op.textContent = nomeExibir;
+            op.textContent = `${prefixosArea[areaNormalizada] || areaNormalizada} — ${baseLabel}`;
             grupo.appendChild(op);
           });
         });
 
-        gerenciaManual.appendChild(g1);
-        if (gerenciaManual2) gerenciaManual2.appendChild(g1.cloneNode(true));
-        filtroGerencia.appendChild(g2);
-        editGerencia.appendChild(g3);
-        if (editGerencia2) editGerencia2.appendChild(g3.cloneNode(true));
+        gerenciaManual.appendChild(grupos[0]);
+        if (gerenciaManual2) gerenciaManual2.appendChild(grupos[1]);
+        filtroGerencia.appendChild(grupos[2]);
+        editGerencia.appendChild(grupos[3]);
+        if (editGerencia2) editGerencia2.appendChild(grupos[4]);
       });
 
       STATUS_OPERACIONAIS.forEach(s => {
         [situacaoManual, filtroSituacao, editSituacao].filter(Boolean).forEach(sel => {
-          const op = document.createElement("option");
+          const op = document.createElement('option');
           op.value = s;
           op.textContent = s;
           sel.appendChild(op);
         });
       });
-
-      if (situacaoManual) situacaoManual.value = "Em análise";
-      if (editSituacao) editSituacao.value = "Em análise";
+      if (situacaoManual) situacaoManual.value = 'Em análise';
+      if (editSituacao) editSituacao.value = 'Em análise';
     }
 
     function salvarFiltros() {
@@ -4784,6 +4940,82 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     body.dark-mode .composer-panel-desc,
     body.dark-mode .field-lux .field-caption {
       color: #9fb0bd !important;
+    }
+
+
+    /* ===== Selects organizados visualmente por área ===== */
+    .select-helper {
+      display:block;
+      margin-top:6px;
+      font-size:12px;
+      color:#667782;
+      line-height:1.4;
+    }
+    .field-lux.select-structured,
+    .encaminhamento-box.select-structured {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,.48) 0%, rgba(255,255,255,.32) 100%);
+      border-color: #d6dee2;
+    }
+    .field-lux.select-structured::after,
+    .encaminhamento-box.select-structured::after {
+      content: 'Estrutura atualizada';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 800;
+      color: #748791;
+      background: rgba(255,255,255,.6);
+      border: 1px solid #d6dee2;
+      border-radius: 999px;
+      padding: 5px 8px;
+      pointer-events: none;
+    }
+    .select-badges-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin: 8px 0 4px;
+    }
+    .select-badge-area {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.04em;
+      color:#4d606b;
+      background: rgba(255,255,255,.58);
+      border:1px solid #d7dfe3;
+      border-radius:999px;
+      padding:6px 10px;
+    }
+    .select-badge-dot { width:8px; height:8px; border-radius:999px; display:inline-block; }
+    .dot-gab { background:#7c8891; }
+    .dot-sgi { background:#617b89; }
+    .dot-sis { background:#71839a; }
+    .dot-dir { background:#8c7a88; }
+    .dot-sub { background:#7c8d82; }
+    .select-prefix-note {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px dashed #d2dbe0;
+      background: rgba(255,255,255,.26);
+      color: #667782;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    body.dark-mode .field-lux.select-structured,
+    body.dark-mode .encaminhamento-box.select-structured,
+    body.dark-mode .select-prefix-note,
+    body.dark-mode .select-badge-area {
+      background: rgba(255,255,255,.03) !important;
+      border-color: #374151 !important;
+      color: #dbe4ea !important;
     }
 
 </style></head><body><h2>Relatório de Processos</h2><div class="sub">${ctx.escopo}</div><div class="meta"><div><strong>Exportado em:</strong> ${ctx.em}</div><div><strong>Usuário:</strong> ${escapeHtml(ctx.usuario)}</div><div><strong>Filtros aplicados:</strong> ${escapeHtml(ctx.filtros)}</div><div><strong>Total exportado:</strong> ${ctx.total}</div></div>${obterHTMLTabelaExportacao(dados)}</body></html>`);
