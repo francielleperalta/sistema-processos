@@ -2455,6 +2455,33 @@
       color: #334854;
       white-space: pre-wrap;
     }
+    .tags-automaticas-box {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px dashed #c7d2d8;
+      background: rgba(255,255,255,.24);
+    }
+    .tags-automaticas-box .title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-weight: 800;
+      color: #60707a;
+      margin-bottom: 10px;
+    }
+    .tags-automaticas-lista {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .categoria-fixa-note {
+      display:block;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.45;
+    }
     @media (max-width: 1100px) {
       .modelos-layout, .modelos-grid-2, .modelos-search-row { grid-template-columns: 1fr; }
     }
@@ -2464,7 +2491,8 @@
     body.dark-mode .modelo-empty,
     body.dark-mode .modelo-conteudo-preview,
     body.dark-mode .tag-modelo,
-    body.dark-mode .modelos-hero {
+    body.dark-mode .modelos-hero,
+    body.dark-mode .tags-automaticas-box {
       background: rgba(255,255,255,.03) !important;
       border-color: #374151 !important;
       color: #e5e7eb !important;
@@ -2473,18 +2501,23 @@
     body.dark-mode .modelos-hero h3,
     body.dark-mode .modelo-conteudo-preview { color: #f3f4f6 !important; }
     body.dark-mode .modelo-card p,
-    body.dark-mode .modelos-hero p { color: #9fb0bd !important; }
+    body.dark-mode .modelos-hero p,
+    body.dark-mode .tags-automaticas-box .title,
+    body.dark-mode .categoria-fixa-note { color: #9fb0bd !important; }
     body.patricinha-mode .modelos-form-card,
     body.patricinha-mode .modelos-list-card,
     body.patricinha-mode .modelo-card,
     body.patricinha-mode .modelo-empty,
     body.patricinha-mode .modelo-conteudo-preview,
     body.patricinha-mode .tag-modelo,
-    body.patricinha-mode .modelos-hero {
+    body.patricinha-mode .modelos-hero,
+    body.patricinha-mode .tags-automaticas-box {
       background: #fff8fc !important;
       border-color: #f1bfd8 !important;
       color: #6f2e57 !important;
     }
+    body.patricinha-mode .tags-automaticas-box .title,
+    body.patricinha-mode .categoria-fixa-note { color: #9a5f82 !important; }
 
 </style>
 </head>
@@ -2847,7 +2880,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             <div class="card modelos-form-card">
               <div class="modelos-hero">
                 <h3>Biblioteca de modelos</h3>
-                <p>Cadastre textos-padrão para consultas e reaproveitamento rápido no formulário principal.</p>
+                <p>Cadastre textos-padrão para consulta e reaproveitamento rápido no formulário principal.</p>
               </div>
               <div class="modelos-grid-2">
                 <div>
@@ -2856,20 +2889,34 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                 </div>
                 <div>
                   <label for="modeloCategoria">Categoria</label>
-                  <input type="text" id="modeloCategoria" placeholder="Ex.: Ofício, despacho, resposta, nota técnica" />
+                  <select id="modeloCategoria">
+                    <option value="">Selecione...</option>
+                    <option value="Despacho">Despacho</option>
+                    <option value="Ofício">Ofício</option>
+                    <option value="Memorando">Memorando</option>
+                    <option value="Nota Técnica">Nota Técnica</option>
+                    <option value="Parecer">Parecer</option>
+                    <option value="Manifestação">Manifestação</option>
+                    <option value="Encaminhamento">Encaminhamento</option>
+                    <option value="Solicitação">Solicitação</option>
+                    <option value="Resposta">Resposta</option>
+                    <option value="Relatório">Relatório</option>
+                    <option value="Minuta">Minuta</option>
+                    <option value="Checklist">Checklist</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                  <span class="categoria-fixa-note">Categorias padronizadas para facilitar busca, consulta e reaproveitamento.</span>
                 </div>
-              </div>
-              <div>
-                <label for="modeloDescricao">Descrição curta</label>
-                <input type="text" id="modeloDescricao" placeholder="Resumo para facilitar a consulta" />
-              </div>
-              <div>
-                <label for="modeloTags">Palavras-chave</label>
-                <input type="text" id="modeloTags" placeholder="Separe por vírgula. Ex.: patrimônio, ofício, resposta" />
               </div>
               <div>
                 <label for="modeloConteudo">Conteúdo do modelo</label>
                 <textarea id="modeloConteudo" placeholder="Cole aqui o texto-base do modelo de processo..."></textarea>
+              </div>
+              <div class="tags-automaticas-box">
+                <div class="title">Palavras-chave automáticas</div>
+                <div id="modeloTagsPreview" class="tags-automaticas-lista">
+                  <span class="muted">As palavras-chave serão geradas automaticamente a partir do conteúdo informado.</span>
+                </div>
               </div>
               <div class="btn-row">
                 <button type="button" id="btnSalvarModelo">Salvar modelo</button>
@@ -2887,15 +2934,13 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                   <label for="buscaModelo">Buscar modelo</label>
                   <div class="search-input-wrap">
                     <span class="search-icon">🔎</span>
-                    <input id="buscaModelo" placeholder="Buscar por título, categoria, tags ou conteúdo..." />
+                    <input id="buscaModelo" placeholder="Buscar por título, categoria, palavras-chave ou conteúdo..." />
                     <button type="button" class="search-clear hidden" id="btnLimparBuscaModelo" aria-label="Limpar busca de modelo">✕</button>
                   </div>
                 </div>
                 <div>
                   <label for="filtroCategoriaModelo">Categoria</label>
-                  <select id="filtroCategoriaModelo">
-                    <option value="">Todas</option>
-                  </select>
+                  <select id="filtroCategoriaModelo"></select>
                 </div>
                 <button type="button" class="light" id="btnAtualizarModelos" style="width:auto; min-width:150px;">Atualizar</button>
               </div>
@@ -3164,6 +3209,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
     const COLLECTION_PROCESSOS = "processos";
     const COLLECTION_MODELOS = "modelosProcessos";
+    const CATEGORIAS_MODELO = ["Despacho", "Ofício", "Memorando", "Nota Técnica", "Parecer", "Manifestação", "Encaminhamento", "Solicitação", "Resposta", "Relatório", "Minuta", "Checklist", "Outro"];
     const STATUS_OPERACIONAIS = ["Em análise", "Pendente", "Em andamento", "Concluído", "Arquivado"];
     const STATUS_PRAZO_LIST = ["No prazo", "Vence hoje", "Vencendo", "Atrasado", "Sem prazo"];
     const STORAGE_KEYS = { filtros: "sgp_clean_filters_v1", aba: "sgp_clean_aba_v1" };
@@ -3181,11 +3227,11 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let ultimoRegistroExcluido = null;
     let unsubscribeSnapshot = null;
     let unsubscribeModelos = null;
-    let editingModeloId = null;
     let expandedIds = new Set();
     let selectedDrawerId = null;
     let editingId = null;
     let chavesNotificadas = new Set();
+    let editingModeloId = null;
 
     const $ = (id) => document.getElementById(id);
     function normalizarNomeInstitucional(valor) {
@@ -3424,9 +3470,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const abaDashboard = $("abaDashboard");
     const modeloTitulo = $("modeloTitulo");
     const modeloCategoria = $("modeloCategoria");
-    const modeloDescricao = $("modeloDescricao");
-    const modeloTags = $("modeloTags");
     const modeloConteudo = $("modeloConteudo");
+    const modeloTagsPreview = $("modeloTagsPreview");
     const btnSalvarModelo = $("btnSalvarModelo");
     const btnLimparModelo = $("btnLimparModelo");
     const btnCancelarEdicaoModelo = $("btnCancelarEdicaoModelo");
@@ -3862,6 +3907,63 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
 
+    function gerarPalavrasChaveAutomaticas(texto = '', titulo = '', categoria = '') {
+      const base = `${titulo} ${categoria} ${texto}`.toLowerCase();
+      const stopwords = new Set(['a','à','ao','aos','as','às','o','os','de','da','das','do','dos','e','é','em','na','nas','no','nos','para','por','com','sem','sob','sobre','entre','até','após','que','se','ser','sua','seu','suas','seus','um','uma','uns','umas','ou','já','como','mais','menos','muito','muita','também','mesmo','mesma','mesmos','mesmas','fica','ficam','deve','devem','segue','conforme','solicita','solicitamos','encaminha','encaminhamos','informo','informamos','processo','modelo','texto','base']);
+      const matches = base.normalize('NFD').replace(/[\u0300-\u036f]/g, '').match(/[a-z]{4,}/g) || [];
+      const freq = {};
+      for (const word of matches) {
+        if (stopwords.has(word)) continue;
+        freq[word] = (freq[word] || 0) + 1;
+      }
+      const especiais = [];
+      if (/oficio|ofício/.test(base)) especiais.push('ofício');
+      if (/despacho/.test(base)) especiais.push('despacho');
+      if (/memorando/.test(base)) especiais.push('memorando');
+      if (/nota tecnica|nota técnica/.test(base)) especiais.push('nota técnica');
+      if (/parecer/.test(base)) especiais.push('parecer');
+      if (/manifestacao|manifestação/.test(base)) especiais.push('manifestação');
+      if (/encaminhamento/.test(base)) especiais.push('encaminhamento');
+      if (/solicitacao|solicitação/.test(base)) especiais.push('solicitação');
+      if (/resposta/.test(base)) especiais.push('resposta');
+      if (/relatorio|relatório/.test(base)) especiais.push('relatório');
+      if (/prazo/.test(base)) especiais.push('prazo');
+      if (/urgente|urgencia|urgência/.test(base)) especiais.push('urgência');
+      if (/patrimonio|patrimônio/.test(base)) especiais.push('patrimônio');
+      if (/contrato/.test(base)) especiais.push('contrato');
+      if (/conv[eê]nio/.test(base)) especiais.push('convênio');
+      if (/financeir/.test(base)) especiais.push('financeiro');
+      if (/or[cç]ament/.test(base)) especiais.push('orçamento');
+      if (/tecnic/.test(base)) especiais.push('técnico');
+      if (/juridic/.test(base)) especiais.push('jurídico');
+      if (/pessoal/.test(base)) especiais.push('pessoal');
+      if (/compras?/.test(base)) especiais.push('compras');
+      if (/sistema/.test(base)) especiais.push('sistema');
+      if (/dados/.test(base)) especiais.push('dados');
+      if (/governan/.test(base)) especiais.push('governança');
+      if (/manutencao|manutenção/.test(base)) especiais.push('manutenção');
+      if (/infraestrutura/.test(base)) especiais.push('infraestrutura');
+      const frequentes = Object.entries(freq).sort((a,b) => b[1]-a[1] || a[0].localeCompare(b[0], 'pt-BR')).slice(0, 8).map(([w]) => w);
+      const final = [];
+      const add = (v) => { const t = String(v || '').trim(); if (t && !final.includes(t)) final.push(t); };
+      if (categoria) add(categoria);
+      especiais.forEach(add);
+      frequentes.forEach(add);
+      return final.slice(0, 10);
+    }
+    function renderPalavrasChaveAutomaticas(tags = []) {
+      if (!modeloTagsPreview) return;
+      if (!tags.length) {
+        modeloTagsPreview.innerHTML = '<span class="muted">As palavras-chave serão geradas automaticamente a partir do conteúdo informado.</span>';
+        return;
+      }
+      modeloTagsPreview.innerHTML = tags.map(tag => `<span class="tag-modelo">#${escapeHtml(tag)}</span>`).join('');
+    }
+    function atualizarPreviaPalavrasChave() {
+      const tags = gerarPalavrasChaveAutomaticas(modeloConteudo?.value || '', modeloTitulo?.value || '', modeloCategoria?.value || '');
+      renderPalavrasChaveAutomaticas(tags);
+      return tags;
+    }
     function atualizarEstadoFormularioModelo() {
       if (btnSalvarModelo) btnSalvarModelo.textContent = editingModeloId ? 'Salvar alterações do modelo' : 'Salvar modelo';
       if (btnCancelarEdicaoModelo) btnCancelarEdicaoModelo.classList.toggle('hidden', !editingModeloId);
@@ -3869,16 +3971,16 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     function resetEstadoEdicaoModelo() {
       editingModeloId = null;
       atualizarEstadoFormularioModelo();
+      renderPalavrasChaveAutomaticas([]);
     }
     function preencherFormularioModelo(item) {
       if (!item) return;
       if (modeloTitulo) modeloTitulo.value = item.titulo || '';
       if (modeloCategoria) modeloCategoria.value = item.categoria || '';
-      if (modeloDescricao) modeloDescricao.value = item.descricao || '';
-      if (modeloTags) modeloTags.value = Array.isArray(item.tags) ? item.tags.join(', ') : '';
       if (modeloConteudo) modeloConteudo.value = item.conteudo || '';
       editingModeloId = item.id;
       atualizarEstadoFormularioModelo();
+      renderPalavrasChaveAutomaticas(item.tags || gerarPalavrasChaveAutomaticas(item.conteudo || '', item.titulo || '', item.categoria || ''));
     }
     function mostrarMensagemModelos(texto, tipo = "info") {
       if (!mensagemModelos) return;
@@ -3894,8 +3996,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     function limparFormularioModelo() {
       if (modeloTitulo) modeloTitulo.value = "";
       if (modeloCategoria) modeloCategoria.value = "";
-      if (modeloDescricao) modeloDescricao.value = "";
-      if (modeloTags) modeloTags.value = "";
       if (modeloConteudo) modeloConteudo.value = "";
       if (mensagemModelos) {
         mensagemModelos.className = 'hidden';
@@ -3903,25 +4003,31 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       }
       resetEstadoEdicaoModelo();
     }
+    function preencherCategoriasModelos() {
+      if (!filtroCategoriaModelo) return;
+      const atual = filtroCategoriaModelo.value;
+      filtroCategoriaModelo.innerHTML = '<option value="">Todas</option>' + CATEGORIAS_MODELO.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
+      if (CATEGORIAS_MODELO.includes(atual)) filtroCategoriaModelo.value = atual;
+    }
     async function salvarModelo() {
+      const isEditing = !!editingModeloId;
       try {
         const titulo = (modeloTitulo?.value || '').trim();
         const categoria = (modeloCategoria?.value || '').trim();
-        const descricao = (modeloDescricao?.value || '').trim();
-        const tags = (modeloTags?.value || '').split(',').map(t => t.trim()).filter(Boolean);
         const conteudo = (modeloConteudo?.value || '').trim();
+        const tags = gerarPalavrasChaveAutomaticas(conteudo, titulo, categoria);
         if (!titulo || !conteudo) return mostrarMensagemModelos('Informe pelo menos o título e o conteúdo do modelo.', 'warning');
-        setLoading(btnSalvarModelo, true, editingModeloId ? 'Salvar alterações do modelo' : 'Salvar modelo');
+        if (!categoria) return mostrarMensagemModelos('Selecione uma categoria para o modelo.', 'warning');
+        setLoading(btnSalvarModelo, true, isEditing ? 'Salvar alterações do modelo' : 'Salvar modelo');
         const payload = {
           titulo,
           categoria,
-          descricao,
           tags,
           conteudo,
           alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
           alteradoPor: auth.currentUser?.email || ''
         };
-        if (editingModeloId) {
+        if (isEditing) {
           await db.collection(COLLECTION_MODELOS).doc(editingModeloId).update(payload);
           mostrarMensagemModelos('Modelo atualizado com sucesso.', 'success');
           toast('Modelo atualizado com sucesso.', 'success');
@@ -3940,7 +4046,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         mostrarMensagemModelos('Erro ao salvar modelo: ' + error.message, 'error');
         toast('Erro ao salvar modelo.', 'error');
       } finally {
-        setLoading(btnSalvarModelo, false, editingModeloId ? 'Salvar alterações do modelo' : 'Salvar modelo');
+        setLoading(btnSalvarModelo, false, 'Salvar modelo');
         atualizarEstadoFormularioModelo();
       }
     }
@@ -3951,7 +4057,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         const base = normalizarBusca([
           item.titulo,
           item.categoria,
-          item.descricao,
           (item.tags || []).join(' '),
           item.conteudo,
           item.criadoPor,
@@ -3965,13 +4070,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         const tb = b.alteradoEm?.toDate ? b.alteradoEm.toDate().getTime() : (b.criadoEm?.toDate ? b.criadoEm.toDate().getTime() : 0);
         return tb - ta;
       });
-    }
-    function preencherCategoriasModelos() {
-      if (!filtroCategoriaModelo) return;
-      const atual = filtroCategoriaModelo.value;
-      const categorias = [...new Set(allModelos.map(i => (i.categoria || '').trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'pt-BR'));
-      filtroCategoriaModelo.innerHTML = '<option value="">Todas</option>' + categorias.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
-      if (categorias.includes(atual)) filtroCategoriaModelo.value = atual;
     }
     function renderModelos() {
       filteredModelos = getFilteredModelos();
@@ -3996,13 +4094,10 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                 <h4>${highlightText(item.titulo || 'Modelo sem título', termo)}</h4>
                 <div class="muted" style="margin-top:4px;">Criado por ${escapeHtml(item.criadoPor || '-')} • ${escapeHtml(criado)}</div>
               </div>
-              <div class="meta">
-                ${categoria}
-              </div>
+              <div class="meta">${categoria}</div>
             </div>
-            ${item.descricao ? `<p>${highlightText(item.descricao, termo)}</p>` : '<p class="muted">Sem descrição curta.</p>'}
             <div class="modelo-conteudo-preview">${highlightText(item.conteudo || '', termo)}</div>
-            <div class="meta">${tags || '<span class="muted">Sem tags</span>'}</div>
+            <div class="meta">${tags || '<span class="muted">Sem palavras-chave automáticas identificadas.</span>'}</div>
             <div class="muted">Última alteração: ${escapeHtml(item.alteradoPor || '-')} • ${escapeHtml(alterado)}</div>
             <div class="modelo-actions">
               <button type="button" data-modelo-action="usar">Usar no formulário</button>
@@ -4023,8 +4118,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             id: doc.id,
             titulo: dados.titulo || '',
             categoria: dados.categoria || '',
-            descricao: dados.descricao || '',
-            tags: Array.isArray(dados.tags) ? dados.tags : [],
+            tags: Array.isArray(dados.tags) && dados.tags.length ? dados.tags : gerarPalavrasChaveAutomaticas(dados.conteudo || '', dados.titulo || '', dados.categoria || ''),
             conteudo: dados.conteudo || '',
             criadoEm: dados.criadoEm || null,
             criadoPor: dados.criadoPor || '',
@@ -4074,13 +4168,11 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         if (navigator.clipboard?.writeText) {
           await navigator.clipboard.writeText(item.conteudo);
           toast('Texto do modelo copiado.', 'success');
-        } else {
-          if (modeloConteudo) {
-            modeloConteudo.value = item.conteudo;
-            modeloConteudo.select();
-            document.execCommand('copy');
-            toast('Texto do modelo copiado.', 'success');
-          }
+        } else if (modeloConteudo) {
+          modeloConteudo.value = item.conteudo;
+          modeloConteudo.select();
+          document.execCommand('copy');
+          toast('Texto do modelo copiado.', 'success');
         }
       } catch (error) {
         console.error(error);
@@ -5564,6 +5656,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (buscaModelo) buscaModelo.addEventListener("input", renderModelos);
       if (filtroCategoriaModelo) filtroCategoriaModelo.addEventListener("change", renderModelos);
       if (btnLimparBuscaModelo) btnLimparBuscaModelo.addEventListener("click", () => { if (buscaModelo) buscaModelo.value = ""; renderModelos(); buscaModelo?.focus(); });
+      [modeloTitulo, modeloCategoria, modeloConteudo].filter(Boolean).forEach(el => el.addEventListener(el.tagName === "SELECT" ? "change" : "input", atualizarPreviaPalavrasChave));
       if (btnSalvarPreset) btnSalvarPreset.addEventListener("click", salvarPresetAtual);
       if (btnAplicarPreset) btnAplicarPreset.addEventListener("click", aplicarPresetSelecionado);
       if (btnExcluirPreset) btnExcluirPreset.addEventListener("click", excluirPresetSelecionado);
@@ -5638,7 +5731,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         abrirDrawer(id);
       });
 
-
       if (listaModelos) {
         listaModelos.addEventListener("click", (e) => {
           const btn = e.target.closest("button[data-modelo-action]");
@@ -5652,7 +5744,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           if (action === "excluir") return excluirModelo(id);
         });
       }
-
       document.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
         ordenacao.value = th.dataset.sort || "dataCadastroDesc";
         if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value;
@@ -5674,10 +5765,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     restaurarRascunhoCadastro();
     atualizarSelectPresets();
     renderPreviewCadastro();
-    atualizarEstadoFormularioModelo();
     if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value || "dataCadastroDesc";
     inicializarTema();
     if (!localStorage.getItem(STORAGE_KEYS.aba)) localStorage.setItem(STORAGE_KEYS.aba, "processos");
+    preencherCategoriasModelos();
+    renderPalavrasChaveAutomaticas([]);
+    atualizarEstadoFormularioModelo();
     aplicarAbaSalva();
     registrarEventos();
 
@@ -5704,6 +5797,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         filteredItems = [];
         allModelos = [];
         filteredModelos = [];
+        editingModeloId = null;
         renderEverything();
         renderModelos();
       }
