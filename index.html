@@ -2338,6 +2338,154 @@
       color: #dbe4ea !important;
     }
 
+
+    /* ===== Aba de modelos de processos ===== */
+    .modelos-layout {
+      display: grid;
+      grid-template-columns: 420px minmax(0, 1fr);
+      gap: 18px;
+      margin-top: 14px;
+      align-items: start;
+    }
+    .modelos-sidebar, .modelos-main { min-width: 0; }
+    .modelos-form-card, .modelos-list-card {
+      background: linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
+      border: 1px solid var(--border);
+    }
+    .modelos-hero {
+      display: grid;
+      gap: 8px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.20) 100%);
+      border: 1px solid #d4dde1;
+      margin-bottom: 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.34);
+    }
+    .modelos-hero h3 { margin: 0; font-size: 22px; color: #243741; }
+    .modelos-hero p { margin: 0; font-size: 13px; color: #60707a; line-height: 1.5; }
+    .modelos-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .modelo-card {
+      border: 1px solid #d4dde1;
+      border-radius: 18px;
+      padding: 14px;
+      background: rgba(255,255,255,.35);
+      box-shadow: 0 4px 12px rgba(16,24,40,.04);
+      display: grid;
+      gap: 10px;
+    }
+    .modelo-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .modelo-card h4 {
+      margin: 0;
+      font-size: 16px;
+      color: #243741;
+      line-height: 1.35;
+    }
+    .modelo-card p {
+      margin: 0;
+      font-size: 13px;
+      color: #5f6f79;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+    .modelo-card .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .tag-modelo {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #edf2f4;
+      border: 1px solid #d0d5dd;
+      color: #42545f;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .modelo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .modelo-actions button {
+      width: auto;
+      min-width: 140px;
+      margin-top: 0;
+      box-shadow: none;
+    }
+    .modelos-search-row {
+      display: grid;
+      grid-template-columns: 1.2fr .7fr auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 14px;
+    }
+    .modelo-empty {
+      padding: 28px 18px;
+      border: 1px dashed #c7d2d8;
+      border-radius: 18px;
+      background: #edf2f4;
+      text-align: center;
+      color: #6b7280;
+      font-size: 13px;
+    }
+    .modelo-conteudo-preview {
+      max-height: 140px;
+      overflow: auto;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.45);
+      border: 1px solid #d7dfe3;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #334854;
+      white-space: pre-wrap;
+    }
+    @media (max-width: 1100px) {
+      .modelos-layout, .modelos-grid-2, .modelos-search-row { grid-template-columns: 1fr; }
+    }
+    body.dark-mode .modelos-form-card,
+    body.dark-mode .modelos-list-card,
+    body.dark-mode .modelo-card,
+    body.dark-mode .modelo-empty,
+    body.dark-mode .modelo-conteudo-preview,
+    body.dark-mode .tag-modelo,
+    body.dark-mode .modelos-hero {
+      background: rgba(255,255,255,.03) !important;
+      border-color: #374151 !important;
+      color: #e5e7eb !important;
+    }
+    body.dark-mode .modelo-card h4,
+    body.dark-mode .modelos-hero h3,
+    body.dark-mode .modelo-conteudo-preview { color: #f3f4f6 !important; }
+    body.dark-mode .modelo-card p,
+    body.dark-mode .modelos-hero p { color: #9fb0bd !important; }
+    body.patricinha-mode .modelos-form-card,
+    body.patricinha-mode .modelos-list-card,
+    body.patricinha-mode .modelo-card,
+    body.patricinha-mode .modelo-empty,
+    body.patricinha-mode .modelo-conteudo-preview,
+    body.patricinha-mode .tag-modelo,
+    body.patricinha-mode .modelos-hero {
+      background: #fff8fc !important;
+      border-color: #f1bfd8 !important;
+      color: #6f2e57 !important;
+    }
+
 </style>
 </head>
 <body>
@@ -2391,6 +2539,7 @@
     <div class="card">
       <div class="tabs">
         <button type="button" id="tabProcessosBtn" class="tab-btn active">Processos</button>
+        <button type="button" id="tabModelosBtn" class="tab-btn">Modelos de processos</button>
         <button type="button" id="tabDashboardBtn" class="tab-btn">Dashboard</button>
       </div>
 
@@ -2432,6 +2581,10 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                     <div class="composer-chip-soft"><span class="mini-dot"></span> Até 2 unidades</div>
                   </div>
                   <div class="select-badges-row">
+                    <span class="select-badge-area"><span class="select-badge-dot dot-gab"></span>Gabinete / Diretorias</span>
+                    <span class="select-badge-area"><span class="select-badge-dot dot-sgi"></span>SGI</span>
+                    <span class="select-badge-area"><span class="select-badge-dot dot-sis"></span>Sistemas</span>
+                    <span class="select-badge-area"><span class="select-badge-dot dot-sub"></span>Subsecretarias</span>
                   </div>
                   <div class="composer-card-grid-2">
                     <div class="field-lux select-structured">
@@ -2687,6 +2840,72 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         </div>
       </div>
       
+
+      <div id="abaModelos" class="hidden">
+        <div class="modelos-layout">
+          <aside class="modelos-sidebar">
+            <div class="card modelos-form-card">
+              <div class="modelos-hero">
+                <h3>Biblioteca de modelos</h3>
+                <p>Cadastre textos-padrão para consultas e reaproveitamento rápido no formulário principal.</p>
+              </div>
+              <div class="modelos-grid-2">
+                <div>
+                  <label for="modeloTitulo">Título do modelo</label>
+                  <input type="text" id="modeloTitulo" placeholder="Ex.: Encaminhamento para manifestação técnica" />
+                </div>
+                <div>
+                  <label for="modeloCategoria">Categoria</label>
+                  <input type="text" id="modeloCategoria" placeholder="Ex.: Ofício, despacho, resposta, nota técnica" />
+                </div>
+              </div>
+              <div>
+                <label for="modeloDescricao">Descrição curta</label>
+                <input type="text" id="modeloDescricao" placeholder="Resumo para facilitar a consulta" />
+              </div>
+              <div>
+                <label for="modeloTags">Palavras-chave</label>
+                <input type="text" id="modeloTags" placeholder="Separe por vírgula. Ex.: patrimônio, ofício, resposta" />
+              </div>
+              <div>
+                <label for="modeloConteudo">Conteúdo do modelo</label>
+                <textarea id="modeloConteudo" placeholder="Cole aqui o texto-base do modelo de processo..."></textarea>
+              </div>
+              <div class="btn-row">
+                <button type="button" id="btnSalvarModelo">Salvar modelo</button>
+                <button type="button" class="outline" id="btnLimparModelo">Limpar</button>
+                <button type="button" class="light hidden" id="btnCancelarEdicaoModelo">Cancelar edição</button>
+              </div>
+              <div id="mensagemModelos" class="hidden"></div>
+            </div>
+          </aside>
+          <section class="modelos-main">
+            <div class="card modelos-list-card">
+              <div class="section-title">Modelos salvos</div>
+              <div class="modelos-search-row">
+                <div>
+                  <label for="buscaModelo">Buscar modelo</label>
+                  <div class="search-input-wrap">
+                    <span class="search-icon">🔎</span>
+                    <input id="buscaModelo" placeholder="Buscar por título, categoria, tags ou conteúdo..." />
+                    <button type="button" class="search-clear hidden" id="btnLimparBuscaModelo" aria-label="Limpar busca de modelo">✕</button>
+                  </div>
+                </div>
+                <div>
+                  <label for="filtroCategoriaModelo">Categoria</label>
+                  <select id="filtroCategoriaModelo">
+                    <option value="">Todas</option>
+                  </select>
+                </div>
+                <button type="button" class="light" id="btnAtualizarModelos" style="width:auto; min-width:150px;">Atualizar</button>
+              </div>
+              <div id="modelosResumo" class="muted" style="margin-bottom:12px;">0 modelo(s)</div>
+              <div id="listaModelos" class="dashboard-actions"></div>
+            </div>
+          </section>
+        </div>
+      </div>
+
       <div id="abaDashboard" class="hidden">
         <div class="dashboard-grid">
           <div class="charts-stack">
@@ -2944,12 +3163,15 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const TODAS_UNIDADES = Object.values(ESTRUTURA_ORGANIZACIONAL).flat();
 
     const COLLECTION_PROCESSOS = "processos";
+    const COLLECTION_MODELOS = "modelosProcessos";
     const STATUS_OPERACIONAIS = ["Em análise", "Pendente", "Em andamento", "Concluído", "Arquivado"];
     const STATUS_PRAZO_LIST = ["No prazo", "Vence hoje", "Vencendo", "Atrasado", "Sem prazo"];
     const STORAGE_KEYS = { filtros: "sgp_clean_filters_v1", aba: "sgp_clean_aba_v1" };
 
     let allItems = [];
     let filteredItems = [];
+    let allModelos = [];
+    let filteredModelos = [];
     let chartPrazo = null;
     let chartSGI = null;
     let chartEntradas = null;
@@ -2958,6 +3180,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let chartCriticidadeGerencia = null;
     let ultimoRegistroExcluido = null;
     let unsubscribeSnapshot = null;
+    let unsubscribeModelos = null;
+    let editingModeloId = null;
     let expandedIds = new Set();
     let selectedDrawerId = null;
     let editingId = null;
@@ -3193,9 +3417,26 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const btnNotificacao = $("btnNotificacao");
     const usuarioLogado = $("usuarioLogado");
     const tabProcessosBtn = $("tabProcessosBtn");
+    const tabModelosBtn = $("tabModelosBtn");
     const tabDashboardBtn = $("tabDashboardBtn");
     const abaProcessos = $("abaProcessos");
+    const abaModelos = $("abaModelos");
     const abaDashboard = $("abaDashboard");
+    const modeloTitulo = $("modeloTitulo");
+    const modeloCategoria = $("modeloCategoria");
+    const modeloDescricao = $("modeloDescricao");
+    const modeloTags = $("modeloTags");
+    const modeloConteudo = $("modeloConteudo");
+    const btnSalvarModelo = $("btnSalvarModelo");
+    const btnLimparModelo = $("btnLimparModelo");
+    const btnCancelarEdicaoModelo = $("btnCancelarEdicaoModelo");
+    const mensagemModelos = $("mensagemModelos");
+    const buscaModelo = $("buscaModelo");
+    const btnLimparBuscaModelo = $("btnLimparBuscaModelo");
+    const filtroCategoriaModelo = $("filtroCategoriaModelo");
+    const btnAtualizarModelos = $("btnAtualizarModelos");
+    const listaModelos = $("listaModelos");
+    const modelosResumo = $("modelosResumo");
     const entrada = $("entrada");
     const gerenciaManual = $("gerenciaManual");
     const gerenciaManual2 = $("gerenciaManual2");
@@ -3620,6 +3861,233 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       return error.message || "erro desconhecido.";
     }
 
+
+    function atualizarEstadoFormularioModelo() {
+      if (btnSalvarModelo) btnSalvarModelo.textContent = editingModeloId ? 'Salvar alterações do modelo' : 'Salvar modelo';
+      if (btnCancelarEdicaoModelo) btnCancelarEdicaoModelo.classList.toggle('hidden', !editingModeloId);
+    }
+    function resetEstadoEdicaoModelo() {
+      editingModeloId = null;
+      atualizarEstadoFormularioModelo();
+    }
+    function preencherFormularioModelo(item) {
+      if (!item) return;
+      if (modeloTitulo) modeloTitulo.value = item.titulo || '';
+      if (modeloCategoria) modeloCategoria.value = item.categoria || '';
+      if (modeloDescricao) modeloDescricao.value = item.descricao || '';
+      if (modeloTags) modeloTags.value = Array.isArray(item.tags) ? item.tags.join(', ') : '';
+      if (modeloConteudo) modeloConteudo.value = item.conteudo || '';
+      editingModeloId = item.id;
+      atualizarEstadoFormularioModelo();
+    }
+    function mostrarMensagemModelos(texto, tipo = "info") {
+      if (!mensagemModelos) return;
+      mensagemModelos.className = `feedback ${tipo}`;
+      mensagemModelos.textContent = texto;
+      mensagemModelos.classList.remove("hidden");
+      clearTimeout(mensagemModelos._timer);
+      mensagemModelos._timer = setTimeout(() => {
+        mensagemModelos.classList.add("hidden");
+        mensagemModelos.textContent = "";
+      }, 3500);
+    }
+    function limparFormularioModelo() {
+      if (modeloTitulo) modeloTitulo.value = "";
+      if (modeloCategoria) modeloCategoria.value = "";
+      if (modeloDescricao) modeloDescricao.value = "";
+      if (modeloTags) modeloTags.value = "";
+      if (modeloConteudo) modeloConteudo.value = "";
+      if (mensagemModelos) {
+        mensagemModelos.className = 'hidden';
+        mensagemModelos.textContent = '';
+      }
+      resetEstadoEdicaoModelo();
+    }
+    async function salvarModelo() {
+      try {
+        const titulo = (modeloTitulo?.value || '').trim();
+        const categoria = (modeloCategoria?.value || '').trim();
+        const descricao = (modeloDescricao?.value || '').trim();
+        const tags = (modeloTags?.value || '').split(',').map(t => t.trim()).filter(Boolean);
+        const conteudo = (modeloConteudo?.value || '').trim();
+        if (!titulo || !conteudo) return mostrarMensagemModelos('Informe pelo menos o título e o conteúdo do modelo.', 'warning');
+        setLoading(btnSalvarModelo, true, editingModeloId ? 'Salvar alterações do modelo' : 'Salvar modelo');
+        const payload = {
+          titulo,
+          categoria,
+          descricao,
+          tags,
+          conteudo,
+          alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
+          alteradoPor: auth.currentUser?.email || ''
+        };
+        if (editingModeloId) {
+          await db.collection(COLLECTION_MODELOS).doc(editingModeloId).update(payload);
+          mostrarMensagemModelos('Modelo atualizado com sucesso.', 'success');
+          toast('Modelo atualizado com sucesso.', 'success');
+        } else {
+          await db.collection(COLLECTION_MODELOS).add({
+            ...payload,
+            criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
+            criadoPor: auth.currentUser?.email || ''
+          });
+          mostrarMensagemModelos('Modelo salvo com sucesso.', 'success');
+          toast('Modelo salvo com sucesso.', 'success');
+        }
+        limparFormularioModelo();
+      } catch (error) {
+        console.error(error);
+        mostrarMensagemModelos('Erro ao salvar modelo: ' + error.message, 'error');
+        toast('Erro ao salvar modelo.', 'error');
+      } finally {
+        setLoading(btnSalvarModelo, false, editingModeloId ? 'Salvar alterações do modelo' : 'Salvar modelo');
+        atualizarEstadoFormularioModelo();
+      }
+    }
+    function getFilteredModelos() {
+      const termo = normalizarBusca(buscaModelo?.value || '');
+      const categoria = (filtroCategoriaModelo?.value || '').trim();
+      return allModelos.filter(item => {
+        const base = normalizarBusca([
+          item.titulo,
+          item.categoria,
+          item.descricao,
+          (item.tags || []).join(' '),
+          item.conteudo,
+          item.criadoPor,
+          item.alteradoPor
+        ].join(' '));
+        if (termo && !base.includes(termo)) return false;
+        if (categoria && item.categoria !== categoria) return false;
+        return true;
+      }).sort((a, b) => {
+        const ta = a.alteradoEm?.toDate ? a.alteradoEm.toDate().getTime() : (a.criadoEm?.toDate ? a.criadoEm.toDate().getTime() : 0);
+        const tb = b.alteradoEm?.toDate ? b.alteradoEm.toDate().getTime() : (b.criadoEm?.toDate ? b.criadoEm.toDate().getTime() : 0);
+        return tb - ta;
+      });
+    }
+    function preencherCategoriasModelos() {
+      if (!filtroCategoriaModelo) return;
+      const atual = filtroCategoriaModelo.value;
+      const categorias = [...new Set(allModelos.map(i => (i.categoria || '').trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'pt-BR'));
+      filtroCategoriaModelo.innerHTML = '<option value="">Todas</option>' + categorias.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
+      if (categorias.includes(atual)) filtroCategoriaModelo.value = atual;
+    }
+    function renderModelos() {
+      filteredModelos = getFilteredModelos();
+      preencherCategoriasModelos();
+      if (btnLimparBuscaModelo) btnLimparBuscaModelo.classList.toggle('hidden', !((buscaModelo?.value || '').trim()));
+      if (modelosResumo) modelosResumo.textContent = `${filteredModelos.length} modelo(s) ${allModelos.length !== filteredModelos.length ? `de ${allModelos.length}` : ''}`;
+      if (!listaModelos) return;
+      if (!filteredModelos.length) {
+        listaModelos.innerHTML = '<div class="modelo-empty">Nenhum modelo encontrado. Cadastre um novo modelo ou ajuste os filtros.</div>';
+        return;
+      }
+      const termo = (buscaModelo?.value || '').trim();
+      listaModelos.innerHTML = filteredModelos.map(item => {
+        const tags = (item.tags || []).map(tag => `<span class="tag-modelo">#${highlightText(tag, termo)}</span>`).join(' ');
+        const categoria = item.categoria ? `<span class="tag-modelo">${highlightText(item.categoria, termo)}</span>` : '';
+        const criado = formatarDataHora(item.criadoEm);
+        const alterado = formatarDataHora(item.alteradoEm);
+        return `
+          <div class="modelo-card" data-id="${item.id}">
+            <div class="modelo-card-top">
+              <div>
+                <h4>${highlightText(item.titulo || 'Modelo sem título', termo)}</h4>
+                <div class="muted" style="margin-top:4px;">Criado por ${escapeHtml(item.criadoPor || '-')} • ${escapeHtml(criado)}</div>
+              </div>
+              <div class="meta">
+                ${categoria}
+              </div>
+            </div>
+            ${item.descricao ? `<p>${highlightText(item.descricao, termo)}</p>` : '<p class="muted">Sem descrição curta.</p>'}
+            <div class="modelo-conteudo-preview">${highlightText(item.conteudo || '', termo)}</div>
+            <div class="meta">${tags || '<span class="muted">Sem tags</span>'}</div>
+            <div class="muted">Última alteração: ${escapeHtml(item.alteradoPor || '-')} • ${escapeHtml(alterado)}</div>
+            <div class="modelo-actions">
+              <button type="button" data-modelo-action="usar">Usar no formulário</button>
+              <button type="button" class="secondary" data-modelo-action="editar">Editar</button>
+              <button type="button" class="outline" data-modelo-action="copiar">Copiar texto</button>
+              <button type="button" class="danger" data-modelo-action="excluir">Excluir</button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+    function iniciarEscutaModelos() {
+      if (unsubscribeModelos) unsubscribeModelos();
+      unsubscribeModelos = db.collection(COLLECTION_MODELOS).onSnapshot((snapshot) => {
+        allModelos = [];
+        snapshot.forEach((doc) => {
+          const dados = doc.data() || {};
+          allModelos.push({
+            id: doc.id,
+            titulo: dados.titulo || '',
+            categoria: dados.categoria || '',
+            descricao: dados.descricao || '',
+            tags: Array.isArray(dados.tags) ? dados.tags : [],
+            conteudo: dados.conteudo || '',
+            criadoEm: dados.criadoEm || null,
+            criadoPor: dados.criadoPor || '',
+            alteradoEm: dados.alteradoEm || null,
+            alteradoPor: dados.alteradoPor || ''
+          });
+        });
+        renderModelos();
+      }, (error) => {
+        console.error(error);
+        mostrarMensagemModelos('Erro ao carregar modelos em tempo real.', 'error');
+      });
+    }
+    function editarModelo(id) {
+      const item = allModelos.find(modelo => modelo.id === id);
+      if (!item) return;
+      preencherFormularioModelo(item);
+      abrirAba('modelos');
+      mostrarMensagemModelos(`Editando modelo: ${item.titulo || 'sem título'}.`, 'info');
+      modeloTitulo?.focus();
+    }
+    async function excluirModelo(id) {
+      if (!id) return;
+      if (!confirm('Deseja realmente excluir este modelo?')) return;
+      try {
+        await db.collection(COLLECTION_MODELOS).doc(id).delete();
+        toast('Modelo excluído com sucesso.', 'success');
+      } catch (error) {
+        console.error(error);
+        toast('Erro ao excluir modelo.', 'error');
+      }
+    }
+    function usarModeloNoFormulario(id) {
+      const item = allModelos.find(modelo => modelo.id === id);
+      if (!item) return;
+      if (entrada) entrada.value = item.conteudo || '';
+      salvarRascunhoCadastro();
+      renderPreviewCadastro();
+      abrirAba('processos');
+      toast(`Modelo "${item.titulo || 'sem título'}" carregado no formulário.`, 'success');
+      entrada?.focus();
+    }
+    async function copiarTextoModelo(id) {
+      const item = allModelos.find(modelo => modelo.id === id);
+      if (!item?.conteudo) return;
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(item.conteudo);
+          toast('Texto do modelo copiado.', 'success');
+        } else {
+          if (modeloConteudo) {
+            modeloConteudo.value = item.conteudo;
+            modeloConteudo.select();
+            document.execCommand('copy');
+            toast('Texto do modelo copiado.', 'success');
+          }
+        }
+      } catch (error) {
+        console.error(error);
+        toast('Não foi possível copiar o texto do modelo.', 'error');
+      }
+    }
+
     function preencherSelects() {
       gerenciaManual.innerHTML = '<option value="">Selecione...</option>';
       filtroGerencia.innerHTML = '<option value="">Todas</option>';
@@ -3723,24 +4191,21 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function abrirAba(aba) {
-      if (aba === "dashboard") {
-        abaProcessos.classList.add("hidden");
-        abaDashboard.classList.remove("hidden");
-        tabProcessosBtn.classList.remove("active");
-        tabDashboardBtn.classList.add("active");
-        localStorage.setItem(STORAGE_KEYS.aba, "dashboard");
-        renderDashboard(filteredItems);
-      } else {
-        abaProcessos.classList.remove("hidden");
-        abaDashboard.classList.add("hidden");
-        tabProcessosBtn.classList.add("active");
-        tabDashboardBtn.classList.remove("active");
-        localStorage.setItem(STORAGE_KEYS.aba, "processos");
-      }
+      const alvo = ["processos", "modelos", "dashboard"].includes(aba) ? aba : "processos";
+      abaProcessos.classList.toggle("hidden", alvo !== "processos");
+      abaModelos?.classList.toggle("hidden", alvo !== "modelos");
+      abaDashboard.classList.toggle("hidden", alvo !== "dashboard");
+      tabProcessosBtn.classList.toggle("active", alvo === "processos");
+      tabModelosBtn?.classList.toggle("active", alvo === "modelos");
+      tabDashboardBtn.classList.toggle("active", alvo === "dashboard");
+      localStorage.setItem(STORAGE_KEYS.aba, alvo);
+      if (alvo === "dashboard") renderDashboard(filteredItems);
+      if (alvo === "modelos") renderModelos();
     }
 
     function aplicarAbaSalva() {
-      abrirAba("processos");
+      const abaSalva = localStorage.getItem(STORAGE_KEYS.aba) || "processos";
+      abrirAba(["processos", "modelos", "dashboard"].includes(abaSalva) ? abaSalva : "processos");
     }
 
     async function login() {
@@ -5058,6 +5523,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       btnSair.addEventListener("click", logout);
       btnNotificacao.addEventListener("click", solicitarPermissaoNotificacao);
       tabProcessosBtn.addEventListener("click", () => abrirAba("processos"));
+      tabModelosBtn?.addEventListener("click", () => abrirAba("modelos"));
       tabDashboardBtn.addEventListener("click", () => abrirAba("dashboard"));
 
       semPrazoManual.addEventListener("change", () => {
@@ -5073,6 +5539,10 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       btnGerarProcesso.addEventListener("click", gerarProcesso);
       btnLimparFormulario.addEventListener("click", limparFormulario);
+      btnSalvarModelo?.addEventListener("click", salvarModelo);
+      btnLimparModelo?.addEventListener("click", limparFormularioModelo);
+      btnCancelarEdicaoModelo?.addEventListener("click", () => { limparFormularioModelo(); mostrarMensagemModelos("Edição cancelada.", "info"); });
+      btnAtualizarModelos?.addEventListener("click", renderModelos);
       btnSalvarEdicao.addEventListener("click", salvarEdicao);
       btnFecharModal.addEventListener("click", fecharModal);
       modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) fecharModal(); });
@@ -5091,6 +5561,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       [entrada, gerenciaManual, gerenciaManual2, dataFinalManual, horaFinalManual, semPrazoManual].filter(Boolean).forEach(el => { const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input"); el.addEventListener(evt, () => { salvarRascunhoCadastro(); renderPreviewCadastro(); }); });
       if (btnLimparBusca) btnLimparBusca.addEventListener("click", () => { busca.value = ""; aplicarFiltrosEOrdenacao(); renderPreviewCadastro(); busca.focus(); });
+      if (buscaModelo) buscaModelo.addEventListener("input", renderModelos);
+      if (filtroCategoriaModelo) filtroCategoriaModelo.addEventListener("change", renderModelos);
+      if (btnLimparBuscaModelo) btnLimparBuscaModelo.addEventListener("click", () => { if (buscaModelo) buscaModelo.value = ""; renderModelos(); buscaModelo?.focus(); });
       if (btnSalvarPreset) btnSalvarPreset.addEventListener("click", salvarPresetAtual);
       if (btnAplicarPreset) btnAplicarPreset.addEventListener("click", aplicarPresetSelecionado);
       if (btnExcluirPreset) btnExcluirPreset.addEventListener("click", excluirPresetSelecionado);
@@ -5165,6 +5638,21 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         abrirDrawer(id);
       });
 
+
+      if (listaModelos) {
+        listaModelos.addEventListener("click", (e) => {
+          const btn = e.target.closest("button[data-modelo-action]");
+          const card = e.target.closest(".modelo-card");
+          if (!btn || !card) return;
+          const id = card.dataset.id;
+          const action = btn.dataset.modeloAction;
+          if (action === "usar") return usarModeloNoFormulario(id);
+          if (action === "editar") return editarModelo(id);
+          if (action === "copiar") return copiarTextoModelo(id);
+          if (action === "excluir") return excluirModelo(id);
+        });
+      }
+
       document.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
         ordenacao.value = th.dataset.sort || "dataCadastroDesc";
         if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value;
@@ -5186,9 +5674,10 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     restaurarRascunhoCadastro();
     atualizarSelectPresets();
     renderPreviewCadastro();
+    atualizarEstadoFormularioModelo();
     if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value || "dataCadastroDesc";
     inicializarTema();
-    localStorage.setItem(STORAGE_KEYS.aba, "processos");
+    if (!localStorage.getItem(STORAGE_KEYS.aba)) localStorage.setItem(STORAGE_KEYS.aba, "processos");
     aplicarAbaSalva();
     registrarEventos();
 
@@ -5198,17 +5687,25 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         appBox.classList.remove("hidden");
         usuarioLogado.textContent = user.email || "Usuário";
         iniciarEscutaProcessos();
+        iniciarEscutaModelos();
       } else {
         if (unsubscribeSnapshot) {
           unsubscribeSnapshot();
           unsubscribeSnapshot = null;
+        }
+        if (unsubscribeModelos) {
+          unsubscribeModelos();
+          unsubscribeModelos = null;
         }
         loginBox.classList.remove("hidden");
         appBox.classList.add("hidden");
         usuarioLogado.textContent = "-";
         allItems = [];
         filteredItems = [];
+        allModelos = [];
+        filteredModelos = [];
         renderEverything();
+        renderModelos();
       }
     });
 
