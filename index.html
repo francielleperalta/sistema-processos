@@ -3681,8 +3681,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let editingModeloId = null;
     let chartLibraryPromise = null;
     let dashboardRenderToken = 0;
-    let chartLibraryPromise = null;
-    let dashboardRenderToken = 0;
 
     const $ = (id) => document.getElementById(id);
     function normalizarNomeInstitucional(valor) {
@@ -3791,54 +3789,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           </section>`;
       }).join('');
     }
-    function carregarScriptDinamico(src) {
-      return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = true;
-        script.onload = () => resolve(true);
-        script.onerror = () => reject(new Error(`Falha ao carregar ${src}`));
-        document.head.appendChild(script);
-      });
-    }
-    async function garantirChartJs() {
-      if (window.Chart) return true;
-      if (!chartLibraryPromise) {
-        chartLibraryPromise = (async () => {
-          const fontes = [
-            'https://cdn.jsdelivr.net/npm/chart.js',
-            'https://unpkg.com/chart.js@4.4.3/dist/chart.umd.js'
-          ];
-          for (const src of fontes) {
-            try {
-              await carregarScriptDinamico(src);
-              if (window.Chart) return true;
-            } catch (error) {
-              console.warn(error);
-            }
-          }
-          return !!window.Chart;
-        })();
-      }
-      return await chartLibraryPromise;
-    }
-    function atualizarAvisoGraficos(tipo = 'info', mensagem = '') {
-      document.querySelectorAll('.chart-box').forEach(box => {
-        let aviso = box.nextElementSibling;
-        if (!aviso || !aviso.classList.contains('chart-status-note')) {
-          aviso = document.createElement('div');
-          aviso.className = 'chart-status-note hidden';
-          box.insertAdjacentElement('afterend', aviso);
-        }
-        if (!mensagem) {
-          aviso.textContent = '';
-          aviso.className = 'chart-status-note hidden';
-        } else {
-          aviso.textContent = mensagem;
-          aviso.className = `chart-status-note ${tipo}`;
-        }
-      });
-    }
+    
+    async 
+    
     function criarEventoHistorico(tipo, detalhes = "") { return { tipo, detalhes, em: new Date().toISOString(), por: auth.currentUser?.email || "" }; }
     function getOrdenacaoLabel(valor) {
       const mapa = {
