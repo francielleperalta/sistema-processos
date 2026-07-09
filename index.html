@@ -2340,42 +2340,6 @@
 
 
 
-    .table-scroll-proxy {
-      position: sticky;
-      top: 0;
-      z-index: 14;
-      overflow-x: auto;
-      overflow-y: hidden;
-      min-height: 20px;
-      border: 1px solid #c9d3d8;
-      border-radius: 999px;
-      background: rgba(255,255,255,.96);
-      box-shadow: 0 6px 14px rgba(16,24,40,.10);
-      margin: 8px 0 12px;
-      padding-top: 18px;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;
-      backdrop-filter: blur(6px);
-    }
-    .table-scroll-proxy::before {
-      content: "Role horizontalmente aqui também";
-      position: absolute;
-      top: 3px;
-      left: 12px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #6f2e57;
-      letter-spacing: .02em;
-      pointer-events: none;
-      white-space: nowrap;
-    }
-    .table-scroll-proxy::-webkit-scrollbar { height: 14px; }
-    .table-scroll-proxy::-webkit-scrollbar-thumb {
-      background: #97a6ae;
-      border-radius: 999px;
-      border: 3px solid rgba(255,255,255,.1);
-    }
-    .table-scroll-proxy-inner { height: 1px; }
     .hierarchy-showcase {
       display: grid;
       gap: 12px;
@@ -2469,32 +2433,8 @@
       font-weight: 900;
       color: color-mix(in srgb, var(--macro-color) 82%, #334155);
     }
-    .chart-status-note {
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px dashed #d4dde1;
-      background: rgba(255,255,255,.36);
-      color: #5f6f79;
-      font-size: 12px;
-      line-height: 1.45;
-    }
-    .chart-status-note.error {
-      border-color: #d8b4b4;
-      color: #8b3d3d;
-      background: rgba(255,245,245,.8);
-    }
-    .chart-box { min-height: 240px; }
-    .chart-box canvas { display: block; width: 100% !important; min-height: 220px !important; }
     @media (max-width: 980px) {
       .hierarchy-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 620px) {
-      .table-scroll-proxy { top: 0; }
-      .table-scroll-proxy::before { left: 10px; }
-      .hierarchy-group { padding: 14px; }
-      .chart-box { min-height: 200px; }
-      .chart-box canvas { min-height: 185px !important; }
     }
 
     /* ===== Aba de modelos de processos ===== */
@@ -2867,7 +2807,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                     <span class="select-badge-area"><span class="select-badge-dot dot-sub"></span><strong>Subsecretarias</strong></span>
                   </div>
                   <div class="hierarchy-showcase">
-                    <div class="hierarchy-intro">As <strong>grandes áreas</strong> estão em destaque e os <strong>desdobramentos</strong> aparecem em cores diferentes para facilitar a leitura do organograma da SEAD.</div>
+                    <div class="hierarchy-intro">As <strong>grandes áreas</strong> do organograma estão em destaque e os <strong>desdobramentos</strong> aparecem em cores diferentes para facilitar a leitura institucional.</div>
                     <div id="hierarchyShowcase" class="hierarchy-grid"></div>
                   </div>
                   <div class="composer-card-grid-2">
@@ -3562,9 +3502,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let editingId = null;
     let chavesNotificadas = new Set();
     let editingModeloId = null;
-    let chartLibraryPromise = null;
-    let dashboardRenderToken = 0;
-    let tableResizeObserver = null;
 
     const $ = (id) => document.getElementById(id);
     function normalizarNomeInstitucional(valor) {
@@ -3578,54 +3515,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       return txt;
     }
     function setTextIfExists(idOrEl, value) { const el = typeof idOrEl === "string" ? $(idOrEl) : idOrEl; if (el) el.textContent = value; }
-    function carregarScriptDinamico(src) {
-      return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = true;
-        script.onload = () => resolve(true);
-        script.onerror = () => reject(new Error(`Falha ao carregar ${src}`));
-        document.head.appendChild(script);
-      });
-    }
-    async function garantirChartJs() {
-      if (window.Chart) return true;
-      if (!chartLibraryPromise) {
-        chartLibraryPromise = (async () => {
-          const fontes = [
-            'https://cdn.jsdelivr.net/npm/chart.js',
-            'https://unpkg.com/chart.js@4.4.3/dist/chart.umd.js'
-          ];
-          for (const src of fontes) {
-            try {
-              await carregarScriptDinamico(src);
-              if (window.Chart) return true;
-            } catch (error) {
-              console.warn(error);
-            }
-          }
-          return !!window.Chart;
-        })();
-      }
-      return await chartLibraryPromise;
-    }
-    function atualizarAvisoGraficos(tipo = 'info', mensagem = '') {
-      document.querySelectorAll('.chart-box').forEach(box => {
-        let aviso = box.nextElementSibling;
-        if (!aviso || !aviso.classList.contains('chart-status-note')) {
-          aviso = document.createElement('div');
-          aviso.className = 'chart-status-note hidden';
-          box.insertAdjacentElement('afterend', aviso);
-        }
-        if (!mensagem) {
-          aviso.textContent = '';
-          aviso.className = 'chart-status-note hidden';
-        } else {
-          aviso.textContent = mensagem;
-          aviso.className = `chart-status-note ${tipo}`;
-        }
-      });
-    }
     function obterMetaMacroArea(area) {
       const mapa = {
         'Gabinete do Secretário': { macro: 'gab', icon: '🏛️' },
@@ -4737,16 +4626,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       tabModelosBtn?.classList.toggle("active", alvo === "modelos");
       tabDashboardBtn.classList.toggle("active", alvo === "dashboard");
       localStorage.setItem(STORAGE_KEYS.aba, alvo);
-      if (alvo === "dashboard") {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            renderDashboard(filteredItems);
-            setTimeout(() => {
-              try { window.dispatchEvent(new Event('resize')); } catch (_) {}
-            }, 80);
-          });
-        });
-      }
+      if (alvo === "dashboard") renderDashboard(filteredItems);
       if (alvo === "modelos") renderModelos();
     }
 
@@ -5219,8 +5099,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           <div class="num">${i.score}</div>
         </div>`).join('');
     }
-    async function renderDashboard(itens) {
-      const token = ++dashboardRenderToken;
+    function renderDashboard(itens) {
       const total = itens.length;
       const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
       const comPrazo = itens.filter(i => !i.semPrazo && !!i.dataFinal).length;
@@ -5266,12 +5145,14 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         rankingAreaAtrasos[chave] = (rankingAreaAtrasos[chave] || 0) + 1;
       });
       const rankingAtrasos = Object.entries(rankingAreaAtrasos).sort((a,b) => b[1]-a[1]).slice(0, 6);
+
       const topCriticos = [...itens].sort((a,b) => {
         const peso = (item) => item.statusPrazo === 'Atrasado' ? 3 : item.statusPrazo === 'Vence hoje' ? 2 : item.statusPrazo === 'Vencendo' ? 1 : 0;
         const pa = peso(a), pb = peso(b);
         if (pb !== pa) return pb - pa;
         return String(a.dataFinal || '').localeCompare(String(b.dataFinal || ''));
       }).filter(item => ['Atrasado','Vence hoje','Vencendo'].includes(item.statusPrazo)).slice(0,5);
+
       const recorteArea = normalizarNomeInstitucional(filtroArea?.value || '');
       const mapaRecorte = {};
       if (recorteArea) {
@@ -5297,6 +5178,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         `<div class="dashboard-insight-item"><strong>Prioridade institucional</strong><span>${areaLider ? `${areaLider[0]} concentra o maior volume (${areaLider[1]} registro(s)).` : 'Nenhuma unidade com volume relevante identificada até o momento.'}</span></div>`
       ];
       if ($('dashboardInsights')) $('dashboardInsights').innerHTML = insights.join('');
+
       if ($('dashboardTopCriticos')) {
         $('dashboardTopCriticos').innerHTML = topCriticos.length ? topCriticos.map(item => `
           <div class="quick-action-card">
@@ -5306,23 +5188,11 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             <span>Status: ${escapeHtml(item.statusPrazo || '-')} • Prazo final: ${escapeHtml(formatarData(item.dataFinal) || 'Não informado')}</span>
           </div>`).join('') : '<div class="modelo-empty">Nenhum processo crítico encontrado na visão atual.</div>';
       }
+
       if ($('dashboardRankingAtrasos')) {
         $('dashboardRankingAtrasos').innerHTML = rankingAtrasos.length ? rankingAtrasos.map(([area, qtd], idx) => `
           <div class="list-row"><span>${idx + 1}. ${escapeHtml(area)}</span><strong>${qtd}</strong></div>`).join('') : '<div class="modelo-empty">Nenhuma área com processos atrasados no recorte atual.</div>';
       }
-
-      const dashboardVisivel = abaDashboard && !abaDashboard.classList.contains('hidden');
-      if (!dashboardVisivel) return;
-      const chartReady = await garantirChartJs();
-      if (token !== dashboardRenderToken) return;
-      if (!chartReady || !window.Chart) {
-        atualizarAvisoGraficos('error', 'Os gráficos do dashboard não carregaram automaticamente. Verifique a conexão com a biblioteca de gráficos e abra a aba novamente.');
-        console.warn('Chart.js não disponível para renderizar o dashboard.');
-        return;
-      }
-      atualizarAvisoGraficos();
-      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-      if (token !== dashboardRenderToken) return;
 
       destroyCharts();
       const dark = document.body.classList.contains('dark-mode');
@@ -5389,6 +5259,35 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         data: { labels: recorteOrdenado.map(([k]) => k), datasets: [{ label: 'Processos', data: recorteOrdenado.map(([,v]) => v), backgroundColor: '#0f766e' }] },
         options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: commonScales, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
       });
+    }
+
+    
+    function atualizarCardsAtivos() {
+      document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
+      if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(normalizarNomeInstitucional(filtroArea.value))}']`).forEach(card => card.classList.add("active"));
+      if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
+    }
+
+    function aplicarFiltrosVisuaisNosChips() {
+      document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
+      [["area", filtroArea.value], ["situacao", filtroSituacao ? filtroSituacao.value : ""], ["statusPrazo", filtroStatusPrazo.value]].forEach(([tipo, valor]) => {
+        if (!valor) return;
+        const chip = document.querySelector(`.chip[data-chip-type="${tipo}"][data-chip-value="${CSS.escape(valor)}"]`);
+        if (chip) chip.classList.add("active");
+      });
+    }
+
+    function renderEverything(notificar = true) {
+      filteredItems = getFilteredItems();
+      renderTable(filteredItems);
+      renderResumo(filteredItems);
+      renderAlertas(filteredItems, notificar);
+      renderDashboard(filteredItems);
+      atualizarCardsAtivos();
+      atualizarDrawerSeAberto();
+      aplicarFiltrosVisuaisNosChips();
+      registrarSincroniaScrollTabela();
+      sincronizarScrollTabela();
     }
 
 
@@ -6086,18 +5985,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let syncingTableScroll = false;
     function sincronizarScrollTabela() {
       if (!tableWrap || !tableScrollProxy || !tableScrollProxyInner) return;
-      const tabelaVisivel = tabela && !tabela.classList.contains('hidden');
-      if (!tabelaVisivel) {
-        tableScrollProxy.classList.add('hidden');
-        return;
-      }
-      if (!tableWrap.scrollWidth || !tableWrap.clientWidth) {
-        requestAnimationFrame(sincronizarScrollTabela);
-        return;
-      }
       const precisaScroll = tableWrap.scrollWidth > tableWrap.clientWidth + 2;
       tableScrollProxy.classList.toggle('hidden', !precisaScroll);
-      tableScrollProxyInner.style.width = `${Math.max(tableWrap.scrollWidth, 1)}px`;
+      tableScrollProxyInner.style.width = `${tableWrap.scrollWidth}px`;
       if (!syncingTableScroll) tableScrollProxy.scrollLeft = tableWrap.scrollLeft;
     }
     function registrarSincroniaScrollTabela() {
@@ -6117,15 +6007,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       };
       tableWrap.addEventListener('scroll', syncFromWrap, { passive: true });
       tableScrollProxy.addEventListener('scroll', syncFromProxy, { passive: true });
-      window.addEventListener('resize', () => {
-        sincronizarScrollTabela();
-        if (abaDashboard && !abaDashboard.classList.contains('hidden')) renderDashboard(filteredItems);
-      });
-      if ('ResizeObserver' in window) {
-        tableResizeObserver = new ResizeObserver(() => sincronizarScrollTabela());
-        tableResizeObserver.observe(tableWrap);
-        if (tabela) tableResizeObserver.observe(tabela);
-      }
+      window.addEventListener('resize', sincronizarScrollTabela);
     }
 
     function registrarEventos() {
