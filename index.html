@@ -5331,7 +5331,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           <div class="num">${i.score}</div>
         </div>`).join('');
     }
-    async async function renderDashboard(itens) {
+    async function renderDashboard(itens) {
       const token = ++dashboardRenderToken;
       const total = itens.length;
       const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
