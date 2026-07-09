@@ -2338,276 +2338,6 @@
       color: #dbe4ea !important;
     }
 
-
-    /* ===== Aba de modelos de processos ===== */
-    .modelos-layout {
-      display: grid;
-      grid-template-columns: 420px minmax(0, 1fr);
-      gap: 18px;
-      margin-top: 14px;
-      align-items: start;
-    }
-    .modelos-sidebar, .modelos-main { min-width: 0; }
-    .modelos-form-card, .modelos-list-card {
-      background: linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
-      border: 1px solid var(--border);
-    }
-    .modelos-hero {
-      display: grid;
-      gap: 8px;
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.20) 100%);
-      border: 1px solid #d4dde1;
-      margin-bottom: 14px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.34);
-    }
-    .modelos-hero h3 { margin: 0; font-size: 22px; color: #243741; }
-    .modelos-hero p { margin: 0; font-size: 13px; color: #60707a; line-height: 1.5; }
-    .modelos-grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .modelo-card {
-      border: 1px solid #d4dde1;
-      border-radius: 18px;
-      padding: 14px;
-      background: rgba(255,255,255,.35);
-      box-shadow: 0 4px 12px rgba(16,24,40,.04);
-      display: grid;
-      gap: 10px;
-    }
-    .modelo-card-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .modelo-card h4 {
-      margin: 0;
-      font-size: 16px;
-      color: #243741;
-      line-height: 1.35;
-    }
-    .modelo-card p {
-      margin: 0;
-      font-size: 13px;
-      color: #5f6f79;
-      line-height: 1.5;
-      white-space: pre-wrap;
-    }
-    .modelo-card .meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-    .tag-modelo {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #edf2f4;
-      border: 1px solid #d0d5dd;
-      color: #42545f;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .modelo-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .modelo-actions button {
-      width: auto;
-      min-width: 140px;
-      margin-top: 0;
-      box-shadow: none;
-    }
-    .modelos-search-row {
-      display: grid;
-      grid-template-columns: 1.2fr .7fr auto;
-      gap: 10px;
-      align-items: end;
-      margin-bottom: 14px;
-    }
-    .modelo-empty {
-      padding: 28px 18px;
-      border: 1px dashed #c7d2d8;
-      border-radius: 18px;
-      background: #edf2f4;
-      text-align: center;
-      color: #6b7280;
-      font-size: 13px;
-    }
-    .modelo-conteudo-preview {
-      max-height: 140px;
-      overflow: auto;
-      padding: 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.45);
-      border: 1px solid #d7dfe3;
-      font-size: 13px;
-      line-height: 1.5;
-      color: #334854;
-      white-space: pre-wrap;
-    }
-    .tags-automaticas-box {
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px dashed #c7d2d8;
-      background: rgba(255,255,255,.24);
-    }
-    .tags-automaticas-box .title {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      font-weight: 800;
-      color: #60707a;
-      margin-bottom: 10px;
-    }
-    .tags-automaticas-lista {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .categoria-fixa-note {
-      display:block;
-      margin-top: 8px;
-      font-size: 12px;
-      color: #6b7280;
-      line-height: 1.45;
-    }
-    @media (max-width: 1100px) {
-      .modelos-layout, .modelos-grid-2, .modelos-search-row { grid-template-columns: 1fr; }
-    }
-    body.dark-mode .modelos-form-card,
-    body.dark-mode .modelos-list-card,
-    body.dark-mode .modelo-card,
-    body.dark-mode .modelo-empty,
-    body.dark-mode .modelo-conteudo-preview,
-    body.dark-mode .tag-modelo,
-    body.dark-mode .modelos-hero,
-    body.dark-mode .tags-automaticas-box {
-      background: rgba(255,255,255,.03) !important;
-      border-color: #374151 !important;
-      color: #e5e7eb !important;
-    }
-    body.dark-mode .modelo-card h4,
-    body.dark-mode .modelos-hero h3,
-    body.dark-mode .modelo-conteudo-preview { color: #f3f4f6 !important; }
-    body.dark-mode .modelo-card p,
-    body.dark-mode .modelos-hero p,
-    body.dark-mode .tags-automaticas-box .title,
-    body.dark-mode .categoria-fixa-note { color: #9fb0bd !important; }
-    body.patricinha-mode .modelos-form-card,
-    body.patricinha-mode .modelos-list-card,
-    body.patricinha-mode .modelo-card,
-    body.patricinha-mode .modelo-empty,
-    body.patricinha-mode .modelo-conteudo-preview,
-    body.patricinha-mode .tag-modelo,
-    body.patricinha-mode .modelos-hero,
-    body.patricinha-mode .tags-automaticas-box {
-      background: #fff8fc !important;
-      border-color: #f1bfd8 !important;
-      color: #6f2e57 !important;
-    }
-    body.patricinha-mode .tags-automaticas-box .title,
-    body.patricinha-mode .categoria-fixa-note { color: #9a5f82 !important; }
-
-
-    /* ===== Refinos gerais e dashboard executivo ===== */
-    .dashboard-summary-strip {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .dashboard-summary-chip {
-      border: 1px solid #d4dde1;
-      border-radius: 16px;
-      padding: 12px;
-      background: rgba(255,255,255,.35);
-      display: grid;
-      gap: 4px;
-    }
-    .dashboard-summary-chip .label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: #667781;
-      font-weight: 800;
-    }
-    .dashboard-summary-chip .value {
-      font-size: 22px;
-      line-height: 1.1;
-      font-weight: 800;
-      color: #243741;
-    }
-    .dashboard-summary-chip .sub {
-      font-size: 12px;
-      color: #6b7280;
-      line-height: 1.45;
-    }
-    .dashboard-insights {
-      margin-top: 14px;
-      display: grid;
-      gap: 10px;
-    }
-    .dashboard-insight-item {
-      display: grid;
-      gap: 5px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 1px solid #d6dee2;
-      background: rgba(255,255,255,.26);
-    }
-    .dashboard-insight-item strong {
-      font-size: 13px;
-      color: #243741;
-    }
-    .dashboard-insight-item span {
-      font-size: 12px;
-      color: #5f6f79;
-      line-height: 1.5;
-    }
-    .dashboard-org-note {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #667781;
-      line-height: 1.5;
-    }
-    body.dark-mode .dashboard-summary-chip,
-    body.dark-mode .dashboard-insight-item {
-      background: rgba(255,255,255,.03) !important;
-      border-color: #374151 !important;
-    }
-    body.dark-mode .dashboard-summary-chip .label,
-    body.dark-mode .dashboard-summary-chip .sub,
-    body.dark-mode .dashboard-insight-item span,
-    body.dark-mode .dashboard-org-note {
-      color: #9fb0bd !important;
-    }
-    body.dark-mode .dashboard-summary-chip .value,
-    body.dark-mode .dashboard-insight-item strong {
-      color: #f3f4f6 !important;
-    }
-    body.patricinha-mode .dashboard-summary-chip,
-    body.patricinha-mode .dashboard-insight-item {
-      background: #fff8fc !important;
-      border-color: #f1bfd8 !important;
-    }
-    body.patricinha-mode .dashboard-summary-chip .label,
-    body.patricinha-mode .dashboard-summary-chip .sub,
-    body.patricinha-mode .dashboard-insight-item span,
-    body.patricinha-mode .dashboard-org-note {
-      color: #9a5f82 !important;
-    }
-
 </style>
 </head>
 <body>
@@ -2661,7 +2391,6 @@
     <div class="card">
       <div class="tabs">
         <button type="button" id="tabProcessosBtn" class="tab-btn active">Processos</button>
-        <button type="button" id="tabModelosBtn" class="tab-btn">Modelos de processos</button>
         <button type="button" id="tabDashboardBtn" class="tab-btn">Dashboard</button>
       </div>
 
@@ -2962,148 +2691,46 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         </div>
       </div>
       
-
-      <div id="abaModelos" class="hidden">
-        <div class="modelos-layout">
-          <aside class="modelos-sidebar">
-            <div class="card modelos-form-card">
-              <div class="modelos-hero">
-                <h3>Biblioteca de modelos</h3>
-                <p>Cadastre textos-padrão para consulta e reaproveitamento rápido no formulário principal.</p>
-              </div>
-              <div class="modelos-grid-2">
-                <div>
-                  <label for="modeloTitulo">Título do modelo</label>
-                  <input type="text" id="modeloTitulo" placeholder="Ex.: Encaminhamento para manifestação técnica" />
-                </div>
-                <div>
-                  <label for="modeloCategoria">Categoria</label>
-                  <select id="modeloCategoria">
-                    <option value="">Selecione...</option>
-                    <option value="Despacho">Despacho</option>
-                    <option value="Ofício">Ofício</option>
-                    <option value="Memorando">Memorando</option>
-                    <option value="Nota Técnica">Nota Técnica</option>
-                    <option value="Parecer">Parecer</option>
-                    <option value="Manifestação">Manifestação</option>
-                    <option value="Encaminhamento">Encaminhamento</option>
-                    <option value="Solicitação">Solicitação</option>
-                    <option value="Resposta">Resposta</option>
-                    <option value="Relatório">Relatório</option>
-                    <option value="Minuta">Minuta</option>
-                    <option value="Checklist">Checklist</option>
-                    <option value="Outro">Outro</option>
-                  </select>
-                  <span class="categoria-fixa-note">Categorias padronizadas para facilitar busca, consulta e reaproveitamento.</span>
-                </div>
-              </div>
-              <div>
-                <label for="modeloConteudo">Conteúdo do modelo</label>
-                <textarea id="modeloConteudo" placeholder="Cole aqui o texto-base do modelo de processo..."></textarea>
-              </div>
-              <div class="tags-automaticas-box">
-                <div class="title">Palavras-chave automáticas</div>
-                <div id="modeloTagsPreview" class="tags-automaticas-lista">
-                  <span class="muted">As palavras-chave serão geradas automaticamente a partir do conteúdo informado.</span>
-                </div>
-              </div>
-              <div class="btn-row">
-                <button type="button" id="btnSalvarModelo">Salvar modelo</button>
-                <button type="button" class="outline" id="btnLimparModelo">Limpar</button>
-                <button type="button" class="light hidden" id="btnCancelarEdicaoModelo">Cancelar edição</button>
-              </div>
-              <div id="mensagemModelos" class="hidden"></div>
-            </div>
-          </aside>
-          <section class="modelos-main">
-            <div class="card modelos-list-card">
-              <div class="section-title">Modelos salvos</div>
-              <div class="modelos-search-row">
-                <div>
-                  <label for="buscaModelo">Buscar modelo</label>
-                  <div class="search-input-wrap">
-                    <span class="search-icon">🔎</span>
-                    <input id="buscaModelo" placeholder="Buscar por título, categoria ou conteúdo..." />
-                    <button type="button" class="search-clear hidden" id="btnLimparBuscaModelo" aria-label="Limpar busca de modelo">✕</button>
-                  </div>
-                </div>
-                <div>
-                  <label for="filtroCategoriaModelo">Categoria</label>
-                  <select id="filtroCategoriaModelo"></select>
-                </div>
-                <button type="button" class="light" id="btnAtualizarModelos" style="width:auto; min-width:150px;">Atualizar</button>
-              </div>
-              <div id="modelosResumo" class="muted" style="margin-bottom:12px;">0 modelo(s)</div>
-              <div id="listaModelos" class="dashboard-actions"></div>
-            </div>
-          </section>
-        </div>
-      </div>
-
       <div id="abaDashboard" class="hidden">
         <div class="dashboard-grid">
           <div class="charts-stack">
             <div class="card chart-card dashboard-chart-tall">
-              <div class="dashboard-section-title"><div><h4>Panorama de prazos</h4><small>Distribuição imediata dos processos por nível de urgência.</small></div></div>
+              <div class="dashboard-section-title"><div><h4>Radar de prioridade</h4><small>Leitura imediata do volume por status de prazo.</small></div></div>
               <div class="chart-box"><canvas id="graficoPrazo"></canvas></div>
             </div>
             <div class="card chart-card dashboard-chart-tall">
-              <div class="dashboard-section-title"><div><h4>Cadastros por mês</h4><small>Evolução dos registros nos últimos 12 meses.</small></div></div>
+              <div class="dashboard-section-title"><div><h4>Evolução de entradas</h4><small>Cadastros nos últimos 12 meses.</small></div></div>
               <div class="chart-box"><canvas id="graficoEntradas"></canvas></div>
             </div>
             <div class="dashboard-two-cols">
               <div class="card chart-card dashboard-chart-medium">
-                <div class="dashboard-section-title"><div><h4>Situação operacional</h4><small>Distribuição dos processos entre análise, andamento, conclusão e arquivo.</small></div></div>
+                <div class="dashboard-section-title"><div><h4>Situação operacional</h4><small>Como os processos visíveis se distribuem por fase.</small></div></div>
                 <div class="chart-box"><canvas id="graficoSituacao"></canvas></div>
               </div>
               <div class="card chart-card dashboard-chart-medium">
-                <div class="dashboard-section-title"><div><h4>Carga por unidade superior</h4><small>Comparação entre gabinetes, superintendências, diretorias e subsecretarias.</small></div></div>
+                <div class="dashboard-section-title"><div><h4>Distribuição por área</h4><small>Comparação entre áreas a partir da visão filtrada.</small></div></div>
                 <div class="chart-box"><canvas id="graficoAreas"></canvas></div>
               </div>
             </div>
             <div class="card chart-card dashboard-chart-medium">
-              <div class="dashboard-section-title"><div><h4>Ranking de unidades críticas</h4><small>Peso maior para atrasados e vencimentos imediatos.</small></div></div>
+              <div class="dashboard-section-title"><div><h4>Ranking de gerências mais críticas</h4><small>Peso maior para atrasados e vencimentos imediatos.</small></div></div>
               <div class="chart-box"><canvas id="graficoCriticidadeGerencia"></canvas></div>
             </div>
           </div>
           <div class="sidebar-cards">
             <div class="card">
-              <h4>Painel executivo</h4>
+              <h4>Painel executivo reformulado</h4>
               <div class="dashboard-kpi-grid">
                 <div class="mini-kpi"><div class="k">Total visível</div><div class="v" id="kpiTotal">0</div><div class="s">registros na visão atual</div></div>
                 <div class="mini-kpi"><div class="k">Com prazo</div><div class="v" id="kpiComPrazo">0</div><div class="s">processos com data final</div></div>
                 <div class="mini-kpi"><div class="k">Sem prazo</div><div class="v" id="kpiSemPrazo">0</div><div class="s">pontos sem definição</div></div>
                 <div class="mini-kpi"><div class="k">Vence hoje</div><div class="v" id="kpiHoje">0</div><div class="s">atenção imediata</div></div>
-                <div class="mini-kpi"><div class="k">Vencendo</div><div class="v" id="kpiVencendo">0</div><div class="s">janela curta de resposta</div></div>
+                <div class="mini-kpi"><div class="k">Exige resposta</div><div class="v" id="kpiVencendo">0</div><div class="s">vencendo nos próximos dias</div></div>
                 <div class="mini-kpi"><div class="k">Atrasados</div><div class="v" id="kpiAtrasados">0</div><div class="s">estoque crítico</div></div>
               </div>
-              <div class="dashboard-summary-strip">
-                <div class="dashboard-summary-chip">
-                  <div class="label">% dentro do prazo</div>
-                  <div class="value" id="kpiPctNoPrazo">0%</div>
-                  <div class="sub">participação de processos em situação regular</div>
-                </div>
-                <div class="dashboard-summary-chip">
-                  <div class="label">Índice crítico</div>
-                  <div class="value" id="kpiPctCritico">0%</div>
-                  <div class="sub">atrasados + vence hoje + vencendo</div>
-                </div>
-                <div class="dashboard-summary-chip">
-                  <div class="label">Maior volume</div>
-                  <div class="value" id="kpiAreaLider">-</div>
-                  <div class="sub" id="kpiAreaLiderSub">sem destaque no recorte atual</div>
-                </div>
-                <div class="dashboard-summary-chip">
-                  <div class="label">Foco imediato</div>
-                  <div class="value" id="kpiUnidadeCritica">-</div>
-                  <div class="sub" id="kpiUnidadeCriticaSub">unidade com maior pontuação crítica</div>
-                </div>
-              </div>
-              <div id="dashboardInsights" class="dashboard-insights"></div>
-              <div class="dashboard-org-note">Estrutura institucional atualizada a partir do organograma da SEAD para reduzir inconsistências de área e gerência no cadastro.</div>
             </div>
             <div class="card chart-card dashboard-chart-short">
-              <div class="dashboard-section-title"><div><h4 id="dashboardRecorteTitulo">Recorte hierárquico</h4><small id="dashboardRecorteSubtitulo">Sem filtro de área, o gráfico mostra as unidades com maior volume. Ao filtrar uma área, detalha suas gerências e coordenações.</small></div></div>
+              <div class="dashboard-section-title"><div><h4>SGI — gerências e seções</h4><small>Detalhamento da Superintendência de Gestão Integrada.</small></div></div>
               <div class="chart-box"><canvas id="graficoSGI"></canvas></div>
             </div>
             <div class="card">
@@ -3111,7 +2738,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               <div id="dashboardTopCriticos" class="dashboard-actions"></div>
             </div>
             <div class="card">
-              <div class="dashboard-section-title"><div><h4>Ranking de áreas por atrasos</h4><small>Onde concentrar resposta, apoio e revisão de fluxo.</small></div></div>
+              <div class="dashboard-section-title"><div><h4>Ranking de áreas por atrasos</h4><small>Onde concentrar resposta e apoio.</small></div></div>
               <div id="dashboardRankingAtrasos" class="dashboard-list"></div>
             </div>
           </div>
@@ -3184,176 +2811,121 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    const HIERARQUIA_ORGANIZACIONAL = {
-      "Gabinete do Secretário": {
-        direto: [
-          "Chefia de Gabinete",
-          "Comunicação Setorial",
-          "Corregedoria Setorial",
-          "Escritório de Projetos Setorial",
-          "Gerência da Secretaria-Geral",
-          "Procuradoria Setorial",
-          "Gerência de Processos Administrativos",
-          "Gerência de Governança de Estatais",
-          "Gerência da Ouvidoria Setorial",
-          "Comissão de Avaliação do Contrato de Gestão"
-        ]
-      },
-      "Diretoria de Programas": {
-        direto: ["Gerência de Programas"]
-      },
-      "Superintendência de Gestão Integrada": {
-        direto: [
-          "Gerência de Consolidação e Tratamento de Dados",
-          "Gerência de Planejamento Institucional",
-          "Gerência de Compras Governamentais",
-          "Gerência de Apoio Administrativo e Logístico",
-          "Gerência de Infraestrutura e Manutenção Predial",
-          "Gerência de Gestão e Desenvolvimento de Pessoas",
-          "Gerência de Execução Orçamentária e Financeira",
-          "Gerência de Convênios e Governança Corporativa",
-          "Gerência de Contabilidade",
-          "Gerência de Modernização Institucional e Processos"
-        ]
-      },
-      "Superintendência de Sistemas de Informação": {
-        direto: [
-          "Coordenação de Dados",
-          "Gerência de Desenvolvimento de Sistemas",
-          "Gerência de Infraestrutura Tecnológica e Serviços",
-          "Coordenação Digital"
-        ]
-      },
-      "Diretoria-Executiva de Liquidação de Estatais": {
-        direto: [
-          "Gerência de Gestão Financeira",
-          "Gerência de Gestão Administrativa"
-        ]
-      },
-      "Diretoria-Executiva de Saúde e Segurança do Servidor": {
-        direto: ["Gerência de Apoio Administrativo"],
-        grupos: {
-          "Gerência Central de Saúde e Segurança do Servidor": [
-            "Gerência Central de Saúde e Segurança do Servidor",
-            "Coordenação de Medicina do Trabalho",
-            "Coordenação de Engenharia do Trabalho",
-            "Coordenação Psicossocial",
-            "Coordenação de Perícia Médica",
-            "Coordenação Técnica de Segurança do Trabalho"
-          ]
-        }
-      },
-      "Diretoria-Executiva da Escola de Governo": {
-        direto: [
-          "Coordenação Administrativa",
-          "Gerência do Ensino Superior e Projetos Pedagógicos",
-          "Gerência de Desenvolvimento Profissional",
-          "Coordenação de Publicações e Produção Científica"
-        ],
-        grupos: {
-          "Gerência do Laboratório de Inovação e Desenvolvimento de Pessoas - PequiLAB": [
-            "Gerência do Laboratório de Inovação e Desenvolvimento de Pessoas - PequiLAB",
-            "Assessoria do Laboratório de Inovação em Desenvolvimento de Pessoas - PequiLab"
-          ]
-        }
-      },
-      "Subsecretaria de Gestão e Desenvolvimento de Pessoas": {
-        direto: ["Gerência da Rede de Gestão e Desenvolvimento de Pessoas"],
-        grupos: {
-          "Superintendência Central de Desenvolvimento Estratégico de Pessoal": [
-            "Superintendência Central de Desenvolvimento Estratégico de Pessoal",
-            "Gerência de Estudos e Impactos de Pessoal",
-            "Gerência de Normas e Critérios de Produtividade",
-            "Gerência de Perfil e Alocação de Pessoas",
-            "Gerência de Gestão do Conhecimento e Competências",
-            "Gerência do Controle de Gasto com Pessoal"
-          ],
-          "Superintendência Central de Gestão de Pessoal": [
-            "Superintendência Central de Gestão de Pessoal",
-            "Gerência Central da Folha de Pagamento",
-            "Gerência de Gestão do Sistema de Pessoal",
-            "Gerência de Inteligência de Informações de Pessoal",
-            "Gerência de Obrigações Acessórias",
-            "Gerência de Consignação"
-          ],
-          "Superintendência de Recrutamento e Seleção": [
-            "Superintendência de Recrutamento e Seleção",
-            "Gerência de Concursos e Processos Seletivos",
-            "Gerência de Admissão de Pessoal"
-          ]
-        }
-      },
-      "Subsecretaria de Inovação da Gestão e dos Serviços Públicos": {
-        direto: ["Coordenação dos Aprendizes do Futuro"],
-        grupos: {
-          "Superintendência Central de Transformação Pública": [
-            "Superintendência Central de Transformação Pública",
-            "Gerência de Modelos Organizacionais",
-            "Coordenação de Inovação de Serviços",
-            "Gerência de Experiência do Usuário",
-            "Gerência de Avaliação da Gestão e dos Serviços Públicos",
-            "Gerência de Gestão da Carta de Serviços"
-          ],
-          "Superintendência de Inovação da Gestão Pública": [
-            "Superintendência de Inovação da Gestão Pública",
-            "Gerência do Escritório de Processos",
-            "Gerência de Inovação Aberta",
-            "Gerência de Inovação e Projetos de Gestão",
-            "Gerência de Inteligência de Negócios Públicos"
-          ],
-          "Superintendência da Gestão do Atendimento ao Cidadão": [
-            "Superintendência da Gestão do Atendimento ao Cidadão",
-            "Gerência de Estratégia do Atendimento ao Cidadão",
-            "Gerência de Operação do Atendimento ao Cidadão",
-            "Coordenação de Atendimento",
-            "Supervisão de Atendimento",
-            "Coordenação de Avaliação de Perfil e Treinamento do Expresso",
-            "Gerência de Relacionamento com Municípios e Parceiros",
-            "Coordenação de Contratos e Convênios"
-          ]
-        }
-      },
-      "Subsecretaria de Logística e Patrimônio": {
-        grupos: {
-          "Superintendência Central do Patrimônio Imobiliário": [
-            "Superintendência Central do Patrimônio Imobiliário",
-            "Gerência de Gestão de Informações Imobiliárias",
-            "Gerência de Avaliação de Imóveis",
-            "Gerência de Vistoria e Topografia",
-            "Gerência de Regularização Fundiária",
-            "Gerência de Regularização de Ocupações"
-          ],
-          "Superintendência Central de Logística e Patrimônio Mobiliário": [
-            "Superintendência Central de Logística e Patrimônio Mobiliário",
-            "Gerência de Patrimônio Mobiliário",
-            "Gerência de Frotas",
-            "Gerência de Suprimentos",
-            "Gerência de Logística Documental"
-          ],
-          "Superintendência Central de Compras e Contratos": [
-            "Superintendência Central de Compras e Contratos",
-            "Gerência Central de Governança de Contratações",
-            "Gerência de Normas e Padronização",
-            "Gerência de Processos e Sistemas de Compras",
-            "Gerência de Planejamento de Compras",
-            "Gerência de Compras Centralizadas"
-          ]
-        }
-      }
+    const ESTRUTURA_ORGANIZACIONAL = {
+      "Gabinete do Secretário": [
+        "Gerência da Secretaria-Geral",
+        "Chefia de Gabinete",
+        "Comunicação Setorial",
+        "Procuradoria Setorial",
+        "Gerência de Processos Administrativos",
+        "Corregedoria Setorial",
+        "Gerência de Governança de Estatais",
+        "Gerência da Ouvidoria Setorial",
+        "Escritório de Projetos Setorial",
+        "Comissão de Avaliação do Contrato de Gestão"
+      ],
+      "Diretoria de Programas": [
+        "Gerência de Programas"
+      ],
+      "Superintendência de Gestão Integrada": [
+        "Gerência de Consolidação e Tratamento de Dados",
+        "Gerência de Planejamento Institucional",
+        "Gerência de Gestão e Desenvolvimento de Pessoas",
+        "Gerência de Compras Governamentais",
+        "Gerência de Execução Orçamentária e Financeira",
+        "Gerência de Apoio Administrativo e Logístico",
+        "Gerência de Convênios e Governança Corporativa",
+        "Gerência de Infraestrutura e Manutenção Predial",
+        "Gerência de Modernização Institucional e Processos",
+        "Gerência de Contabilidade"
+      ],
+      "Superintendência de Sistemas de Informação": [
+        "Coordenação de Dados",
+        "Gerência de Desenvolvimento de Sistemas",
+        "Gerência de Infraestrutura Tecnológica e Serviços",
+        "Coordenação Digital"
+      ],
+      "Diretoria Executiva de Liquidação de Estatais": [
+        "Gerência de Gestão Financeira",
+        "Gerência de Gestão Administrativa"
+      ],
+      "Diretoria Executiva de Saúde e Segurança do Servidor": [
+        "Gerência Central de Saúde e Segurança do Servidor",
+        "Coordenação de Medicina do Trabalho",
+        "Coordenação de Perícia Médica",
+        "Coordenação de Engenharia do Trabalho",
+        "Coordenação Técnica de Segurança do Trabalho",
+        "Coordenação Psicossocial",
+        "Gerência de Apoio Administrativo"
+      ],
+      "Diretoria Executiva da Escola de Governo": [
+        "Coordenação Administrativa",
+        "Gerência do Laboratório de Inovação e Desenvolvimento de Pessoas – PequiLab",
+        "Assessoria do Laboratório de Inovação em Desenvolvimento de Pessoas – PequiLab",
+        "Gerência de Desenvolvimento Profissional",
+        "Gerência do Ensino Superior e Projetos Pedagógicos",
+        "Coordenação de Publicações e Produção Científica"
+      ],
+      "Subsecretaria de Gestão e Desenvolvimento de Pessoas": [
+        "Gerência da Rede de Gestão e Desenvolvimento de Pessoas",
+        "Gerência de Estudos e Impactos de Pessoal",
+        "Gerência de Normas e Critérios de Produtividade",
+        "Gerência de Perfil e Alocação de Pessoas",
+        "Gerência de Gestão do Conhecimento e Competências",
+        "Gerência do Controle de Gasto com Pessoal",
+        "Gerência Central da Folha de Pagamento",
+        "Gerência de Gestão do Sistema de Pessoal",
+        "Gerência de Inteligência de Informações de Pessoal",
+        "Gerência de Obrigações Acessórias",
+        "Gerência de Consignação",
+        "Gerência de Concursos e Processos Seletivos",
+        "Gerência de Admissão de Pessoal"
+      ],
+      "Subsecretaria de Inovação da Gestão e dos Serviços Públicos": [
+        "Coordenação dos Aprendizes do Futuro",
+        "Gerência de Modelos Organizacionais",
+        "Gerência de Experiência do Usuário",
+        "Coordenação de Inovação de Serviços",
+        "Gerência do Escritório de Processos",
+        "Gerência de Avaliação da Gestão e dos Serviços Públicos",
+        "Gerência de Inovação Aberta",
+        "Gerência de Inovação e Projetos de Gestão",
+        "Gerência de Inteligência de Negócios Públicos",
+        "Gerência de Estratégia do Atendimento ao Cidadão",
+        "Gerência de Operação do Atendimento ao Cidadão",
+        "Coordenação de Atendimento",
+        "Supervisão de Atendimento",
+        "Gerência de Relacionamento com Municípios e Parceiros",
+        "Coordenação de Relacionamento com os Municípios",
+        "Coordenação de Contratos e Convênios",
+        "Gerência de Gestão da Carta de Serviços"
+      ],
+      "Subsecretaria de Logística e Patrimônio": [
+        "Gerência de Gestão de Informações Imobiliárias",
+        "Gerência de Avaliação de Imóveis",
+        "Gerência de Vistoria e Topografia",
+        "Gerência de Regularização Fundiária",
+        "Gerência de Regularização de Ocupações",
+        "Gerência de Patrimônio Mobiliário",
+        "Gerência de Frotas",
+        "Gerência de Suprimentos",
+        "Gerência de Logística Documental",
+        "Gerência de Normas e Padronização",
+        "Gerência Central de Governança de Contratações",
+        "Gerência de Processos e Sistemas de Compras",
+        "Gerência de Compras Centralizadas",
+        "Gerência de Planejamento de Compras",
+        "Gerência de Governança das Transferências Voluntárias",
+        "Coordenação de Monitoramento das Transferências Voluntárias",
+        "Coordenação de Acompanhamento de Prestação de Contas e Tomadas de Contas Especiais",
+        "Gerência de Normatização das Transferências Voluntárias",
+        "Coordenação de Interlocução Institucional",
+        "Coordenação de Normatização",
+        "Gerência de Gestão do Sistema das Transferências Voluntárias",
+        "Coordenação Técnica das Transferências Voluntárias",
+        "Coordenação de Gestão da Informação e da Inteligência de Dados"
+      ]
     };
-
-    function extrairUnidadesDaHierarquia(config) {
-      if (!config) return [];
-      const direto = Array.isArray(config.direto) ? [...config.direto] : [];
-      const grupos = config.grupos && typeof config.grupos === 'object'
-        ? Object.values(config.grupos).flatMap(lista => Array.isArray(lista) ? lista : [])
-        : [];
-      return [...new Set([...direto, ...grupos])];
-    }
-
-    const ESTRUTURA_ORGANIZACIONAL = Object.fromEntries(
-      Object.entries(HIERARQUIA_ORGANIZACIONAL).map(([area, config]) => [area, extrairUnidadesDaHierarquia(config)])
-    );
 
     const ABREVIACOES_SGI = {
       "Gerência de Consolidação e Tratamento de Dados": "GESTD",
@@ -3376,16 +2948,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const TODAS_UNIDADES = Object.values(ESTRUTURA_ORGANIZACIONAL).flat();
 
     const COLLECTION_PROCESSOS = "processos";
-    const COLLECTION_MODELOS = "modelosProcessos";
-    const CATEGORIAS_MODELO = ["Despacho", "Ofício", "Memorando", "Nota Técnica", "Parecer", "Manifestação", "Encaminhamento", "Solicitação", "Resposta", "Relatório", "Minuta", "Checklist", "Outro"];
     const STATUS_OPERACIONAIS = ["Em análise", "Pendente", "Em andamento", "Concluído", "Arquivado"];
     const STATUS_PRAZO_LIST = ["No prazo", "Vence hoje", "Vencendo", "Atrasado", "Sem prazo"];
     const STORAGE_KEYS = { filtros: "sgp_clean_filters_v1", aba: "sgp_clean_aba_v1" };
 
     let allItems = [];
     let filteredItems = [];
-    let allModelos = [];
-    let filteredModelos = [];
     let chartPrazo = null;
     let chartSGI = null;
     let chartEntradas = null;
@@ -3394,12 +2962,10 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let chartCriticidadeGerencia = null;
     let ultimoRegistroExcluido = null;
     let unsubscribeSnapshot = null;
-    let unsubscribeModelos = null;
     let expandedIds = new Set();
     let selectedDrawerId = null;
     let editingId = null;
     let chavesNotificadas = new Set();
-    let editingModeloId = null;
 
     const $ = (id) => document.getElementById(id);
     function normalizarNomeInstitucional(valor) {
@@ -3407,9 +2973,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (!txt) return '';
       const norm = txt.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
       if (norm === 'superintendencia de gestao integrada (sgi)' || norm === 'superintendencia de gestao integrada') return 'Superintendência de Gestão Integrada';
-      if (norm === 'diretoria executiva de liquidacao de estatais' || norm === 'diretoria-executiva de liquidacao de estatais') return 'Diretoria-Executiva de Liquidação de Estatais';
-      if (norm === 'diretoria executiva de saude e seguranca do servidor' || norm === 'diretoria-executiva de saude e seguranca do servidor') return 'Diretoria-Executiva de Saúde e Segurança do Servidor';
-      if (norm === 'diretoria executiva da escola de governo' || norm === 'diretoria-executiva da escola de governo') return 'Diretoria-Executiva da Escola de Governo';
       return txt;
     }
     function setTextIfExists(idOrEl, value) { const el = typeof idOrEl === "string" ? $(idOrEl) : idOrEl; if (el) el.textContent = value; }
@@ -3634,25 +3197,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const btnNotificacao = $("btnNotificacao");
     const usuarioLogado = $("usuarioLogado");
     const tabProcessosBtn = $("tabProcessosBtn");
-    const tabModelosBtn = $("tabModelosBtn");
     const tabDashboardBtn = $("tabDashboardBtn");
     const abaProcessos = $("abaProcessos");
-    const abaModelos = $("abaModelos");
     const abaDashboard = $("abaDashboard");
-    const modeloTitulo = $("modeloTitulo");
-    const modeloCategoria = $("modeloCategoria");
-    const modeloConteudo = $("modeloConteudo");
-    const modeloTagsPreview = $("modeloTagsPreview");
-    const btnSalvarModelo = $("btnSalvarModelo");
-    const btnLimparModelo = $("btnLimparModelo");
-    const btnCancelarEdicaoModelo = $("btnCancelarEdicaoModelo");
-    const mensagemModelos = $("mensagemModelos");
-    const buscaModelo = $("buscaModelo");
-    const btnLimparBuscaModelo = $("btnLimparBuscaModelo");
-    const filtroCategoriaModelo = $("filtroCategoriaModelo");
-    const btnAtualizarModelos = $("btnAtualizarModelos");
-    const listaModelos = $("listaModelos");
-    const modelosResumo = $("modelosResumo");
     const entrada = $("entrada");
     const gerenciaManual = $("gerenciaManual");
     const gerenciaManual2 = $("gerenciaManual2");
@@ -4077,278 +3624,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       return error.message || "erro desconhecido.";
     }
 
-
-    function gerarPalavrasChaveAutomaticas(texto = '', titulo = '', categoria = '') {
-      const base = `${titulo} ${categoria} ${texto}`.toLowerCase();
-      const stopwords = new Set(['a','à','ao','aos','as','às','o','os','de','da','das','do','dos','e','é','em','na','nas','no','nos','para','por','com','sem','sob','sobre','entre','até','após','que','se','ser','sua','seu','suas','seus','um','uma','uns','umas','ou','já','como','mais','menos','muito','muita','também','mesmo','mesma','mesmos','mesmas','fica','ficam','deve','devem','segue','conforme','solicita','solicitamos','encaminha','encaminhamos','informo','informamos','processo','modelo','texto','base']);
-      const matches = base.normalize('NFD').replace(/[\u0300-\u036f]/g, '').match(/[a-z]{4,}/g) || [];
-      const freq = {};
-      for (const word of matches) {
-        if (stopwords.has(word)) continue;
-        freq[word] = (freq[word] || 0) + 1;
-      }
-      const especiais = [];
-      if (/oficio|ofício/.test(base)) especiais.push('ofício');
-      if (/despacho/.test(base)) especiais.push('despacho');
-      if (/memorando/.test(base)) especiais.push('memorando');
-      if (/nota tecnica|nota técnica/.test(base)) especiais.push('nota técnica');
-      if (/parecer/.test(base)) especiais.push('parecer');
-      if (/manifestacao|manifestação/.test(base)) especiais.push('manifestação');
-      if (/encaminhamento/.test(base)) especiais.push('encaminhamento');
-      if (/solicitacao|solicitação/.test(base)) especiais.push('solicitação');
-      if (/resposta/.test(base)) especiais.push('resposta');
-      if (/relatorio|relatório/.test(base)) especiais.push('relatório');
-      if (/prazo/.test(base)) especiais.push('prazo');
-      if (/urgente|urgencia|urgência/.test(base)) especiais.push('urgência');
-      if (/patrimonio|patrimônio/.test(base)) especiais.push('patrimônio');
-      if (/contrato/.test(base)) especiais.push('contrato');
-      if (/conv[eê]nio/.test(base)) especiais.push('convênio');
-      if (/financeir/.test(base)) especiais.push('financeiro');
-      if (/or[cç]ament/.test(base)) especiais.push('orçamento');
-      if (/tecnic/.test(base)) especiais.push('técnico');
-      if (/juridic/.test(base)) especiais.push('jurídico');
-      if (/pessoal/.test(base)) especiais.push('pessoal');
-      if (/compras?/.test(base)) especiais.push('compras');
-      if (/sistema/.test(base)) especiais.push('sistema');
-      if (/dados/.test(base)) especiais.push('dados');
-      if (/governan/.test(base)) especiais.push('governança');
-      if (/manutencao|manutenção/.test(base)) especiais.push('manutenção');
-      if (/infraestrutura/.test(base)) especiais.push('infraestrutura');
-      const frequentes = Object.entries(freq).sort((a,b) => b[1]-a[1] || a[0].localeCompare(b[0], 'pt-BR')).slice(0, 8).map(([w]) => w);
-      const final = [];
-      const add = (v) => { const t = String(v || '').trim(); if (t && !final.includes(t)) final.push(t); };
-      if (categoria) add(categoria);
-      especiais.forEach(add);
-      frequentes.forEach(add);
-      return final.slice(0, 10);
-    }
-    function renderPalavrasChaveAutomaticas(tags = []) {
-      if (!modeloTagsPreview) return;
-      if (!tags.length) {
-        modeloTagsPreview.innerHTML = '<span class="muted">As palavras-chave serão geradas automaticamente a partir do conteúdo informado.</span>';
-        return;
-      }
-      modeloTagsPreview.innerHTML = tags.map(tag => `<span class="tag-modelo">#${escapeHtml(tag)}</span>`).join('');
-    }
-    function atualizarPreviaPalavrasChave() {
-      const tags = gerarPalavrasChaveAutomaticas(modeloConteudo?.value || '', modeloTitulo?.value || '', modeloCategoria?.value || '');
-      renderPalavrasChaveAutomaticas(tags);
-      return tags;
-    }
-    function atualizarEstadoFormularioModelo() {
-      if (btnSalvarModelo) btnSalvarModelo.textContent = editingModeloId ? 'Salvar alterações do modelo' : 'Salvar modelo';
-      if (btnCancelarEdicaoModelo) btnCancelarEdicaoModelo.classList.toggle('hidden', !editingModeloId);
-    }
-    function resetEstadoEdicaoModelo() {
-      editingModeloId = null;
-      atualizarEstadoFormularioModelo();
-      renderPalavrasChaveAutomaticas([]);
-    }
-    function preencherFormularioModelo(item) {
-      if (!item) return;
-      if (modeloTitulo) modeloTitulo.value = item.titulo || '';
-      if (modeloCategoria) modeloCategoria.value = item.categoria || '';
-      if (modeloConteudo) modeloConteudo.value = item.conteudo || '';
-      editingModeloId = item.id;
-      atualizarEstadoFormularioModelo();
-      renderPalavrasChaveAutomaticas(item.tags || gerarPalavrasChaveAutomaticas(item.conteudo || '', item.titulo || '', item.categoria || ''));
-    }
-    function mostrarMensagemModelos(texto, tipo = "info") {
-      if (!mensagemModelos) return;
-      mensagemModelos.className = `feedback ${tipo}`;
-      mensagemModelos.textContent = texto;
-      mensagemModelos.classList.remove("hidden");
-      clearTimeout(mensagemModelos._timer);
-      mensagemModelos._timer = setTimeout(() => {
-        mensagemModelos.classList.add("hidden");
-        mensagemModelos.textContent = "";
-      }, 3500);
-    }
-    function limparFormularioModelo() {
-      if (modeloTitulo) modeloTitulo.value = "";
-      if (modeloCategoria) modeloCategoria.value = "";
-      if (modeloConteudo) modeloConteudo.value = "";
-      if (mensagemModelos) {
-        mensagemModelos.className = 'hidden';
-        mensagemModelos.textContent = '';
-      }
-      resetEstadoEdicaoModelo();
-    }
-    function preencherCategoriasModelos() {
-      if (!filtroCategoriaModelo) return;
-      const atual = filtroCategoriaModelo.value;
-      filtroCategoriaModelo.innerHTML = '<option value="">Todas</option>' + CATEGORIAS_MODELO.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
-      if (CATEGORIAS_MODELO.includes(atual)) filtroCategoriaModelo.value = atual;
-    }
-    async function salvarModelo() {
-      const isEditing = !!editingModeloId;
-      try {
-        const titulo = (modeloTitulo?.value || '').trim();
-        const categoria = (modeloCategoria?.value || '').trim();
-        const conteudo = (modeloConteudo?.value || '').trim();
-        const tags = gerarPalavrasChaveAutomaticas(conteudo, titulo, categoria);
-        if (!titulo || !conteudo) return mostrarMensagemModelos('Informe pelo menos o título e o conteúdo do modelo.', 'warning');
-        if (!categoria) return mostrarMensagemModelos('Selecione uma categoria para o modelo.', 'warning');
-        setLoading(btnSalvarModelo, true, isEditing ? 'Salvar alterações do modelo' : 'Salvar modelo');
-        const payload = {
-          titulo,
-          categoria,
-          tags,
-          conteudo,
-          alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
-          alteradoPor: auth.currentUser?.email || ''
-        };
-        if (isEditing) {
-          await db.collection(COLLECTION_MODELOS).doc(editingModeloId).update(payload);
-          mostrarMensagemModelos('Modelo atualizado com sucesso.', 'success');
-          toast('Modelo atualizado com sucesso.', 'success');
-        } else {
-          await db.collection(COLLECTION_MODELOS).add({
-            ...payload,
-            criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
-            criadoPor: auth.currentUser?.email || ''
-          });
-          mostrarMensagemModelos('Modelo salvo com sucesso.', 'success');
-          toast('Modelo salvo com sucesso.', 'success');
-        }
-        limparFormularioModelo();
-      } catch (error) {
-        console.error(error);
-        mostrarMensagemModelos('Erro ao salvar modelo: ' + error.message, 'error');
-        toast('Erro ao salvar modelo.', 'error');
-      } finally {
-        setLoading(btnSalvarModelo, false, 'Salvar modelo');
-        atualizarEstadoFormularioModelo();
-      }
-    }
-    function getFilteredModelos() {
-      const termo = normalizarBusca(buscaModelo?.value || '');
-      const categoria = (filtroCategoriaModelo?.value || '').trim();
-      return allModelos.filter(item => {
-        const base = normalizarBusca([
-          item.titulo,
-          item.categoria,
-          (item.tags || []).join(' '),
-          item.conteudo,
-          item.criadoPor,
-          item.alteradoPor
-        ].join(' '));
-        if (termo && !base.includes(termo)) return false;
-        if (categoria && item.categoria !== categoria) return false;
-        return true;
-      }).sort((a, b) => {
-        const ta = a.alteradoEm?.toDate ? a.alteradoEm.toDate().getTime() : (a.criadoEm?.toDate ? a.criadoEm.toDate().getTime() : 0);
-        const tb = b.alteradoEm?.toDate ? b.alteradoEm.toDate().getTime() : (b.criadoEm?.toDate ? b.criadoEm.toDate().getTime() : 0);
-        return tb - ta;
-      });
-    }
-    function renderModelos() {
-      filteredModelos = getFilteredModelos();
-      preencherCategoriasModelos();
-      if (btnLimparBuscaModelo) btnLimparBuscaModelo.classList.toggle('hidden', !((buscaModelo?.value || '').trim()));
-      if (modelosResumo) modelosResumo.textContent = `${filteredModelos.length} modelo(s) ${allModelos.length !== filteredModelos.length ? `de ${allModelos.length}` : ''}`;
-      if (!listaModelos) return;
-      if (!filteredModelos.length) {
-        listaModelos.innerHTML = '<div class="modelo-empty">Nenhum modelo encontrado. Cadastre um novo modelo ou ajuste os filtros.</div>';
-        return;
-      }
-      const termo = (buscaModelo?.value || '').trim();
-      listaModelos.innerHTML = filteredModelos.map(item => {
-        const categoria = item.categoria ? `<span class="tag-modelo">${highlightText(item.categoria, termo)}</span>` : '';
-        const criado = formatarDataHora(item.criadoEm);
-        const alterado = formatarDataHora(item.alteradoEm);
-        return `
-          <div class="modelo-card" data-id="${item.id}">
-            <div class="modelo-card-top">
-              <div>
-                <h4>${highlightText(item.titulo || 'Modelo sem título', termo)}</h4>
-                <div class="muted" style="margin-top:4px;">Criado por ${escapeHtml(item.criadoPor || '-')} • ${escapeHtml(criado)}</div>
-              </div>
-              <div class="meta">${categoria}</div>
-            </div>
-            <div class="modelo-conteudo-preview">${highlightText(item.conteudo || '', termo)}</div>
-            <div class="muted">Última alteração: ${escapeHtml(item.alteradoPor || '-')} • ${escapeHtml(alterado)}</div>
-            <div class="modelo-actions">
-              <button type="button" data-modelo-action="usar">Usar no formulário</button>
-              <button type="button" class="secondary" data-modelo-action="editar">Editar</button>
-              <button type="button" class="outline" data-modelo-action="copiar">Copiar texto</button>
-              <button type="button" class="danger" data-modelo-action="excluir">Excluir</button>
-            </div>
-          </div>`;
-      }).join('');
-    }
-    function iniciarEscutaModelos() {
-      if (unsubscribeModelos) unsubscribeModelos();
-      unsubscribeModelos = db.collection(COLLECTION_MODELOS).onSnapshot((snapshot) => {
-        allModelos = [];
-        snapshot.forEach((doc) => {
-          const dados = doc.data() || {};
-          allModelos.push({
-            id: doc.id,
-            titulo: dados.titulo || '',
-            categoria: dados.categoria || '',
-            tags: Array.isArray(dados.tags) && dados.tags.length ? dados.tags : gerarPalavrasChaveAutomaticas(dados.conteudo || '', dados.titulo || '', dados.categoria || ''),
-            conteudo: dados.conteudo || '',
-            criadoEm: dados.criadoEm || null,
-            criadoPor: dados.criadoPor || '',
-            alteradoEm: dados.alteradoEm || null,
-            alteradoPor: dados.alteradoPor || ''
-          });
-        });
-        renderModelos();
-      }, (error) => {
-        console.error(error);
-        mostrarMensagemModelos('Erro ao carregar modelos em tempo real.', 'error');
-      });
-    }
-    function editarModelo(id) {
-      const item = allModelos.find(modelo => modelo.id === id);
-      if (!item) return;
-      preencherFormularioModelo(item);
-      abrirAba('modelos');
-      mostrarMensagemModelos(`Editando modelo: ${item.titulo || 'sem título'}.`, 'info');
-      modeloTitulo?.focus();
-    }
-    async function excluirModelo(id) {
-      if (!id) return;
-      if (!confirm('Deseja realmente excluir este modelo?')) return;
-      try {
-        await db.collection(COLLECTION_MODELOS).doc(id).delete();
-        toast('Modelo excluído com sucesso.', 'success');
-      } catch (error) {
-        console.error(error);
-        toast('Erro ao excluir modelo.', 'error');
-      }
-    }
-    function usarModeloNoFormulario(id) {
-      const item = allModelos.find(modelo => modelo.id === id);
-      if (!item) return;
-      if (entrada) entrada.value = item.conteudo || '';
-      salvarRascunhoCadastro();
-      renderPreviewCadastro();
-      abrirAba('processos');
-      toast(`Modelo "${item.titulo || 'sem título'}" carregado no formulário.`, 'success');
-      entrada?.focus();
-    }
-    async function copiarTextoModelo(id) {
-      const item = allModelos.find(modelo => modelo.id === id);
-      if (!item?.conteudo) return;
-      try {
-        if (navigator.clipboard?.writeText) {
-          await navigator.clipboard.writeText(item.conteudo);
-          toast('Texto do modelo copiado.', 'success');
-        } else if (modeloConteudo) {
-          modeloConteudo.value = item.conteudo;
-          modeloConteudo.select();
-          document.execCommand('copy');
-          toast('Texto do modelo copiado.', 'success');
-        }
-      } catch (error) {
-        console.error(error);
-        toast('Não foi possível copiar o texto do modelo.', 'error');
-      }
-    }
-
     function preencherSelects() {
       gerenciaManual.innerHTML = '<option value="">Selecione...</option>';
       filtroGerencia.innerHTML = '<option value="">Todas</option>';
@@ -4362,6 +3637,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       AREAS.forEach(area => {
         const areaNormalizada = normalizarNomeInstitucional(area);
+
         const opArea = document.createElement('option');
         opArea.value = areaNormalizada;
         opArea.textContent = areaNormalizada;
@@ -4374,49 +3650,32 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           sel.appendChild(op);
         });
 
-        const config = HIERARQUIA_ORGANIZACIONAL[area] || { direto: ESTRUTURA_ORGANIZACIONAL[area] || [], grupos: {} };
-        const gruposDestino = [
-          document.createDocumentFragment(),
-          document.createDocumentFragment(),
-          document.createDocumentFragment(),
-          document.createDocumentFragment(),
-          document.createDocumentFragment()
+        const grupos = [
+          document.createElement('optgroup'),
+          document.createElement('optgroup'),
+          document.createElement('optgroup'),
+          document.createElement('optgroup'),
+          document.createElement('optgroup')
         ];
+        grupos.forEach(g => g.label = areaNormalizada);
 
-        const adicionarOpcao = (destino, value, label) => {
-          const op = document.createElement('option');
-          op.value = value;
-          op.textContent = label;
-          destino.appendChild(op);
-        };
-
-        (config.direto || []).forEach(unidade => {
+        ESTRUTURA_ORGANIZACIONAL[area].forEach(unidade => {
           const baseLabel = areaNormalizada === 'Superintendência de Gestão Integrada' && ABREVIACOES_SGI[unidade]
             ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
             : unidade;
-          gruposDestino.forEach(dest => adicionarOpcao(dest, unidade, baseLabel));
+          grupos.forEach(grupo => {
+            const op = document.createElement('option');
+            op.value = unidade;
+            op.textContent = baseLabel;
+            grupo.appendChild(op);
+          });
         });
 
-        Object.entries(config.grupos || {}).forEach(([grupoNome, unidades]) => {
-          const optgroups = Array.from({ length: 5 }, () => {
-            const og = document.createElement('optgroup');
-            og.label = grupoNome;
-            return og;
-          });
-          (unidades || []).forEach(unidade => {
-            const baseLabel = areaNormalizada === 'Superintendência de Gestão Integrada' && ABREVIACOES_SGI[unidade]
-              ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
-              : unidade;
-            optgroups.forEach(og => adicionarOpcao(og, unidade, baseLabel));
-          });
-          gruposDestino.forEach((dest, i) => dest.appendChild(optgroups[i]));
-        });
-
-        gerenciaManual.appendChild(gruposDestino[0]);
-        if (gerenciaManual2) gerenciaManual2.appendChild(gruposDestino[1]);
-        filtroGerencia.appendChild(gruposDestino[2]);
-        editGerencia.appendChild(gruposDestino[3]);
-        if (editGerencia2) editGerencia2.appendChild(gruposDestino[4]);
+        gerenciaManual.appendChild(grupos[0]);
+        if (gerenciaManual2) gerenciaManual2.appendChild(grupos[1]);
+        filtroGerencia.appendChild(grupos[2]);
+        editGerencia.appendChild(grupos[3]);
+        if (editGerencia2) editGerencia2.appendChild(grupos[4]);
       });
 
       STATUS_OPERACIONAIS.forEach(s => {
@@ -4468,21 +3727,24 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function abrirAba(aba) {
-      const alvo = ["processos", "modelos", "dashboard"].includes(aba) ? aba : "processos";
-      abaProcessos.classList.toggle("hidden", alvo !== "processos");
-      abaModelos?.classList.toggle("hidden", alvo !== "modelos");
-      abaDashboard.classList.toggle("hidden", alvo !== "dashboard");
-      tabProcessosBtn.classList.toggle("active", alvo === "processos");
-      tabModelosBtn?.classList.toggle("active", alvo === "modelos");
-      tabDashboardBtn.classList.toggle("active", alvo === "dashboard");
-      localStorage.setItem(STORAGE_KEYS.aba, alvo);
-      if (alvo === "dashboard") renderDashboard(filteredItems);
-      if (alvo === "modelos") renderModelos();
+      if (aba === "dashboard") {
+        abaProcessos.classList.add("hidden");
+        abaDashboard.classList.remove("hidden");
+        tabProcessosBtn.classList.remove("active");
+        tabDashboardBtn.classList.add("active");
+        localStorage.setItem(STORAGE_KEYS.aba, "dashboard");
+        renderDashboard(filteredItems);
+      } else {
+        abaProcessos.classList.remove("hidden");
+        abaDashboard.classList.add("hidden");
+        tabProcessosBtn.classList.add("active");
+        tabDashboardBtn.classList.remove("active");
+        localStorage.setItem(STORAGE_KEYS.aba, "processos");
+      }
     }
 
     function aplicarAbaSalva() {
-      const abaSalva = localStorage.getItem(STORAGE_KEYS.aba) || "processos";
-      abrirAba(["processos", "modelos", "dashboard"].includes(abaSalva) ? abaSalva : "processos");
+      abrirAba("processos");
     }
 
     async function login() {
@@ -4956,9 +4218,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
       const hoje = itens.filter(i => i.statusPrazo === "Vence hoje").length;
       const atrasados = itens.filter(i => i.statusPrazo === "Atrasado").length;
-      const noPrazo = itens.filter(i => i.statusPrazo === "No prazo").length;
-      const criticos = atrasados + hoje + vencendo;
-      const pct = (valor, base = total) => base ? `${Math.round((valor / base) * 100)}%` : '0%';
 
       setTextIfExists("kpiTotal", total);
       setTextIfExists("kpiComPrazo", comPrazo);
@@ -4966,12 +4225,11 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       setTextIfExists("kpiHoje", hoje);
       setTextIfExists("kpiVencendo", vencendo);
       setTextIfExists("kpiAtrasados", atrasados);
-      setTextIfExists("kpiPctNoPrazo", pct(noPrazo));
-      setTextIfExists("kpiPctCritico", pct(criticos));
 
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao || 'Em análise'] = (situacaoMap[i.situacao || 'Em análise'] || 0) + 1);
-      const areaMap = {}; itens.forEach(i => { const k = normalizarNomeInstitucional(i.area) || 'Sem área'; areaMap[k] = (areaMap[k] || 0) + 1; });
+      const areaMap = {}; itens.forEach(i => { const k = i.area || 'Sem área'; areaMap[k] = (areaMap[k] || 0) + 1; });
+      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); itens.filter(i => normalizarNomeInstitucional(i.area) === "Superintendência de Gestão Integrada").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
       const criticidadeGerencia = {};
       itens.forEach(i => {
         const chave = i.gerencia || i.area || 'Sem identificação';
@@ -4981,68 +4239,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         else if (i.statusPrazo === 'Vencendo') criticidadeGerencia[chave] += 1;
       });
       const rankingCritico = Object.entries(criticidadeGerencia).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 10);
-      const areaLider = Object.entries(areaMap).sort((a,b) => b[1]-a[1])[0] || null;
-      const unidadeCritica = rankingCritico[0] || null;
-      setTextIfExists('kpiAreaLider', areaLider ? areaLider[0] : '-');
-      setTextIfExists('kpiAreaLiderSub', areaLider ? `${areaLider[1]} processo(s) • ${pct(areaLider[1])} do recorte atual` : 'sem destaque no recorte atual');
-      setTextIfExists('kpiUnidadeCritica', unidadeCritica ? unidadeCritica[0] : '-');
-      setTextIfExists('kpiUnidadeCriticaSub', unidadeCritica ? `${unidadeCritica[1]} ponto(s) de criticidade` : 'nenhuma unidade crítica identificada');
-
-      const rankingAreaAtrasos = {};
-      itens.forEach(i => {
-        if (i.statusPrazo !== 'Atrasado') return;
-        const chave = normalizarNomeInstitucional(i.area) || 'Sem área';
-        rankingAreaAtrasos[chave] = (rankingAreaAtrasos[chave] || 0) + 1;
-      });
-      const rankingAtrasos = Object.entries(rankingAreaAtrasos).sort((a,b) => b[1]-a[1]).slice(0, 6);
-
-      const topCriticos = [...itens].sort((a,b) => {
-        const peso = (item) => item.statusPrazo === 'Atrasado' ? 3 : item.statusPrazo === 'Vence hoje' ? 2 : item.statusPrazo === 'Vencendo' ? 1 : 0;
-        const pa = peso(a), pb = peso(b);
-        if (pb !== pa) return pb - pa;
-        return String(a.dataFinal || '').localeCompare(String(b.dataFinal || ''));
-      }).filter(item => ['Atrasado','Vence hoje','Vencendo'].includes(item.statusPrazo)).slice(0,5);
-
-      const recorteArea = normalizarNomeInstitucional(filtroArea?.value || '');
-      const mapaRecorte = {};
-      if (recorteArea) {
-        itens.filter(i => normalizarNomeInstitucional(i.area) === recorteArea).forEach(i => {
-          const chave = i.gerencia || recorteArea;
-          mapaRecorte[chave] = (mapaRecorte[chave] || 0) + 1;
-        });
-        setTextIfExists('dashboardRecorteTitulo', `Recorte hierárquico — ${recorteArea}`);
-        setTextIfExists('dashboardRecorteSubtitulo', 'Detalhamento das gerências, coordenações e níveis intermediários da área filtrada.');
-      } else {
-        itens.forEach(i => {
-          const chave = i.gerencia || normalizarNomeInstitucional(i.area) || 'Sem identificação';
-          mapaRecorte[chave] = (mapaRecorte[chave] || 0) + 1;
-        });
-        setTextIfExists('dashboardRecorteTitulo', 'Unidades com maior volume');
-        setTextIfExists('dashboardRecorteSubtitulo', 'Sem filtro de área, o gráfico destaca as unidades com maior quantidade de processos na visão atual.');
-      }
-      const recorteOrdenado = Object.entries(mapaRecorte).sort((a,b) => b[1]-a[1]).slice(0, 8);
-
-      const insights = [
-        `<div class="dashboard-insight-item"><strong>Ritmo do estoque</strong><span>${criticos ? `${criticos} processo(s) em janela crítica (${pct(criticos)} do total).` : 'Nenhum processo em janela crítica na visão atual.'}</span></div>`,
-        `<div class="dashboard-insight-item"><strong>Prazo definido</strong><span>${comPrazo ? `${comPrazo} processo(s) com data final cadastrada (${pct(comPrazo)}).` : 'Ainda não há processos com prazo definido.'}</span></div>`,
-        `<div class="dashboard-insight-item"><strong>Prioridade institucional</strong><span>${areaLider ? `${areaLider[0]} concentra o maior volume (${areaLider[1]} registro(s)).` : 'Nenhuma unidade com volume relevante identificada até o momento.'}</span></div>`
-      ];
-      if ($('dashboardInsights')) $('dashboardInsights').innerHTML = insights.join('');
-
-      if ($('dashboardTopCriticos')) {
-        $('dashboardTopCriticos').innerHTML = topCriticos.length ? topCriticos.map(item => `
-          <div class="quick-action-card">
-            <strong>${escapeHtml(item.processo || 'Processo sem número')}</strong>
-            <span>${escapeHtml(item.interessado || 'Interessado não informado')}</span>
-            <span>${escapeHtml(item.area || '-')} • ${escapeHtml(item.gerencia || '-')}</span>
-            <span>Status: ${escapeHtml(item.statusPrazo || '-')} • Prazo final: ${escapeHtml(formatarData(item.dataFinal) || 'Não informado')}</span>
-          </div>`).join('') : '<div class="modelo-empty">Nenhum processo crítico encontrado na visão atual.</div>';
-      }
-
-      if ($('dashboardRankingAtrasos')) {
-        $('dashboardRankingAtrasos').innerHTML = rankingAtrasos.length ? rankingAtrasos.map(([area, qtd], idx) => `
-          <div class="list-row"><span>${idx + 1}. ${escapeHtml(area)}</span><strong>${qtd}</strong></div>`).join('') : '<div class="modelo-empty">Nenhuma área com processos atrasados no recorte atual.</div>';
-      }
 
       destroyCharts();
       const dark = document.body.classList.contains('dark-mode');
@@ -5057,7 +4253,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       chartPrazo = new Chart($("graficoPrazo"), {
         type: "doughnut",
-        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#2f6b4d", "#ca8a04", "#b7791f", "#b42318", "#54656f"], borderColor: chartBg, borderWidth: 3, hoverOffset: 4 }] },
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#2f6b4d", "#9a6334", "#8a6226", "#8f4e4e", "#54656f"], borderColor: chartBg, borderWidth: 3, hoverOffset: 4 }] },
         options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', color: tickColor } }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
       });
 
@@ -5066,52 +4262,50 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       for (let m = 11; m >= 0; m--) {
         const d = new Date(refHoje.getFullYear(), refHoje.getMonth() - m, 1);
         const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-        serieMeses.push({ key, rotulo: `${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}` });
+        serieMeses.push({ key, rotulo: `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(2)}`, total: 0 });
       }
-      const entradasMes = Object.fromEntries(serieMeses.map(m => [m.key, 0]));
       itens.forEach(i => {
-        if (!i.dataCadastro) return;
-        const dt = new Date(i.dataCadastro);
-        if (Number.isNaN(dt.getTime())) return;
+        const dt = i.criadoEm?.toDate ? i.criadoEm.toDate() : (i.criadoEm ? new Date(i.criadoEm) : (i.dataCadastroISO ? new Date(i.dataCadastroISO + 'T00:00:00') : null));
+        if (!dt || isNaN(dt.getTime())) return;
         const key = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}`;
-        if (key in entradasMes) entradasMes[key] += 1;
+        const alvo = serieMeses.find(s => s.key === key);
+        if (alvo) alvo.total += 1;
       });
       chartEntradas = new Chart($("graficoEntradas"), {
         type: "line",
-        data: {
-          labels: serieMeses.map(m => m.rotulo),
-          datasets: [{ label: 'Cadastros', data: serieMeses.map(m => entradasMes[m.key]), borderColor: '#0f766e', backgroundColor: 'rgba(15,118,110,.18)', pointBackgroundColor: '#0f766e', pointRadius: 3, fill: true, tension: .35 }]
-        },
-        options: { responsive: true, maintainAspectRatio: false, scales: commonScales, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
+        data: { labels: serieMeses.map(i => i.rotulo), datasets: [{ label: 'Entradas', data: serieMeses.map(i => i.total), borderColor: '#677982', backgroundColor: 'rgba(103,121,130,.16)', fill: true, tension: 0.38, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#677982' }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales }
       });
 
       chartSituacao = new Chart($("graficoSituacao"), {
         type: "bar",
-        data: { labels: Object.keys(situacaoMap), datasets: [{ label: 'Processos', data: Object.values(situacaoMap), backgroundColor: ['#37517e','#6f8ab7','#88b3d4','#2f6b4d','#64748b'] }] },
-        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: commonScales, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
+        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ['#6b8796','#9f937b','#7a8f83','#8b9aa3','#a07d7d'], borderRadius: 10, maxBarThickness: 42 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales }
       });
 
-      const areasOrdenadas = Object.entries(areaMap).sort((a,b) => b[1]-a[1]).slice(0, 10);
+      const areasOrdenadas = Object.entries(areaMap).sort((a,b) => b[1]-a[1]).slice(0, 8);
       chartAreas = new Chart($("graficoAreas"), {
         type: "bar",
-        data: { labels: areasOrdenadas.map(([k]) => k), datasets: [{ label: 'Processos', data: areasOrdenadas.map(([,v]) => v), backgroundColor: '#4f46e5' }] },
-        options: { responsive: true, maintainAspectRatio: false, scales: commonScales, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
+        data: { labels: areasOrdenadas.map(i => i[0]), datasets: [{ data: areasOrdenadas.map(i => i[1]), backgroundColor: ['#748791','#8f7c58','#60717d','#8b6767','#6f8577','#9aa7ad','#5f6f79','#a7926c'], borderRadius: 10, maxBarThickness: 44 }] },
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: { x: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor }, grid: { display: false, drawBorder: false } } } }
       });
 
       chartCriticidadeGerencia = new Chart($("graficoCriticidadeGerencia"), {
         type: "bar",
-        data: { labels: rankingCritico.map(([k]) => k), datasets: [{ label: 'Pontuação crítica', data: rankingCritico.map(([,v]) => v), backgroundColor: '#b42318' }] },
-        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: commonScales, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
+        data: { labels: rankingCritico.map(i => i[0]), datasets: [{ data: rankingCritico.map(i => i[1]), backgroundColor: '#8b6767', borderRadius: 12, maxBarThickness: 30 }] },
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { label: ctx => `Pontuação crítica: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } }, grid: { display: false, drawBorder: false } } } }
       });
 
       chartSGI = new Chart($("graficoSGI"), {
         type: "bar",
-        data: { labels: recorteOrdenado.map(([k]) => k), datasets: [{ label: 'Processos', data: recorteOrdenado.map(([,v]) => v), backgroundColor: '#0f766e' }] },
-        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: commonScales, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
+        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: '#748791', borderRadius: 12, maxBarThickness: 34, borderSkipped: false }] },
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0, color: tickColor }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } }, grid: { display: false, drawBorder: false } } } }
       });
+
+      renderDashboardTopCriticos(itens);
+      renderDashboardRankingAtrasos(itens);
     }
 
-    
     function atualizarCardsAtivos() {
       document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
       if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(normalizarNomeInstitucional(filtroArea.value))}']`).forEach(card => card.classList.add("active"));
@@ -5868,7 +5062,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       btnSair.addEventListener("click", logout);
       btnNotificacao.addEventListener("click", solicitarPermissaoNotificacao);
       tabProcessosBtn.addEventListener("click", () => abrirAba("processos"));
-      tabModelosBtn?.addEventListener("click", () => abrirAba("modelos"));
       tabDashboardBtn.addEventListener("click", () => abrirAba("dashboard"));
 
       semPrazoManual.addEventListener("change", () => {
@@ -5884,10 +5077,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       btnGerarProcesso.addEventListener("click", gerarProcesso);
       btnLimparFormulario.addEventListener("click", limparFormulario);
-      btnSalvarModelo?.addEventListener("click", salvarModelo);
-      btnLimparModelo?.addEventListener("click", limparFormularioModelo);
-      btnCancelarEdicaoModelo?.addEventListener("click", () => { limparFormularioModelo(); mostrarMensagemModelos("Edição cancelada.", "info"); });
-      btnAtualizarModelos?.addEventListener("click", renderModelos);
       btnSalvarEdicao.addEventListener("click", salvarEdicao);
       btnFecharModal.addEventListener("click", fecharModal);
       modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) fecharModal(); });
@@ -5906,10 +5095,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       [entrada, gerenciaManual, gerenciaManual2, dataFinalManual, horaFinalManual, semPrazoManual].filter(Boolean).forEach(el => { const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input"); el.addEventListener(evt, () => { salvarRascunhoCadastro(); renderPreviewCadastro(); }); });
       if (btnLimparBusca) btnLimparBusca.addEventListener("click", () => { busca.value = ""; aplicarFiltrosEOrdenacao(); renderPreviewCadastro(); busca.focus(); });
-      if (buscaModelo) buscaModelo.addEventListener("input", renderModelos);
-      if (filtroCategoriaModelo) filtroCategoriaModelo.addEventListener("change", renderModelos);
-      if (btnLimparBuscaModelo) btnLimparBuscaModelo.addEventListener("click", () => { if (buscaModelo) buscaModelo.value = ""; renderModelos(); buscaModelo?.focus(); });
-      [modeloTitulo, modeloCategoria, modeloConteudo].filter(Boolean).forEach(el => el.addEventListener(el.tagName === "SELECT" ? "change" : "input", atualizarPreviaPalavrasChave));
       if (btnSalvarPreset) btnSalvarPreset.addEventListener("click", salvarPresetAtual);
       if (btnAplicarPreset) btnAplicarPreset.addEventListener("click", aplicarPresetSelecionado);
       if (btnExcluirPreset) btnExcluirPreset.addEventListener("click", excluirPresetSelecionado);
@@ -5984,19 +5169,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         abrirDrawer(id);
       });
 
-      if (listaModelos) {
-        listaModelos.addEventListener("click", (e) => {
-          const btn = e.target.closest("button[data-modelo-action]");
-          const card = e.target.closest(".modelo-card");
-          if (!btn || !card) return;
-          const id = card.dataset.id;
-          const action = btn.dataset.modeloAction;
-          if (action === "usar") return usarModeloNoFormulario(id);
-          if (action === "editar") return editarModelo(id);
-          if (action === "copiar") return copiarTextoModelo(id);
-          if (action === "excluir") return excluirModelo(id);
-        });
-      }
       document.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
         ordenacao.value = th.dataset.sort || "dataCadastroDesc";
         if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value;
@@ -6020,10 +5192,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     renderPreviewCadastro();
     if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value || "dataCadastroDesc";
     inicializarTema();
-    if (!localStorage.getItem(STORAGE_KEYS.aba)) localStorage.setItem(STORAGE_KEYS.aba, "processos");
-    preencherCategoriasModelos();
-    renderPalavrasChaveAutomaticas([]);
-    atualizarEstadoFormularioModelo();
+    localStorage.setItem(STORAGE_KEYS.aba, "processos");
     aplicarAbaSalva();
     registrarEventos();
 
@@ -6033,26 +5202,17 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         appBox.classList.remove("hidden");
         usuarioLogado.textContent = user.email || "Usuário";
         iniciarEscutaProcessos();
-        iniciarEscutaModelos();
       } else {
         if (unsubscribeSnapshot) {
           unsubscribeSnapshot();
           unsubscribeSnapshot = null;
-        }
-        if (unsubscribeModelos) {
-          unsubscribeModelos();
-          unsubscribeModelos = null;
         }
         loginBox.classList.remove("hidden");
         appBox.classList.add("hidden");
         usuarioLogado.textContent = "-";
         allItems = [];
         filteredItems = [];
-        allModelos = [];
-        filteredModelos = [];
-        editingModeloId = null;
         renderEverything();
-        renderModelos();
       }
     });
 
