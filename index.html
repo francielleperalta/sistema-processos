@@ -2339,6 +2339,164 @@
     }
 
 
+
+    .table-scroll-proxy {
+      position: sticky;
+      top: 0;
+      z-index: 14;
+      overflow-x: auto;
+      overflow-y: hidden;
+      min-height: 20px;
+      border: 1px solid #c9d3d8;
+      border-radius: 999px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 6px 14px rgba(16,24,40,.10);
+      margin: 8px 0 12px;
+      padding-top: 18px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      backdrop-filter: blur(6px);
+    }
+    .table-scroll-proxy::before {
+      content: "Role horizontalmente aqui também";
+      position: absolute;
+      top: 3px;
+      left: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #6f2e57;
+      letter-spacing: .02em;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .table-scroll-proxy::-webkit-scrollbar { height: 14px; }
+    .table-scroll-proxy::-webkit-scrollbar-thumb {
+      background: #97a6ae;
+      border-radius: 999px;
+      border: 3px solid rgba(255,255,255,.1);
+    }
+    .table-scroll-proxy-inner { height: 1px; }
+    .hierarchy-showcase {
+      display: grid;
+      gap: 12px;
+      margin: 14px 0 6px;
+    }
+    .hierarchy-intro {
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px dashed #d9b4c8;
+      background: rgba(255,255,255,.6);
+      color: #7b4661;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .hierarchy-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .hierarchy-group {
+      --macro-color: #64748b;
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid color-mix(in srgb, var(--macro-color) 38%, white);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--macro-color) 10%, white) 0%, rgba(255,255,255,.86) 100%);
+      box-shadow: 0 12px 24px color-mix(in srgb, var(--macro-color) 12%, transparent);
+    }
+    .hierarchy-group[data-macro="gab"] { --macro-color: #0f766e; }
+    .hierarchy-group[data-macro="sgi"] { --macro-color: #7c3aed; }
+    .hierarchy-group[data-macro="sis"] { --macro-color: #2563eb; }
+    .hierarchy-group[data-macro="estat"] { --macro-color: #c2410c; }
+    .hierarchy-group[data-macro="saude"] { --macro-color: #dc2626; }
+    .hierarchy-group[data-macro="escola"] { --macro-color: #0891b2; }
+    .hierarchy-group[data-macro="pessoas"] { --macro-color: #7c2d12; }
+    .hierarchy-group[data-macro="inov"] { --macro-color: #9333ea; }
+    .hierarchy-group[data-macro="log"] { --macro-color: #15803d; }
+    .hierarchy-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .hierarchy-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #fff;
+      background: var(--macro-color);
+      flex: 0 0 auto;
+    }
+    .hierarchy-title {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.35;
+      color: color-mix(in srgb, var(--macro-color) 78%, #1f2937);
+    }
+    .hierarchy-title strong { font-weight: 900; }
+    .hierarchy-children, .hierarchy-subgroups {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .hierarchy-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--macro-color) 25%, white);
+      background: rgba(255,255,255,.84);
+      color: color-mix(in srgb, var(--macro-color) 82%, #374151);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .hierarchy-subgroup {
+      display: grid;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.75);
+      border: 1px solid color-mix(in srgb, var(--macro-color) 18%, white);
+    }
+    .hierarchy-subgroup-title {
+      font-size: 12px;
+      font-weight: 900;
+      color: color-mix(in srgb, var(--macro-color) 82%, #334155);
+    }
+    .chart-status-note {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px dashed #d4dde1;
+      background: rgba(255,255,255,.36);
+      color: #5f6f79;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .chart-status-note.error {
+      border-color: #d8b4b4;
+      color: #8b3d3d;
+      background: rgba(255,245,245,.8);
+    }
+    .chart-box { min-height: 240px; }
+    .chart-box canvas { display: block; width: 100% !important; min-height: 220px !important; }
+    @media (max-width: 980px) {
+      .hierarchy-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      .table-scroll-proxy { top: 0; }
+      .table-scroll-proxy::before { left: 10px; }
+      .hierarchy-group { padding: 14px; }
+      .chart-box { min-height: 200px; }
+      .chart-box canvas { min-height: 185px !important; }
+    }
+
     /* ===== Aba de modelos de processos ===== */
     .modelos-layout {
       display: grid;
@@ -2519,6 +2677,95 @@
     body.patricinha-mode .tags-automaticas-box .title,
     body.patricinha-mode .categoria-fixa-note { color: #9a5f82 !important; }
 
+
+    /* ===== Refinos gerais e dashboard executivo ===== */
+    .dashboard-summary-strip {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .dashboard-summary-chip {
+      border: 1px solid #d4dde1;
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(255,255,255,.35);
+      display: grid;
+      gap: 4px;
+    }
+    .dashboard-summary-chip .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #667781;
+      font-weight: 800;
+    }
+    .dashboard-summary-chip .value {
+      font-size: 22px;
+      line-height: 1.1;
+      font-weight: 800;
+      color: #243741;
+    }
+    .dashboard-summary-chip .sub {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.45;
+    }
+    .dashboard-insights {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+    .dashboard-insight-item {
+      display: grid;
+      gap: 5px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid #d6dee2;
+      background: rgba(255,255,255,.26);
+    }
+    .dashboard-insight-item strong {
+      font-size: 13px;
+      color: #243741;
+    }
+    .dashboard-insight-item span {
+      font-size: 12px;
+      color: #5f6f79;
+      line-height: 1.5;
+    }
+    .dashboard-org-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #667781;
+      line-height: 1.5;
+    }
+    body.dark-mode .dashboard-summary-chip,
+    body.dark-mode .dashboard-insight-item {
+      background: rgba(255,255,255,.03) !important;
+      border-color: #374151 !important;
+    }
+    body.dark-mode .dashboard-summary-chip .label,
+    body.dark-mode .dashboard-summary-chip .sub,
+    body.dark-mode .dashboard-insight-item span,
+    body.dark-mode .dashboard-org-note {
+      color: #9fb0bd !important;
+    }
+    body.dark-mode .dashboard-summary-chip .value,
+    body.dark-mode .dashboard-insight-item strong {
+      color: #f3f4f6 !important;
+    }
+    body.patricinha-mode .dashboard-summary-chip,
+    body.patricinha-mode .dashboard-insight-item {
+      background: #fff8fc !important;
+      border-color: #f1bfd8 !important;
+    }
+    body.patricinha-mode .dashboard-summary-chip .label,
+    body.patricinha-mode .dashboard-summary-chip .sub,
+    body.patricinha-mode .dashboard-insight-item span,
+    body.patricinha-mode .dashboard-org-note {
+      color: #9a5f82 !important;
+    }
+
 </style>
 </head>
 <body>
@@ -2614,10 +2861,14 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                     <div class="composer-chip-soft"><span class="mini-dot"></span> Até 2 unidades</div>
                   </div>
                   <div class="select-badges-row">
-                    <span class="select-badge-area"><span class="select-badge-dot dot-gab"></span>Gabinete / Diretorias</span>
-                    <span class="select-badge-area"><span class="select-badge-dot dot-sgi"></span>SGI</span>
-                    <span class="select-badge-area"><span class="select-badge-dot dot-sis"></span>Sistemas</span>
-                    <span class="select-badge-area"><span class="select-badge-dot dot-sub"></span>Subsecretarias</span>
+                    <span class="select-badge-area"><span class="select-badge-dot dot-gab"></span><strong>Gabinete / Diretorias</strong></span>
+                    <span class="select-badge-area"><span class="select-badge-dot dot-sgi"></span><strong>Gestão Integrada</strong></span>
+                    <span class="select-badge-area"><span class="select-badge-dot dot-sis"></span><strong>Sistemas</strong></span>
+                    <span class="select-badge-area"><span class="select-badge-dot dot-sub"></span><strong>Subsecretarias</strong></span>
+                  </div>
+                  <div class="hierarchy-showcase">
+                    <div class="hierarchy-intro">As <strong>grandes áreas</strong> estão em destaque e os <strong>desdobramentos</strong> aparecem em cores diferentes para facilitar a leitura do organograma da SEAD.</div>
+                    <div id="hierarchyShowcase" class="hierarchy-grid"></div>
                   </div>
                   <div class="composer-card-grid-2">
                     <div class="field-lux select-structured">
@@ -2934,7 +3185,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                   <label for="buscaModelo">Buscar modelo</label>
                   <div class="search-input-wrap">
                     <span class="search-icon">🔎</span>
-                    <input id="buscaModelo" placeholder="Buscar por título, categoria, palavras-chave ou conteúdo..." />
+                    <input id="buscaModelo" placeholder="Buscar por título, categoria ou conteúdo..." />
                     <button type="button" class="search-clear hidden" id="btnLimparBuscaModelo" aria-label="Limpar busca de modelo">✕</button>
                   </div>
                 </div>
@@ -2955,42 +3206,66 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         <div class="dashboard-grid">
           <div class="charts-stack">
             <div class="card chart-card dashboard-chart-tall">
-              <div class="dashboard-section-title"><div><h4>Radar de prioridade</h4><small>Leitura imediata do volume por status de prazo.</small></div></div>
+              <div class="dashboard-section-title"><div><h4>Panorama de prazos</h4><small>Distribuição imediata dos processos por nível de urgência.</small></div></div>
               <div class="chart-box"><canvas id="graficoPrazo"></canvas></div>
             </div>
             <div class="card chart-card dashboard-chart-tall">
-              <div class="dashboard-section-title"><div><h4>Evolução de entradas</h4><small>Cadastros nos últimos 12 meses.</small></div></div>
+              <div class="dashboard-section-title"><div><h4>Cadastros por mês</h4><small>Evolução dos registros nos últimos 12 meses.</small></div></div>
               <div class="chart-box"><canvas id="graficoEntradas"></canvas></div>
             </div>
             <div class="dashboard-two-cols">
               <div class="card chart-card dashboard-chart-medium">
-                <div class="dashboard-section-title"><div><h4>Situação operacional</h4><small>Como os processos visíveis se distribuem por fase.</small></div></div>
+                <div class="dashboard-section-title"><div><h4>Situação operacional</h4><small>Distribuição dos processos entre análise, andamento, conclusão e arquivo.</small></div></div>
                 <div class="chart-box"><canvas id="graficoSituacao"></canvas></div>
               </div>
               <div class="card chart-card dashboard-chart-medium">
-                <div class="dashboard-section-title"><div><h4>Distribuição por área</h4><small>Comparação entre áreas a partir da visão filtrada.</small></div></div>
+                <div class="dashboard-section-title"><div><h4>Carga por unidade superior</h4><small>Comparação entre gabinetes, superintendências, diretorias e subsecretarias.</small></div></div>
                 <div class="chart-box"><canvas id="graficoAreas"></canvas></div>
               </div>
             </div>
             <div class="card chart-card dashboard-chart-medium">
-              <div class="dashboard-section-title"><div><h4>Ranking de gerências mais críticas</h4><small>Peso maior para atrasados e vencimentos imediatos.</small></div></div>
+              <div class="dashboard-section-title"><div><h4>Ranking de unidades críticas</h4><small>Peso maior para atrasados e vencimentos imediatos.</small></div></div>
               <div class="chart-box"><canvas id="graficoCriticidadeGerencia"></canvas></div>
             </div>
           </div>
           <div class="sidebar-cards">
             <div class="card">
-              <h4>Painel executivo reformulado</h4>
+              <h4>Painel executivo</h4>
               <div class="dashboard-kpi-grid">
                 <div class="mini-kpi"><div class="k">Total visível</div><div class="v" id="kpiTotal">0</div><div class="s">registros na visão atual</div></div>
                 <div class="mini-kpi"><div class="k">Com prazo</div><div class="v" id="kpiComPrazo">0</div><div class="s">processos com data final</div></div>
                 <div class="mini-kpi"><div class="k">Sem prazo</div><div class="v" id="kpiSemPrazo">0</div><div class="s">pontos sem definição</div></div>
                 <div class="mini-kpi"><div class="k">Vence hoje</div><div class="v" id="kpiHoje">0</div><div class="s">atenção imediata</div></div>
-                <div class="mini-kpi"><div class="k">Exige resposta</div><div class="v" id="kpiVencendo">0</div><div class="s">vencendo nos próximos dias</div></div>
+                <div class="mini-kpi"><div class="k">Vencendo</div><div class="v" id="kpiVencendo">0</div><div class="s">janela curta de resposta</div></div>
                 <div class="mini-kpi"><div class="k">Atrasados</div><div class="v" id="kpiAtrasados">0</div><div class="s">estoque crítico</div></div>
               </div>
+              <div class="dashboard-summary-strip">
+                <div class="dashboard-summary-chip">
+                  <div class="label">% dentro do prazo</div>
+                  <div class="value" id="kpiPctNoPrazo">0%</div>
+                  <div class="sub">participação de processos em situação regular</div>
+                </div>
+                <div class="dashboard-summary-chip">
+                  <div class="label">Índice crítico</div>
+                  <div class="value" id="kpiPctCritico">0%</div>
+                  <div class="sub">atrasados + vence hoje + vencendo</div>
+                </div>
+                <div class="dashboard-summary-chip">
+                  <div class="label">Maior volume</div>
+                  <div class="value" id="kpiAreaLider">-</div>
+                  <div class="sub" id="kpiAreaLiderSub">sem destaque no recorte atual</div>
+                </div>
+                <div class="dashboard-summary-chip">
+                  <div class="label">Foco imediato</div>
+                  <div class="value" id="kpiUnidadeCritica">-</div>
+                  <div class="sub" id="kpiUnidadeCriticaSub">unidade com maior pontuação crítica</div>
+                </div>
+              </div>
+              <div id="dashboardInsights" class="dashboard-insights"></div>
+              <div class="dashboard-org-note">Estrutura institucional atualizada a partir do organograma da SEAD para reduzir inconsistências de área e gerência no cadastro.</div>
             </div>
             <div class="card chart-card dashboard-chart-short">
-              <div class="dashboard-section-title"><div><h4>SGI — gerências e seções</h4><small>Detalhamento da Superintendência de Gestão Integrada.</small></div></div>
+              <div class="dashboard-section-title"><div><h4 id="dashboardRecorteTitulo">Recorte hierárquico</h4><small id="dashboardRecorteSubtitulo">Sem filtro de área, o gráfico mostra as unidades com maior volume. Ao filtrar uma área, detalha suas gerências e coordenações.</small></div></div>
               <div class="chart-box"><canvas id="graficoSGI"></canvas></div>
             </div>
             <div class="card">
@@ -2998,7 +3273,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               <div id="dashboardTopCriticos" class="dashboard-actions"></div>
             </div>
             <div class="card">
-              <div class="dashboard-section-title"><div><h4>Ranking de áreas por atrasos</h4><small>Onde concentrar resposta e apoio.</small></div></div>
+              <div class="dashboard-section-title"><div><h4>Ranking de áreas por atrasos</h4><small>Onde concentrar resposta, apoio e revisão de fluxo.</small></div></div>
               <div id="dashboardRankingAtrasos" class="dashboard-list"></div>
             </div>
           </div>
@@ -3071,121 +3346,176 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    const ESTRUTURA_ORGANIZACIONAL = {
-      "Gabinete do Secretário": [
-        "Gerência da Secretaria-Geral",
-        "Chefia de Gabinete",
-        "Comunicação Setorial",
-        "Procuradoria Setorial",
-        "Gerência de Processos Administrativos",
-        "Corregedoria Setorial",
-        "Gerência de Governança de Estatais",
-        "Gerência da Ouvidoria Setorial",
-        "Escritório de Projetos Setorial",
-        "Comissão de Avaliação do Contrato de Gestão"
-      ],
-      "Diretoria de Programas": [
-        "Gerência de Programas"
-      ],
-      "Superintendência de Gestão Integrada": [
-        "Gerência de Consolidação e Tratamento de Dados",
-        "Gerência de Planejamento Institucional",
-        "Gerência de Gestão e Desenvolvimento de Pessoas",
-        "Gerência de Compras Governamentais",
-        "Gerência de Execução Orçamentária e Financeira",
-        "Gerência de Apoio Administrativo e Logístico",
-        "Gerência de Convênios e Governança Corporativa",
-        "Gerência de Infraestrutura e Manutenção Predial",
-        "Gerência de Modernização Institucional e Processos",
-        "Gerência de Contabilidade"
-      ],
-      "Superintendência de Sistemas de Informação": [
-        "Coordenação de Dados",
-        "Gerência de Desenvolvimento de Sistemas",
-        "Gerência de Infraestrutura Tecnológica e Serviços",
-        "Coordenação Digital"
-      ],
-      "Diretoria Executiva de Liquidação de Estatais": [
-        "Gerência de Gestão Financeira",
-        "Gerência de Gestão Administrativa"
-      ],
-      "Diretoria Executiva de Saúde e Segurança do Servidor": [
-        "Gerência Central de Saúde e Segurança do Servidor",
-        "Coordenação de Medicina do Trabalho",
-        "Coordenação de Perícia Médica",
-        "Coordenação de Engenharia do Trabalho",
-        "Coordenação Técnica de Segurança do Trabalho",
-        "Coordenação Psicossocial",
-        "Gerência de Apoio Administrativo"
-      ],
-      "Diretoria Executiva da Escola de Governo": [
-        "Coordenação Administrativa",
-        "Gerência do Laboratório de Inovação e Desenvolvimento de Pessoas – PequiLab",
-        "Assessoria do Laboratório de Inovação em Desenvolvimento de Pessoas – PequiLab",
-        "Gerência de Desenvolvimento Profissional",
-        "Gerência do Ensino Superior e Projetos Pedagógicos",
-        "Coordenação de Publicações e Produção Científica"
-      ],
-      "Subsecretaria de Gestão e Desenvolvimento de Pessoas": [
-        "Gerência da Rede de Gestão e Desenvolvimento de Pessoas",
-        "Gerência de Estudos e Impactos de Pessoal",
-        "Gerência de Normas e Critérios de Produtividade",
-        "Gerência de Perfil e Alocação de Pessoas",
-        "Gerência de Gestão do Conhecimento e Competências",
-        "Gerência do Controle de Gasto com Pessoal",
-        "Gerência Central da Folha de Pagamento",
-        "Gerência de Gestão do Sistema de Pessoal",
-        "Gerência de Inteligência de Informações de Pessoal",
-        "Gerência de Obrigações Acessórias",
-        "Gerência de Consignação",
-        "Gerência de Concursos e Processos Seletivos",
-        "Gerência de Admissão de Pessoal"
-      ],
-      "Subsecretaria de Inovação da Gestão e dos Serviços Públicos": [
-        "Coordenação dos Aprendizes do Futuro",
-        "Gerência de Modelos Organizacionais",
-        "Gerência de Experiência do Usuário",
-        "Coordenação de Inovação de Serviços",
-        "Gerência do Escritório de Processos",
-        "Gerência de Avaliação da Gestão e dos Serviços Públicos",
-        "Gerência de Inovação Aberta",
-        "Gerência de Inovação e Projetos de Gestão",
-        "Gerência de Inteligência de Negócios Públicos",
-        "Gerência de Estratégia do Atendimento ao Cidadão",
-        "Gerência de Operação do Atendimento ao Cidadão",
-        "Coordenação de Atendimento",
-        "Supervisão de Atendimento",
-        "Gerência de Relacionamento com Municípios e Parceiros",
-        "Coordenação de Relacionamento com os Municípios",
-        "Coordenação de Contratos e Convênios",
-        "Gerência de Gestão da Carta de Serviços"
-      ],
-      "Subsecretaria de Logística e Patrimônio": [
-        "Gerência de Gestão de Informações Imobiliárias",
-        "Gerência de Avaliação de Imóveis",
-        "Gerência de Vistoria e Topografia",
-        "Gerência de Regularização Fundiária",
-        "Gerência de Regularização de Ocupações",
-        "Gerência de Patrimônio Mobiliário",
-        "Gerência de Frotas",
-        "Gerência de Suprimentos",
-        "Gerência de Logística Documental",
-        "Gerência de Normas e Padronização",
-        "Gerência Central de Governança de Contratações",
-        "Gerência de Processos e Sistemas de Compras",
-        "Gerência de Compras Centralizadas",
-        "Gerência de Planejamento de Compras",
-        "Gerência de Governança das Transferências Voluntárias",
-        "Coordenação de Monitoramento das Transferências Voluntárias",
-        "Coordenação de Acompanhamento de Prestação de Contas e Tomadas de Contas Especiais",
-        "Gerência de Normatização das Transferências Voluntárias",
-        "Coordenação de Interlocução Institucional",
-        "Coordenação de Normatização",
-        "Gerência de Gestão do Sistema das Transferências Voluntárias",
-        "Coordenação Técnica das Transferências Voluntárias",
-        "Coordenação de Gestão da Informação e da Inteligência de Dados"
-      ]
+    const HIERARQUIA_ORGANIZACIONAL = {
+      "Gabinete do Secretário": {
+        direto: [
+          "Chefia de Gabinete",
+          "Comunicação Setorial",
+          "Corregedoria Setorial",
+          "Escritório de Projetos Setorial",
+          "Gerência da Secretaria-Geral",
+          "Procuradoria Setorial",
+          "Gerência de Processos Administrativos",
+          "Gerência de Governança de Estatais",
+          "Gerência da Ouvidoria Setorial",
+          "Comissão de Avaliação do Contrato de Gestão"
+        ]
+      },
+      "Diretoria de Programas": {
+        direto: ["Gerência de Programas"]
+      },
+      "Superintendência de Gestão Integrada": {
+        direto: [
+          "Gerência de Consolidação e Tratamento de Dados",
+          "Gerência de Planejamento Institucional",
+          "Gerência de Compras Governamentais",
+          "Gerência de Apoio Administrativo e Logístico",
+          "Gerência de Infraestrutura e Manutenção Predial",
+          "Gerência de Gestão e Desenvolvimento de Pessoas",
+          "Gerência de Execução Orçamentária e Financeira",
+          "Gerência de Convênios e Governança Corporativa",
+          "Gerência de Contabilidade",
+          "Gerência de Modernização Institucional e Processos"
+        ]
+      },
+      "Superintendência de Sistemas de Informação": {
+        direto: [
+          "Coordenação de Dados",
+          "Gerência de Desenvolvimento de Sistemas",
+          "Gerência de Infraestrutura Tecnológica e Serviços",
+          "Coordenação Digital"
+        ]
+      },
+      "Diretoria-Executiva de Liquidação de Estatais": {
+        direto: [
+          "Gerência de Gestão Financeira",
+          "Gerência de Gestão Administrativa"
+        ]
+      },
+      "Diretoria-Executiva de Saúde e Segurança do Servidor": {
+        direto: ["Gerência de Apoio Administrativo"],
+        grupos: {
+          "Gerência Central de Saúde e Segurança do Servidor": [
+            "Gerência Central de Saúde e Segurança do Servidor",
+            "Coordenação de Medicina do Trabalho",
+            "Coordenação de Engenharia do Trabalho",
+            "Coordenação Psicossocial",
+            "Coordenação de Perícia Médica",
+            "Coordenação Técnica de Segurança do Trabalho"
+          ]
+        }
+      },
+      "Diretoria-Executiva da Escola de Governo": {
+        direto: [
+          "Coordenação Administrativa",
+          "Gerência do Ensino Superior e Projetos Pedagógicos",
+          "Gerência de Desenvolvimento Profissional",
+          "Coordenação de Publicações e Produção Científica"
+        ],
+        grupos: {
+          "Gerência do Laboratório de Inovação e Desenvolvimento de Pessoas - PequiLAB": [
+            "Gerência do Laboratório de Inovação e Desenvolvimento de Pessoas - PequiLAB",
+            "Assessoria do Laboratório de Inovação em Desenvolvimento de Pessoas - PequiLab"
+          ]
+        }
+      },
+      "Subsecretaria de Gestão e Desenvolvimento de Pessoas": {
+        direto: ["Gerência da Rede de Gestão e Desenvolvimento de Pessoas"],
+        grupos: {
+          "Superintendência Central de Desenvolvimento Estratégico de Pessoal": [
+            "Superintendência Central de Desenvolvimento Estratégico de Pessoal",
+            "Gerência de Estudos e Impactos de Pessoal",
+            "Gerência de Normas e Critérios de Produtividade",
+            "Gerência de Perfil e Alocação de Pessoas",
+            "Gerência de Gestão do Conhecimento e Competências",
+            "Gerência do Controle de Gasto com Pessoal"
+          ],
+          "Superintendência Central de Gestão de Pessoal": [
+            "Superintendência Central de Gestão de Pessoal",
+            "Gerência Central da Folha de Pagamento",
+            "Gerência de Gestão do Sistema de Pessoal",
+            "Gerência de Inteligência de Informações de Pessoal",
+            "Gerência de Obrigações Acessórias",
+            "Gerência de Consignação"
+          ],
+          "Superintendência de Recrutamento e Seleção": [
+            "Superintendência de Recrutamento e Seleção",
+            "Gerência de Concursos e Processos Seletivos",
+            "Gerência de Admissão de Pessoal"
+          ]
+        }
+      },
+      "Subsecretaria de Inovação da Gestão e dos Serviços Públicos": {
+        direto: ["Coordenação dos Aprendizes do Futuro"],
+        grupos: {
+          "Superintendência Central de Transformação Pública": [
+            "Superintendência Central de Transformação Pública",
+            "Gerência de Modelos Organizacionais",
+            "Coordenação de Inovação de Serviços",
+            "Gerência de Experiência do Usuário",
+            "Gerência de Avaliação da Gestão e dos Serviços Públicos",
+            "Gerência de Gestão da Carta de Serviços"
+          ],
+          "Superintendência de Inovação da Gestão Pública": [
+            "Superintendência de Inovação da Gestão Pública",
+            "Gerência do Escritório de Processos",
+            "Gerência de Inovação Aberta",
+            "Gerência de Inovação e Projetos de Gestão",
+            "Gerência de Inteligência de Negócios Públicos"
+          ],
+          "Superintendência da Gestão do Atendimento ao Cidadão": [
+            "Superintendência da Gestão do Atendimento ao Cidadão",
+            "Gerência de Estratégia do Atendimento ao Cidadão",
+            "Gerência de Operação do Atendimento ao Cidadão",
+            "Coordenação de Atendimento",
+            "Supervisão de Atendimento",
+            "Coordenação de Avaliação de Perfil e Treinamento do Expresso",
+            "Gerência de Relacionamento com Municípios e Parceiros",
+            "Coordenação de Contratos e Convênios"
+          ]
+        }
+      },
+      "Subsecretaria de Logística e Patrimônio": {
+        grupos: {
+          "Superintendência Central do Patrimônio Imobiliário": [
+            "Superintendência Central do Patrimônio Imobiliário",
+            "Gerência de Gestão de Informações Imobiliárias",
+            "Gerência de Avaliação de Imóveis",
+            "Gerência de Vistoria e Topografia",
+            "Gerência de Regularização Fundiária",
+            "Gerência de Regularização de Ocupações"
+          ],
+          "Superintendência Central de Logística e Patrimônio Mobiliário": [
+            "Superintendência Central de Logística e Patrimônio Mobiliário",
+            "Gerência de Patrimônio Mobiliário",
+            "Gerência de Frotas",
+            "Gerência de Suprimentos",
+            "Gerência de Logística Documental"
+          ],
+          "Superintendência Central de Compras e Contratos": [
+            "Superintendência Central de Compras e Contratos",
+            "Gerência Central de Governança de Contratações",
+            "Gerência de Normas e Padronização",
+            "Gerência de Processos e Sistemas de Compras",
+            "Gerência de Planejamento de Compras",
+            "Gerência de Compras Centralizadas"
+          ]
+        }
+      }
     };
+
+    function extrairUnidadesDaHierarquia(config) {
+      if (!config) return [];
+      const direto = Array.isArray(config.direto) ? [...config.direto] : [];
+      const grupos = config.grupos && typeof config.grupos === 'object'
+        ? Object.values(config.grupos).flatMap(lista => Array.isArray(lista) ? lista : [])
+        : [];
+      return [...new Set([...direto, ...grupos])];
+    }
+
+    const ESTRUTURA_ORGANIZACIONAL = Object.fromEntries(
+      Object.entries(HIERARQUIA_ORGANIZACIONAL).map(([area, config]) => [area, extrairUnidadesDaHierarquia(config)])
+    );
 
     const ABREVIACOES_SGI = {
       "Gerência de Consolidação e Tratamento de Dados": "GESTD",
@@ -3232,6 +3562,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let editingId = null;
     let chavesNotificadas = new Set();
     let editingModeloId = null;
+    let chartLibraryPromise = null;
+    let dashboardRenderToken = 0;
+    let tableResizeObserver = null;
 
     const $ = (id) => document.getElementById(id);
     function normalizarNomeInstitucional(valor) {
@@ -3239,9 +3572,107 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (!txt) return '';
       const norm = txt.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
       if (norm === 'superintendencia de gestao integrada (sgi)' || norm === 'superintendencia de gestao integrada') return 'Superintendência de Gestão Integrada';
+      if (norm === 'diretoria executiva de liquidacao de estatais' || norm === 'diretoria-executiva de liquidacao de estatais') return 'Diretoria-Executiva de Liquidação de Estatais';
+      if (norm === 'diretoria executiva de saude e seguranca do servidor' || norm === 'diretoria-executiva de saude e seguranca do servidor') return 'Diretoria-Executiva de Saúde e Segurança do Servidor';
+      if (norm === 'diretoria executiva da escola de governo' || norm === 'diretoria-executiva da escola de governo') return 'Diretoria-Executiva da Escola de Governo';
       return txt;
     }
     function setTextIfExists(idOrEl, value) { const el = typeof idOrEl === "string" ? $(idOrEl) : idOrEl; if (el) el.textContent = value; }
+    function carregarScriptDinamico(src) {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.onload = () => resolve(true);
+        script.onerror = () => reject(new Error(`Falha ao carregar ${src}`));
+        document.head.appendChild(script);
+      });
+    }
+    async function garantirChartJs() {
+      if (window.Chart) return true;
+      if (!chartLibraryPromise) {
+        chartLibraryPromise = (async () => {
+          const fontes = [
+            'https://cdn.jsdelivr.net/npm/chart.js',
+            'https://unpkg.com/chart.js@4.4.3/dist/chart.umd.js'
+          ];
+          for (const src of fontes) {
+            try {
+              await carregarScriptDinamico(src);
+              if (window.Chart) return true;
+            } catch (error) {
+              console.warn(error);
+            }
+          }
+          return !!window.Chart;
+        })();
+      }
+      return await chartLibraryPromise;
+    }
+    function atualizarAvisoGraficos(tipo = 'info', mensagem = '') {
+      document.querySelectorAll('.chart-box').forEach(box => {
+        let aviso = box.nextElementSibling;
+        if (!aviso || !aviso.classList.contains('chart-status-note')) {
+          aviso = document.createElement('div');
+          aviso.className = 'chart-status-note hidden';
+          box.insertAdjacentElement('afterend', aviso);
+        }
+        if (!mensagem) {
+          aviso.textContent = '';
+          aviso.className = 'chart-status-note hidden';
+        } else {
+          aviso.textContent = mensagem;
+          aviso.className = `chart-status-note ${tipo}`;
+        }
+      });
+    }
+    function obterMetaMacroArea(area) {
+      const mapa = {
+        'Gabinete do Secretário': { macro: 'gab', icon: '🏛️' },
+        'Superintendência de Gestão Integrada': { macro: 'sgi', icon: '📊' },
+        'Superintendência de Sistemas de Informação': { macro: 'sis', icon: '💻' },
+        'Diretoria-Executiva de Liquidação de Estatais': { macro: 'estat', icon: '💼' },
+        'Diretoria-Executiva de Saúde e Segurança do Servidor': { macro: 'saude', icon: '🛡️' },
+        'Diretoria-Executiva da Escola de Governo': { macro: 'escola', icon: '🎓' },
+        'Subsecretaria de Gestão e Desenvolvimento de Pessoas': { macro: 'pessoas', icon: '👥' },
+        'Subsecretaria de Inovação da Gestão e dos Serviços Públicos': { macro: 'inov', icon: '✨' },
+        'Subsecretaria de Logística e Patrimônio': { macro: 'log', icon: '📦' }
+      };
+      return mapa[area] || { macro: 'gab', icon: '•' };
+    }
+    function renderMapaHierarquico() {
+      if (!hierarchyShowcase) return;
+      const ordem = [
+        'Gabinete do Secretário',
+        'Superintendência de Gestão Integrada',
+        'Superintendência de Sistemas de Informação',
+        'Diretoria-Executiva de Liquidação de Estatais',
+        'Diretoria-Executiva de Saúde e Segurança do Servidor',
+        'Diretoria-Executiva da Escola de Governo',
+        'Subsecretaria de Gestão e Desenvolvimento de Pessoas',
+        'Subsecretaria de Inovação da Gestão e dos Serviços Públicos',
+        'Subsecretaria de Logística e Patrimônio'
+      ];
+      hierarchyShowcase.innerHTML = ordem.map(area => {
+        const config = HIERARQUIA_ORGANIZACIONAL[area] || { direto: ESTRUTURA_ORGANIZACIONAL[area] || [], grupos: {} };
+        const meta = obterMetaMacroArea(area);
+        const direto = (config.direto || []).map(item => `<span class="hierarchy-pill">${escapeHtml(item)}</span>`).join('');
+        const grupos = Object.entries(config.grupos || {}).map(([grupo, itens]) => `
+          <div class="hierarchy-subgroup">
+            <div class="hierarchy-subgroup-title">${escapeHtml(grupo)}</div>
+            <div class="hierarchy-children">${(itens || []).map(item => `<span class="hierarchy-pill">${escapeHtml(item)}</span>`).join('')}</div>
+          </div>`).join('');
+        return `
+          <section class="hierarchy-group" data-macro="${meta.macro}">
+            <div class="hierarchy-title-row">
+              <span class="hierarchy-icon">${meta.icon}</span>
+              <h5 class="hierarchy-title"><strong>${escapeHtml(area)}</strong></h5>
+            </div>
+            ${direto ? `<div class="hierarchy-children">${direto}</div>` : ''}
+            ${grupos ? `<div class="hierarchy-subgroups">${grupos}</div>` : ''}
+          </section>`;
+      }).join('');
+    }
     function criarEventoHistorico(tipo, detalhes = "") { return { tipo, detalhes, em: new Date().toISOString(), por: auth.currentUser?.email || "" }; }
     function getOrdenacaoLabel(valor) {
       const mapa = {
@@ -3517,6 +3948,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const previewAssunto = $("previewAssunto");
     const previewPrazo = $("previewPrazo");
     const previewGerencia = $("previewGerencia");
+    const hierarchyShowcase = $("hierarchyShowcase");
     const btnLimparFiltros = $("btnLimparFiltros");
     const btnExportarExcelTodos = $("btnExportarExcelTodos");
     const btnExportarExcelVisiveis = $("btnExportarExcelVisiveis");
@@ -4083,7 +4515,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       }
       const termo = (buscaModelo?.value || '').trim();
       listaModelos.innerHTML = filteredModelos.map(item => {
-        const tags = (item.tags || []).map(tag => `<span class="tag-modelo">#${highlightText(tag, termo)}</span>`).join(' ');
         const categoria = item.categoria ? `<span class="tag-modelo">${highlightText(item.categoria, termo)}</span>` : '';
         const criado = formatarDataHora(item.criadoEm);
         const alterado = formatarDataHora(item.alteradoEm);
@@ -4097,7 +4528,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               <div class="meta">${categoria}</div>
             </div>
             <div class="modelo-conteudo-preview">${highlightText(item.conteudo || '', termo)}</div>
-            <div class="meta">${tags || '<span class="muted">Sem palavras-chave automáticas identificadas.</span>'}</div>
             <div class="muted">Última alteração: ${escapeHtml(item.alteradoPor || '-')} • ${escapeHtml(alterado)}</div>
             <div class="modelo-actions">
               <button type="button" data-modelo-action="usar">Usar no formulário</button>
@@ -4193,7 +4623,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       AREAS.forEach(area => {
         const areaNormalizada = normalizarNomeInstitucional(area);
-
         const opArea = document.createElement('option');
         opArea.value = areaNormalizada;
         opArea.textContent = areaNormalizada;
@@ -4206,32 +4635,49 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           sel.appendChild(op);
         });
 
-        const grupos = [
-          document.createElement('optgroup'),
-          document.createElement('optgroup'),
-          document.createElement('optgroup'),
-          document.createElement('optgroup'),
-          document.createElement('optgroup')
+        const config = HIERARQUIA_ORGANIZACIONAL[area] || { direto: ESTRUTURA_ORGANIZACIONAL[area] || [], grupos: {} };
+        const gruposDestino = [
+          document.createDocumentFragment(),
+          document.createDocumentFragment(),
+          document.createDocumentFragment(),
+          document.createDocumentFragment(),
+          document.createDocumentFragment()
         ];
-        grupos.forEach(g => g.label = areaNormalizada);
 
-        ESTRUTURA_ORGANIZACIONAL[area].forEach(unidade => {
+        const adicionarOpcao = (destino, value, label) => {
+          const op = document.createElement('option');
+          op.value = value;
+          op.textContent = label;
+          destino.appendChild(op);
+        };
+
+        (config.direto || []).forEach(unidade => {
           const baseLabel = areaNormalizada === 'Superintendência de Gestão Integrada' && ABREVIACOES_SGI[unidade]
             ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
             : unidade;
-          grupos.forEach(grupo => {
-            const op = document.createElement('option');
-            op.value = unidade;
-            op.textContent = baseLabel;
-            grupo.appendChild(op);
-          });
+          gruposDestino.forEach(dest => adicionarOpcao(dest, unidade, baseLabel));
         });
 
-        gerenciaManual.appendChild(grupos[0]);
-        if (gerenciaManual2) gerenciaManual2.appendChild(grupos[1]);
-        filtroGerencia.appendChild(grupos[2]);
-        editGerencia.appendChild(grupos[3]);
-        if (editGerencia2) editGerencia2.appendChild(grupos[4]);
+        Object.entries(config.grupos || {}).forEach(([grupoNome, unidades]) => {
+          const optgroups = Array.from({ length: 5 }, () => {
+            const og = document.createElement('optgroup');
+            og.label = grupoNome;
+            return og;
+          });
+          (unidades || []).forEach(unidade => {
+            const baseLabel = areaNormalizada === 'Superintendência de Gestão Integrada' && ABREVIACOES_SGI[unidade]
+              ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
+              : unidade;
+            optgroups.forEach(og => adicionarOpcao(og, unidade, baseLabel));
+          });
+          gruposDestino.forEach((dest, i) => dest.appendChild(optgroups[i]));
+        });
+
+        gerenciaManual.appendChild(gruposDestino[0]);
+        if (gerenciaManual2) gerenciaManual2.appendChild(gruposDestino[1]);
+        filtroGerencia.appendChild(gruposDestino[2]);
+        editGerencia.appendChild(gruposDestino[3]);
+        if (editGerencia2) editGerencia2.appendChild(gruposDestino[4]);
       });
 
       STATUS_OPERACIONAIS.forEach(s => {
@@ -4291,7 +4737,16 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       tabModelosBtn?.classList.toggle("active", alvo === "modelos");
       tabDashboardBtn.classList.toggle("active", alvo === "dashboard");
       localStorage.setItem(STORAGE_KEYS.aba, alvo);
-      if (alvo === "dashboard") renderDashboard(filteredItems);
+      if (alvo === "dashboard") {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            renderDashboard(filteredItems);
+            setTimeout(() => {
+              try { window.dispatchEvent(new Event('resize')); } catch (_) {}
+            }, 80);
+          });
+        });
+      }
       if (alvo === "modelos") renderModelos();
     }
 
@@ -4764,13 +5219,17 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           <div class="num">${i.score}</div>
         </div>`).join('');
     }
-    function renderDashboard(itens) {
+    async function renderDashboard(itens) {
+      const token = ++dashboardRenderToken;
       const total = itens.length;
       const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
       const comPrazo = itens.filter(i => !i.semPrazo && !!i.dataFinal).length;
       const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
       const hoje = itens.filter(i => i.statusPrazo === "Vence hoje").length;
       const atrasados = itens.filter(i => i.statusPrazo === "Atrasado").length;
+      const noPrazo = itens.filter(i => i.statusPrazo === "No prazo").length;
+      const criticos = atrasados + hoje + vencendo;
+      const pct = (valor, base = total) => base ? `${Math.round((valor / base) * 100)}%` : '0%';
 
       setTextIfExists("kpiTotal", total);
       setTextIfExists("kpiComPrazo", comPrazo);
@@ -4778,11 +5237,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       setTextIfExists("kpiHoje", hoje);
       setTextIfExists("kpiVencendo", vencendo);
       setTextIfExists("kpiAtrasados", atrasados);
+      setTextIfExists("kpiPctNoPrazo", pct(noPrazo));
+      setTextIfExists("kpiPctCritico", pct(criticos));
 
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao || 'Em análise'] = (situacaoMap[i.situacao || 'Em análise'] || 0) + 1);
-      const areaMap = {}; itens.forEach(i => { const k = i.area || 'Sem área'; areaMap[k] = (areaMap[k] || 0) + 1; });
-      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); itens.filter(i => normalizarNomeInstitucional(i.area) === "Superintendência de Gestão Integrada").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
+      const areaMap = {}; itens.forEach(i => { const k = normalizarNomeInstitucional(i.area) || 'Sem área'; areaMap[k] = (areaMap[k] || 0) + 1; });
       const criticidadeGerencia = {};
       itens.forEach(i => {
         const chave = i.gerencia || i.area || 'Sem identificação';
@@ -4792,6 +5252,77 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         else if (i.statusPrazo === 'Vencendo') criticidadeGerencia[chave] += 1;
       });
       const rankingCritico = Object.entries(criticidadeGerencia).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 10);
+      const areaLider = Object.entries(areaMap).sort((a,b) => b[1]-a[1])[0] || null;
+      const unidadeCritica = rankingCritico[0] || null;
+      setTextIfExists('kpiAreaLider', areaLider ? areaLider[0] : '-');
+      setTextIfExists('kpiAreaLiderSub', areaLider ? `${areaLider[1]} processo(s) • ${pct(areaLider[1])} do recorte atual` : 'sem destaque no recorte atual');
+      setTextIfExists('kpiUnidadeCritica', unidadeCritica ? unidadeCritica[0] : '-');
+      setTextIfExists('kpiUnidadeCriticaSub', unidadeCritica ? `${unidadeCritica[1]} ponto(s) de criticidade` : 'nenhuma unidade crítica identificada');
+
+      const rankingAreaAtrasos = {};
+      itens.forEach(i => {
+        if (i.statusPrazo !== 'Atrasado') return;
+        const chave = normalizarNomeInstitucional(i.area) || 'Sem área';
+        rankingAreaAtrasos[chave] = (rankingAreaAtrasos[chave] || 0) + 1;
+      });
+      const rankingAtrasos = Object.entries(rankingAreaAtrasos).sort((a,b) => b[1]-a[1]).slice(0, 6);
+      const topCriticos = [...itens].sort((a,b) => {
+        const peso = (item) => item.statusPrazo === 'Atrasado' ? 3 : item.statusPrazo === 'Vence hoje' ? 2 : item.statusPrazo === 'Vencendo' ? 1 : 0;
+        const pa = peso(a), pb = peso(b);
+        if (pb !== pa) return pb - pa;
+        return String(a.dataFinal || '').localeCompare(String(b.dataFinal || ''));
+      }).filter(item => ['Atrasado','Vence hoje','Vencendo'].includes(item.statusPrazo)).slice(0,5);
+      const recorteArea = normalizarNomeInstitucional(filtroArea?.value || '');
+      const mapaRecorte = {};
+      if (recorteArea) {
+        itens.filter(i => normalizarNomeInstitucional(i.area) === recorteArea).forEach(i => {
+          const chave = i.gerencia || recorteArea;
+          mapaRecorte[chave] = (mapaRecorte[chave] || 0) + 1;
+        });
+        setTextIfExists('dashboardRecorteTitulo', `Recorte hierárquico — ${recorteArea}`);
+        setTextIfExists('dashboardRecorteSubtitulo', 'Detalhamento das gerências, coordenações e níveis intermediários da área filtrada.');
+      } else {
+        itens.forEach(i => {
+          const chave = i.gerencia || normalizarNomeInstitucional(i.area) || 'Sem identificação';
+          mapaRecorte[chave] = (mapaRecorte[chave] || 0) + 1;
+        });
+        setTextIfExists('dashboardRecorteTitulo', 'Unidades com maior volume');
+        setTextIfExists('dashboardRecorteSubtitulo', 'Sem filtro de área, o gráfico destaca as unidades com maior quantidade de processos na visão atual.');
+      }
+      const recorteOrdenado = Object.entries(mapaRecorte).sort((a,b) => b[1]-a[1]).slice(0, 8);
+
+      const insights = [
+        `<div class="dashboard-insight-item"><strong>Ritmo do estoque</strong><span>${criticos ? `${criticos} processo(s) em janela crítica (${pct(criticos)} do total).` : 'Nenhum processo em janela crítica na visão atual.'}</span></div>`,
+        `<div class="dashboard-insight-item"><strong>Prazo definido</strong><span>${comPrazo ? `${comPrazo} processo(s) com data final cadastrada (${pct(comPrazo)}).` : 'Ainda não há processos com prazo definido.'}</span></div>`,
+        `<div class="dashboard-insight-item"><strong>Prioridade institucional</strong><span>${areaLider ? `${areaLider[0]} concentra o maior volume (${areaLider[1]} registro(s)).` : 'Nenhuma unidade com volume relevante identificada até o momento.'}</span></div>`
+      ];
+      if ($('dashboardInsights')) $('dashboardInsights').innerHTML = insights.join('');
+      if ($('dashboardTopCriticos')) {
+        $('dashboardTopCriticos').innerHTML = topCriticos.length ? topCriticos.map(item => `
+          <div class="quick-action-card">
+            <strong>${escapeHtml(item.processo || 'Processo sem número')}</strong>
+            <span>${escapeHtml(item.interessado || 'Interessado não informado')}</span>
+            <span>${escapeHtml(item.area || '-')} • ${escapeHtml(item.gerencia || '-')}</span>
+            <span>Status: ${escapeHtml(item.statusPrazo || '-')} • Prazo final: ${escapeHtml(formatarData(item.dataFinal) || 'Não informado')}</span>
+          </div>`).join('') : '<div class="modelo-empty">Nenhum processo crítico encontrado na visão atual.</div>';
+      }
+      if ($('dashboardRankingAtrasos')) {
+        $('dashboardRankingAtrasos').innerHTML = rankingAtrasos.length ? rankingAtrasos.map(([area, qtd], idx) => `
+          <div class="list-row"><span>${idx + 1}. ${escapeHtml(area)}</span><strong>${qtd}</strong></div>`).join('') : '<div class="modelo-empty">Nenhuma área com processos atrasados no recorte atual.</div>';
+      }
+
+      const dashboardVisivel = abaDashboard && !abaDashboard.classList.contains('hidden');
+      if (!dashboardVisivel) return;
+      const chartReady = await garantirChartJs();
+      if (token !== dashboardRenderToken) return;
+      if (!chartReady || !window.Chart) {
+        atualizarAvisoGraficos('error', 'Os gráficos do dashboard não carregaram automaticamente. Verifique a conexão com a biblioteca de gráficos e abra a aba novamente.');
+        console.warn('Chart.js não disponível para renderizar o dashboard.');
+        return;
+      }
+      atualizarAvisoGraficos();
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      if (token !== dashboardRenderToken) return;
 
       destroyCharts();
       const dark = document.body.classList.contains('dark-mode');
@@ -4806,7 +5337,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
       chartPrazo = new Chart($("graficoPrazo"), {
         type: "doughnut",
-        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#2f6b4d", "#9a6334", "#8a6226", "#8f4e4e", "#54656f"], borderColor: chartBg, borderWidth: 3, hoverOffset: 4 }] },
+        data: { labels: Object.keys(prazoMap), datasets: [{ data: Object.values(prazoMap), backgroundColor: ["#2f6b4d", "#ca8a04", "#b7791f", "#b42318", "#54656f"], borderColor: chartBg, borderWidth: 3, hoverOffset: 4 }] },
         options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', color: tickColor } }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
       });
 
@@ -4815,76 +5346,49 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       for (let m = 11; m >= 0; m--) {
         const d = new Date(refHoje.getFullYear(), refHoje.getMonth() - m, 1);
         const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-        serieMeses.push({ key, rotulo: `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(2)}`, total: 0 });
+        serieMeses.push({ key, rotulo: `${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}` });
       }
+      const entradasMes = Object.fromEntries(serieMeses.map(m => [m.key, 0]));
       itens.forEach(i => {
-        const dt = i.criadoEm?.toDate ? i.criadoEm.toDate() : (i.criadoEm ? new Date(i.criadoEm) : (i.dataCadastroISO ? new Date(i.dataCadastroISO + 'T00:00:00') : null));
-        if (!dt || isNaN(dt.getTime())) return;
+        if (!i.dataCadastro) return;
+        const dt = new Date(i.dataCadastro);
+        if (Number.isNaN(dt.getTime())) return;
         const key = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}`;
-        const alvo = serieMeses.find(s => s.key === key);
-        if (alvo) alvo.total += 1;
+        if (key in entradasMes) entradasMes[key] += 1;
       });
       chartEntradas = new Chart($("graficoEntradas"), {
         type: "line",
-        data: { labels: serieMeses.map(i => i.rotulo), datasets: [{ label: 'Entradas', data: serieMeses.map(i => i.total), borderColor: '#677982', backgroundColor: 'rgba(103,121,130,.16)', fill: true, tension: 0.38, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#677982' }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales }
+        data: {
+          labels: serieMeses.map(m => m.rotulo),
+          datasets: [{ label: 'Cadastros', data: serieMeses.map(m => entradasMes[m.key]), borderColor: '#0f766e', backgroundColor: 'rgba(15,118,110,.18)', pointBackgroundColor: '#0f766e', pointRadius: 3, fill: true, tension: .35 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, scales: commonScales, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
       });
 
       chartSituacao = new Chart($("graficoSituacao"), {
         type: "bar",
-        data: { labels: Object.keys(situacaoMap), datasets: [{ data: Object.values(situacaoMap), backgroundColor: ['#6b8796','#9f937b','#7a8f83','#8b9aa3','#a07d7d'], borderRadius: 10, maxBarThickness: 42 }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales }
+        data: { labels: Object.keys(situacaoMap), datasets: [{ label: 'Processos', data: Object.values(situacaoMap), backgroundColor: ['#37517e','#6f8ab7','#88b3d4','#2f6b4d','#64748b'] }] },
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: commonScales, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
       });
 
-      const areasOrdenadas = Object.entries(areaMap).sort((a,b) => b[1]-a[1]).slice(0, 8);
+      const areasOrdenadas = Object.entries(areaMap).sort((a,b) => b[1]-a[1]).slice(0, 10);
       chartAreas = new Chart($("graficoAreas"), {
         type: "bar",
-        data: { labels: areasOrdenadas.map(i => i[0]), datasets: [{ data: areasOrdenadas.map(i => i[1]), backgroundColor: ['#748791','#8f7c58','#60717d','#8b6767','#6f8577','#9aa7ad','#5f6f79','#a7926c'], borderRadius: 10, maxBarThickness: 44 }] },
-        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: { x: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor }, grid: { display: false, drawBorder: false } } } }
+        data: { labels: areasOrdenadas.map(([k]) => k), datasets: [{ label: 'Processos', data: areasOrdenadas.map(([,v]) => v), backgroundColor: '#4f46e5' }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: commonScales, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
       });
 
       chartCriticidadeGerencia = new Chart($("graficoCriticidadeGerencia"), {
         type: "bar",
-        data: { labels: rankingCritico.map(i => i[0]), datasets: [{ data: rankingCritico.map(i => i[1]), backgroundColor: '#8b6767', borderRadius: 12, maxBarThickness: 30 }] },
-        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { label: ctx => `Pontuação crítica: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } }, grid: { display: false, drawBorder: false } } } }
+        data: { labels: rankingCritico.map(([k]) => k), datasets: [{ label: 'Pontuação crítica', data: rankingCritico.map(([,v]) => v), backgroundColor: '#b42318' }] },
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: commonScales, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
       });
 
       chartSGI = new Chart($("graficoSGI"), {
         type: "bar",
-        data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: '#748791', borderRadius: 12, maxBarThickness: 34, borderSkipped: false }] },
-        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { title: items => Object.keys(mapSGI)[items[0].dataIndex], label: ctx => `${nomeCurtoSGI(Object.keys(mapSGI)[ctx.dataIndex])}: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { precision: 0, color: tickColor }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { return nomeCurtoSGI(this.getLabelForValue(value)); } }, grid: { display: false, drawBorder: false } } } }
+        data: { labels: recorteOrdenado.map(([k]) => k), datasets: [{ label: 'Processos', data: recorteOrdenado.map(([,v]) => v), backgroundColor: '#0f766e' }] },
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: commonScales, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
       });
-
-      renderDashboardTopCriticos(itens);
-      renderDashboardRankingAtrasos(itens);
-    }
-
-    function atualizarCardsAtivos() {
-      document.querySelectorAll(".summary-card").forEach(card => card.classList.remove("active"));
-      if (filtroArea.value) document.querySelectorAll(`.summary-card[data-summary-type='area'][data-summary-value='${CSS.escape(normalizarNomeInstitucional(filtroArea.value))}']`).forEach(card => card.classList.add("active"));
-      if (filtroStatusPrazo.value) document.querySelectorAll(`.summary-card[data-summary-type='statusPrazo'][data-summary-value='${CSS.escape(filtroStatusPrazo.value)}']`).forEach(card => card.classList.add("active"));
-    }
-
-    function aplicarFiltrosVisuaisNosChips() {
-      document.querySelectorAll(".chip").forEach(chip => chip.classList.remove("active"));
-      [["area", filtroArea.value], ["situacao", filtroSituacao ? filtroSituacao.value : ""], ["statusPrazo", filtroStatusPrazo.value]].forEach(([tipo, valor]) => {
-        if (!valor) return;
-        const chip = document.querySelector(`.chip[data-chip-type="${tipo}"][data-chip-value="${CSS.escape(valor)}"]`);
-        if (chip) chip.classList.add("active");
-      });
-    }
-
-    function renderEverything(notificar = true) {
-      filteredItems = getFilteredItems();
-      renderTable(filteredItems);
-      renderResumo(filteredItems);
-      renderAlertas(filteredItems, notificar);
-      renderDashboard(filteredItems);
-      atualizarCardsAtivos();
-      atualizarDrawerSeAberto();
-      aplicarFiltrosVisuaisNosChips();
-      registrarSincroniaScrollTabela();
-      sincronizarScrollTabela();
     }
 
 
@@ -5582,9 +6086,18 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let syncingTableScroll = false;
     function sincronizarScrollTabela() {
       if (!tableWrap || !tableScrollProxy || !tableScrollProxyInner) return;
+      const tabelaVisivel = tabela && !tabela.classList.contains('hidden');
+      if (!tabelaVisivel) {
+        tableScrollProxy.classList.add('hidden');
+        return;
+      }
+      if (!tableWrap.scrollWidth || !tableWrap.clientWidth) {
+        requestAnimationFrame(sincronizarScrollTabela);
+        return;
+      }
       const precisaScroll = tableWrap.scrollWidth > tableWrap.clientWidth + 2;
       tableScrollProxy.classList.toggle('hidden', !precisaScroll);
-      tableScrollProxyInner.style.width = `${tableWrap.scrollWidth}px`;
+      tableScrollProxyInner.style.width = `${Math.max(tableWrap.scrollWidth, 1)}px`;
       if (!syncingTableScroll) tableScrollProxy.scrollLeft = tableWrap.scrollLeft;
     }
     function registrarSincroniaScrollTabela() {
@@ -5604,7 +6117,15 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       };
       tableWrap.addEventListener('scroll', syncFromWrap, { passive: true });
       tableScrollProxy.addEventListener('scroll', syncFromProxy, { passive: true });
-      window.addEventListener('resize', sincronizarScrollTabela);
+      window.addEventListener('resize', () => {
+        sincronizarScrollTabela();
+        if (abaDashboard && !abaDashboard.classList.contains('hidden')) renderDashboard(filteredItems);
+      });
+      if ('ResizeObserver' in window) {
+        tableResizeObserver = new ResizeObserver(() => sincronizarScrollTabela());
+        tableResizeObserver.observe(tableWrap);
+        if (tabela) tableResizeObserver.observe(tabela);
+      }
     }
 
     function registrarEventos() {
@@ -5761,6 +6282,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     preencherSelects();
+    renderMapaHierarquico();
     restaurarFiltros();
     restaurarRascunhoCadastro();
     atualizarSelectPresets();
