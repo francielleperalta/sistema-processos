@@ -1024,7 +1024,7 @@
       color: var(--dark-text) !important;
     }
 
-    /* Ajustes finos de UX visual */
+    
     .section-title-with-icon {
       display: flex;
       align-items: center;
@@ -1150,7 +1150,7 @@
     .search-clear {
       background: #d7e0e4;
     }
-    /* Mobile mais suave */
+    
     @media (max-width: 980px) {
       .workspace-grid {
         grid-template-columns: 1fr;
@@ -1275,7 +1275,7 @@
       border-color: var(--dark-border) !important;
     }
 
-    /* Ícones consistentes dos cards */
+    
     .metric .icon {
       width: 34px;
       height: 34px;
@@ -1301,7 +1301,7 @@
     .icon-deadline::before { content: '◔'; }
     .icon-alert::before { content: '!'; }
 
-    /* Tabela consolidada mais limpa */
+    
     .table-wrap {
       border: 1px solid #d4dde1;
       border-radius: 18px;
@@ -1375,7 +1375,7 @@
       background: rgba(255,255,255,.52);
     }
 
-    /* Badges de prazo refinadas */
+    
     .badge.status-strong {
       min-width: 162px;
       justify-content: flex-start;
@@ -1403,7 +1403,7 @@
     .badge-atrasado { background: #efdfdf; color: #8f4e4e; border-color: #d7b2b2; }
     .badge-sem-prazo { background: #dde6ea; color: #54656f; border-color: #c3cfd5; }
 
-    /* Drawer mais executivo */
+    
     .drawer {
       width: min(520px, 96vw);
       padding: 18px 18px 24px;
@@ -1522,7 +1522,7 @@
       border-top: 1px solid #d8e0e4;
     }
 
-    /* Dark mode: tabela legível e contrastes corrigidos */
+    
     body.dark-mode .table-wrap {
       border-color: #334155 !important;
       background: #182331 !important;
@@ -1614,7 +1614,7 @@
     body.dark-mode .badge-atrasado { background: rgba(160,125,125,.22) !important; border-color: rgba(222,163,163,.34) !important; color: #fde2e2 !important; }
     body.dark-mode .badge-sem-prazo { background: rgba(116,135,145,.16) !important; border-color: rgba(157,174,183,.30) !important; color: #dbe6ea !important; }
 
-    /* Mobile: tabela consolidada mais confortável */
+    
     @media (max-width: 760px) {
       .tabs {
         display: grid;
@@ -1648,7 +1648,7 @@
       }
     }
 
-    /* Ajuste solicitado: ações verticais e remoção da coluna detalhe */
+    
     .acoes {
       display: flex !important;
       flex-direction: column !important;
@@ -1681,7 +1681,7 @@
       }
     }
 
-    /* Ajustes finais: foco em data final e resposta */
+    
     .badge-situacao { display: none !important; }
     .drawer-box .value .badge.status-strong { min-width: 0; width: auto; }
     .drawer-hero-sub .badge { margin-left: auto; }
@@ -1689,7 +1689,7 @@
     .history-list { max-height: 240px; overflow: auto; }
     @media (max-width: 900px) { .modal .grid-3 { grid-template-columns: 1fr; } }
 
-    /* ===== Modo patricinha + filtros/com prazo + barra horizontal fixa ===== */
+    
     .quick-filter-chip-com-prazo {
       display: inline-flex;
       align-items: center;
@@ -1829,7 +1829,7 @@
     body.patricinha-mode .drawer-subpill { color: #8a456f !important; border-color: #efbfd8 !important; background: rgba(255,255,255,.55) !important; }
     body.patricinha-mode .table-scroll-proxy::-webkit-scrollbar-thumb { background: #e37aae; }
 
-    /* ===== Dashboard reformulado ===== */
+    
     .dashboard-kpi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -1906,7 +1906,7 @@
     .dashboard-chart-medium { min-height: 320px; overflow: hidden; }
     .dashboard-chart-short { min-height: 280px; overflow: hidden; }
 
-    /* ===== Correções do grid do dashboard para evitar sobreposição ===== */
+    
     .dashboard-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) !important;
@@ -1958,8 +1958,7 @@
     body.dark-mode .dashboard-list-item strong,
     body.dark-mode .dashboard-list-item .num { color: #f3f4f6 !important; }
 
-
-    /* ===== Encaminhamento múltiplo + prazo com hora ===== */
+    
     .encaminhamento-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:14px; }
     .encaminhamento-box { padding:12px; border-radius:16px; background:rgba(255,255,255,.22); border:1px solid rgba(183,195,200,.45); min-width:0; }
     .encaminhamento-note { margin-top:10px; padding:10px 12px; border-radius:12px; background:rgba(255,255,255,.18); border:1px dashed #c7d2d8; color:#60707a; font-size:12px; line-height:1.45; }
@@ -1967,7 +1966,7 @@
     .tag-gerencia { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:#eef2f4; border:1px solid #d4dde1; color:#42545f; font-size:12px; font-weight:700; margin:2px 6px 2px 0; flex-wrap:wrap; }
     .submeta { display:block; font-size:12px; color:#6b7280; margin-top:4px; line-height:1.35; }
     body.dark-mode .encaminhamento-box, body.dark-mode .encaminhamento-note, body.dark-mode .tag-gerencia { background:rgba(255,255,255,.03) !important; border-color:#374151 !important; color:#dbe4ea !important; }
-    /* ===== Ajuste de responsividade para evitar campos espremidos ===== */
+    
     .composer-card .encaminhamento-grid,
     .composer-card .prazo-grid { min-width:0; }
     .composer-card .encaminhamento-box,
@@ -1995,8 +1994,7 @@
       .composer-card .btn-row button { width:100% !important; min-width:0 !important; }
     }
 
-
-    /* ===== Segunda lapidação visual: área Novo processo ===== */
+    
     .composer-card.lux {
       background: linear-gradient(180deg, #e9eff1 0%, #e3eaed 100%);
       border: 1px solid #c9d4d9;
@@ -2263,8 +2261,7 @@
       color: #9fb0bd !important;
     }
 
-
-    /* ===== Selects organizados visualmente por área ===== */
+    
     .select-helper {
       display:block;
       margin-top:6px;
@@ -2338,8 +2335,7 @@
       color: #dbe4ea !important;
     }
 
-
-    /* ===== Aba de modelos de processos ===== */
+    
     .modelos-layout {
       display: grid;
       grid-template-columns: 420px minmax(0, 1fr);
@@ -2519,8 +2515,7 @@
     body.patricinha-mode .tags-automaticas-box .title,
     body.patricinha-mode .categoria-fixa-note { color: #9a5f82 !important; }
 
-
-    /* ===== Refinos gerais e dashboard executivo ===== */
+    
     .dashboard-summary-strip {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3402,6 +3397,67 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let editingModeloId = null;
 
     const $ = (id) => document.getElementById(id);
+
+    function createOption(value, label = value) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      return option;
+    }
+
+    function resetSelect(select, placeholder = "Selecione...") {
+      if (!select) return;
+      select.innerHTML = "";
+      select.appendChild(createOption("", placeholder));
+    }
+
+    function appendOptions(select, values = [], mapper = (value) => ({ value, label: value })) {
+      if (!select) return;
+      values.forEach((item) => {
+        const mapped = mapper(item);
+        select.appendChild(createOption(mapped.value, mapped.label));
+      });
+    }
+
+    function createOptgroup(label, values = [], mapper = (value) => ({ value, label: value })) {
+      const group = document.createElement("optgroup");
+      group.label = label;
+      values.forEach((item) => {
+        const mapped = mapper(item);
+        group.appendChild(createOption(mapped.value, mapped.label));
+      });
+      return group;
+    }
+
+    function getFieldEvent(element) {
+      if (!element) return "input";
+      if (element.type === "checkbox") return "change";
+      if (element.tagName === "SELECT") return "change";
+      return "input";
+    }
+
+    function bindReactiveControls(elements, callback) {
+      elements.filter(Boolean).forEach((element) => {
+        element.addEventListener(getFieldEvent(element), callback);
+      });
+    }
+
+    function showTimedFeedback(element, texto, tipo = "info", duration = 3500) {
+      if (!element) return;
+      if (!texto) {
+        element.className = "feedback hidden";
+        element.textContent = "";
+        return;
+      }
+      element.className = `feedback ${tipo}`;
+      element.textContent = texto;
+      element.classList.remove("hidden");
+      clearTimeout(element._timer);
+      element._timer = setTimeout(() => {
+        element.classList.add("hidden");
+        element.textContent = "";
+      }, duration);
+    }
     function normalizarNomeInstitucional(valor) {
       const txt = String(valor || '').trim();
       if (!txt) return '';
@@ -3852,14 +3908,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function mostrarMensagem(texto, tipo = "info") {
-      mensagemSistema.className = `feedback ${tipo}`;
-      mensagemSistema.textContent = texto;
-      mensagemSistema.classList.remove("hidden");
-      clearTimeout(mensagemSistema._timer);
-      mensagemSistema._timer = setTimeout(() => {
-        mensagemSistema.classList.add("hidden");
-        mensagemSistema.textContent = "";
-      }, 3500);
+      showTimedFeedback(mensagemSistema, texto, tipo);
     }
 
     function toast(texto, tipo = "info") {
@@ -4022,7 +4071,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       return `${calcDiasRestantes(item.dataFinal, item.horaFinal)} dia(s)`;
     }
 
-
     function formatarDataHora(valor) {
       if (!valor) return "-";
       const data = valor?.toDate ? valor.toDate() : (valor instanceof Date ? valor : new Date(valor));
@@ -4076,7 +4124,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (code.includes("too-many-requests")) return "muitas tentativas. Tente mais tarde.";
       return error.message || "erro desconhecido.";
     }
-
 
     function gerarPalavrasChaveAutomaticas(texto = '', titulo = '', categoria = '') {
       const base = `${titulo} ${categoria} ${texto}`.toLowerCase();
@@ -4154,15 +4201,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       renderPalavrasChaveAutomaticas(item.tags || gerarPalavrasChaveAutomaticas(item.conteudo || '', item.titulo || '', item.categoria || ''));
     }
     function mostrarMensagemModelos(texto, tipo = "info") {
-      if (!mensagemModelos) return;
-      mensagemModelos.className = `feedback ${tipo}`;
-      mensagemModelos.textContent = texto;
-      mensagemModelos.classList.remove("hidden");
-      clearTimeout(mensagemModelos._timer);
-      mensagemModelos._timer = setTimeout(() => {
-        mensagemModelos.classList.add("hidden");
-        mensagemModelos.textContent = "";
-      }, 3500);
+      showTimedFeedback(mensagemModelos, texto, tipo);
     }
     function limparFormularioModelo() {
       if (modeloTitulo) modeloTitulo.value = "";
@@ -4177,7 +4216,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     function preencherCategoriasModelos() {
       if (!filtroCategoriaModelo) return;
       const atual = filtroCategoriaModelo.value;
-      filtroCategoriaModelo.innerHTML = '<option value="">Todas</option>' + CATEGORIAS_MODELO.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
+      resetSelect(filtroCategoriaModelo, "Todas");
+      appendOptions(filtroCategoriaModelo, CATEGORIAS_MODELO);
       if (CATEGORIAS_MODELO.includes(atual)) filtroCategoriaModelo.value = atual;
     }
     async function salvarModelo() {
@@ -4350,85 +4390,56 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function preencherSelects() {
-      gerenciaManual.innerHTML = '<option value="">Selecione...</option>';
-      filtroGerencia.innerHTML = '<option value="">Todas</option>';
-      editGerencia.innerHTML = '<option value="">Selecione...</option>';
-      if (gerenciaManual2) gerenciaManual2.innerHTML = '<option value="">Selecione...</option>';
-      if (editGerencia2) editGerencia2.innerHTML = '<option value="">Selecione...</option>';
-      filtroArea.innerHTML = '<option value="">Todas</option>';
-      if (situacaoManual) situacaoManual.innerHTML = '';
-      if (filtroSituacao) filtroSituacao.innerHTML = '<option value="">Todas</option>';
-      if (editSituacao) editSituacao.innerHTML = '';
+      resetSelect(gerenciaManual);
+      resetSelect(filtroGerencia, "Todas");
+      resetSelect(editGerencia);
+      resetSelect(gerenciaManual2);
+      resetSelect(editGerencia2);
+      resetSelect(filtroArea, "Todas");
 
-      AREAS.forEach(area => {
+      if (situacaoManual) situacaoManual.innerHTML = "";
+      if (filtroSituacao) filtroSituacao.innerHTML = "";
+      if (editSituacao) editSituacao.innerHTML = "";
+      if (filtroSituacao) filtroSituacao.appendChild(createOption("", "Todas"));
+
+      const areaTargets = [gerenciaManual, gerenciaManual2, filtroGerencia, editGerencia, editGerencia2].filter(Boolean);
+      const areaLabelMapper = (areaNormalizada, unidade) => {
+        if (areaNormalizada === "Superintendência de Gestão Integrada" && ABREVIACOES_SGI[unidade]) {
+          return `${unidade} (${ABREVIACOES_SGI[unidade]})`;
+        }
+        return unidade;
+      };
+
+      AREAS.forEach((area) => {
         const areaNormalizada = normalizarNomeInstitucional(area);
-        const opArea = document.createElement('option');
-        opArea.value = areaNormalizada;
-        opArea.textContent = areaNormalizada;
-        filtroArea.appendChild(opArea);
+        filtroArea.appendChild(createOption(areaNormalizada, areaNormalizada));
+        appendOptions(areaTargets, [areaNormalizada]);
 
-        [gerenciaManual, gerenciaManual2, filtroGerencia, editGerencia, editGerencia2].filter(Boolean).forEach(sel => {
-          const op = document.createElement('option');
-          op.value = areaNormalizada;
-          op.textContent = areaNormalizada;
-          sel.appendChild(op);
-        });
-
-        const config = HIERARQUIA_ORGANIZACIONAL[area] || { direto: ESTRUTURA_ORGANIZACIONAL[area] || [], grupos: {} };
-        const gruposDestino = [
-          document.createDocumentFragment(),
-          document.createDocumentFragment(),
-          document.createDocumentFragment(),
-          document.createDocumentFragment(),
-          document.createDocumentFragment()
-        ];
-
-        const adicionarOpcao = (destino, value, label) => {
-          const op = document.createElement('option');
-          op.value = value;
-          op.textContent = label;
-          destino.appendChild(op);
+        const config = HIERARQUIA_ORGANIZACIONAL[area] || {
+          direto: ESTRUTURA_ORGANIZACIONAL[area] || [],
+          grupos: {}
         };
 
-        (config.direto || []).forEach(unidade => {
-          const baseLabel = areaNormalizada === 'Superintendência de Gestão Integrada' && ABREVIACOES_SGI[unidade]
-            ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
-            : unidade;
-          gruposDestino.forEach(dest => adicionarOpcao(dest, unidade, baseLabel));
-        });
+        appendOptions(areaTargets, config.direto || [], (unidade) => ({
+          value: unidade,
+          label: areaLabelMapper(areaNormalizada, unidade)
+        }));
 
         Object.entries(config.grupos || {}).forEach(([grupoNome, unidades]) => {
-          const optgroups = Array.from({ length: 5 }, () => {
-            const og = document.createElement('optgroup');
-            og.label = grupoNome;
-            return og;
+          areaTargets.forEach((select) => {
+            select.appendChild(
+              createOptgroup(grupoNome, unidades || [], (unidade) => ({
+                value: unidade,
+                label: areaLabelMapper(areaNormalizada, unidade)
+              }))
+            );
           });
-          (unidades || []).forEach(unidade => {
-            const baseLabel = areaNormalizada === 'Superintendência de Gestão Integrada' && ABREVIACOES_SGI[unidade]
-              ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
-              : unidade;
-            optgroups.forEach(og => adicionarOpcao(og, unidade, baseLabel));
-          });
-          gruposDestino.forEach((dest, i) => dest.appendChild(optgroups[i]));
-        });
-
-        gerenciaManual.appendChild(gruposDestino[0]);
-        if (gerenciaManual2) gerenciaManual2.appendChild(gruposDestino[1]);
-        filtroGerencia.appendChild(gruposDestino[2]);
-        editGerencia.appendChild(gruposDestino[3]);
-        if (editGerencia2) editGerencia2.appendChild(gruposDestino[4]);
-      });
-
-      STATUS_OPERACIONAIS.forEach(s => {
-        [situacaoManual, filtroSituacao, editSituacao].filter(Boolean).forEach(sel => {
-          const op = document.createElement('option');
-          op.value = s;
-          op.textContent = s;
-          sel.appendChild(op);
         });
       });
-      if (situacaoManual) situacaoManual.value = 'Em análise';
-      if (editSituacao) editSituacao.value = 'Em análise';
+
+      appendOptions([situacaoManual, filtroSituacao, editSituacao].filter(Boolean), STATUS_OPERACIONAIS);
+      if (situacaoManual) situacaoManual.value = "Em análise";
+      if (editSituacao) editSituacao.value = "Em análise";
     }
 
     function salvarFiltros() {
@@ -5140,7 +5151,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       sincronizarScrollTabela();
     }
 
-
     function toggleExpand(id) { return; }
     function aplicarChip(chip) {
       const type = chip.dataset.chipType;
@@ -5434,7 +5444,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     body.dark-mode .dashboard-list-item strong,
     body.dark-mode .dashboard-list-item .num { color: #f3f4f6 !important; }
 
-
     /* ===== Encaminhamento múltiplo + prazo com hora ===== */
     .encaminhamento-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:14px; }
     .encaminhamento-box { padding:12px; border-radius:16px; background:rgba(255,255,255,.22); border:1px solid rgba(183,195,200,.45); min-width:0; }
@@ -5470,7 +5479,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       .composer-card .btn-row { display:grid !important; grid-template-columns:1fr !important; gap:8px !important; }
       .composer-card .btn-row button { width:100% !important; min-width:0 !important; }
     }
-
 
     /* ===== Segunda lapidação visual: área Novo processo ===== */
     .composer-card.lux {
@@ -5739,7 +5747,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       color: #9fb0bd !important;
     }
 
-
     /* ===== Selects organizados visualmente por área ===== */
     .select-helper {
       display:block;
@@ -5831,7 +5838,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       }
     }
 
-
     let syncingTableScroll = false;
     function sincronizarScrollTabela() {
       if (!tableWrap || !tableScrollProxy || !tableScrollProxyInner) return;
@@ -5874,139 +5880,115 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       semPrazoManual.addEventListener("change", () => {
         dataFinalManual.disabled = semPrazoManual.checked;
         if (horaFinalManual) horaFinalManual.disabled = semPrazoManual.checked;
-        if (semPrazoManual.checked) { dataFinalManual.value = ""; if (horaFinalManual) horaFinalManual.value = ""; }
+        if (semPrazoManual.checked) {
+          dataFinalManual.value = "";
+          if (horaFinalManual) horaFinalManual.value = "";
+        }
       });
+
       editSemPrazo.addEventListener("change", () => {
         editDataFinal.disabled = editSemPrazo.checked;
         if (editHoraFinal) editHoraFinal.disabled = editSemPrazo.checked;
-        if (editSemPrazo.checked) { editDataFinal.value = ""; if (editHoraFinal) editHoraFinal.value = ""; }
+        if (editSemPrazo.checked) {
+          editDataFinal.value = "";
+          if (editHoraFinal) editHoraFinal.value = "";
+        }
       });
 
       btnGerarProcesso.addEventListener("click", gerarProcesso);
       btnLimparFormulario.addEventListener("click", limparFormulario);
       btnSalvarModelo?.addEventListener("click", salvarModelo);
       btnLimparModelo?.addEventListener("click", limparFormularioModelo);
-      btnCancelarEdicaoModelo?.addEventListener("click", () => { limparFormularioModelo(); mostrarMensagemModelos("Edição cancelada.", "info"); });
       btnAtualizarModelos?.addEventListener("click", renderModelos);
       btnSalvarEdicao.addEventListener("click", salvarEdicao);
       btnFecharModal.addEventListener("click", fecharModal);
-      modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) fecharModal(); });
+      modalOverlay.addEventListener("click", (event) => {
+        if (event.target === modalOverlay) fecharModal();
+      });
       btnFecharDrawer.addEventListener("click", fecharDrawer);
       drawerOverlay.addEventListener("click", fecharDrawer);
-      drawerBtnEditar.addEventListener("click", () => { if (selectedDrawerId) abrirModalEdicao(selectedDrawerId); });
+      drawerBtnEditar.addEventListener("click", () => {
+        if (selectedDrawerId) abrirModalEdicao(selectedDrawerId);
+      });
       if (drawerBtnPendente) drawerBtnPendente.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Pendente"));
       if (drawerBtnConcluir) drawerBtnConcluir.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Concluído"));
       if (drawerBtnArquivar) drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
       drawerBtnExcluir.addEventListener("click", () => remover(selectedDrawerId));
 
-      [busca, filtroArea, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao, ordenacaoTabela].filter(Boolean).forEach(el => {
-        const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input");
-        el.addEventListener(evt, aplicarFiltrosEOrdenacao);
-      });
+      bindReactiveControls(
+        [busca, filtroArea, filtroGerencia, filtroSituacao, filtroPrazo, filtroStatusPrazo, filtroDataInicial, filtroDataFinal, filtroAtrasados, ordenacao, ordenacaoTabela],
+        aplicarFiltrosEOrdenacao
+      );
 
-      [entrada, gerenciaManual, gerenciaManual2, dataFinalManual, horaFinalManual, semPrazoManual].filter(Boolean).forEach(el => { const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input"); el.addEventListener(evt, () => { salvarRascunhoCadastro(); renderPreviewCadastro(); }); });
-      if (btnLimparBusca) btnLimparBusca.addEventListener("click", () => { busca.value = ""; aplicarFiltrosEOrdenacao(); renderPreviewCadastro(); busca.focus(); });
+      bindReactiveControls(
+        [entrada, gerenciaManual, gerenciaManual2, dataFinalManual, horaFinalManual, semPrazoManual],
+        () => {
+          salvarRascunhoCadastro();
+          renderPreviewCadastro();
+        }
+      );
+
+      if (btnLimparBusca) {
+        btnLimparBusca.addEventListener("click", () => {
+          busca.value = "";
+          aplicarFiltrosEOrdenacao();
+          renderPreviewCadastro();
+          busca.focus();
+        });
+      }
+
       if (buscaModelo) buscaModelo.addEventListener("input", renderModelos);
       if (filtroCategoriaModelo) filtroCategoriaModelo.addEventListener("change", renderModelos);
-      if (btnLimparBuscaModelo) btnLimparBuscaModelo.addEventListener("click", () => { if (buscaModelo) buscaModelo.value = ""; renderModelos(); buscaModelo?.focus(); });
-      [modeloTitulo, modeloCategoria, modeloConteudo].filter(Boolean).forEach(el => el.addEventListener(el.tagName === "SELECT" ? "change" : "input", atualizarPreviaPalavrasChave));
-      if (btnSalvarPreset) btnSalvarPreset.addEventListener("click", salvarPresetAtual);
-      if (btnAplicarPreset) btnAplicarPreset.addEventListener("click", aplicarPresetSelecionado);
-      if (btnExcluirPreset) btnExcluirPreset.addEventListener("click", excluirPresetSelecionado);
-      if (btnVoltarTodos) btnVoltarTodos.addEventListener("click", () => limparFiltros(false));
-      limiteVencendo.addEventListener("change", () => { salvarFiltros(); renderEverything(); });
-      if (ordenacaoTabela) {
-        ordenacaoTabela.addEventListener("change", () => {
-          ordenacao.value = ordenacaoTabela.value;
-          aplicarFiltrosEOrdenacao();
-        });
-      }
-      if (ordenacao) { ordenacao.addEventListener("change", () => { if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value; }); }
-      if (quickFilters) {
-        quickFilters.addEventListener("click", (e) => {
-          const btn = e.target.closest(".quick-filter-chip");
-          if (!btn) return;
-          const tipo = btn.dataset.quickType;
-          const valor = btn.dataset.quickValue || "";
-          if (tipo === "all") {
-            filtroArea.value = "";
-            filtroStatusPrazo.value = "";
-            if (filtroPrazo) filtroPrazo.value = "";
-          } else if (tipo === "area") {
-            if (filtroPrazo) filtroPrazo.value = "";
-            filtroStatusPrazo.value = "";
-            filtroArea.value = filtroArea.value === valor ? "" : valor;
-          } else if (tipo === "statusPrazo") {
-            if (filtroPrazo) filtroPrazo.value = "";
-            filtroArea.value = "";
-            filtroStatusPrazo.value = filtroStatusPrazo.value === valor ? "" : valor;
-          } else if (tipo === "prazo") {
-            filtroArea.value = "";
-            filtroStatusPrazo.value = "";
-            if (filtroPrazo) filtroPrazo.value = filtroPrazo.value === valor ? "" : valor;
-          }
-          aplicarFiltrosEOrdenacao();
-        });
-      }
-      btnLimparFiltros.addEventListener("click", limparFiltros);
-      if (btnExportarExcelTodos) btnExportarExcelTodos.addEventListener("click", () => exportarExcel(false));
-      if (btnExportarExcelVisiveis) btnExportarExcelVisiveis.addEventListener("click", () => exportarExcel(true));
-      if (btnExportarPDFTodos) btnExportarPDFTodos.addEventListener("click", () => exportarPDF(false));
-      if (btnExportarPDFVisiveis) btnExportarPDFVisiveis.addEventListener("click", () => exportarPDF(true));
-
-      const chipsRapidos = $("chipsRapidos");
-      if (chipsRapidos) {
-        chipsRapidos.addEventListener("click", (e) => {
-          const chip = e.target.closest(".chip");
-          if (chip) aplicarChip(chip);
+      if (btnLimparBuscaModelo) {
+        btnLimparBuscaModelo.addEventListener("click", () => {
+          if (buscaModelo) buscaModelo.value = "";
+          renderModelos();
+          buscaModelo?.focus();
         });
       }
 
-      document.addEventListener("click", (e) => {
-        const summary = e.target.closest(".summary-card");
-        if (!summary) return;
-        if (summary.closest(".drawer") || summary.closest(".modal")) return;
-        aplicarResumoClicavel(summary);
-      });
-
-      tbodyProcessos.addEventListener("click", (e) => {
-        const btn = e.target.closest("button");
-        const row = e.target.closest("tr.main-row");
-        if (!row) return;
-        const id = row.dataset.id;
-        if (!id) return;
-        if (btn) {
-          const action = btn.dataset.action;
-          if (action === "view") { e.stopPropagation(); abrirDrawer(id); return; }
-          if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
-          if (action === "delete") { e.stopPropagation(); remover(id); return; }
-        }
-        abrirDrawer(id);
-      });
+      bindReactiveControls([modeloTitulo, modeloCategoria, modeloConteudo], atualizarPreviaPalavrasChave);
 
       if (listaModelos) {
-        listaModelos.addEventListener("click", (e) => {
-          const btn = e.target.closest("button[data-modelo-action]");
-          const card = e.target.closest(".modelo-card");
-          if (!btn || !card) return;
-          const id = card.dataset.id;
-          const action = btn.dataset.modeloAction;
-          if (action === "usar") return usarModeloNoFormulario(id);
-          if (action === "editar") return editarModelo(id);
-          if (action === "copiar") return copiarTextoModelo(id);
-          if (action === "excluir") return excluirModelo(id);
+        listaModelos.addEventListener("click", (event) => {
+          const button = event.target.closest("button[data-modelo-action]");
+          const card = event.target.closest(".modelo-card");
+          if (!button || !card) return;
+          const { id } = card.dataset;
+          const { modeloAction } = button.dataset;
+          if (modeloAction === "usar") return usarModeloNoFormulario(id);
+          if (modeloAction === "editar") return editarModelo(id);
+          if (modeloAction === "copiar") return copiarTextoModelo(id);
+          if (modeloAction === "excluir") return excluirModelo(id);
         });
       }
-      document.querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
-        ordenacao.value = th.dataset.sort || "dataCadastroDesc";
-        if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value;
-        salvarFiltros();
-        aplicarFiltrosEOrdenacao();
-      }));
 
-      document.addEventListener("keydown", (e) => {
-        if (appBox.classList.contains("hidden") && e.key === "Enter") login();
-        if (!appBox.classList.contains("hidden") && e.key === "Escape") {
+      document.querySelectorAll("th.sortable").forEach((th) => {
+        th.addEventListener("click", () => {
+          ordenacao.value = th.dataset.sort || "dataCadastroDesc";
+          if (ordenacaoTabela) ordenacaoTabela.value = ordenacao.value;
+          aplicarFiltrosEOrdenacao();
+        });
+      });
+
+      if (quickFilters) {
+        quickFilters.addEventListener("click", (event) => {
+          const chip = event.target.closest(".quick-filter-chip");
+          if (!chip) return;
+          aplicarChip(chip);
+        });
+      }
+
+      if (chipsRapidos) {
+        chipsRapidos.addEventListener("click", (event) => {
+          const chip = event.target.closest(".chip");
+          if (!chip) return;
+          aplicarChip(chip);
+        });
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
           if (!modalOverlay.classList.contains("hidden")) fecharModal();
           if (!drawer.classList.contains("hidden")) fecharDrawer();
         }
