@@ -2338,6 +2338,122 @@
       color: #dbe4ea !important;
     }
 
+
+    .global-search-shell {
+      margin-top: 16px;
+      position: relative;
+    }
+    .global-search-input-wrap {
+      max-width: 100%;
+      background: #edf2f4;
+      border: 1px solid #d1dbe0;
+      border-radius: 16px;
+      padding: 2px;
+    }
+    .global-search-input-wrap input {
+      font-size: 15px;
+      min-height: 48px;
+    }
+    .global-search-panel {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      right: 0;
+      z-index: 30;
+      border: 1px solid #cfd8dd;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(236,242,244,.98) 100%);
+      box-shadow: 0 14px 34px rgba(16,24,40,.12);
+      overflow: hidden;
+      max-height: 68vh;
+      overflow-y: auto;
+    }
+    .global-search-section {
+      padding: 12px 14px 8px;
+      border-top: 1px solid #dde6ea;
+    }
+    .global-search-section:first-child { border-top: 0; }
+    .global-search-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #6a7b85;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .global-search-list {
+      display: grid;
+      gap: 8px;
+    }
+    .global-search-item {
+      width: 100%;
+      margin-top: 0;
+      text-align: left;
+      background: rgba(255,255,255,.55);
+      border: 1px solid #d6dee2;
+      border-radius: 14px;
+      box-shadow: none;
+      color: #243741;
+      padding: 12px 14px;
+    }
+    .global-search-item:hover,
+    .global-search-item.active {
+      background: #dde6ea;
+    }
+    .global-search-item-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      color: #2b404b;
+      line-height: 1.35;
+    }
+    .global-search-item-meta {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #667782;
+      line-height: 1.45;
+    }
+    .global-search-item-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .global-search-item-actions button {
+      width: auto;
+      min-width: 94px;
+      margin-top: 0;
+      padding: 8px 10px;
+      font-size: 12px;
+      border-radius: 10px;
+      box-shadow: none;
+    }
+    .global-search-empty {
+      padding: 18px 16px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+    body.dark-mode .global-search-input-wrap,
+    body.dark-mode .global-search-panel,
+    body.dark-mode .global-search-item {
+      background: rgba(255,255,255,.03) !important;
+      border-color: #374151 !important;
+      color: #e5e7eb !important;
+    }
+    body.dark-mode .global-search-item:hover,
+    body.dark-mode .global-search-item.active {
+      background: #243243 !important;
+    }
+    body.dark-mode .global-search-section-title,
+    body.dark-mode .global-search-item-meta,
+    body.dark-mode .global-search-empty {
+      color: #9fb0bd !important;
+    }
+    body.dark-mode .global-search-item-title { color: #f3f4f6 !important; }
+
 </style>
 </head>
 <body>
@@ -2385,6 +2501,16 @@
           <button type="button" class="secondary" style="width:auto; min-width:220px;" id="btnNotificacao">Ativar notificações</button>
           <button type="button" class="danger" style="width:auto; min-width:140px;" id="btnSair">Sair</button>
         </div>
+      </div>
+      <div class="global-search-shell">
+        <label for="buscaGlobal" class="section-mini-title" style="margin-bottom:8px;">Busca global</label>
+        <div class="search-input-wrap global-search-input-wrap">
+          <span class="search-icon">🔎</span>
+          <input id="buscaGlobal" placeholder="Buscar processo, interessado, assunto, gerência ou modelo..." autocomplete="off" />
+          <button type="button" class="search-clear hidden" id="btnLimparBuscaGlobal" aria-label="Limpar busca global">✕</button>
+        </div>
+        <div class="muted-mini" style="margin-top:8px;">Resultados agrupados em <strong>Processos</strong> e <strong>Modelos</strong>. Atalho: <strong>Ctrl + K</strong>.</div>
+        <div id="painelBuscaGlobal" class="global-search-panel hidden"></div>
       </div>
     </div>
 
@@ -3194,6 +3320,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const btnTema = $("btnTema");
     const btnNotificacao = $("btnNotificacao");
     const usuarioLogado = $("usuarioLogado");
+    const buscaGlobal = $("buscaGlobal");
+    const btnLimparBuscaGlobal = $("btnLimparBuscaGlobal");
+    const painelBuscaGlobal = $("painelBuscaGlobal");
     const tabProcessosBtn = $("tabProcessosBtn");
     const tabDashboardBtn = $("tabDashboardBtn");
     const abaProcessos = $("abaProcessos");
@@ -3423,6 +3552,180 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         .replace(/\"/g, "&quot;")
         .replace(/'/g, "&#039;");
     }
+
+    let globalSearchResults = { processos: [], modelos: [] };
+    let globalSearchFlat = [];
+    let globalSearchIndex = -1;
+
+    function normalizarTextoGlobal(valor) {
+      return String(valor || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    }
+
+    function escapeRegexLocal(texto) {
+      return String(texto || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function highlightGlobal(texto, termo) {
+      const safe = escapeHtml(texto || '');
+      const t = (termo || '').trim();
+      if (!t) return safe;
+      const rx = new RegExp('(' + escapeRegexLocal(t) + ')', 'ig');
+      return safe.replace(rx, '<mark class="search-mark">$1</mark>');
+    }
+
+    function obterModelosBuscaGlobal() {
+      try {
+        if (typeof window.__sgpGetVisibleModels === 'function') {
+          return window.__sgpGetVisibleModels() || [];
+        }
+      } catch (e) { console.warn(e); }
+      return [];
+    }
+
+    function pesquisarGlobal(termo) {
+      const q = normalizarTextoGlobal(termo);
+      if (!q) {
+        globalSearchResults = { processos: [], modelos: [] };
+        globalSearchFlat = [];
+        globalSearchIndex = -1;
+        return globalSearchResults;
+      }
+      const processos = (allItems || []).map(item => ({
+        ...item,
+        statusPrazo: obterStatusPrazo(item.dataFinal, item.semPrazo, item.horaFinal),
+        diasRestantes: item.semPrazo ? null : calcDiasRestantes(item.dataFinal, item.horaFinal)
+      })).filter(item => normalizarTextoGlobal([
+        item.processo,
+        item.interessado,
+        item.assunto,
+        item.gerencia,
+        item.gerenciaSecundaria,
+        item.area,
+        (item.gerencias || []).join(' ')
+      ].join(' ')).includes(q)).slice(0, 8);
+      const modelos = obterModelosBuscaGlobal().filter(modelo => normalizarTextoGlobal([
+        modelo.nome,
+        modelo.categoria,
+        modelo.gerenciaRelacionada,
+        modelo.atalho,
+        modelo.texto,
+        modelo.equipeAcesso
+      ].join(' ')).includes(q)).slice(0, 8);
+      globalSearchResults = { processos, modelos };
+      globalSearchFlat = [
+        ...processos.map((item, idx) => ({ tipo: 'processo', id: item.id, idx })),
+        ...modelos.map((item, idx) => ({ tipo: 'modelo', id: item.id, idx }))
+      ];
+      globalSearchIndex = globalSearchFlat.length ? 0 : -1;
+      return globalSearchResults;
+    }
+
+    function htmlResultadoProcesso(item, termo, active = false) {
+      const prazo = item.semPrazo ? 'Sem prazo' : formatarPrazoCompleto(item.dataFinal, item.horaFinal || '');
+      const statusPrazo = item.statusPrazo || obterStatusPrazo(item.dataFinal, item.semPrazo, item.horaFinal);
+      return `
+        <button type="button" class="global-search-item ${active ? 'active' : ''}" data-global-type="processo" data-global-id="${item.id}">
+          <div class="global-search-item-title">
+            <span>${highlightGlobal(item.processo || '(sem número)', termo)}</span>
+            <span class="badge-area ${classeAreaBadge(item.area)}">${highlightGlobal(item.area || '-', termo)}</span>
+          </div>
+          <div class="global-search-item-meta">
+            <strong>Interessado:</strong> ${highlightGlobal(item.interessado || '-', termo)}<br>
+            <strong>Assunto:</strong> ${highlightGlobal(item.assunto || '-', termo)}<br>
+            <strong>Gerência:</strong> ${highlightGlobal(item.gerencia || item.area || '-', termo)} • <strong>Prazo:</strong> ${escapeHtml(prazo)} • <strong>Status:</strong> ${escapeHtml(statusPrazo)}
+          </div>
+          <div class="global-search-item-actions">
+            <button type="button" class="light" data-global-action="ver-processo" data-global-id="${item.id}">Ver</button>
+            <button type="button" class="outline" data-global-action="editar-processo" data-global-id="${item.id}">Editar</button>
+          </div>
+        </button>`;
+    }
+
+    function htmlResultadoModelo(modelo, termo, active = false) {
+      const subtitulo = [modelo.categoria, modelo.gerenciaRelacionada, modelo.atalho ? '/' + modelo.atalho : ''].filter(Boolean).join(' • ');
+      return `
+        <button type="button" class="global-search-item ${active ? 'active' : ''}" data-global-type="modelo" data-global-id="${modelo.id}">
+          <div class="global-search-item-title">
+            <span>${highlightGlobal(modelo.nome || '(sem nome)', termo)}</span>
+            <span class="tag-gerencia">${modelo.atalho ? '/' + escapeHtml(modelo.atalho) : 'Modelo'}</span>
+          </div>
+          <div class="global-search-item-meta">
+            ${subtitulo ? highlightGlobal(subtitulo, termo) + '<br>' : ''}
+            ${highlightGlobal((modelo.texto || '').replace(/\s+/g, ' ').trim().slice(0, 180) + ((modelo.texto || '').length > 180 ? '…' : ''), termo)}
+          </div>
+          <div class="global-search-item-actions">
+            <button type="button" class="light" data-global-action="usar-modelo" data-global-id="${modelo.id}">Usar</button>
+            <button type="button" class="outline" data-global-action="copiar-modelo" data-global-id="${modelo.id}">Copiar</button>
+          </div>
+        </button>`;
+    }
+
+    function renderBuscaGlobal() {
+      if (!painelBuscaGlobal || !buscaGlobal) return;
+      const termo = buscaGlobal.value || '';
+      if (!(termo || '').trim()) {
+        painelBuscaGlobal.classList.add('hidden');
+        painelBuscaGlobal.innerHTML = '';
+        if (btnLimparBuscaGlobal) btnLimparBuscaGlobal.classList.add('hidden');
+        globalSearchFlat = [];
+        globalSearchIndex = -1;
+        return;
+      }
+      if (btnLimparBuscaGlobal) btnLimparBuscaGlobal.classList.remove('hidden');
+      const resultados = pesquisarGlobal(termo);
+      const secoes = [];
+      if (resultados.processos.length) {
+        secoes.push(`<div class="global-search-section"><div class="global-search-section-title">Processos (${resultados.processos.length})</div><div class="global-search-list">${resultados.processos.map((item, idx) => htmlResultadoProcesso(item, termo, globalSearchFlat[globalSearchIndex]?.tipo === 'processo' && globalSearchFlat[globalSearchIndex]?.id === item.id)).join('')}</div></div>`);
+      }
+      if (resultados.modelos.length) {
+        secoes.push(`<div class="global-search-section"><div class="global-search-section-title">Modelos (${resultados.modelos.length})</div><div class="global-search-list">${resultados.modelos.map((item, idx) => htmlResultadoModelo(item, termo, globalSearchFlat[globalSearchIndex]?.tipo === 'modelo' && globalSearchFlat[globalSearchIndex]?.id === item.id)).join('')}</div></div>`);
+      }
+      if (!secoes.length) {
+        painelBuscaGlobal.innerHTML = `<div class="global-search-empty">Nenhum resultado para <strong>${escapeHtml(termo)}</strong>.</div>`;
+      } else {
+        painelBuscaGlobal.innerHTML = secoes.join('');
+      }
+      painelBuscaGlobal.classList.remove('hidden');
+    }
+
+    function fecharBuscaGlobal() {
+      if (!painelBuscaGlobal) return;
+      painelBuscaGlobal.classList.add('hidden');
+      if (painelBuscaGlobal) painelBuscaGlobal.innerHTML = '';
+      globalSearchFlat = [];
+      globalSearchIndex = -1;
+    }
+
+    function atualizarBuscaGlobalSeNecessario() {
+      if (buscaGlobal && (buscaGlobal.value || '').trim() && painelBuscaGlobal && !painelBuscaGlobal.classList.contains('hidden')) {
+        renderBuscaGlobal();
+      }
+    }
+
+    async function executarAcaoBuscaGlobal(action, id) {
+      if (!id) return;
+      if (action === 'ver-processo') {
+        abrirDrawer(id);
+        fecharBuscaGlobal();
+        return;
+      }
+      if (action === 'editar-processo') {
+        abrirModalEdicao(id);
+        fecharBuscaGlobal();
+        return;
+      }
+      if (action === 'usar-modelo' && typeof window.__sgpUseModel === 'function') {
+        await window.__sgpUseModel(id, 'inserir');
+        fecharBuscaGlobal();
+        return;
+      }
+      if (action === 'copiar-modelo' && typeof window.__sgpUseModel === 'function') {
+        await window.__sgpUseModel(id, 'copy');
+        fecharBuscaGlobal();
+        return;
+      }
+    }
+
 
     function escaparRegex(texto) {
       return String(texto).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -4330,6 +4633,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       aplicarFiltrosVisuaisNosChips();
       registrarSincroniaScrollTabela();
       sincronizarScrollTabela();
+      atualizarBuscaGlobalSeNecessario();
     }
 
 
@@ -5054,6 +5358,23 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
     function registrarEventos() {
       if (btnTema) btnTema.addEventListener("click", alternarTema);
+      if (buscaGlobal) buscaGlobal.addEventListener("input", renderBuscaGlobal);
+      if (btnLimparBuscaGlobal) btnLimparBuscaGlobal.addEventListener("click", () => { buscaGlobal.value = ""; fecharBuscaGlobal(); btnLimparBuscaGlobal.classList.add("hidden"); buscaGlobal.focus(); });
+      if (painelBuscaGlobal) painelBuscaGlobal.addEventListener("click", async (e) => {
+        const actionBtn = e.target.closest("[data-global-action]");
+        if (actionBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          await executarAcaoBuscaGlobal(actionBtn.dataset.globalAction, actionBtn.dataset.globalId);
+          return;
+        }
+        const itemBtn = e.target.closest("[data-global-type]");
+        if (!itemBtn) return;
+        const tipo = itemBtn.dataset.globalType;
+        const id = itemBtn.dataset.globalId;
+        if (tipo === "processo") { abrirDrawer(id); fecharBuscaGlobal(); return; }
+        if (tipo === "modelo" && typeof window.__sgpUseModel === "function") { await window.__sgpUseModel(id, "inserir"); fecharBuscaGlobal(); }
+      });
       btnEntrar.addEventListener("click", login);
       btnCadastrar.addEventListener("click", cadastrar);
       btnResetar.addEventListener("click", resetarSenha);
@@ -5174,6 +5495,34 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         aplicarFiltrosEOrdenacao();
       }));
 
+      document.addEventListener("click", (e) => {
+        if (!painelBuscaGlobal || !buscaGlobal) return;
+        if (e.target.closest('.global-search-shell')) return;
+        fecharBuscaGlobal();
+      });
+      document.addEventListener("keydown", async (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          buscaGlobal?.focus();
+          buscaGlobal?.select();
+          renderBuscaGlobal();
+          return;
+        }
+        const aberta = painelBuscaGlobal && !painelBuscaGlobal.classList.contains('hidden') && globalSearchFlat.length;
+        if (aberta) {
+          if (e.key === 'ArrowDown') { e.preventDefault(); globalSearchIndex = (globalSearchIndex + 1) % globalSearchFlat.length; renderBuscaGlobal(); return; }
+          if (e.key === 'ArrowUp') { e.preventDefault(); globalSearchIndex = (globalSearchIndex - 1 + globalSearchFlat.length) % globalSearchFlat.length; renderBuscaGlobal(); return; }
+          if (e.key === 'Enter') {
+            const alvo = globalSearchFlat[globalSearchIndex];
+            if (alvo) {
+              e.preventDefault();
+              if (alvo.tipo === 'processo') { abrirDrawer(alvo.id); fecharBuscaGlobal(); return; }
+              if (alvo.tipo === 'modelo' && typeof window.__sgpUseModel === 'function') { await window.__sgpUseModel(alvo.id, 'inserir'); fecharBuscaGlobal(); return; }
+            }
+          }
+          if (e.key === 'Escape') { fecharBuscaGlobal(); }
+        }
+      });
       document.addEventListener("keydown", (e) => {
         if (appBox.classList.contains("hidden") && e.key === "Enter") login();
         if (!appBox.classList.contains("hidden") && e.key === "Escape") {
@@ -5969,6 +6318,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     });
   }
 
+  window.__sgpGetVisibleModels = function() { try { return obterTodosModelos().filter(modeloEhVisivel); } catch (e) { console.warn(e); return []; } };
+  window.__sgpUseModel = usarModelo;
   iniciarModelos();
 })();
 </script>
