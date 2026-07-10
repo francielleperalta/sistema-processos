@@ -5353,6 +5353,14 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       return modelo.equipeAcesso ? `Equipe: ${modelo.equipeAcesso}` : 'Equipe';
     }
 
+    function traduzirErroModeloFirestore(error) {
+      const code = error?.code || '';
+      if (code.includes('permission-denied')) return 'Sem permissão para gravar na coleção de modelos_texto. Verifique as regras do Firestore.';
+      if (code.includes('failed-precondition')) return 'A coleção modelos_texto precisa de configuração complementar no Firestore.';
+      if (code.includes('unavailable')) return 'O Firestore está indisponível no momento.';
+      return (error?.message || 'Erro desconhecido ao salvar modelo.');
+    }
+
     async function salvarModeloAvancado() {
       const nome = document.getElementById('modeloNome')?.value.trim() || '';
       const categoria = document.getElementById('modeloCategoria')?.value.trim() || '';
@@ -5399,7 +5407,11 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         limparFormularioModelo();
       } catch (error) {
         console.error(error);
-        toast('Erro ao salvar modelo.', 'error');
+        const detalhe = traduzirErroModeloFirestore(error);
+        toast(`Erro ao salvar modelo: ${detalhe}`, 'error');
+        if ((error?.code || '').includes('permission-denied')) {
+          mostrarMensagem('A coleção de modelos não tem permissão liberada no Firestore. O cadastro de processos continua funcionando, mas os modelos precisam de ajuste nas regras.', 'warning');
+        }
       }
     }
 
@@ -5656,7 +5668,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         renderSugestoesModelos();
       }, error => {
         console.error(error);
-        toast('Erro ao carregar os modelos.', 'error');
+        toast(`Erro ao carregar os modelos: ${traduzirErroModeloFirestore(error)}`, 'error');
       });
     }
 
