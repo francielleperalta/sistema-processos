@@ -5219,860 +5219,759 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }, 60000);
   </script>
 
-  <!-- MODELOS_AVANCADOS_PATCH -->
-  <script>
-  (function(){
-    const COLLECTION_MODELOS = 'modelos_texto';
-    let unsubscribeModelos = null;
-    let allModelos = [];
-    let editingModeloId = null;
-    let sugestoesAbertas = [];
-    let sugestaoSelecionadaIndex = 0;
+<!-- MODELOS_AVANCADOS_PATCH -->
+<script>
+(function(){
+  const COLLECTION_MODELOS = 'modelos_texto';
+  const LOCAL_STORAGE_MODELOS = 'sgp_modelos_offline_v3';
+  const STORAGE = {
+    busca: 'sgp_modelos_busca_v3',
+    gerencia: 'sgp_modelos_gerencia_v3',
+    somenteFavoritos: 'sgp_modelos_favoritos_v3',
+    equipe: 'sgp_modelos_equipe_v3'
+  };
 
-    const MODELOS_STORAGE_KEYS = {
-      equipeAtual: 'sgp_modelos_equipe_usuario_v1',
-      filtroGerencia: 'sgp_modelos_filtro_gerencia_v1',
-      filtroSomenteFavoritos: 'sgp_modelos_filtro_favoritos_v1'
+  let remoteModels = [];
+  let localModels = [];
+  let unsubscribeModelos = null;
+  let editingModelId = null;
+  let sugestoes = [];
+  let sugestaoIndex = 0;
+
+  function textoNorm(v) {
+    return String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  }
+
+  function atalhoSeguro(v) {
+    return String(v || '')
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\-_]/g, '')
+      .slice(0, 40);
+  }
+
+  function emailAtualModelo() {
+    return auth.currentUser?.email || '';
+  }
+
+  function equipeAtualModelo() {
+    return localStorage.getItem(STORAGE.equipe) || '';
+  }
+
+  function opcoesEquipesModelos() {
+    const arr = [...AREAS, ...TODAS_UNIDADES].map(v => normalizarNomeInstitucional(v)).filter(Boolean);
+    return [...new Set(arr)].sort((a,b) => a.localeCompare(b, 'pt-BR'));
+  }
+
+  function carregarLocaisModelos() {
+    try {
+      localModels = JSON.parse(localStorage.getItem(LOCAL_STORAGE_MODELOS) || '[]');
+      if (!Array.isArray(localModels)) localModels = [];
+    } catch {
+      localModels = [];
+    }
+  }
+
+  function salvarLocaisModelos() {
+    localStorage.setItem(LOCAL_STORAGE_MODELOS, JSON.stringify(localModels));
+  }
+
+  function obterTodosModelos() {
+    const mapa = new Map();
+    [...remoteModels, ...localModels].forEach(m => mapa.set(m.id, m));
+    return [...mapa.values()];
+  }
+
+  function modeloEhFavorito(modelo) {
+    const email = emailAtualModelo();
+    return !!email && Array.isArray(modelo.favoritosEmails) && modelo.favoritosEmails.includes(email);
+  }
+
+  function modeloEhVisivel(modelo) {
+    const email = emailAtualModelo();
+    if (!email) return false;
+    if ((modelo.criadoPor || '') === email) return true;
+    if (modelo.armazenamento === 'local') return false;
+    const vis = modelo.visibilidade || 'publico';
+    if (vis === 'publico') return true;
+    if (vis === 'usuario') return false;
+    if (vis === 'equipe') {
+      const equipe = modelo.equipeAcesso || '';
+      return !!equipe && normalizarNomeInstitucional(equipe) === normalizarNomeInstitucional(equipeAtualModelo());
+    }
+    return false;
+  }
+
+  function resumoAcesso(modelo) {
+    if (modelo.armazenamento === 'local') return 'Local neste navegador';
+    if ((modelo.criadoPor || '') === emailAtualModelo()) return 'Seu modelo';
+    if ((modelo.visibilidade || 'publico') === 'publico') return 'Público';
+    if ((modelo.visibilidade || 'publico') === 'usuario') return 'Privado';
+    return modelo.equipeAcesso ? `Equipe: ${modelo.equipeAcesso}` : 'Equipe';
+  }
+
+  function traduzirErroModelo(error) {
+    const code = error?.code || '';
+    if (code.includes('permission-denied')) return 'Sem permissão no Firestore para gravar em modelos_texto';
+    if (code.includes('failed-precondition')) return 'A coleção modelos_texto precisa de configuração no Firestore';
+    if (code.includes('unavailable')) return 'Firestore indisponível no momento';
+    return error?.message || 'Erro ao salvar modelo';
+  }
+
+  function obterPlaceholdersPadrao() {
+    const p = typeof obterPreviewCadastro === 'function' ? obterPreviewCadastro() : { processo:'', interessado:'', assunto:'', gerencia:'', prazo:'' };
+    const dt = new Date();
+    return {
+      nome: p.interessado === '-' ? '' : p.interessado,
+      interessado: p.interessado === '-' ? '' : p.interessado,
+      processo: p.processo === '-' ? '' : p.processo,
+      assunto: p.assunto === '-' ? '' : p.assunto,
+      gerencia: p.gerencia === '-' ? '' : p.gerencia,
+      prazo: p.prazo === '-' ? '' : p.prazo,
+      data: dt.toLocaleDateString('pt-BR'),
+      hora: dt.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' }),
+      email: emailAtualModelo()
     };
+  }
 
-    function normalizarTextoModelo(valor) {
-      return String(valor || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  function extrairVariaveis(texto) {
+    return [...new Set((String(texto || '').match(/\{([^}]+)\}/g) || []).map(v => v.replace(/[{}]/g, '').trim()).filter(Boolean))];
+  }
+
+  async function resolverVariaveis(textoBase) {
+    let texto = String(textoBase || '');
+    const vars = extrairVariaveis(texto);
+    if (!vars.length) return texto;
+    const placeholders = obterPlaceholdersPadrao();
+    for (const nome of vars) {
+      const padrao = placeholders[textoNorm(nome)] || placeholders[nome] || '';
+      const resposta = prompt(`Informe o valor para {${nome}}`, padrao);
+      if (resposta === null) return null;
+      const rx = new RegExp('\\\\{' + nome.replace(/[.*+?^${}()|[\]\\]/g, '\\\\$&') + '\\\\}', 'g');
+      texto = texto.replace(rx, resposta);
     }
+    return texto;
+  }
 
-    function equipesDisponiveisModelos() {
-      const arr = [...AREAS, ...TODAS_UNIDADES];
-      return [...new Set(arr.map(v => normalizarNomeInstitucional(v)).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'pt-BR'));
-    }
+  function preencherSelectsModelos() {
+    const ids = ['modeloGerencia', 'filtroGerenciaModelo', 'modeloEquipeAcesso', 'contextoEquipeModelos'];
+    const equipes = opcoesEquipesModelos();
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const atual = el.value;
+      const rotuloVazio = id === 'modeloEquipeAcesso' ? 'Selecione a equipe' : (id === 'contextoEquipeModelos' ? 'Selecione sua equipe/gerência' : 'Todas');
+      el.innerHTML = `<option value="">${rotuloVazio}</option>`;
+      equipes.forEach(eq => {
+        const op = document.createElement('option');
+        op.value = eq;
+        op.textContent = eq;
+        el.appendChild(op);
+      });
+      if ([...el.options].some(op => op.value === atual)) el.value = atual;
+    });
+  }
 
-    function sanitizarAtalho(valor) {
-      return String(valor || '')
-        .toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9\-_]/g, '')
-        .slice(0, 40);
-    }
+  function atualizarCampoEquipeAcesso() {
+    const vis = document.getElementById('modeloVisibilidade');
+    const box = document.getElementById('boxEquipeAcessoModelo');
+    if (!vis || !box) return;
+    box.classList.toggle('hidden', vis.value !== 'equipe');
+  }
 
-    function placeholdersPadrao() {
-      const preview = typeof obterPreviewCadastro === 'function' ? obterPreviewCadastro() : { processo:'', interessado:'', assunto:'', gerencia:'', prazo:'' };
-      const hoje = new Date();
-      const dataAtual = hoje.toLocaleDateString('pt-BR');
-      const horaAtual = hoje.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
-      return {
-        nome: preview.interessado === '-' ? '' : preview.interessado,
-        interessado: preview.interessado === '-' ? '' : preview.interessado,
-        processo: preview.processo === '-' ? '' : preview.processo,
-        assunto: preview.assunto === '-' ? '' : preview.assunto,
-        gerencia: preview.gerencia === '-' ? '' : preview.gerencia,
-        prazo: preview.prazo === '-' ? '' : preview.prazo,
-        data: dataAtual,
-        hora: horaAtual,
-        email: auth.currentUser?.email || ''
-      };
-    }
+  function modeloPayloadBase(base={}) {
+    const visibilidade = document.getElementById('modeloVisibilidade')?.value || 'publico';
+    return {
+      ...base,
+      nome: document.getElementById('modeloNome')?.value.trim() || '',
+      categoria: document.getElementById('modeloCategoria')?.value.trim() || '',
+      gerenciaRelacionada: normalizarNomeInstitucional(document.getElementById('modeloGerencia')?.value || ''),
+      atalho: atalhoSeguro(document.getElementById('modeloAtalho')?.value || ''),
+      visibilidade,
+      equipeAcesso: visibilidade === 'equipe' ? normalizarNomeInstitucional(document.getElementById('modeloEquipeAcesso')?.value || '') : '',
+      texto: document.getElementById('modeloTexto')?.value.trim() || '',
+      alteradoPor: emailAtualModelo(),
+      alteradoEm: new Date().toISOString()
+    };
+  }
 
-    function extrairVariaveisModelo(texto) {
-      return [...new Set((String(texto || '').match(/\{([^}]+)\}/g) || []).map(v => v.replace(/[{}]/g, '').trim()).filter(Boolean))];
-    }
+  function limparModalModelo() {
+    editingModelId = null;
+    ['modeloNome','modeloCategoria','modeloGerencia','modeloAtalho','modeloEquipeAcesso','modeloTexto'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.value = '';
+    });
+    const vis = document.getElementById('modeloVisibilidade');
+    if (vis) vis.value = 'publico';
+    atualizarCampoEquipeAcesso();
+    const titulo = document.getElementById('modeloModalTitulo');
+    if (titulo) titulo.textContent = 'Novo modelo';
+  }
 
-    async function resolverVariaveisModelo(textoBase) {
-      let textoFinal = String(textoBase || '');
-      const vars = extrairVariaveisModelo(textoFinal);
-      if (!vars.length) return textoFinal;
-      const defaults = placeholdersPadrao();
-      for (const nomeVar of vars) {
-        const chaveNorm = normalizarTextoModelo(nomeVar);
-        const valorPadrao = defaults[chaveNorm] || defaults[nomeVar] || '';
-        const resposta = prompt(`Informe o valor para {${nomeVar}}`, valorPadrao);
-        if (resposta === null) return null;
-        const regex = new RegExp('\\\\{' + nomeVar.replace(/[.*+?^${}()|[\]\\]/g, '\\\\$&') + '\\\\}', 'g');
-        textoFinal = textoFinal.replace(regex, resposta);
-      }
-      return textoFinal;
-    }
-
-    function emailAtual() {
-      return auth.currentUser?.email || '';
-    }
-
-    function modeloEhFavorito(modelo) {
-      const email = emailAtual();
-      const lista = Array.isArray(modelo.favoritosEmails) ? modelo.favoritosEmails : [];
-      return !!email && lista.includes(email);
-    }
-
-    function equipeAtualModelos() {
-      return localStorage.getItem(MODELOS_STORAGE_KEYS.equipeAtual) || '';
-    }
-
-    function modeloEhVisivel(modelo) {
-      const email = emailAtual();
-      if (!email) return false;
-      const visibilidade = modelo.visibilidade || 'publico';
-      const equipeAtual = equipeAtualModelos();
-      if ((modelo.criadoPor || '') === email) return true;
-      if (visibilidade === 'publico') return true;
-      if (visibilidade === 'usuario') return false;
-      if (visibilidade === 'equipe') {
-        if (!modelo.equipeAcesso) return !!equipeAtual;
-        return normalizarNomeInstitucional(modelo.equipeAcesso) === normalizarNomeInstitucional(equipeAtual);
-      }
-      return false;
-    }
-
-    function obterModelosVisiveis() {
-      const buscaEl = document.getElementById('buscaModelo');
-      const filtroGerenciaEl = document.getElementById('filtroGerenciaModelo');
-      const favoritosEl = document.getElementById('somenteFavoritosModelos');
-      const q = normalizarTextoModelo(buscaEl?.value || '');
-      const filtroGerencia = normalizarNomeInstitucional(filtroGerenciaEl?.value || '');
-      const onlyFav = !!favoritosEl?.checked;
-      return allModelos
-        .filter(modeloEhVisivel)
-        .filter(m => !filtroGerencia || normalizarNomeInstitucional(m.gerenciaRelacionada || '') === filtroGerencia)
-        .filter(m => !onlyFav || modeloEhFavorito(m))
-        .filter(m => {
-          if (!q) return true;
-          const textoBusca = normalizarTextoModelo([
-            m.nome, m.categoria, m.atalho, m.texto, m.gerenciaRelacionada, m.equipeAcesso
-          ].join(' '));
-          return textoBusca.includes(q);
-        })
-        .sort((a,b) => {
-          const favDiff = Number(modeloEhFavorito(b)) - Number(modeloEhFavorito(a));
-          if (favDiff) return favDiff;
-          const usoDiff = (b.usoCount || 0) - (a.usoCount || 0);
-          if (usoDiff) return usoDiff;
-          return String(a.nome || '').localeCompare(String(b.nome || ''), 'pt-BR', { sensitivity: 'base' });
-        });
-    }
-
-    function resumoAcessoModelo(modelo) {
-      if ((modelo.criadoPor || '') === emailAtual()) return 'Seu modelo';
-      if ((modelo.visibilidade || 'publico') === 'publico') return 'Público';
-      if ((modelo.visibilidade || 'publico') === 'usuario') return 'Privado';
-      return modelo.equipeAcesso ? `Equipe: ${modelo.equipeAcesso}` : 'Equipe';
-    }
-
-    function traduzirErroModeloFirestore(error) {
-      const code = error?.code || '';
-      if (code.includes('permission-denied')) return 'Sem permissão para gravar na coleção de modelos_texto. Verifique as regras do Firestore.';
-      if (code.includes('failed-precondition')) return 'A coleção modelos_texto precisa de configuração complementar no Firestore.';
-      if (code.includes('unavailable')) return 'O Firestore está indisponível no momento.';
-      return (error?.message || 'Erro desconhecido ao salvar modelo.');
-    }
-
-    async function salvarModeloAvancado() {
-      const nome = document.getElementById('modeloNome')?.value.trim() || '';
-      const categoria = document.getElementById('modeloCategoria')?.value.trim() || '';
-      const gerenciaRelacionada = normalizarNomeInstitucional(document.getElementById('modeloGerencia')?.value || '');
-      const atalho = sanitizarAtalho(document.getElementById('modeloAtalho')?.value || '');
-      const visibilidade = document.getElementById('modeloVisibilidade')?.value || 'publico';
-      const equipeAcesso = normalizarNomeInstitucional(document.getElementById('modeloEquipeAcesso')?.value || '');
-      const textoModelo = document.getElementById('modeloTexto')?.value.trim() || '';
-      if (!nome || !textoModelo) return toast('Preencha nome e texto do modelo.', 'warning');
-      const email = emailAtual();
-      if (!email) return toast('Faça login para gerenciar modelos.', 'warning');
-      if (atalho) {
-        const duplicado = allModelos.find(m => sanitizarAtalho(m.atalho) === atalho && m.id !== editingModeloId && modeloEhVisivel(m));
-        if (duplicado) {
-          return toast(`O atalho /${atalho} já está em uso em outro modelo visível para você.`, 'warning');
-        }
-      }
-      const payload = {
-        nome,
-        categoria,
-        gerenciaRelacionada,
-        atalho,
-        visibilidade,
-        equipeAcesso: visibilidade === 'equipe' ? equipeAcesso : '',
-        texto: textoModelo,
-        criadoPor: editingModeloId ? (allModelos.find(m => m.id === editingModeloId)?.criadoPor || email) : email,
-        criadoEm: editingModeloId ? (allModelos.find(m => m.id === editingModeloId)?.criadoEm || firebase.firestore.FieldValue.serverTimestamp()) : firebase.firestore.FieldValue.serverTimestamp(),
-        alteradoPor: email,
-        alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
-        favoritosEmails: editingModeloId ? (allModelos.find(m => m.id === editingModeloId)?.favoritosEmails || []) : [],
-        usoCount: editingModeloId ? (allModelos.find(m => m.id === editingModeloId)?.usoCount || 0) : 0,
-        copiasCount: editingModeloId ? (allModelos.find(m => m.id === editingModeloId)?.copiasCount || 0) : 0,
-        ultimoUsoEm: editingModeloId ? (allModelos.find(m => m.id === editingModeloId)?.ultimoUsoEm || null) : null,
-        ultimoUsoPor: editingModeloId ? (allModelos.find(m => m.id === editingModeloId)?.ultimoUsoPor || '') : ''
-      };
-      try {
-        if (editingModeloId) {
-          await db.collection(COLLECTION_MODELOS).doc(editingModeloId).set(payload, { merge: true });
-          toast('Modelo atualizado com sucesso.', 'success');
-        } else {
-          await db.collection(COLLECTION_MODELOS).add(payload);
-          toast('Modelo salvo com sucesso.', 'success');
-        }
-        limparFormularioModelo();
-      } catch (error) {
-        console.error(error);
-        const detalhe = traduzirErroModeloFirestore(error);
-        toast(`Erro ao salvar modelo: ${detalhe}`, 'error');
-        if ((error?.code || '').includes('permission-denied')) {
-          mostrarMensagem('A coleção de modelos não tem permissão liberada no Firestore. O cadastro de processos continua funcionando, mas os modelos precisam de ajuste nas regras.', 'warning');
-        }
+  function abrirModalModelo(id=null) {
+    editingModelId = id;
+    const overlay = document.getElementById('modeloModalOverlay');
+    if (!overlay) return;
+    limparModalModelo();
+    if (id) {
+      const modelo = obterTodosModelos().find(m => m.id === id);
+      if (modelo) {
+        const titulo = document.getElementById('modeloModalTitulo');
+        if (titulo) titulo.textContent = 'Editar modelo';
+        document.getElementById('modeloNome').value = modelo.nome || '';
+        document.getElementById('modeloCategoria').value = modelo.categoria || '';
+        document.getElementById('modeloGerencia').value = modelo.gerenciaRelacionada || '';
+        document.getElementById('modeloAtalho').value = modelo.atalho || '';
+        document.getElementById('modeloVisibilidade').value = modelo.visibilidade || 'publico';
+        document.getElementById('modeloEquipeAcesso').value = modelo.equipeAcesso || '';
+        document.getElementById('modeloTexto').value = modelo.texto || '';
       }
     }
+    atualizarCampoEquipeAcesso();
+    overlay.classList.remove('hidden');
+  }
 
-    function limparFormularioModelo() {
-      editingModeloId = null;
-      const m = ['modeloNome','modeloCategoria','modeloGerencia','modeloAtalho','modeloEquipeAcesso','modeloTexto'];
-      m.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-      const vis = document.getElementById('modeloVisibilidade');
-      if (vis) vis.value = 'publico';
-      const titulo = document.getElementById('tituloFormularioModelo');
-      if (titulo) titulo.textContent = '📄 Novo modelo';
-      const subt = document.getElementById('subtituloFormularioModelo');
-      if (subt) subt.textContent = 'Crie modelos reutilizáveis, com atalhos, variáveis e controle por equipe.';
-      atualizarVisibilidadeEquipeAcesso();
+  function fecharModalModelo() {
+    document.getElementById('modeloModalOverlay')?.classList.add('hidden');
+    limparModalModelo();
+  }
+
+  function obterModelosFiltrados() {
+    const busca = textoNorm(document.getElementById('buscaModelo')?.value || '');
+    const gerencia = normalizarNomeInstitucional(document.getElementById('filtroGerenciaModelo')?.value || '');
+    const somenteFav = !!document.getElementById('somenteFavoritosModelos')?.checked;
+    return obterTodosModelos()
+      .filter(modeloEhVisivel)
+      .filter(m => !gerencia || normalizarNomeInstitucional(m.gerenciaRelacionada || '') === gerencia)
+      .filter(m => !somenteFav || modeloEhFavorito(m))
+      .filter(m => {
+        if (!busca) return true;
+        const alvo = textoNorm([m.nome, m.categoria, m.gerenciaRelacionada, m.atalho, m.texto].join(' '));
+        return alvo.includes(busca);
+      })
+      .sort((a,b) => {
+        const favDiff = Number(modeloEhFavorito(b)) - Number(modeloEhFavorito(a));
+        if (favDiff) return favDiff;
+        const usoDiff = (b.usoCount || 0) - (a.usoCount || 0);
+        if (usoDiff) return usoDiff;
+        return String(a.nome || '').localeCompare(String(b.nome || ''), 'pt-BR', { sensitivity: 'base' });
+      });
+  }
+
+  function renderResumoModelos(modelos) {
+    const alvo = document.getElementById('resumoModelosStats');
+    if (!alvo) return;
+    const favoritos = modelos.filter(modeloEhFavorito).length;
+    const top = [...modelos].sort((a,b) => (b.usoCount || 0) - (a.usoCount || 0))[0];
+    alvo.innerHTML = `
+      <div class="dashboard-kpi-grid" style="margin-top:0;">
+        <div class="mini-kpi"><div class="k">Modelos visíveis</div><div class="v">${modelos.length}</div><div class="s">catálogo atual</div></div>
+        <div class="mini-kpi"><div class="k">Favoritos</div><div class="v">${favoritos}</div><div class="s">marcados por você</div></div>
+        <div class="mini-kpi"><div class="k">Com atalho</div><div class="v">${modelos.filter(m => !!m.atalho).length}</div><div class="s">uso por /comando</div></div>
+        <div class="mini-kpi"><div class="k">Mais usado</div><div class="v">${top ? (top.usoCount || 0) : 0}</div><div class="s">${top ? escapeHtml(top.nome) : 'Sem uso ainda'}</div></div>
+      </div>`;
+  }
+
+  function encurtar(texto, limite=180) {
+    const t = String(texto || '').replace(/\s+/g, ' ').trim();
+    return t.length <= limite ? t : t.slice(0, limite - 1) + '…';
+  }
+
+  function renderListaModelos() {
+    const lista = document.getElementById('listaModelos');
+    if (!lista) return;
+    const modelos = obterModelosFiltrados();
+    renderResumoModelos(modelos);
+    if (!modelos.length) {
+      lista.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><h4>Nenhum modelo disponível</h4><p>Clique em <strong>Novo modelo</strong> para cadastrar ou ajuste os filtros.</p></div>';
+      return;
     }
-
-    async function editarModeloAvancado(id) {
-      const modelo = allModelos.find(m => m.id === id);
-      if (!modelo) return;
-      if ((modelo.criadoPor || '') !== emailAtual()) {
-        return toast('Só o criador pode editar este modelo.', 'warning');
-      }
-      editingModeloId = id;
-      const map = {
-        modeloNome: modelo.nome || '',
-        modeloCategoria: modelo.categoria || '',
-        modeloGerencia: modelo.gerenciaRelacionada || '',
-        modeloAtalho: modelo.atalho || '',
-        modeloVisibilidade: modelo.visibilidade || 'publico',
-        modeloEquipeAcesso: modelo.equipeAcesso || '',
-        modeloTexto: modelo.texto || ''
-      };
-      Object.entries(map).forEach(([id, valor]) => { const el = document.getElementById(id); if (el) el.value = valor; });
-      const titulo = document.getElementById('tituloFormularioModelo');
-      if (titulo) titulo.textContent = '✏️ Editar modelo';
-      const subt = document.getElementById('subtituloFormularioModelo');
-      if (subt) subt.textContent = `Atualizando: ${modelo.nome || ''}`;
-      atualizarVisibilidadeEquipeAcesso();
-      document.getElementById('abaModelos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    async function excluirModeloAvancado(id) {
-      const modelo = allModelos.find(m => m.id === id);
-      if (!modelo) return;
-      if ((modelo.criadoPor || '') !== emailAtual()) {
-        return toast('Só o criador pode excluir este modelo.', 'warning');
-      }
-      if (!confirm(`Deseja excluir o modelo \"${modelo.nome}\"?`)) return;
-      try {
-        await db.collection(COLLECTION_MODELOS).doc(id).delete();
-        if (editingModeloId === id) limparFormularioModelo();
-        toast('Modelo excluído.', 'success');
-      } catch (error) {
-        console.error(error);
-        toast('Erro ao excluir modelo.', 'error');
-      }
-    }
-
-    async function alternarFavoritoModelo(id) {
-      const modelo = allModelos.find(m => m.id === id);
-      if (!modelo) return;
-      const email = emailAtual();
-      if (!email) return;
-      const ref = db.collection(COLLECTION_MODELOS).doc(id);
-      try {
-        if (modeloEhFavorito(modelo)) {
-          await ref.update({ favoritosEmails: firebase.firestore.FieldValue.arrayRemove(email) });
-        } else {
-          await ref.update({ favoritosEmails: firebase.firestore.FieldValue.arrayUnion(email) });
-        }
-      } catch (error) {
-        console.error(error);
-        toast('Erro ao marcar favorito.', 'error');
-      }
-    }
-
-    async function registrarUsoModelo(id, campo='uso') {
-      try {
-        const ref = db.collection(COLLECTION_MODELOS).doc(id);
-        const atualizacao = {
-          ultimoUsoEm: firebase.firestore.FieldValue.serverTimestamp(),
-          ultimoUsoPor: emailAtual(),
-          alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
-          alteradoPor: emailAtual()
-        };
-        if (campo === 'uso') atualizacao.usoCount = firebase.firestore.FieldValue.increment(1);
-        if (campo === 'copia') atualizacao.copiasCount = firebase.firestore.FieldValue.increment(1);
-        await ref.update(atualizacao);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    function beforeEndsWithBreak(txt) {
-      return /(?:\n\s*\n|\n)$/.test(txt || '');
-    }
-
-    function inserirTextoNaEntrada(texto) {
-      if (!entrada) return;
-      const start = entrada.selectionStart ?? entrada.value.length;
-      const end = entrada.selectionEnd ?? entrada.value.length;
-      const antes = entrada.value.slice(0, start);
-      const depois = entrada.value.slice(end);
-      const separadorAntes = antes && !beforeEndsWithBreak(antes) ? '\n\n' : '';
-      const separadorDepois = depois && !depois.startsWith('\n') ? '\n' : '';
-      entrada.value = antes + separadorAntes + texto + separadorDepois + depois;
-      const pos = (antes + separadorAntes + texto).length;
-      entrada.focus();
-      entrada.setSelectionRange(pos, pos);
-      if (typeof salvarRascunhoCadastro === 'function') salvarRascunhoCadastro();
-      if (typeof renderPreviewCadastro === 'function') renderPreviewCadastro();
-    }
-
-    async function aplicarModeloNoProcesso(id, modo='inserir') {
-      const modelo = allModelos.find(m => m.id === id && modeloEhVisivel(m));
-      if (!modelo) return toast('Modelo não encontrado.', 'warning');
-      const textoResolvido = await resolverVariaveisModelo(modelo.texto || '');
-      if (textoResolvido === null) return toast('Uso do modelo cancelado.', 'warning');
-      if (modo === 'copiar') {
-        try {
-          await navigator.clipboard.writeText(textoResolvido);
-          await registrarUsoModelo(id, 'copia');
-          toast('Modelo copiado para a área de transferência.', 'success');
-        } catch (error) {
-          console.error(error);
-          toast('Não foi possível copiar o modelo.', 'error');
-        }
-        return;
-      }
-      inserirTextoNaEntrada(textoResolvido);
-      await registrarUsoModelo(id, 'uso');
-      toast(`Modelo \"${modelo.nome}\" inserido no processo.`, 'success');
-      esconderSugestoesModelos();
-    }
-
-    function renderPainelEstatisticasModelos(modelosVisiveis) {
-      const alvo = document.getElementById('resumoModelosStats');
-      if (!alvo) return;
-      const total = modelosVisiveis.length;
-      const favoritos = modelosVisiveis.filter(modeloEhFavorito).length;
-      const comAtalho = modelosVisiveis.filter(m => !!m.atalho).length;
-      const top = [...modelosVisiveis].sort((a,b) => (b.usoCount || 0) - (a.usoCount || 0)).slice(0, 5);
-      alvo.innerHTML = `
-        <div class="dashboard-kpi-grid" style="margin-top:0;">
-          <div class="mini-kpi"><div class="k">Modelos visíveis</div><div class="v">${total}</div><div class="s">biblioteca disponível para você</div></div>
-          <div class="mini-kpi"><div class="k">Favoritos</div><div class="v">${favoritos}</div><div class="s">acesso rápido pessoal</div></div>
-          <div class="mini-kpi"><div class="k">Com atalho</div><div class="v">${comAtalho}</div><div class="s">invocáveis por /comando</div></div>
-          <div class="mini-kpi"><div class="k">Mais usado</div><div class="v">${top[0] ? (top[0].usoCount || 0) : 0}</div><div class="s">${top[0] ? escapeHtml(top[0].nome) : 'Sem uso ainda'}</div></div>
-        </div>
-        <div class="dashboard-list" style="margin-top:14px;">${top.length ? top.map((m, idx) => `
-          <div class="dashboard-list-item">
-            <div><strong>${idx+1}. ${escapeHtml(m.nome || '(sem nome)')}</strong><span>${escapeHtml(m.gerenciaRelacionada || m.categoria || 'Sem classificação')} • uso ${m.usoCount || 0}x • cópia ${m.copiasCount || 0}x</span></div>
-            <div class="num">${m.usoCount || 0}</div>
-          </div>`).join('') : '<div class="dashboard-empty">Ainda não há estatísticas de uso para os modelos visíveis.</div>'}
-        </div>`;
-    }
-
-    function renderListaModelos() {
-      const lista = document.getElementById('listaModelos');
-      if (!lista) return;
-      const modelos = obterModelosVisiveis();
-      renderPainelEstatisticasModelos(modelos);
-      if (!modelos.length) {
-        lista.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🧩</div><h4>Nenhum modelo encontrado</h4><p>Ajuste os filtros, escolha outra equipe ou cadastre um novo modelo.</p></div>';
-        return;
-      }
-      lista.innerHTML = modelos.map(modelo => {
-        const favorito = modeloEhFavorito(modelo);
-        const tags = [
-          modelo.categoria ? `<span class="tag-gerencia">🏷️ ${escapeHtml(modelo.categoria)}</span>` : '',
-          modelo.gerenciaRelacionada ? `<span class="tag-gerencia">📌 ${escapeHtml(modelo.gerenciaRelacionada)}</span>` : '',
-          modelo.atalho ? `<span class="tag-gerencia">/${escapeHtml(modelo.atalho)}</span>` : '',
-          `<span class="tag-gerencia">${escapeHtml(resumoAcessoModelo(modelo))}</span>`,
-          `<span class="tag-gerencia">📈 usos: ${modelo.usoCount || 0}</span>`
-        ].filter(Boolean).join('');
-        const acoesEdicao = (modelo.criadoPor || '') === emailAtual() ? `
-            <button type="button" class="secondary" data-model-action="edit" data-model-id="${modelo.id}">Editar</button>
-            <button type="button" class="danger" data-model-action="delete" data-model-id="${modelo.id}">Excluir</button>` : '';
-        return `
-          <div class="modelo-card card">
-            <div class="modelo-card-head">
-              <div>
-                <div class="modelo-title-row">
-                  <strong>${escapeHtml(modelo.nome || '(sem nome)')}</strong>
-                  <button type="button" class="modelo-fav-btn ${favorito ? 'active' : ''}" title="Favoritar" data-model-action="fav" data-model-id="${modelo.id}">${favorito ? '⭐' : '☆'}</button>
-                </div>
-                <div class="select-badges-row" style="margin-top:8px;">${tags}</div>
-              </div>
-              <div class="muted-mini">Criado por ${escapeHtml(modelo.criadoPor || '-')}</div>
+    lista.innerHTML = modelos.map(modelo => {
+      const favorito = modeloEhFavorito(modelo);
+      const editavel = (modelo.criadoPor || '') === emailAtualModelo();
+      const tags = [
+        modelo.armazenamento === 'local' ? '<span class="tag-gerencia">💾 LOCAL</span>' : '',
+        modelo.categoria ? `<span class="tag-gerencia">🏷️ ${escapeHtml(modelo.categoria)}</span>` : '',
+        modelo.gerenciaRelacionada ? `<span class="tag-gerencia">📌 ${escapeHtml(modelo.gerenciaRelacionada)}</span>` : '',
+        modelo.atalho ? `<span class="tag-gerencia">/${escapeHtml(modelo.atalho)}</span>` : '',
+        `<span class="tag-gerencia">${escapeHtml(resumoAcesso(modelo))}</span>`
+      ].filter(Boolean).join('');
+      return `
+        <div class="modelo-card-lite">
+          <div class="modelo-card-header-lite">
+            <div style="min-width:0;">
+              <div class="modelo-titulo-lite">${escapeHtml(modelo.nome || '(sem nome)')}</div>
+              <div class="select-badges-row" style="margin-top:8px;">${tags}</div>
             </div>
-            <div class="modelo-texto-box">${escapeHtml(modelo.texto || '')}</div>
-            <div class="acoes modelo-acoes-row">
+            <button type="button" class="modelo-fav-btn-lite ${favorito ? 'active' : ''}" data-model-action="fav" data-model-id="${modelo.id}" title="Favoritar">${favorito ? '⭐' : '☆'}</button>
+          </div>
+          <div class="modelo-texto-lite">${escapeHtml(encurtar(modelo.texto || ''))}</div>
+          <div class="modelo-footer-lite">
+            <div class="muted-mini">Criado por ${escapeHtml(modelo.criadoPor || '-')} • uso ${modelo.usoCount || 0}x</div>
+            <div class="modelo-actions-lite">
               <button type="button" data-model-action="use" data-model-id="${modelo.id}">Usar</button>
               <button type="button" class="light" data-model-action="copy" data-model-id="${modelo.id}">Copiar</button>
-              ${acoesEdicao}
+              ${editavel ? `<button type="button" class="secondary" data-model-action="edit" data-model-id="${modelo.id}">Editar</button>` : ''}
+              ${editavel ? `<button type="button" class="danger" data-model-action="delete" data-model-id="${modelo.id}">Excluir</button>` : ''}
             </div>
-          </div>`;
-      }).join('');
-    }
+          </div>
+        </div>`;
+    }).join('');
+  }
 
-    function atualizarVisibilidadeEquipeAcesso() {
-      const vis = document.getElementById('modeloVisibilidade');
-      const box = document.getElementById('boxEquipeAcessoModelo');
-      if (!vis || !box) return;
-      box.classList.toggle('hidden', vis.value !== 'equipe');
-    }
-
-    function preencherSelectEquipesModelos() {
-      const ids = ['modeloGerencia', 'filtroGerenciaModelo', 'modeloEquipeAcesso', 'contextoEquipeModelos'];
-      const equipes = equipesDisponiveisModelos();
-      ids.forEach(id => {
-        const select = document.getElementById(id);
-        if (!select) return;
-        const valorAtual = select.value;
-        const vazio = id === 'contextoEquipeModelos' ? 'Selecione sua equipe/gerência' : 'Todas';
-        select.innerHTML = `<option value="">${id === 'modeloEquipeAcesso' ? 'Selecione a equipe' : vazio}</option>`;
-        equipes.forEach(eq => {
-          const op = document.createElement('option');
-          op.value = eq;
-          op.textContent = eq;
-          select.appendChild(op);
-        });
-        if ([...select.options].some(op => op.value === valorAtual)) select.value = valorAtual;
-      });
-    }
-
-    function iniciarEscutaModelos() {
-      if (unsubscribeModelos) unsubscribeModelos();
-      unsubscribeModelos = db.collection(COLLECTION_MODELOS).onSnapshot(snapshot => {
-        allModelos = [];
-        snapshot.forEach(doc => {
-          const dados = doc.data() || {};
-          allModelos.push({
-            id: doc.id,
-            nome: dados.nome || '',
-            categoria: dados.categoria || '',
-            gerenciaRelacionada: normalizarNomeInstitucional(dados.gerenciaRelacionada || ''),
-            atalho: sanitizarAtalho(dados.atalho || ''),
-            visibilidade: dados.visibilidade || 'publico',
-            equipeAcesso: normalizarNomeInstitucional(dados.equipeAcesso || ''),
-            texto: dados.texto || '',
-            criadoPor: dados.criadoPor || '',
-            criadoEm: dados.criadoEm || null,
-            alteradoPor: dados.alteradoPor || '',
-            alteradoEm: dados.alteradoEm || null,
-            favoritosEmails: Array.isArray(dados.favoritosEmails) ? dados.favoritosEmails : [],
-            usoCount: Number(dados.usoCount || 0),
-            copiasCount: Number(dados.copiasCount || 0),
-            ultimoUsoEm: dados.ultimoUsoEm || null,
-            ultimoUsoPor: dados.ultimoUsoPor || ''
-          });
-        });
-        renderListaModelos();
-        renderSugestoesModelos();
-      }, error => {
-        console.error(error);
-        toast(`Erro ao carregar os modelos: ${traduzirErroModeloFirestore(error)}`, 'error');
-      });
-    }
-
-    function encurtarTextoModelo(texto, limite=160) {
-      const t = String(texto || '').replace(/\s+/g, ' ').trim();
-      return t.length <= limite ? t : t.slice(0, limite - 1) + '…';
-    }
-
-    function obterSugestoesPorTexto(texto) {
-      const modelos = allModelos.filter(modeloEhVisivel);
-      const clean = String(texto || '');
-      const ateCursor = clean.slice(0, entrada?.selectionStart ?? clean.length);
-      const matchCmdExato = ateCursor.match(/(?:^|\s)\/([a-z0-9\-_]+)$/i);
-      const termoCmd = sanitizarAtalho(matchCmdExato?.[1] || '');
-      const baseNorm = normalizarTextoModelo(ateCursor);
-      const palavras = baseNorm.split(/\s+/).filter(Boolean);
-      const contexto = palavras.slice(-4).join(' ');
-      let lista = modelos.map(modelo => {
-        let score = 0;
-        if (termoCmd) {
-          if ((modelo.atalho || '') === termoCmd) score += 100;
-          else if ((modelo.atalho || '').startsWith(termoCmd)) score += 80;
-        }
-        if (contexto) {
-          const nome = normalizarTextoModelo(modelo.nome);
-          const categoria = normalizarTextoModelo(modelo.categoria);
-          const gerencia = normalizarTextoModelo(modelo.gerenciaRelacionada);
-          const textoModelo = normalizarTextoModelo(modelo.texto).slice(0, 500);
-          if (nome.includes(contexto)) score += 35;
-          if (categoria.includes(contexto)) score += 10;
-          if (gerencia.includes(contexto)) score += 10;
-          if (textoModelo.includes(contexto)) score += 15;
-          contexto.split(/\s+/).forEach(parte => {
-            if (!parte) return;
-            if (nome.includes(parte)) score += 8;
-            if (textoModelo.includes(parte)) score += 4;
-            if ((modelo.atalho || '').includes(parte)) score += 6;
-          });
-        }
-        if (modeloEhFavorito(modelo)) score += 12;
-        score += Math.min(modelo.usoCount || 0, 15);
-        return { modelo, score };
-      }).filter(item => item.score > 0)
-        .sort((a,b) => b.score - a.score || (b.modelo.usoCount || 0) - (a.modelo.usoCount || 0))
-        .slice(0, 6)
-        .map(item => item.modelo);
-      if (!lista.length && clean.trim().length >= 3) {
-        lista = modelos.sort((a,b) => Number(modeloEhFavorito(b)) - Number(modeloEhFavorito(a)) || (b.usoCount || 0) - (a.usoCount || 0)).slice(0, 4);
+  function renderSugestoes() {
+    const box = document.getElementById('sugestoesModelosBox');
+    if (!box || !entrada || !entrada.matches(':focus')) return;
+    const texto = String(entrada.value || '');
+    const cursor = entrada.selectionStart ?? texto.length;
+    const antes = texto.slice(0, cursor);
+    const cmdMatch = antes.match(/(?:^|\s)\/([a-z0-9\-_]+)$/i);
+    const termoCmd = atalhoSeguro(cmdMatch?.[1] || '');
+    const contexto = textoNorm(antes).split(/\s+/).slice(-4).join(' ');
+    sugestoes = obterTodosModelos().filter(modeloEhVisivel).map(m => {
+      let score = 0;
+      if (termoCmd) {
+        if ((m.atalho || '') === termoCmd) score += 100;
+        else if ((m.atalho || '').startsWith(termoCmd)) score += 70;
       }
-      return lista;
-    }
-
-    function renderSugestoesModelos() {
-      const box = document.getElementById('sugestoesModelosBox');
-      if (!box || !entrada) return;
-      sugestoesAbertas = obterSugestoesPorTexto(entrada.value || '');
-      sugestaoSelecionadaIndex = 0;
-      if (!sugestoesAbertas.length || !entrada.matches(':focus')) {
-        esconderSugestoesModelos();
-        return;
+      if (contexto) {
+        const alvo = textoNorm([m.nome, m.categoria, m.gerenciaRelacionada, m.texto].join(' '));
+        if (alvo.includes(contexto)) score += 20;
+        contexto.split(/\s+/).forEach(p => { if (p && alvo.includes(p)) score += 4; });
       }
-      box.innerHTML = `
-        <div class="model-suggest-head">Sugestões de modelos</div>
-        ${sugestoesAbertas.map((modelo, idx) => `
-          <button type="button" class="model-suggest-item ${idx === sugestaoSelecionadaIndex ? 'active' : ''}" data-suggest-id="${modelo.id}" data-suggest-index="${idx}">
-            <div class="model-suggest-main">
-              <strong>${escapeHtml(modelo.nome || '(sem nome)')}</strong>
-              <span>${modelo.atalho ? '/' + escapeHtml(modelo.atalho) : 'sem atalho'} • ${escapeHtml(modelo.categoria || modelo.gerenciaRelacionada || 'modelo')}</span>
-            </div>
-            <small>${escapeHtml(encurtarTextoModelo(modelo.texto || ''))}</small>
-          </button>`).join('')}
-        <div class="muted-mini" style="padding:8px 12px;">Dica: digite /atalho e pressione Tab ou Enter para inserir o modelo.</div>`;
-      box.classList.remove('hidden');
-    }
-
-    function atualizarSelecaoSugestoes(novoIndex) {
-      const box = document.getElementById('sugestoesModelosBox');
-      if (!box || !sugestoesAbertas.length) return;
-      sugestaoSelecionadaIndex = (novoIndex + sugestoesAbertas.length) % sugestoesAbertas.length;
-      box.querySelectorAll('.model-suggest-item').forEach((item, idx) => item.classList.toggle('active', idx === sugestaoSelecionadaIndex));
-    }
-
-    function esconderSugestoesModelos() {
-      const box = document.getElementById('sugestoesModelosBox');
-      if (!box) return;
+      if (modeloEhFavorito(m)) score += 10;
+      score += Math.min(m.usoCount || 0, 10);
+      return { m, score };
+    }).filter(x => x.score > 0)
+      .sort((a,b) => b.score - a.score)
+      .slice(0, 6)
+      .map(x => x.m);
+    sugestaoIndex = 0;
+    if (!sugestoes.length) {
       box.classList.add('hidden');
       box.innerHTML = '';
-      sugestoesAbertas = [];
-      sugestaoSelecionadaIndex = 0;
+      return;
     }
+    box.innerHTML = `
+      <div class="model-suggest-head">Sugestões de modelos</div>
+      ${sugestoes.map((m, idx) => `
+        <button type="button" class="model-suggest-item ${idx === sugestaoIndex ? 'active' : ''}" data-model-suggest-id="${m.id}">
+          <div class="model-suggest-main"><strong>${escapeHtml(m.nome || '(sem nome)')}</strong><span>${m.atalho ? '/' + escapeHtml(m.atalho) : 'sem atalho'}</span></div>
+          <small>${escapeHtml(encurtar(m.texto || '', 120))}</small>
+        </button>`).join('')}
+      <div class="muted-mini" style="padding:8px 12px;">Dica: digite /atalho e pressione Tab, Enter ou espaço.</div>`;
+    box.classList.remove('hidden');
+  }
 
-    function substituirComandoPorModeloSeAplicavel() {
-      if (!entrada) return false;
-      const valor = entrada.value;
-      const pos = entrada.selectionStart ?? valor.length;
-      const ateCursor = valor.slice(0, pos);
-      const match = ateCursor.match(/(?:^|\s)\/([a-z0-9\-_]+)(?:\s|\n)$/i);
-      if (!match) return false;
-      const atalho = sanitizarAtalho(match[1]);
-      if (!atalho) return false;
-      const modelo = allModelos.find(m => modeloEhVisivel(m) && (m.atalho || '') === atalho);
-      if (!modelo) return false;
-      const inicioComando = ateCursor.lastIndexOf('/' + match[1]);
-      const fimComando = pos;
-      resolverVariaveisModelo(modelo.texto || '').then(async textoResolvido => {
-        if (textoResolvido === null) return;
-        const antes = valor.slice(0, inicioComando);
-        const depois = valor.slice(fimComando);
-        entrada.value = antes + textoResolvido + depois;
-        const novaPos = (antes + textoResolvido).length;
-        entrada.focus();
-        entrada.setSelectionRange(novaPos, novaPos);
-        if (typeof salvarRascunhoCadastro === 'function') salvarRascunhoCadastro();
-        if (typeof renderPreviewCadastro === 'function') renderPreviewCadastro();
-        await registrarUsoModelo(modelo.id, 'uso');
-        toast(`Atalho /${atalho} aplicado.`, 'success');
-        renderSugestoesModelos();
-      });
-      return true;
-    }
+  function esconderSugestoes() {
+    const box = document.getElementById('sugestoesModelosBox');
+    if (!box) return;
+    box.classList.add('hidden');
+    box.innerHTML = '';
+    sugestoes = [];
+    sugestaoIndex = 0;
+  }
 
-    function anexarUiModelos() {
-      if (document.getElementById('tabModelosBtn')) return;
-      const tabs = document.querySelector('.tabs');
-      if (tabs) {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.id = 'tabModelosBtn';
-        btn.className = 'tab-btn';
-        btn.textContent = 'Modelos';
-        tabs.appendChild(btn);
+  function moverSelecaoSugestao(delta) {
+    const box = document.getElementById('sugestoesModelosBox');
+    if (!box || !sugestoes.length) return;
+    sugestaoIndex = (sugestaoIndex + delta + sugestoes.length) % sugestoes.length;
+    box.querySelectorAll('.model-suggest-item').forEach((el, idx) => el.classList.toggle('active', idx === sugestaoIndex));
+  }
+
+  async function usarModelo(id, modo='inserir') {
+    const modelo = obterTodosModelos().find(m => m.id === id && modeloEhVisivel(m));
+    if (!modelo) return toast('Modelo não encontrado.', 'warning');
+    const textoResolvido = await resolverVariaveis(modelo.texto || '');
+    if (textoResolvido === null) return;
+    if (modo === 'copy') {
+      try {
+        await navigator.clipboard.writeText(textoResolvido);
+        await registrarUsoModelo(id, 'copia');
+        toast('Texto copiado.', 'success');
+      } catch {
+        toast('Não foi possível copiar.', 'error');
       }
-      const abaProcessos = document.getElementById('abaProcessos');
-      if (abaProcessos) {
-        abaProcessos.insertAdjacentHTML('afterend', `
-          <div id="abaModelos" class="hidden">
-            <div class="workspace-grid modelos-workspace-grid">
-              <aside class="left-pane">
-                <div class="box-soft composer-card lux">
-                  <div class="composer-hero">
-                    <div class="composer-hero-top">
-                      <div>
-                        <h3 id="tituloFormularioModelo">📄 Novo modelo</h3>
-                        <p id="subtituloFormularioModelo">Crie modelos reutilizáveis, com atalhos, variáveis e controle por equipe.</p>
-                      </div>
-                      <div class="composer-status-pill">Biblioteca inteligente</div>
-                    </div>
-                  </div>
-                  <div class="composer-stage-grid">
-                    <div class="composer-panel">
-                      <div class="composer-panel-header">
-                        <div>
-                          <div class="composer-panel-kicker">1. Identificação</div>
-                          <h4 class="composer-panel-title">Dados do modelo</h4>
-                        </div>
-                        <div class="composer-chip-soft"><span class="mini-dot"></span> Atalho + categoria</div>
-                      </div>
-                      <div class="composer-card-grid-2">
-                        <div class="field-lux"><label for="modeloNome">Nome do modelo</label><input id="modeloNome" placeholder="Ex.: Ofício padrão de encaminhamento"></div>
-                        <div class="field-lux"><label for="modeloCategoria">Categoria</label><input id="modeloCategoria" placeholder="Ex.: Ofícios, LGPD, Despachos"></div>
-                        <div class="field-lux select-structured"><label for="modeloGerencia">Gerência relacionada</label><select id="modeloGerencia"></select><span class="select-helper">Use para organização e filtros.</span></div>
-                        <div class="field-lux"><label for="modeloAtalho">Atalho</label><input id="modeloAtalho" placeholder="Ex.: oficio"><span class="select-helper">Digite no processo como /oficio.</span></div>
-                      </div>
-                    </div>
-                    <div class="composer-panel">
-                      <div class="composer-panel-header">
-                        <div>
-                          <div class="composer-panel-kicker">2. Acesso</div>
-                          <h4 class="composer-panel-title">Controle por usuário/equipe</h4>
-                        </div>
-                        <div class="composer-chip-soft"><span class="mini-dot"></span> Privacidade configurável</div>
-                      </div>
-                      <div class="composer-card-grid-2">
-                        <div class="field-lux select-structured"><label for="modeloVisibilidade">Quem pode ver</label><select id="modeloVisibilidade"><option value="publico">Todos</option><option value="usuario">Somente eu</option><option value="equipe">Minha equipe/gerência</option></select></div>
-                        <div class="field-lux select-structured hidden" id="boxEquipeAcessoModelo"><label for="modeloEquipeAcesso">Equipe/Gerência autorizada</label><select id="modeloEquipeAcesso"></select><span class="select-helper">Somente essa equipe verá o modelo.</span></div>
-                      </div>
-                    </div>
-                    <div class="composer-panel">
-                      <div class="composer-panel-header">
-                        <div>
-                          <div class="composer-panel-kicker">3. Conteúdo</div>
-                          <h4 class="composer-panel-title">Texto base</h4>
-                          <p class="composer-panel-desc">Use variáveis como {nome}, {data}, {processo}, {assunto}, {gerencia} e {prazo}. Ao inserir o modelo, o sistema pedirá os valores.</p>
-                        </div>
-                      </div>
-                      <div class="composer-shell-elevated"><textarea id="modeloTexto" placeholder="Exemplo:\nEncaminho o processo {processo} ao(à) {gerencia}, para análise e manifestação até {data}.\nInteressado: {nome}."></textarea></div>
-                    </div>
-                    <div class="composer-toolbar-lux btn-row">
-                      <button type="button" id="btnSalvarModeloAvancado" class="save-main">Salvar modelo</button>
-                      <button type="button" class="outline" id="btnLimparModeloAvancado">Limpar</button>
-                      <button type="button" class="outline" id="btnDuplicarPreviewModelo">Inserir variáveis de exemplo</button>
-                      <button type="button" class="outline" id="btnCopiarAtalhosModelos">Ver guia rápido</button>
-                    </div>
-                  </div>
-                </div>
-              </aside>
-              <section class="right-pane">
-                <div class="card chart-card">
-                  <div class="dashboard-section-title"><div><h4>Resumo da biblioteca</h4><small>Indicadores dos modelos acessíveis para o usuário logado.</small></div></div>
-                  <div id="resumoModelosStats"></div>
-                </div>
-                <div class="card filters-card">
-                  <div class="section-title section-title-with-icon">🔎 Busca e visibilidade dos modelos</div>
-                  <div class="composer-card-grid-3 modelos-filtros-grid">
-                    <div class="field-lux"><label for="buscaModelo">Busca rápida</label><input id="buscaModelo" placeholder="Buscar por nome, atalho, categoria ou texto"></div>
-                    <div class="field-lux select-structured"><label for="filtroGerenciaModelo">Gerência relacionada</label><select id="filtroGerenciaModelo"></select></div>
-                    <div class="field-lux select-structured"><label for="contextoEquipeModelos">Minha equipe/gerência</label><select id="contextoEquipeModelos"></select><span class="select-helper">Usado para exibir apenas os modelos da sua equipe.</span></div>
-                  </div>
-                  <div class="toolbar" style="margin-top:12px; justify-content:space-between;">
-                    <label class="checkbox-inline" for="somenteFavoritosModelos" style="margin-top:0;"><input type="checkbox" id="somenteFavoritosModelos"> <span>Mostrar apenas favoritos</span></label>
-                    <button type="button" class="light" id="btnLimparFiltrosModelos" style="width:auto; min-width:150px; margin-top:0;">Limpar filtros</button>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="dashboard-section-title"><div><h4>Modelos cadastrados</h4><small>Use, copie, favorite ou edite os modelos disponíveis.</small></div></div>
-                  <div id="listaModelos"></div>
-                </div>
-              </section>
+      return;
+    }
+    inserirTextoNaEntrada(textoResolvido);
+    await registrarUsoModelo(id, 'uso');
+    toast(`Modelo "${modelo.nome}" inserido no texto.`, 'success');
+    esconderSugestoes();
+    abrirAba('processos');
+  }
+
+  function inserirTextoNaEntrada(textoInserir) {
+    if (!entrada) return;
+    const start = entrada.selectionStart ?? entrada.value.length;
+    const end = entrada.selectionEnd ?? entrada.value.length;
+    const antes = entrada.value.slice(0, start);
+    const depois = entrada.value.slice(end);
+    const sa = antes && !/(?:\n\s*\n|\n)$/.test(antes) ? '\n\n' : '';
+    const sd = depois && !depois.startsWith('\n') ? '\n' : '';
+    entrada.value = antes + sa + textoInserir + sd + depois;
+    const pos = (antes + sa + textoInserir).length;
+    entrada.focus();
+    entrada.setSelectionRange(pos, pos);
+    if (typeof salvarRascunhoCadastro === 'function') salvarRascunhoCadastro();
+    if (typeof renderPreviewCadastro === 'function') renderPreviewCadastro();
+  }
+
+  function substituirAtalhoQuandoCabivel() {
+    if (!entrada) return false;
+    const valor = entrada.value;
+    const pos = entrada.selectionStart ?? valor.length;
+    const antes = valor.slice(0, pos);
+    const m = antes.match(/(?:^|\s)\/([a-z0-9\-_]+)(?:\s|\n)$/i);
+    if (!m) return false;
+    const atalho = atalhoSeguro(m[1]);
+    if (!atalho) return false;
+    const modelo = obterTodosModelos().find(x => modeloEhVisivel(x) && (x.atalho || '') === atalho);
+    if (!modelo) return false;
+    const inicio = antes.lastIndexOf('/' + m[1]);
+    const fim = pos;
+    resolverVariaveis(modelo.texto || '').then(async textoResolvido => {
+      if (textoResolvido === null) return;
+      entrada.value = valor.slice(0, inicio) + textoResolvido + valor.slice(fim);
+      const novaPos = (valor.slice(0, inicio) + textoResolvido).length;
+      entrada.focus();
+      entrada.setSelectionRange(novaPos, novaPos);
+      if (typeof salvarRascunhoCadastro === 'function') salvarRascunhoCadastro();
+      if (typeof renderPreviewCadastro === 'function') renderPreviewCadastro();
+      await registrarUsoModelo(modelo.id, 'uso');
+      toast(`Atalho /${atalho} aplicado.`, 'success');
+      renderSugestoes();
+    });
+    return true;
+  }
+
+  function iniciarEscutaModelos() {
+    if (unsubscribeModelos) unsubscribeModelos();
+    unsubscribeModelos = db.collection(COLLECTION_MODELOS).onSnapshot(snapshot => {
+      remoteModels = [];
+      snapshot.forEach(doc => {
+        const d = doc.data() || {};
+        remoteModels.push({
+          id: doc.id,
+          nome: d.nome || '',
+          categoria: d.categoria || '',
+          gerenciaRelacionada: normalizarNomeInstitucional(d.gerenciaRelacionada || ''),
+          atalho: atalhoSeguro(d.atalho || ''),
+          visibilidade: d.visibilidade || 'publico',
+          equipeAcesso: normalizarNomeInstitucional(d.equipeAcesso || ''),
+          texto: d.texto || '',
+          criadoPor: d.criadoPor || '',
+          favoritosEmails: Array.isArray(d.favoritosEmails) ? d.favoritosEmails : [],
+          usoCount: Number(d.usoCount || 0),
+          copiasCount: Number(d.copiasCount || 0),
+          armazenamento: 'firestore'
+        });
+      });
+      renderListaModelos();
+      renderSugestoes();
+    }, error => {
+      console.error(error);
+      toast(`Modelos online indisponíveis: ${traduzirErroModelo(error)}. Os modelos locais continuam disponíveis.`, 'warning');
+      remoteModels = [];
+      renderListaModelos();
+    });
+  }
+
+  function montarInterfaceModelos() {
+    if (document.getElementById('tabModelosBtn')) return;
+    const tabs = document.querySelector('.tabs');
+    if (tabs) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'tabModelosBtn';
+      btn.className = 'tab-btn';
+      btn.textContent = 'Modelos';
+      tabs.appendChild(btn);
+    }
+
+    const after = document.getElementById('abaDashboard');
+    if (after) {
+      after.insertAdjacentHTML('afterend', `
+        <div id="abaModelos" class="hidden">
+          <div class="card hero modelos-hero-card">
+            <div class="topbar">
+              <div>
+                <h3 style="margin-bottom:6px;">Biblioteca de modelos</h3>
+                <div class="muted">Uma tela mais simples: catálogo, filtros e cadastro em janela.</div>
+              </div>
+              <div class="toolbar">
+                <button type="button" id="btnNovoModeloModal">Novo modelo</button>
+                <button type="button" class="outline" id="btnVoltarProcessosModelos">Voltar aos processos</button>
+              </div>
             </div>
-          </div>`);
-      }
-      const entradaWrap = entrada?.closest('.composer-shell-elevated');
-      if (entradaWrap && !document.getElementById('sugestoesModelosBox')) {
-        const box = document.createElement('div');
-        box.id = 'sugestoesModelosBox';
-        box.className = 'model-suggest-box hidden';
-        entradaWrap.appendChild(box);
-      }
-      const style = document.createElement('style');
-      style.textContent = `
-        .modelos-workspace-grid { min-height: calc(100vh - 250px); }
-        .modelo-card { border:1px solid #d4dde1; border-radius:18px; padding:16px; background:linear-gradient(180deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,.12) 100%); box-shadow:0 4px 12px rgba(16,24,40,.04); }
-        .modelo-card + .modelo-card { margin-top:12px; }
-        .modelo-card-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap; }
-        .modelo-title-row { display:flex; gap:10px; align-items:center; }
-        .modelo-fav-btn { width:auto; min-width:40px; margin-top:0; padding:8px 10px; border-radius:999px; background:#fff3c4; color:#8a6200; border:1px solid #e9d48a; box-shadow:none; }
-        .modelo-fav-btn.active { background:#ffe08a; color:#7a5200; }
-        .modelo-texto-box { margin-top:12px; padding:14px; border-radius:14px; background:rgba(255,255,255,.42); border:1px dashed #d0dae0; white-space:pre-wrap; line-height:1.5; color:#30434f; }
-        .modelo-acoes-row { margin-top:14px; flex-direction:row !important; flex-wrap:wrap !important; min-width:0 !important; }
-        .modelo-acoes-row button { width:auto !important; min-width:110px !important; }
-        .model-suggest-box { position:relative; margin-top:10px; border:1px solid #cfd8dd; border-radius:16px; background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(236,242,244,.98) 100%); box-shadow:0 12px 26px rgba(16,24,40,.10); overflow:hidden; }
-        .model-suggest-head { padding:10px 12px; font-size:12px; font-weight:800; color:#5a6b75; text-transform:uppercase; letter-spacing:.06em; background:rgba(116,135,145,.10); border-bottom:1px solid #d4dde1; }
-        .model-suggest-item { width:100%; margin-top:0; text-align:left; border:0; border-bottom:1px solid #e1e8eb; background:transparent; color:#22313b; box-shadow:none; border-radius:0; padding:12px; }
-        .model-suggest-item:last-of-type { border-bottom:0; }
-        .model-suggest-item:hover, .model-suggest-item.active { background:#dde6ea; }
-        .model-suggest-main { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
-        .model-suggest-main span { font-size:12px; color:#667782; }
-        .model-suggest-item small { display:block; margin-top:6px; color:#56656f; line-height:1.45; }
-        body.dark-mode .modelo-card, body.dark-mode .modelo-texto-box, body.dark-mode .model-suggest-box, body.dark-mode .model-suggest-item { background:rgba(255,255,255,.03) !important; border-color:#374151 !important; color:#e5e7eb !important; }
-        body.dark-mode .model-suggest-item:hover, body.dark-mode .model-suggest-item.active { background:#243243 !important; }
-        body.dark-mode .model-suggest-head, body.dark-mode .model-suggest-main span, body.dark-mode .model-suggest-item small { color:#9fb0bd !important; }
-        @media (max-width: 980px) {
-          .modelos-filtros-grid { grid-template-columns:1fr !important; }
-          .modelo-acoes-row button { min-width:0 !important; width:100% !important; }
-        }
-      `;
-      document.head.appendChild(style);
-      preencherSelectEquipesModelos();
+          </div>
+          <div class="card chart-card"><div id="resumoModelosStats"></div></div>
+          <div class="card filters-card">
+            <div class="composer-card-grid-3 modelos-filtros-grid">
+              <div class="field-lux"><label for="buscaModelo">Busca rápida</label><input id="buscaModelo" placeholder="Nome, categoria, texto ou /atalho"></div>
+              <div class="field-lux select-structured"><label for="filtroGerenciaModelo">Gerência relacionada</label><select id="filtroGerenciaModelo"></select></div>
+              <div class="field-lux select-structured"><label for="contextoEquipeModelos">Minha equipe/gerência</label><select id="contextoEquipeModelos"></select><span class="select-helper">Escolha sua equipe para ver os modelos restritos por equipe.</span></div>
+            </div>
+            <div class="toolbar" style="margin-top:12px; justify-content:space-between;">
+              <label class="checkbox-inline" for="somenteFavoritosModelos" style="margin-top:0;"><input type="checkbox" id="somenteFavoritosModelos"> <span>Somente favoritos</span></label>
+              <button type="button" class="light" id="btnLimparFiltrosModelos" style="width:auto; min-width:150px; margin-top:0;">Limpar filtros</button>
+            </div>
+          </div>
+          <div class="card"><div class="dashboard-section-title"><div><h4>Modelos disponíveis</h4><small>Use o texto direto no processo ou copie com um clique.</small></div></div><div id="listaModelos"></div></div>
+        </div>
+        <div id="modeloModalOverlay" class="modal-overlay hidden">
+          <div class="modal modelo-modal">
+            <div class="modal-header">
+              <div>
+                <h3 id="modeloModalTitulo" style="margin-bottom:6px;">Novo modelo</h3>
+                <div class="muted">Se o Firestore bloquear, o sistema salva localmente neste navegador para você não perder o texto.</div>
+              </div>
+              <button type="button" class="modal-close" id="btnFecharModeloModal">Fechar</button>
+            </div>
+            <div class="composer-card-grid-2">
+              <div class="field-lux"><label for="modeloNome">Nome do modelo</label><input id="modeloNome" placeholder="Ex.: Encaminhamento padrão"></div>
+              <div class="field-lux"><label for="modeloCategoria">Categoria</label><input id="modeloCategoria" placeholder="Ex.: Ofícios, pareceres, LGPD"></div>
+              <div class="field-lux select-structured"><label for="modeloGerencia">Gerência relacionada</label><select id="modeloGerencia"></select></div>
+              <div class="field-lux"><label for="modeloAtalho">Atalho</label><input id="modeloAtalho" placeholder="Ex.: oficio"></div>
+              <div class="field-lux select-structured"><label for="modeloVisibilidade">Quem pode ver</label><select id="modeloVisibilidade"><option value="publico">Todos</option><option value="usuario">Somente eu</option><option value="equipe">Minha equipe/gerência</option></select></div>
+              <div class="field-lux select-structured hidden" id="boxEquipeAcessoModelo"><label for="modeloEquipeAcesso">Equipe/Gerência autorizada</label><select id="modeloEquipeAcesso"></select></div>
+            </div>
+            <div class="field-lux" style="margin-top:12px;"><label for="modeloTexto">Texto do modelo</label><textarea id="modeloTexto" style="min-height:180px;" placeholder="Use variáveis como {nome}, {data}, {processo}, {assunto}, {gerencia} e {prazo}."></textarea></div>
+            <div class="toolbar" style="margin-top:14px; justify-content:space-between;">
+              <button type="button" class="outline" id="btnExemploModelo">Inserir exemplo</button>
+              <div class="toolbar">
+                <button type="button" class="outline" id="btnLimparModeloAvancado">Limpar</button>
+                <button type="button" id="btnSalvarModeloAvancado">Salvar modelo</button>
+              </div>
+            </div>
+          </div>
+        </div>`);
     }
 
-    function registrarEventosModelos() {
-      const btnModelos = document.getElementById('tabModelosBtn');
-      if (btnModelos) {
-        btnModelos.addEventListener('click', () => abrirAba('modelos'));
-      }
-      const originalAbrirAba = abrirAba;
-      if (!window.__sgpModelosPatchAba) {
-        abrirAba = function(aba) {
-          const abaModelosEl = document.getElementById('abaModelos');
-          const tabModelosBtnEl = document.getElementById('tabModelosBtn');
-          if (aba === 'modelos') {
-            document.getElementById('abaProcessos')?.classList.add('hidden');
-            document.getElementById('abaDashboard')?.classList.add('hidden');
-            abaModelosEl?.classList.remove('hidden');
-            document.getElementById('tabProcessosBtn')?.classList.remove('active');
-            document.getElementById('tabDashboardBtn')?.classList.remove('active');
-            tabModelosBtnEl?.classList.add('active');
-            localStorage.setItem(STORAGE_KEYS.aba, 'modelos');
-            renderListaModelos();
-            return;
-          }
-          abaModelosEl?.classList.add('hidden');
-          tabModelosBtnEl?.classList.remove('active');
-          return originalAbrirAba(aba);
-        };
-        window.__sgpModelosPatchAba = true;
-      }
-      document.getElementById('btnSalvarModeloAvancado')?.addEventListener('click', salvarModeloAvancado);
-      document.getElementById('btnLimparModeloAvancado')?.addEventListener('click', limparFormularioModelo);
-      document.getElementById('btnDuplicarPreviewModelo')?.addEventListener('click', () => {
-        const area = document.getElementById('modeloTexto');
-        if (!area) return;
-        const exemplo = `Prezados,\n\nEncaminho o processo {processo} ao(à) {gerencia} para análise e manifestação até {data}.\nInteressado(a): {nome}.\nAssunto: {assunto}.\n\nAtenciosamente,\n${emailAtual()}`;
-        area.value = area.value ? area.value + '\n\n' + exemplo : exemplo;
-      });
-      document.getElementById('btnCopiarAtalhosModelos')?.addEventListener('click', () => {
-        alert('Guia rápido de modelos:\n\n1) Digite /atalho no campo de processo e pressione espaço, Enter ou Tab.\n2) Use variáveis como {nome}, {data}, {processo}, {assunto}, {gerencia}, {prazo}.\n3) Marque suas opções favoritas com ⭐ para priorizar as sugestões.\n4) Defina a visibilidade para Todos, Somente eu ou Minha equipe/gerência.');
-      });
-      document.getElementById('modeloVisibilidade')?.addEventListener('change', atualizarVisibilidadeEquipeAcesso);
-      document.getElementById('buscaModelo')?.addEventListener('input', renderListaModelos);
-      document.getElementById('filtroGerenciaModelo')?.addEventListener('change', () => {
-        localStorage.setItem(MODELOS_STORAGE_KEYS.filtroGerencia, document.getElementById('filtroGerenciaModelo')?.value || '');
-        renderListaModelos();
-      });
-      document.getElementById('somenteFavoritosModelos')?.addEventListener('change', () => {
-        localStorage.setItem(MODELOS_STORAGE_KEYS.filtroSomenteFavoritos, document.getElementById('somenteFavoritosModelos')?.checked ? '1' : '0');
-        renderListaModelos();
-      });
-      document.getElementById('contextoEquipeModelos')?.addEventListener('change', () => {
-        localStorage.setItem(MODELOS_STORAGE_KEYS.equipeAtual, document.getElementById('contextoEquipeModelos')?.value || '');
-        renderListaModelos();
-        renderSugestoesModelos();
-      });
-      document.getElementById('btnLimparFiltrosModelos')?.addEventListener('click', () => {
-        const b = document.getElementById('buscaModelo');
-        const g = document.getElementById('filtroGerenciaModelo');
-        const f = document.getElementById('somenteFavoritosModelos');
-        if (b) b.value = '';
-        if (g) g.value = '';
-        if (f) f.checked = false;
-        localStorage.setItem(MODELOS_STORAGE_KEYS.filtroGerencia, '');
-        localStorage.setItem(MODELOS_STORAGE_KEYS.filtroSomenteFavoritos, '0');
-        renderListaModelos();
-      });
-      document.getElementById('listaModelos')?.addEventListener('click', async (e) => {
-        const btn = e.target.closest('[data-model-action]');
-        if (!btn) return;
-        const action = btn.dataset.modelAction;
-        const id = btn.dataset.modelId;
-        if (!id) return;
-        if (action === 'fav') return alternarFavoritoModelo(id);
-        if (action === 'use') return aplicarModeloNoProcesso(id, 'inserir');
-        if (action === 'copy') return aplicarModeloNoProcesso(id, 'copiar');
-        if (action === 'edit') return editarModeloAvancado(id);
-        if (action === 'delete') return excluirModeloAvancado(id);
-      });
-      document.getElementById('sugestoesModelosBox')?.addEventListener('mousedown', (e) => {
-        const btn = e.target.closest('[data-suggest-id]');
-        if (!btn) return;
-        e.preventDefault();
-        aplicarModeloNoProcesso(btn.dataset.suggestId, 'inserir');
-      });
-      entrada?.addEventListener('focus', renderSugestoesModelos);
-      entrada?.addEventListener('blur', () => setTimeout(esconderSugestoesModelos, 170));
-      entrada?.addEventListener('input', () => {
-        const aplicado = substituirComandoPorModeloSeAplicavel();
-        if (!aplicado) renderSugestoesModelos();
-      });
-      entrada?.addEventListener('keydown', (e) => {
-        const aberta = !!sugestoesAbertas.length && !document.getElementById('sugestoesModelosBox')?.classList.contains('hidden');
-        if (!aberta) return;
-        if (e.key === 'ArrowDown') { e.preventDefault(); atualizarSelecaoSugestoes(sugestaoSelecionadaIndex + 1); }
-        if (e.key === 'ArrowUp') { e.preventDefault(); atualizarSelecaoSugestoes(sugestaoSelecionadaIndex - 1); }
-        if (e.key === 'Tab' || e.key === 'Enter') {
-          const matchCmd = String(entrada.value || '').slice(0, entrada.selectionStart ?? entrada.value.length).match(/(?:^|\s)\/([a-z0-9\-_]+)$/i);
-          if (matchCmd || aberta) {
-            e.preventDefault();
-            const modelo = sugestoesAbertas[sugestaoSelecionadaIndex] || sugestoesAbertas[0];
-            if (modelo) aplicarModeloNoProcesso(modelo.id, 'inserir');
-          }
-        }
-        if (e.key === 'Escape') esconderSugestoesModelos();
-      });
+    const composerToolbar = document.querySelector('.composer-toolbar-lux');
+    if (composerToolbar && !document.getElementById('btnAbrirBibliotecaModelos')) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'btnAbrirBibliotecaModelos';
+      btn.className = 'outline';
+      btn.textContent = 'Modelos';
+      composerToolbar.appendChild(btn);
     }
 
-    function restaurarFiltrosModelos() {
-      const eq = document.getElementById('contextoEquipeModelos');
-      const ger = document.getElementById('filtroGerenciaModelo');
-      const fav = document.getElementById('somenteFavoritosModelos');
-      if (eq) eq.value = localStorage.getItem(MODELOS_STORAGE_KEYS.equipeAtual) || '';
-      if (ger) ger.value = localStorage.getItem(MODELOS_STORAGE_KEYS.filtroGerencia) || '';
-      if (fav) fav.checked = localStorage.getItem(MODELOS_STORAGE_KEYS.filtroSomenteFavoritos) === '1';
+    const entradaWrap = entrada?.closest('.composer-shell-elevated');
+    if (entradaWrap && !document.getElementById('sugestoesModelosBox')) {
+      const box = document.createElement('div');
+      box.id = 'sugestoesModelosBox';
+      box.className = 'model-suggest-box hidden';
+      entradaWrap.appendChild(box);
     }
 
-    function iniciarPatchModelos() {
-      anexarUiModelos();
-      preencherSelectEquipesModelos();
-      restaurarFiltrosModelos();
-      atualizarVisibilidadeEquipeAcesso();
-      registrarEventosModelos();
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          iniciarEscutaModelos();
-          if (document.getElementById('contextoEquipeModelos') && !document.getElementById('contextoEquipeModelos').value) {
-            const valorPadrao = localStorage.getItem(MODELOS_STORAGE_KEYS.equipeAtual) || '';
-            document.getElementById('contextoEquipeModelos').value = valorPadrao;
-          }
-        } else {
-          if (unsubscribeModelos) { unsubscribeModelos(); unsubscribeModelos = null; }
-          allModelos = [];
+    const style = document.createElement('style');
+    style.textContent = `
+      .modelos-hero-card { margin-bottom: 16px; }
+      .modelo-card-lite { border: 1px solid #d5dfe3; border-radius: 18px; padding: 16px; background: linear-gradient(180deg, rgba(255,255,255,.30) 0%, rgba(255,255,255,.12) 100%); box-shadow: 0 6px 18px rgba(16,24,40,.04); }
+      .modelo-card-lite + .modelo-card-lite { margin-top: 12px; }
+      .modelo-card-header-lite { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+      .modelo-titulo-lite { font-size:16px; font-weight:800; color:#2b404b; line-height:1.3; }
+      .modelo-fav-btn-lite { width:auto; min-width:42px; margin-top:0; padding:8px 10px; border-radius:999px; border:1px solid #e5d28a; background:#fff5cf; color:#8a6200; box-shadow:none; }
+      .modelo-fav-btn-lite.active { background:#ffe08c; }
+      .modelo-texto-lite { margin-top:12px; padding:12px 14px; border-radius:14px; border:1px dashed #d0dade; background:rgba(255,255,255,.40); color:#32444f; line-height:1.55; white-space: pre-wrap; }
+      .modelo-footer-lite { margin-top:14px; display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; }
+      .modelo-actions-lite { display:flex; gap:8px; flex-wrap:wrap; }
+      .modelo-actions-lite button { width:auto; min-width:96px; margin-top:0; }
+      .modelo-modal { width:min(880px, 100%); }
+      .model-suggest-box { position:relative; margin-top:10px; border:1px solid #cfd8dd; border-radius:16px; background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(236,242,244,.98) 100%); box-shadow:0 12px 26px rgba(16,24,40,.10); overflow:hidden; }
+      .model-suggest-head { padding:10px 12px; font-size:12px; font-weight:800; color:#5a6b75; text-transform:uppercase; letter-spacing:.06em; background:rgba(116,135,145,.10); border-bottom:1px solid #d4dde1; }
+      .model-suggest-item { width:100%; margin-top:0; text-align:left; border:0; border-bottom:1px solid #e1e8eb; background:transparent; color:#22313b; box-shadow:none; border-radius:0; padding:12px; }
+      .model-suggest-item:last-of-type { border-bottom:0; }
+      .model-suggest-item:hover, .model-suggest-item.active { background:#dde6ea; }
+      .model-suggest-main { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+      .model-suggest-main span { font-size:12px; color:#667782; }
+      .model-suggest-item small { display:block; margin-top:6px; color:#56656f; line-height:1.45; }
+      body.dark-mode .modelo-card-lite, body.dark-mode .modelo-texto-lite, body.dark-mode .model-suggest-box, body.dark-mode .model-suggest-item, body.dark-mode .modelo-modal { background:rgba(255,255,255,.03) !important; border-color:#374151 !important; color:#e5e7eb !important; }
+      body.dark-mode .model-suggest-item:hover, body.dark-mode .model-suggest-item.active { background:#243243 !important; }
+      body.dark-mode .model-suggest-head, body.dark-mode .model-suggest-main span, body.dark-mode .model-suggest-item small { color:#9fb0bd !important; }
+      @media (max-width: 900px) { .modelo-footer-lite { flex-direction:column; align-items:stretch; } .modelo-actions-lite { width:100%; } .modelo-actions-lite button { flex:1 1 100%; width:100%; } .modelos-filtros-grid { grid-template-columns:1fr !important; } }
+    `;
+    document.head.appendChild(style);
+    preencherSelectsModelos();
+  }
+
+  function registrarEventosModelos() {
+    const originalAbrirAba = abrirAba;
+    if (!window.__sgpModelosPatchV3) {
+      abrirAba = function(aba) {
+        const abaModelos = document.getElementById('abaModelos');
+        const tabModelos = document.getElementById('tabModelosBtn');
+        if (aba === 'modelos') {
+          document.getElementById('abaProcessos')?.classList.add('hidden');
+          document.getElementById('abaDashboard')?.classList.add('hidden');
+          abaModelos?.classList.remove('hidden');
+          document.getElementById('tabProcessosBtn')?.classList.remove('active');
+          document.getElementById('tabDashboardBtn')?.classList.remove('active');
+          tabModelos?.classList.add('active');
+          localStorage.setItem(STORAGE_KEYS.aba, 'modelos');
           renderListaModelos();
-          esconderSugestoesModelos();
+          return;
         }
-      });
+        abaModelos?.classList.add('hidden');
+        tabModelos?.classList.remove('active');
+        return originalAbrirAba(aba);
+      };
+      window.__sgpModelosPatchV3 = true;
     }
 
-    iniciarPatchModelos();
+    document.getElementById('tabModelosBtn')?.addEventListener('click', () => abrirAba('modelos'));
+    document.getElementById('btnAbrirBibliotecaModelos')?.addEventListener('click', () => abrirAba('modelos'));
+    document.getElementById('btnVoltarProcessosModelos')?.addEventListener('click', () => abrirAba('processos'));
+    document.getElementById('btnNovoModeloModal')?.addEventListener('click', () => abrirModalModelo());
+    document.getElementById('btnFecharModeloModal')?.addEventListener('click', fecharModalModelo);
+    document.getElementById('modeloModalOverlay')?.addEventListener('click', (e) => { if (e.target.id === 'modeloModalOverlay') fecharModalModelo(); });
+    document.getElementById('modeloVisibilidade')?.addEventListener('change', atualizarCampoEquipeAcesso);
+    document.getElementById('btnLimparModeloAvancado')?.addEventListener('click', limparModalModelo);
+    document.getElementById('btnExemploModelo')?.addEventListener('click', () => {
+      const area = document.getElementById('modeloTexto');
+      const exemplo = `Encaminho o processo {processo} ao(à) {gerencia} para análise e manifestação até {data}.\nInteressado(a): {nome}.\nAssunto: {assunto}.`;
+      if (area) area.value = area.value ? area.value + '\n\n' + exemplo : exemplo;
+    });
+    document.getElementById('btnSalvarModeloAvancado')?.addEventListener('click', async () => {
+      const nome = document.getElementById('modeloNome')?.value.trim() || '';
+      const textoModelo = document.getElementById('modeloTexto')?.value.trim() || '';
+      if (!nome || !textoModelo) return toast('Preencha nome e texto do modelo.', 'warning');
+      if (!emailAtualModelo()) return toast('Faça login para gerenciar os modelos.', 'warning');
+      const todos = obterTodosModelos();
+      const atalho = atalhoSeguro(document.getElementById('modeloAtalho')?.value || '');
+      if (atalho) {
+        const dup = todos.find(m => atalhoSeguro(m.atalho) === atalho && m.id !== editingModelId && modeloEhVisivel(m));
+        if (dup) return toast(`O atalho /${atalho} já está em uso.`, 'warning');
+      }
+      const e = editingModelId ? todos.find(m => m.id === editingModelId) : null;
+      const base = modeloPayloadBase({
+        criadoPor: e?.criadoPor || emailAtualModelo(),
+        favoritosEmails: e?.favoritosEmails || [],
+        usoCount: e?.usoCount || 0,
+        copiasCount: e?.copiasCount || 0,
+        ultimoUsoEm: e?.ultimoUsoEm || '',
+        ultimoUsoPor: e?.ultimoUsoPor || ''
+      });
+      try {
+        const remoto = { ...base, criadoEm: e?.criadoEmRemoto || firebase.firestore.FieldValue.serverTimestamp(), alteradoEm: firebase.firestore.FieldValue.serverTimestamp() };
+        if (editingModelId && !String(editingModelId).startsWith('local_')) {
+          await db.collection(COLLECTION_MODELOS).doc(editingModelId).set(remoto, { merge: true });
+        } else {
+          await db.collection(COLLECTION_MODELOS).add(remoto);
+        }
+        toast('Modelo salvo com sucesso.', 'success');
+        fecharModalModelo();
+      } catch (error) {
+        console.error(error);
+        const offline = { ...base, id: editingModelId && String(editingModelId).startsWith('local_') ? editingModelId : `local_${Date.now()}`, criadoEm: e?.criadoEm || new Date().toISOString(), armazenamento: 'local', visibilidade: 'usuario' };
+        const idx = localModels.findIndex(m => m.id === offline.id);
+        if (idx >= 0) localModels[idx] = offline; else localModels.push(offline);
+        salvarLocaisModelos();
+        renderListaModelos();
+        fecharModalModelo();
+        toast(`${traduzirErroModelo(error)}. O modelo foi salvo localmente neste navegador.`, 'warning');
+        if ((error?.code || '').includes('permission-denied')) {
+          mostrarMensagem('O Firestore não liberou a coleção modelos_texto. Mesmo assim, o modelo ficou salvo localmente neste navegador.', 'warning');
+        }
+      }
+    });
 
-    window.aplicarModeloNoProcesso = aplicarModeloNoProcesso;
-    window.editarModeloAvancado = editarModeloAvancado;
-    window.excluirModeloAvancado = excluirModeloAvancado;
-    window.alternarFavoritoModelo = alternarFavoritoModelo;
-  })();
-  </script>
+    const busca = document.getElementById('buscaModelo');
+    busca?.addEventListener('input', () => { localStorage.setItem(STORAGE.busca, busca.value || ''); renderListaModelos(); });
+    const filtroG = document.getElementById('filtroGerenciaModelo');
+    filtroG?.addEventListener('change', () => { localStorage.setItem(STORAGE.gerencia, filtroG.value || ''); renderListaModelos(); });
+    const equipe = document.getElementById('contextoEquipeModelos');
+    equipe?.addEventListener('change', () => { localStorage.setItem(STORAGE.equipe, equipe.value || ''); renderListaModelos(); renderSugestoes(); });
+    const fav = document.getElementById('somenteFavoritosModelos');
+    fav?.addEventListener('change', () => { localStorage.setItem(STORAGE.somenteFavoritos, fav.checked ? '1' : '0'); renderListaModelos(); });
+    document.getElementById('btnLimparFiltrosModelos')?.addEventListener('click', () => {
+      if (busca) busca.value = '';
+      if (filtroG) filtroG.value = '';
+      if (fav) fav.checked = false;
+      localStorage.setItem(STORAGE.busca, '');
+      localStorage.setItem(STORAGE.gerencia, '');
+      localStorage.setItem(STORAGE.somenteFavoritos, '0');
+      renderListaModelos();
+    });
+
+    document.getElementById('listaModelos')?.addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-model-action]');
+      if (!btn) return;
+      const id = btn.dataset.modelId;
+      const action = btn.dataset.modelAction;
+      if (!id) return;
+      if (action === 'fav') return alternarFavoritoModelo(id);
+      if (action === 'use') return usarModelo(id, 'inserir');
+      if (action === 'copy') return usarModelo(id, 'copy');
+      if (action === 'edit') return abrirModalModelo(id);
+      if (action === 'delete') return excluirModeloAvancado(id);
+    });
+
+    document.getElementById('sugestoesModelosBox')?.addEventListener('mousedown', (e) => {
+      const btn = e.target.closest('[data-model-suggest-id]');
+      if (!btn) return;
+      e.preventDefault();
+      usarModelo(btn.dataset.modelSuggestId, 'inserir');
+    });
+
+    entrada?.addEventListener('focus', renderSugestoes);
+    entrada?.addEventListener('blur', () => setTimeout(esconderSugestoes, 170));
+    entrada?.addEventListener('input', () => {
+      const substituiu = substituirAtalhoQuandoCabivel();
+      if (!substituiu) renderSugestoes();
+    });
+    entrada?.addEventListener('keydown', (e) => {
+      const aberta = !!sugestoes.length && !document.getElementById('sugestoesModelosBox')?.classList.contains('hidden');
+      if (!aberta) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); moverSelecaoSugestao(1); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); moverSelecaoSugestao(-1); }
+      if (e.key === 'Tab' || e.key === 'Enter') {
+        const matchCmd = String(entrada.value || '').slice(0, entrada.selectionStart ?? entrada.value.length).match(/(?:^|\s)\/([a-z0-9\-_]+)$/i);
+        if (matchCmd || aberta) {
+          e.preventDefault();
+          const modelo = sugestoes[sugestaoIndex] || sugestoes[0];
+          if (modelo) usarModelo(modelo.id, 'inserir');
+        }
+      }
+      if (e.key === 'Escape') esconderSugestoes();
+    });
+  }
+
+  function restaurarPreferencias() {
+    const busca = document.getElementById('buscaModelo');
+    const gerencia = document.getElementById('filtroGerenciaModelo');
+    const equipe = document.getElementById('contextoEquipeModelos');
+    const fav = document.getElementById('somenteFavoritosModelos');
+    if (busca) busca.value = localStorage.getItem(STORAGE.busca) || '';
+    if (gerencia) gerencia.value = localStorage.getItem(STORAGE.gerencia) || '';
+    if (equipe) equipe.value = localStorage.getItem(STORAGE.equipe) || '';
+    if (fav) fav.checked = localStorage.getItem(STORAGE.somenteFavoritos) === '1';
+  }
+
+  function iniciarModelos() {
+    montarInterfaceModelos();
+    carregarLocaisModelos();
+    preencherSelectsModelos();
+    restaurarPreferencias();
+    atualizarCampoEquipeAcesso();
+    registrarEventosModelos();
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        iniciarEscutaModelos();
+        renderListaModelos();
+      } else {
+        if (unsubscribeModelos) { unsubscribeModelos(); unsubscribeModelos = null; }
+        remoteModels = [];
+        renderListaModelos();
+        esconderSugestoes();
+      }
+    });
+  }
+
+  iniciarModelos();
+})();
+</script>
 
 </body>
 </html>
