@@ -2454,6 +2454,143 @@
     }
     body.dark-mode .global-search-item-title { color: #f3f4f6 !important; }
 
+
+    .prazo-atalhos-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .prazo-atalhos-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+    .prazo-atalho-btn {
+      width: auto;
+      min-width: 230px;
+      margin-top: 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      box-shadow: none;
+      white-space: normal;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .relatorio-modal {
+      width: min(980px, calc(100vw - 32px));
+    }
+    .relatorio-conteudo-box {
+      margin-top: 16px;
+      border: 1px solid #d6dee2;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.36) 0%, rgba(255,255,255,.16) 100%);
+      padding: 16px;
+      max-height: 65vh;
+      overflow: auto;
+    }
+    .relatorio-grid-kpi {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .relatorio-kpi {
+      border: 1px solid #d6dee2;
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(255,255,255,.52);
+    }
+    .relatorio-kpi .k {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .relatorio-kpi .v {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+    .relatorio-grid-duplo {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .relatorio-card {
+      border: 1px solid #d6dee2;
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(255,255,255,.42);
+    }
+    .relatorio-card h4 {
+      margin: 0 0 10px;
+      font-size: 15px;
+    }
+    .relatorio-lista {
+      display: grid;
+      gap: 8px;
+    }
+    .relatorio-lista-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      border-bottom: 1px dashed #d6dee2;
+      padding-bottom: 6px;
+    }
+    .relatorio-lista-item:last-child { border-bottom: 0; padding-bottom: 0; }
+    .relatorio-headline {
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: var(--text-soft);
+      line-height: 1.55;
+    }
+    @media (max-width: 900px) {
+      .relatorio-grid-kpi, .relatorio-grid-duplo { grid-template-columns: 1fr; }
+      .prazo-atalho-btn { min-width: 0; width: 100%; }
+    }
+
+
+    .relatorio-filtro-bar {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .relatorio-graficos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .relatorio-chart-card {
+      border: 1px solid #d6dee2;
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(255,255,255,.42);
+      min-height: 320px;
+    }
+    .relatorio-chart-wrap {
+      position: relative;
+      height: 250px;
+    }
+    .relatorio-toolbar-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    @media (max-width: 900px) {
+      .relatorio-graficos-grid, .relatorio-filtro-bar { grid-template-columns: 1fr; }
+    }
+
 </style>
 </head>
 <body>
@@ -2498,6 +2635,7 @@
         </div>
         <div class="toolbar">
           <button type="button" class="theme-toggle" id="btnTema">🌙 Modo escuro</button>
+          <button type="button" class="outline" style="width:auto; min-width:150px;" id="btnAbrirRelatorio">Relatório</button>
           <button type="button" class="secondary" style="width:auto; min-width:220px;" id="btnNotificacao">Ativar notificações</button>
           <button type="button" class="danger" style="width:auto; min-width:140px;" id="btnSair">Sair</button>
         </div>
@@ -2597,6 +2735,10 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                         <option value="7">7 dias</option>
                       </select>
                     </div>
+                  </div>
+                  <div class="prazo-atalhos-row">
+                    <span class="prazo-atalhos-label">Atalho de prazo</span>
+                    <button type="button" class="outline prazo-atalho-btn" id="btnPrazo10Dias">Processo com prazo de 10 dias</button>
                   </div>
                   <div class="checkbox-lux">
                     <label class="checkbox-inline" for="semPrazoManual"><input type="checkbox" id="semPrazoManual" /> <span>Processo sem prazo definido</span></label>
@@ -2912,8 +3054,61 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
         <div><label for="editHoraFinal">Hora de retorno (opcional)</label><input type="time" id="editHoraFinal" /></div>
       </div>
+      <div class="prazo-atalhos-row modal-prazo-atalhos" style="margin-top:10px;">
+        <span class="prazo-atalhos-label">Atalho de prazo</span>
+        <button type="button" class="outline prazo-atalho-btn" id="btnEditPrazo10Dias">Processo com prazo de 10 dias</button>
+      </div>
       <label class="checkbox-inline" for="editSemPrazo"><input type="checkbox" id="editSemPrazo" /> <span>Processo sem prazo definido</span></label>
       <div class="btn-row"><button type="button" id="btnSalvarEdicao">Salvar alterações</button></div>
+    </div>
+  </div>
+
+  <div id="relatorioOverlay" class="modal-overlay hidden">
+    <div class="modal relatorio-modal">
+      <div class="modal-header">
+        <div>
+          <h3 style="margin-bottom:6px;">Relatório inteligente</h3>
+          <div class="muted">Gere relatório mensal ou anual, filtre por gerência e exporte em PDF formatado.</div>
+        </div>
+        <button type="button" class="modal-close" id="btnFecharRelatorio">Fechar</button>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label for="relatorioModo">Modo do relatório</label>
+          <select id="relatorioModo">
+            <option value="periodo">Por meses</option>
+            <option value="anual">Anual</option>
+          </select>
+        </div>
+        <div>
+          <label for="relatorioGerenciaFiltro">Gerência/Área (opcional)</label>
+          <select id="relatorioGerenciaFiltro"><option value="">Todas</option></select>
+        </div>
+      </div>
+      <div class="grid-2" id="relatorioMesesBox" style="margin-top:12px;">
+        <div>
+          <label for="relatorioMesInicial">Mês inicial</label>
+          <input type="month" id="relatorioMesInicial" />
+        </div>
+        <div>
+          <label for="relatorioMesFinal">Mês final</label>
+          <input type="month" id="relatorioMesFinal" />
+        </div>
+      </div>
+      <div id="relatorioAnoBox" class="hidden" style="margin-top:12px;">
+        <label for="relatorioAno">Ano</label>
+        <input type="number" id="relatorioAno" min="2020" max="2100" step="1" placeholder="2026" />
+      </div>
+      <div class="toolbar" style="margin-top:14px; justify-content:space-between;">
+        <button type="button" id="btnGerarRelatorioPeriodo">Gerar relatório</button>
+        <div class="toolbar">
+          <button type="button" class="outline" id="btnCopiarRelatorio">Copiar texto</button>
+          <button type="button" class="outline" id="btnImprimirRelatorio">Exportar PDF</button>
+        </div>
+      </div>
+      <div id="relatorioConteudo" class="relatorio-conteudo-box">
+        <div class="muted">Selecione o modo, o período e clique em <strong>Gerar relatório</strong>.</div>
+      </div>
     </div>
   </div>
 
@@ -3405,6 +3600,25 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const editHoraFinal = $("editHoraFinal");
     const editSemPrazo = $("editSemPrazo");
     const btnSalvarEdicao = $("btnSalvarEdicao");
+    const btnPrazo10Dias = $("btnPrazo10Dias");
+    const btnEditPrazo10Dias = $("btnEditPrazo10Dias");
+    const btnAbrirRelatorio = $("btnAbrirRelatorio");
+    const relatorioOverlay = $("relatorioOverlay");
+    const btnFecharRelatorio = $("btnFecharRelatorio");
+    const relatorioModo = $("relatorioModo");
+    const relatorioMesesBox = $("relatorioMesesBox");
+    const relatorioAnoBox = $("relatorioAnoBox");
+    const relatorioAno = $("relatorioAno");
+    const relatorioGerenciaFiltro = $("relatorioGerenciaFiltro");
+    const relatorioMesInicial = $("relatorioMesInicial");
+    const relatorioMesFinal = $("relatorioMesFinal");
+    const btnGerarRelatorioPeriodo = $("btnGerarRelatorioPeriodo");
+    const relatorioConteudo = $("relatorioConteudo");
+    const btnCopiarRelatorio = $("btnCopiarRelatorio");
+    const btnImprimirRelatorio = $("btnImprimirRelatorio");
+    let chartRelatorioArea = null;
+    let chartRelatorioSituacao = null;
+    let chartRelatorioEvolucao = null;
     const toasts = $("toasts");
 
     function normalizarBusca(texto) {
@@ -3745,6 +3959,296 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       data.setDate(data.getDate() + dias);
       return data.toISOString().split("T")[0];
     }
+
+    function aplicarPrazoRapido(campoData, campoSemPrazo, dias, campoHora = null) {
+      if (!campoData) return;
+      if (campoSemPrazo) campoSemPrazo.checked = false;
+      campoData.disabled = false;
+      if (campoHora) campoHora.disabled = false;
+      campoData.value = addDays(todayISO(), dias);
+      if (typeof salvarRascunhoCadastro === "function") salvarRascunhoCadastro();
+      if (typeof renderPreviewCadastro === "function") renderPreviewCadastro();
+    }
+
+    function obterDataCadastroItem(item) {
+      const criado = item?.criadoEm?.toDate ? item.criadoEm.toDate() : (item?.criadoEm instanceof Date ? item.criadoEm : (item?.criadoEm ? new Date(item.criadoEm) : null));
+      if (criado && !isNaN(criado.getTime())) return criado;
+      if (item?.dataCadastroISO) {
+        const d = new Date(item.dataCadastroISO + "T00:00:00");
+        if (!isNaN(d.getTime())) return d;
+      }
+      return null;
+    }
+
+    function primeiroDiaDoMes(valorMes) {
+      return valorMes ? new Date(valorMes + "-01T00:00:00") : null;
+    }
+
+    function ultimoDiaDoMes(valorMes) {
+      if (!valorMes) return null;
+      const [ano, mes] = valorMes.split('-').map(Number);
+      return new Date(ano, mes, 0, 23, 59, 59, 999);
+    }
+
+    function formatarMesAno(valorMes) {
+      if (!valorMes) return "";
+      const d = new Date(valorMes + "-01T00:00:00");
+      return d.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+    }
+
+    function agruparContagem(lista, seletor) {
+      const mapa = new Map();
+      lista.forEach(item => {
+        const chave = seletor(item) || "Não informado";
+        mapa.set(chave, (mapa.get(chave) || 0) + 1);
+      });
+      return [...mapa.entries()].sort((a,b) => b[1] - a[1]);
+    }
+
+    
+function preencherFiltroGerenciaRelatorio() {
+  if (!relatorioGerenciaFiltro) return;
+  const valorAtual = relatorioGerenciaFiltro.value;
+  const opcoes = [...new Set([...AREAS, ...TODAS_UNIDADES].map(v => normalizarNomeInstitucional(v)).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'pt-BR'));
+  relatorioGerenciaFiltro.innerHTML = '<option value="">Todas</option>' + opcoes.map(op => `<option value="${escapeHtml(op)}">${escapeHtml(op)}</option>`).join('');
+  if ([...relatorioGerenciaFiltro.options].some(op => op.value === valorAtual)) relatorioGerenciaFiltro.value = valorAtual;
+}
+
+function atualizarCamposModoRelatorio() {
+  const modo = relatorioModo?.value || 'periodo';
+  relatorioMesesBox?.classList.toggle('hidden', modo !== 'periodo');
+  relatorioAnoBox?.classList.toggle('hidden', modo !== 'anual');
+}
+
+function limparGraficosRelatorio() {
+  [chartRelatorioArea, chartRelatorioSituacao, chartRelatorioEvolucao].forEach(chart => {
+    try { chart?.destroy(); } catch (e) { console.warn(e); }
+  });
+  chartRelatorioArea = null;
+  chartRelatorioSituacao = null;
+  chartRelatorioEvolucao = null;
+}
+
+function abrirRelatorio() {
+  if (!relatorioOverlay) return;
+  preencherFiltroGerenciaRelatorio();
+  const hoje = new Date();
+  const mesAtual = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}`;
+  if (relatorioMesInicial && !relatorioMesInicial.value) relatorioMesInicial.value = mesAtual;
+  if (relatorioMesFinal && !relatorioMesFinal.value) relatorioMesFinal.value = mesAtual;
+  if (relatorioAno && !relatorioAno.value) relatorioAno.value = String(hoje.getFullYear());
+  if (relatorioModo && !relatorioModo.value) relatorioModo.value = 'periodo';
+  atualizarCamposModoRelatorio();
+  relatorioOverlay.classList.remove('hidden');
+}
+
+function fecharRelatorio() {
+  relatorioOverlay?.classList.add('hidden');
+}
+
+function filtrarItensParaRelatorio() {
+  const modo = relatorioModo?.value || 'periodo';
+  const gerenciaFiltro = normalizarNomeInstitucional(relatorioGerenciaFiltro?.value || '');
+  let inicio = null;
+  let fim = null;
+  let tituloPeriodo = '';
+  if (modo === 'anual') {
+    const ano = parseInt(relatorioAno?.value || '', 10);
+    if (!ano || ano < 2020 || ano > 2100) {
+      toast('Informe um ano válido para o relatório anual.', 'warning');
+      return null;
+    }
+    inicio = new Date(ano, 0, 1, 0, 0, 0, 0);
+    fim = new Date(ano, 11, 31, 23, 59, 59, 999);
+    tituloPeriodo = `Ano de ${ano}`;
+  } else {
+    const mesInicial = relatorioMesInicial?.value || '';
+    const mesFinal = relatorioMesFinal?.value || '';
+    if (!mesInicial || !mesFinal) {
+      toast('Selecione o mês inicial e o mês final.', 'warning');
+      return null;
+    }
+    if (mesInicial > mesFinal) {
+      toast('O mês inicial não pode ser maior que o mês final.', 'warning');
+      return null;
+    }
+    inicio = primeiroDiaDoMes(mesInicial);
+    fim = ultimoDiaDoMes(mesFinal);
+    tituloPeriodo = `${formatarMesAno(mesInicial)} a ${formatarMesAno(mesFinal)}`;
+  }
+  const itens = (allItems || []).filter(item => {
+    const data = obterDataCadastroItem(item);
+    if (!data || data < inicio || data > fim) return false;
+    if (gerenciaFiltro) {
+      const comps = [item.gerencia, item.gerenciaSecundaria, item.area, ...(item.gerencias || [])].map(v => normalizarNomeInstitucional(v));
+      return comps.includes(gerenciaFiltro);
+    }
+    return true;
+  });
+  return { modo, inicio, fim, tituloPeriodo, gerenciaFiltro, itens };
+}
+
+function montarSerieEvolucao(itens, modo, inicio, fim) {
+  const serie = [];
+  if (modo === 'anual') {
+    const ano = inicio.getFullYear();
+    for (let mes = 0; mes < 12; mes++) {
+      const dataRef = new Date(ano, mes, 1);
+      serie.push({
+        label: dataRef.toLocaleDateString('pt-BR', { month: 'short' }),
+        total: 0,
+        key: `${ano}-${String(mes + 1).padStart(2, '0')}`
+      });
+    }
+  } else {
+    const cursor = new Date(inicio.getFullYear(), inicio.getMonth(), 1);
+    while (cursor <= fim) {
+      serie.push({
+        label: cursor.toLocaleDateString('pt-BR', { month: 'short', year: '2-digit' }),
+        total: 0,
+        key: `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}`
+      });
+      cursor.setMonth(cursor.getMonth() + 1);
+    }
+  }
+  itens.forEach(item => {
+    const d = obterDataCadastroItem(item);
+    if (!d) return;
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    const ref = serie.find(s => s.key === key);
+    if (ref) ref.total += 1;
+  });
+  return serie;
+}
+
+function renderGraficosRelatorio(itens, modo, inicio, fim) {
+  limparGraficosRelatorio();
+  const areaCanvas = $("relatorioGraficoAreas");
+  const situacaoCanvas = $("relatorioGraficoSituacao");
+  const evolucaoCanvas = $("relatorioGraficoEvolucao");
+  if (!areaCanvas || !situacaoCanvas || !evolucaoCanvas) return;
+  const dark = document.body.classList.contains('dark-mode');
+  const tickColor = dark ? '#cbd5e1' : '#485a65';
+  const gridColor = dark ? 'rgba(148,163,184,.18)' : 'rgba(98,115,125,.12)';
+  const tooltipBg = dark ? '#111827' : '#334854';
+  const commonScales = {
+    x: { ticks: { color: tickColor }, grid: { color: gridColor, drawBorder: false } },
+    y: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }
+  };
+  const porArea = agruparContagem(itens, item => item.area || item.gerencia || 'Não informado').slice(0, 8);
+  const porSituacao = agruparContagem(itens, item => item.situacao || 'Não informado');
+  const evolucao = montarSerieEvolucao(itens, modo, inicio, fim);
+  chartRelatorioArea = new Chart(areaCanvas, {
+    type: 'bar',
+    data: { labels: porArea.map(x => x[0]), datasets: [{ label: 'Registros', data: porArea.map(x => x[1]), backgroundColor: '#7c93a0', borderRadius: 10 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales }
+  });
+  chartRelatorioSituacao = new Chart(situacaoCanvas, {
+    type: 'doughnut',
+    data: { labels: porSituacao.map(x => x[0]), datasets: [{ data: porSituacao.map(x => x[1]), backgroundColor: ['#6f8577','#8f8269','#8b7373','#62737d','#9baab2'], borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: tickColor } }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
+  });
+  chartRelatorioEvolucao = new Chart(evolucaoCanvas, {
+    type: 'line',
+    data: { labels: evolucao.map(x => x.label), datasets: [{ label: 'Entradas', data: evolucao.map(x => x.total), borderColor: '#62737d', backgroundColor: 'rgba(98,115,125,.15)', fill: true, tension: .3, pointRadius: 3 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: tickColor } }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales }
+  });
+}
+
+function gerarRelatorioPeriodo() {
+  if (!relatorioConteudo) return;
+  const dados = filtrarItensParaRelatorio();
+  if (!dados) return;
+  const { modo, inicio, fim, tituloPeriodo, gerenciaFiltro, itens } = dados;
+  if (!itens.length) {
+    relatorioConteudo.innerHTML = `<div class="global-search-empty">Nenhum processo encontrado para <strong>${escapeHtml(tituloPeriodo)}</strong>${gerenciaFiltro ? ` na gerência/área <strong>${escapeHtml(gerenciaFiltro)}</strong>` : ''}.</div>`;
+    limparGraficosRelatorio();
+    return;
+  }
+  const total = itens.length;
+  const comPrazo = itens.filter(item => !item.semPrazo && !!item.dataFinal).length;
+  const semPrazo = itens.filter(item => !!item.semPrazo || !item.dataFinal).length;
+  const atrasados = itens.filter(item => obterStatusPrazo(item.dataFinal, item.semPrazo, item.horaFinal) === 'Atrasado').length;
+  const porArea = agruparContagem(itens, item => item.area || item.gerencia || 'Não informado').slice(0, 8);
+  const porSituacao = agruparContagem(itens, item => item.situacao || 'Não informado');
+  const porGerencia = agruparContagem(itens, item => item.gerencia || 'Não informado').slice(0, 8);
+  const evolucao = montarSerieEvolucao(itens, modo, inicio, fim);
+  const subtitulo = gerenciaFiltro ? `${tituloPeriodo} • filtro: ${gerenciaFiltro}` : tituloPeriodo;
+  relatorioConteudo.innerHTML = `
+    <div class="relatorio-headline">
+      Relatório automático de <strong>${escapeHtml(subtitulo)}</strong>, com base nos processos cadastrados no sistema. O relatório consolida volume, situação, áreas, gerências, status de prazo e gráficos analíticos para apoiar a gestão.
+    </div>
+    <div class="relatorio-grid-kpi">
+      <div class="relatorio-kpi"><div class="k">Total no recorte</div><div class="v">${total}</div></div>
+      <div class="relatorio-kpi"><div class="k">Com prazo</div><div class="v">${comPrazo}</div></div>
+      <div class="relatorio-kpi"><div class="k">Sem prazo</div><div class="v">${semPrazo}</div></div>
+      <div class="relatorio-kpi"><div class="k">Atrasados hoje</div><div class="v">${atrasados}</div></div>
+    </div>
+    <div class="relatorio-graficos-grid">
+      <div class="relatorio-chart-card"><h4>Áreas com mais registros</h4><div class="relatorio-chart-wrap"><canvas id="relatorioGraficoAreas"></canvas></div></div>
+      <div class="relatorio-chart-card"><h4>Distribuição por situação</h4><div class="relatorio-chart-wrap"><canvas id="relatorioGraficoSituacao"></canvas></div></div>
+    </div>
+    <div class="relatorio-chart-card" style="margin-top:14px;"><h4>Evolução do período</h4><div class="relatorio-chart-wrap"><canvas id="relatorioGraficoEvolucao"></canvas></div><div class="relatorio-toolbar-note">${modo === 'anual' ? 'Visualização mensal do ano selecionado.' : 'Visualização mês a mês do recorte escolhido.'}</div></div>
+    <div class="relatorio-grid-duplo">
+      <div class="relatorio-card">
+        <h4>Distribuição por área</h4>
+        <div class="relatorio-lista">${porArea.map(([nome, qtd]) => `<div class="relatorio-lista-item"><span>${escapeHtml(nome)}</span><strong>${qtd}</strong></div>`).join('')}</div>
+      </div>
+      <div class="relatorio-card">
+        <h4>Distribuição por situação</h4>
+        <div class="relatorio-lista">${porSituacao.map(([nome, qtd]) => `<div class="relatorio-lista-item"><span>${escapeHtml(nome)}</span><strong>${qtd}</strong></div>`).join('')}</div>
+      </div>
+      <div class="relatorio-card">
+        <h4>Gerências com mais registros</h4>
+        <div class="relatorio-lista">${porGerencia.map(([nome, qtd]) => `<div class="relatorio-lista-item"><span>${escapeHtml(nome)}</span><strong>${qtd}</strong></div>`).join('')}</div>
+      </div>
+      <div class="relatorio-card">
+        <h4>Evolução no período</h4>
+        <div class="relatorio-lista">${evolucao.map(item => `<div class="relatorio-lista-item"><span>${escapeHtml(item.label)}</span><strong>${item.total}</strong></div>`).join('')}</div>
+      </div>
+    </div>
+    <div class="relatorio-card" style="margin-top:14px;">
+      <h4>Síntese textual</h4>
+      <div style="font-size:13px; line-height:1.65; color:var(--text-soft);">
+        No recorte de <strong>${escapeHtml(subtitulo)}</strong>, o sistema registrou <strong>${total}</strong> processo(s). Deste total, <strong>${comPrazo}</strong> possuem prazo definido e <strong>${semPrazo}</strong> estão sem prazo. Considerando a data atual, <strong>${atrasados}</strong> encontram-se atrasados. As áreas com maior volume foram <strong>${escapeHtml((porArea[0]?.[0]) || 'Não informado')}</strong>${porArea[1] ? ` e <strong>${escapeHtml(porArea[1][0])}</strong>` : ''}. A situação predominante foi <strong>${escapeHtml((porSituacao[0]?.[0]) || 'Não informado')}</strong>.
+      </div>
+    </div>`;
+  requestAnimationFrame(() => renderGraficosRelatorio(itens, modo, inicio, fim));
+}
+
+async function copiarRelatorioTexto() {
+  if (!relatorioConteudo) return;
+  const texto = relatorioConteudo.innerText.trim();
+  if (!texto) return toast('Gere um relatório antes de copiar.', 'warning');
+  try {
+    await navigator.clipboard.writeText(texto);
+    toast('Relatório copiado.', 'success');
+  } catch (error) {
+    console.error(error);
+    toast('Não foi possível copiar o relatório.', 'error');
+  }
+}
+
+function imprimirRelatorioAtual() {
+  if (!relatorioConteudo) return;
+  const html = relatorioConteudo.innerHTML.trim();
+  if (!html) return toast('Gere um relatório antes de exportar.', 'warning');
+  const imgs = [
+    $("relatorioGraficoAreas")?.toDataURL?.('image/png') || '',
+    $("relatorioGraficoSituacao")?.toDataURL?.('image/png') || '',
+    $("relatorioGraficoEvolucao")?.toDataURL?.('image/png') || ''
+  ];
+  let htmlExport = html;
+  htmlExport = htmlExport.replace(/<canvas id="relatorioGraficoAreas"[^>]*><\/canvas>/, imgs[0] ? `<img src="${imgs[0]}" style="width:100%;max-height:260px;object-fit:contain;" />` : '');
+  htmlExport = htmlExport.replace(/<canvas id="relatorioGraficoSituacao"[^>]*><\/canvas>/, imgs[1] ? `<img src="${imgs[1]}" style="width:100%;max-height:260px;object-fit:contain;" />` : '');
+  htmlExport = htmlExport.replace(/<canvas id="relatorioGraficoEvolucao"[^>]*><\/canvas>/, imgs[2] ? `<img src="${imgs[2]}" style="width:100%;max-height:260px;object-fit:contain;" />` : '');
+  const w = window.open('', '_blank', 'width=1000,height=800');
+  if (!w) return toast('O navegador bloqueou a janela de exportação.', 'warning');
+  w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><title>Relatório PDF</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#1f2937} h2,h3,h4{margin:0 0 10px} .relatorio-grid-kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px} .relatorio-graficos-grid,.relatorio-grid-duplo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px} .relatorio-kpi,.relatorio-card,.relatorio-chart-card{border:1px solid #d1d5db;border-radius:12px;padding:12px;background:#fff} .relatorio-lista-item{display:flex;justify-content:space-between;border-bottom:1px dashed #d1d5db;padding:6px 0;font-size:13px} .relatorio-lista-item:last-child{border-bottom:0} .relatorio-headline{margin-bottom:16px;line-height:1.5} img{display:block} @media print {body{padding:12px}.relatorio-grid-kpi{grid-template-columns:repeat(2,1fr)} .relatorio-graficos-grid,.relatorio-grid-duplo{grid-template-columns:1fr 1fr}}</style></head><body><h2>Relatório por período</h2>${htmlExport}</body></html>`);
+  w.document.close();
+  w.focus();
+  w.print();
+}
 
     function calcDiasRestantes(dataFinalISO, horaFinal = "") {
       if (!dataFinalISO) return null;
@@ -5386,6 +5890,15 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         if (editHoraFinal) editHoraFinal.disabled = editSemPrazo.checked;
         if (editSemPrazo.checked) { editDataFinal.value = ""; if (editHoraFinal) editHoraFinal.value = ""; }
       });
+      if (btnPrazo10Dias) btnPrazo10Dias.addEventListener("click", () => aplicarPrazoRapido(dataFinalManual, semPrazoManual, 10, horaFinalManual));
+      if (btnEditPrazo10Dias) btnEditPrazo10Dias.addEventListener("click", () => aplicarPrazoRapido(editDataFinal, editSemPrazo, 10, editHoraFinal));
+      if (btnAbrirRelatorio) btnAbrirRelatorio.addEventListener("click", abrirRelatorio);
+      if (btnFecharRelatorio) btnFecharRelatorio.addEventListener("click", fecharRelatorio);
+      if (relatorioOverlay) relatorioOverlay.addEventListener("click", (e) => { if (e.target === relatorioOverlay) fecharRelatorio(); });
+      if (relatorioModo) relatorioModo.addEventListener("change", atualizarCamposModoRelatorio);
+      if (btnGerarRelatorioPeriodo) btnGerarRelatorioPeriodo.addEventListener("click", gerarRelatorioPeriodo);
+      if (btnCopiarRelatorio) btnCopiarRelatorio.addEventListener("click", copiarRelatorioTexto);
+      if (btnImprimirRelatorio) btnImprimirRelatorio.addEventListener("click", imprimirRelatorioAtual);
 
       btnGerarProcesso.addEventListener("click", gerarProcesso);
       btnLimparFormulario.addEventListener("click", limparFormulario);
