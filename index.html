@@ -2455,13 +2455,26 @@
     body.dark-mode .global-search-item-title { color: #f3f4f6 !important; }
 
 
+    .prazo-atalhos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+      align-items: stretch;
+    }
+    .prazo-checkbox-full {
+      grid-column: 1 / -1;
+    }
     .prazo-atalho-box {
-      padding: 11px 12px;
+      padding: 12px 14px;
       border-radius: 16px;
       background: rgba(255,255,255,.36);
       border: 1px solid #d6dee2;
-      margin-top: 12px;
+      margin-top: 0;
       transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
     }
     .prazo-atalho-checkbox-btn {
       width: 100%;
@@ -2521,6 +2534,9 @@
       background: rgba(255,255,255,.48);
       box-shadow: 0 0 0 3px rgba(116,135,145,.10);
     }
+    .modal-prazo-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
     body.dark-mode .prazo-atalho-box {
       background: rgba(255,255,255,.03) !important;
       border-color: #374151 !important;
@@ -2539,6 +2555,15 @@
     body.dark-mode .prazo-atalho-box:has(.prazo-atalho-checkbox-btn.active) {
       border-color: #8aa0ad !important;
       box-shadow: 0 0 0 3px rgba(138,160,173,.14) !important;
+    }
+    @media (max-width: 900px) {
+      .prazo-atalhos-grid,
+      .modal-prazo-grid {
+        grid-template-columns: 1fr;
+      }
+      .prazo-atalho-box {
+        min-height: 52px;
+      }
     }
     .relatorio-modal {
       width: min(980px, calc(100vw - 32px));
@@ -2787,11 +2812,19 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                       </select>
                     </div>
                   </div>
-                  <div class="checkbox-lux prazo-atalho-box">
-                    <button type="button" class="prazo-atalho-checkbox-btn" id="btnPrazo10Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Processo com prazo de 10 dias</span></button>
-                  </div>
-                  <div class="checkbox-lux">
-                    <label class="checkbox-inline" for="semPrazoManual"><input type="checkbox" id="semPrazoManual" /> <span>Processo sem prazo definido</span></label>
+                  <div class="prazo-atalhos-grid">
+                    <div class="checkbox-lux prazo-atalho-box">
+                      <button type="button" class="prazo-atalho-checkbox-btn" id="btnPrazo3Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Processo com prazo de 3 dias</span></button>
+                    </div>
+                    <div class="checkbox-lux prazo-atalho-box">
+                      <button type="button" class="prazo-atalho-checkbox-btn" id="btnPrazo10Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Processo com prazo de 10 dias</span></button>
+                    </div>
+                    <div class="checkbox-lux prazo-atalho-box">
+                      <button type="button" class="prazo-atalho-checkbox-btn" id="btnPrazo15Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Processo com prazo de 15 dias</span></button>
+                    </div>
+                    <div class="checkbox-lux prazo-checkbox-full">
+                      <label class="checkbox-inline" for="semPrazoManual"><input type="checkbox" id="semPrazoManual" /> <span>Processo sem prazo definido</span></label>
+                    </div>
                   </div>
                 </div>
 
@@ -3101,10 +3134,20 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
         <div><label for="editHoraFinal">Hora de retorno (opcional)</label><input type="time" id="editHoraFinal" /></div>
       </div>
-      <div class="checkbox-lux prazo-atalho-box modal-prazo-atalho-box" style="margin-top:10px;">
-        <button type="button" class="prazo-atalho-checkbox-btn" id="btnEditPrazo10Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Processo com prazo de 10 dias</span></button>
+      <div class="prazo-atalhos-grid modal-prazo-grid" style="margin-top:10px;">
+        <div class="checkbox-lux prazo-atalho-box modal-prazo-atalho-box">
+          <button type="button" class="prazo-atalho-checkbox-btn" id="btnEditPrazo3Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Processo com prazo de 3 dias</span></button>
+        </div>
+        <div class="checkbox-lux prazo-atalho-box modal-prazo-atalho-box">
+          <button type="button" class="prazo-atalho-checkbox-btn" id="btnEditPrazo10Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Processo com prazo de 10 dias</span></button>
+        </div>
+        <div class="checkbox-lux prazo-atalho-box modal-prazo-atalho-box">
+          <button type="button" class="prazo-atalho-checkbox-btn" id="btnEditPrazo15Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Processo com prazo de 15 dias</span></button>
+        </div>
+        <div class="checkbox-lux prazo-checkbox-full">
+          <label class="checkbox-inline" for="editSemPrazo"><input type="checkbox" id="editSemPrazo" /> <span>Processo sem prazo definido</span></label>
+        </div>
       </div>
-      <label class="checkbox-inline" for="editSemPrazo"><input type="checkbox" id="editSemPrazo" /> <span>Processo sem prazo definido</span></label>
       <div class="btn-row"><button type="button" id="btnSalvarEdicao">Salvar alterações</button></div>
     </div>
   </div>
@@ -3396,7 +3439,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]) || '-';
       const dataFinal = semPrazoManual?.checked ? '' : (dataFinalManual?.value || extrairDataFinalOuPrazo(texto));
       const gerencia = resolverGerenciaPorTexto((gerenciaManual?.value || extrairGerencia(texto))) || '-';
-      return { processo, interessado, assunto, prazo: dataFinal ? formatarDataISOparaBR(dataFinal) : 'Sem prazo', gerencia };
+      const prazo = dataFinal ? `${formatarDataISOparaBR(dataFinal)} • ${calcDiasRestantes(dataFinal, horaFinalManual?.value || '')} dia(s)` : 'Sem prazo';
+      return { processo, interessado, assunto, prazo, gerencia };
     }
     function renderPreviewCadastro() {
       const p = obterPreviewCadastro();
@@ -3651,8 +3695,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const editHoraFinal = $("editHoraFinal");
     const editSemPrazo = $("editSemPrazo");
     const btnSalvarEdicao = $("btnSalvarEdicao");
+    const btnPrazo3Dias = $("btnPrazo3Dias");
     const btnPrazo10Dias = $("btnPrazo10Dias");
+    const btnPrazo15Dias = $("btnPrazo15Dias");
+    const btnEditPrazo3Dias = $("btnEditPrazo3Dias");
     const btnEditPrazo10Dias = $("btnEditPrazo10Dias");
+    const btnEditPrazo15Dias = $("btnEditPrazo15Dias");
     const btnAbrirRelatorio = $("btnAbrirRelatorio");
     const relatorioOverlay = $("relatorioOverlay");
     const btnFecharRelatorio = $("btnFecharRelatorio");
@@ -4006,9 +4054,13 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
     function addDays(dataISO, dias) {
       if (!dataISO) return "";
-      const data = new Date(dataISO + "T00:00:00");
-      data.setDate(data.getDate() + dias);
-      return data.toISOString().split("T")[0];
+      const [ano, mes, dia] = String(dataISO).split('-').map(Number);
+      const data = new Date(ano, (mes || 1) - 1, dia || 1);
+      data.setDate(data.getDate() + Number(dias || 0));
+      const yyyy = data.getFullYear();
+      const mm = String(data.getMonth() + 1).padStart(2, '0');
+      const dd = String(data.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
     }
 
     function aplicarPrazoRapido(campoData, campoSemPrazo, dias, campoHora = null) {
@@ -4021,17 +4073,21 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       if (typeof renderPreviewCadastro === "function") renderPreviewCadastro();
     }
 
-    function atualizarVisualPrazo10Dias(botao, campoData, campoSemPrazo) {
+    function atualizarVisualPrazoRapido(botao, campoData, campoSemPrazo, dias) {
       if (!botao || !campoData) return;
-      const dataEsperada = addDays(todayISO(), 10);
+      const dataEsperada = addDays(todayISO(), dias);
       const ativo = !campoSemPrazo?.checked && campoData.value === dataEsperada;
       botao.classList.toggle('active', ativo);
       botao.setAttribute('aria-pressed', ativo ? 'true' : 'false');
     }
 
-    function sincronizarBotoesPrazo10Dias() {
-      atualizarVisualPrazo10Dias(btnPrazo10Dias, dataFinalManual, semPrazoManual);
-      atualizarVisualPrazo10Dias(btnEditPrazo10Dias, editDataFinal, editSemPrazo);
+    function sincronizarBotoesPrazoRapidos() {
+      atualizarVisualPrazoRapido(btnPrazo3Dias, dataFinalManual, semPrazoManual, 3);
+      atualizarVisualPrazoRapido(btnPrazo10Dias, dataFinalManual, semPrazoManual, 10);
+      atualizarVisualPrazoRapido(btnPrazo15Dias, dataFinalManual, semPrazoManual, 15);
+      atualizarVisualPrazoRapido(btnEditPrazo3Dias, editDataFinal, editSemPrazo, 3);
+      atualizarVisualPrazoRapido(btnEditPrazo10Dias, editDataFinal, editSemPrazo, 10);
+      atualizarVisualPrazoRapido(btnEditPrazo15Dias, editDataFinal, editSemPrazo, 15);
     }
 
     function obterDataCadastroItem(item) {
@@ -4355,13 +4411,13 @@ function imprimirRelatorioAtual() {
 
     function calcDiasRestantes(dataFinalISO, horaFinal = "") {
       if (!dataFinalISO) return null;
-      const agora = new Date();
       const prazo = obterDataPrazo(dataFinalISO, horaFinal);
       if (!prazo) return null;
-      const diffMs = prazo.getTime() - agora.getTime();
-      if (diffMs < 0) return Math.floor(diffMs / (1000 * 60 * 60 * 24));
-      if (prazo.toDateString() === agora.toDateString()) return 0;
-      return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+      const agora = new Date();
+      const hojeBase = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+      const prazoBase = new Date(prazo.getFullYear(), prazo.getMonth(), prazo.getDate());
+      const diffDias = Math.round((prazoBase.getTime() - hojeBase.getTime()) / (1000 * 60 * 60 * 24));
+      return diffDias;
     }
     function textoDiasRestantes(dias) {
       if (dias === null || dias === undefined || dias === "") return "Sem prazo";
@@ -4374,11 +4430,12 @@ function imprimirRelatorioAtual() {
       const agora = new Date();
       const prazo = obterDataPrazo(dataFinalISO, horaFinal);
       if (!prazo) return "Sem prazo";
-      const diffMs = prazo.getTime() - agora.getTime();
       const limite = parseInt(limiteVencendo.value, 10) || 3;
-      if (diffMs < 0) return "Atrasado";
-      if (prazo.toDateString() === agora.toDateString()) return "Vence hoje";
-      if (diffMs <= limite * 24 * 60 * 60 * 1000) return "Vencendo";
+      const dias = calcDiasRestantes(dataFinalISO, horaFinal);
+      if (prazo.getTime() < agora.getTime() && dias === 0) return "Atrasado";
+      if (dias < 0) return "Atrasado";
+      if (dias === 0) return "Vence hoje";
+      if (dias <= limite) return "Vencendo";
       return "No prazo";
     }
     function gerarBadgePrazo(dataFinalISO, semPrazo = false, horaFinal = "") {
@@ -4456,18 +4513,16 @@ function imprimirRelatorioAtual() {
       const agora = new Date();
       const prazo = obterDataPrazo(item.dataFinal, item.horaFinal || '');
       if (!prazo) return 'Sem prazo';
+      const dias = calcDiasRestantes(item.dataFinal, item.horaFinal);
       const diffMs = prazo.getTime() - agora.getTime();
       const absMin = Math.floor(Math.abs(diffMs) / 60000);
-      const dias = Math.floor(absMin / 1440);
       const horas = Math.floor((absMin % 1440) / 60);
       const mins = absMin % 60;
       const mesmoDia = prazo.toDateString() === agora.toDateString();
-      if (diffMs < 0) {
-        if (mesmoDia) return `Atrasado há ${horas}h ${String(mins).padStart(2,'0')}min`;
-        return dias > 0 ? `Atrasado há ${dias} dia(s)` : `Atrasado há ${horas}h ${String(mins).padStart(2,'0')}min`;
-      }
+      if (prazo.getTime() < agora.getTime() && mesmoDia) return `Atrasado há ${horas}h ${String(mins).padStart(2,'0')}min`;
+      if (dias < 0) return `Atrasado há ${Math.abs(dias)} dia(s)`;
       if (mesmoDia) return horas > 0 ? `${horas}h ${String(mins).padStart(2,'0')}min` : `${mins} min`;
-      return `${calcDiasRestantes(item.dataFinal, item.horaFinal)} dia(s)`;
+      return `${dias} dia(s)`;
     }
 
 
@@ -5348,9 +5403,11 @@ function imprimirRelatorioAtual() {
       if (editAssunto) editAssunto.value = item.assunto || '';
       if (editGerencia) editGerencia.value = item.gerencia || '';
       if (editDataFinal) editDataFinal.value = item.dataFinal || '';
+      if (editHoraFinal) editHoraFinal.value = item.horaFinal || '';
       if (editSemPrazo) editSemPrazo.checked = !!item.semPrazo;
       if (editDataFinal) editDataFinal.disabled = !!item.semPrazo;
-      sincronizarBotoesPrazo10Dias();
+      if (editHoraFinal) editHoraFinal.disabled = !!item.semPrazo;
+      sincronizarBotoesPrazoRapidos();
       modalOverlay?.classList.remove('hidden');
     }
     function fecharModal() {
@@ -5982,18 +6039,22 @@ function imprimirRelatorioAtual() {
         dataFinalManual.disabled = semPrazoManual.checked;
         if (horaFinalManual) horaFinalManual.disabled = semPrazoManual.checked;
         if (semPrazoManual.checked) { dataFinalManual.value = ""; if (horaFinalManual) horaFinalManual.value = ""; }
-        sincronizarBotoesPrazo10Dias();
+        sincronizarBotoesPrazoRapidos();
       });
       editSemPrazo.addEventListener("change", () => {
         editDataFinal.disabled = editSemPrazo.checked;
         if (editHoraFinal) editHoraFinal.disabled = editSemPrazo.checked;
         if (editSemPrazo.checked) { editDataFinal.value = ""; if (editHoraFinal) editHoraFinal.value = ""; }
-        sincronizarBotoesPrazo10Dias();
+        sincronizarBotoesPrazoRapidos();
       });
-      if (dataFinalManual) dataFinalManual.addEventListener("change", sincronizarBotoesPrazo10Dias);
-      if (editDataFinal) editDataFinal.addEventListener("change", sincronizarBotoesPrazo10Dias);
-      if (btnPrazo10Dias) btnPrazo10Dias.addEventListener("click", () => { aplicarPrazoRapido(dataFinalManual, semPrazoManual, 10, horaFinalManual); sincronizarBotoesPrazo10Dias(); });
-      if (btnEditPrazo10Dias) btnEditPrazo10Dias.addEventListener("click", () => { aplicarPrazoRapido(editDataFinal, editSemPrazo, 10, editHoraFinal); sincronizarBotoesPrazo10Dias(); });
+      if (dataFinalManual) dataFinalManual.addEventListener("change", () => { sincronizarBotoesPrazoRapidos(); renderPreviewCadastro(); });
+      if (editDataFinal) editDataFinal.addEventListener("change", sincronizarBotoesPrazoRapidos);
+      if (btnPrazo3Dias) btnPrazo3Dias.addEventListener("click", () => { aplicarPrazoRapido(dataFinalManual, semPrazoManual, 3, horaFinalManual); sincronizarBotoesPrazoRapidos(); });
+      if (btnPrazo10Dias) btnPrazo10Dias.addEventListener("click", () => { aplicarPrazoRapido(dataFinalManual, semPrazoManual, 10, horaFinalManual); sincronizarBotoesPrazoRapidos(); });
+      if (btnPrazo15Dias) btnPrazo15Dias.addEventListener("click", () => { aplicarPrazoRapido(dataFinalManual, semPrazoManual, 15, horaFinalManual); sincronizarBotoesPrazoRapidos(); });
+      if (btnEditPrazo3Dias) btnEditPrazo3Dias.addEventListener("click", () => { aplicarPrazoRapido(editDataFinal, editSemPrazo, 3, editHoraFinal); sincronizarBotoesPrazoRapidos(); });
+      if (btnEditPrazo10Dias) btnEditPrazo10Dias.addEventListener("click", () => { aplicarPrazoRapido(editDataFinal, editSemPrazo, 10, editHoraFinal); sincronizarBotoesPrazoRapidos(); });
+      if (btnEditPrazo15Dias) btnEditPrazo15Dias.addEventListener("click", () => { aplicarPrazoRapido(editDataFinal, editSemPrazo, 15, editHoraFinal); sincronizarBotoesPrazoRapidos(); });
       if (btnAbrirRelatorio) btnAbrirRelatorio.addEventListener("click", abrirRelatorio);
       if (btnFecharRelatorio) btnFecharRelatorio.addEventListener("click", fecharRelatorio);
       if (relatorioOverlay) relatorioOverlay.addEventListener("click", (e) => { if (e.target === relatorioOverlay) fecharRelatorio(); });
@@ -6859,31 +6920,14 @@ function imprimirRelatorioAtual() {
     });
 
     document.getElementById('sugestoesModelosBox')?.addEventListener('mousedown', (e) => {
-      const btn = e.target.closest('[data-model-suggest-id]');
-      if (!btn) return;
       e.preventDefault();
-      usarModelo(btn.dataset.modelSuggestId, 'inserir');
+      esconderSugestoes();
     });
 
-    entrada?.addEventListener('focus', renderSugestoes);
-    entrada?.addEventListener('blur', () => setTimeout(esconderSugestoes, 170));
-    entrada?.addEventListener('input', () => {
-      const substituiu = substituirAtalhoQuandoCabivel();
-      if (!substituiu) renderSugestoes();
-    });
+    entrada?.addEventListener('focus', esconderSugestoes);
+    entrada?.addEventListener('blur', esconderSugestoes);
+    entrada?.addEventListener('input', esconderSugestoes);
     entrada?.addEventListener('keydown', (e) => {
-      const aberta = !!sugestoes.length && !document.getElementById('sugestoesModelosBox')?.classList.contains('hidden');
-      if (!aberta) return;
-      if (e.key === 'ArrowDown') { e.preventDefault(); moverSelecaoSugestao(1); }
-      if (e.key === 'ArrowUp') { e.preventDefault(); moverSelecaoSugestao(-1); }
-      if (e.key === 'Tab' || e.key === 'Enter') {
-        const matchCmd = String(entrada.value || '').slice(0, entrada.selectionStart ?? entrada.value.length).match(/(?:^|\s)\/([a-z0-9\-_]+)$/i);
-        if (matchCmd || aberta) {
-          e.preventDefault();
-          const modelo = sugestoes[sugestaoIndex] || sugestoes[0];
-          if (modelo) usarModelo(modelo.id, 'inserir');
-        }
-      }
       if (e.key === 'Escape') esconderSugestoes();
     });
   }
