@@ -6476,47 +6476,7 @@ function imprimirRelatorioAtual() {
   }
 
   function renderSugestoes() {
-    const box = document.getElementById('sugestoesModelosBox');
-    if (!box || !entrada || !entrada.matches(':focus')) return;
-    const texto = String(entrada.value || '');
-    const cursor = entrada.selectionStart ?? texto.length;
-    const antes = texto.slice(0, cursor);
-    const cmdMatch = antes.match(/(?:^|\s)\/([a-z0-9\-_]+)$/i);
-    const termoCmd = atalhoSeguro(cmdMatch?.[1] || '');
-    const contexto = textoNorm(antes).split(/\s+/).slice(-4).join(' ');
-    sugestoes = obterTodosModelos().filter(modeloEhVisivel).map(m => {
-      let score = 0;
-      if (termoCmd) {
-        if ((m.atalho || '') === termoCmd) score += 100;
-        else if ((m.atalho || '').startsWith(termoCmd)) score += 70;
-      }
-      if (contexto) {
-        const alvo = textoNorm([m.nome, m.categoria, m.gerenciaRelacionada, m.texto].join(' '));
-        if (alvo.includes(contexto)) score += 20;
-        contexto.split(/\s+/).forEach(p => { if (p && alvo.includes(p)) score += 4; });
-      }
-      if (modeloEhFavorito(m)) score += 10;
-      score += Math.min(m.usoCount || 0, 10);
-      return { m, score };
-    }).filter(x => x.score > 0)
-      .sort((a,b) => b.score - a.score)
-      .slice(0, 6)
-      .map(x => x.m);
-    sugestaoIndex = 0;
-    if (!sugestoes.length) {
-      box.classList.add('hidden');
-      box.innerHTML = '';
-      return;
-    }
-    box.innerHTML = `
-      <div class="model-suggest-head">Sugestões de modelos</div>
-      ${sugestoes.map((m, idx) => `
-        <button type="button" class="model-suggest-item ${idx === sugestaoIndex ? 'active' : ''}" data-model-suggest-id="${m.id}">
-          <div class="model-suggest-main"><strong>${escapeHtml(m.nome || '(sem nome)')}</strong><span>${m.atalho ? '/' + escapeHtml(m.atalho) : 'sem atalho'}</span></div>
-          <small>${escapeHtml(encurtar(m.texto || '', 120))}</small>
-        </button>`).join('')}
-      <div class="muted-mini" style="padding:8px 12px;">Dica: digite /atalho e pressione Tab, Enter ou espaço.</div>`;
-    box.classList.remove('hidden');
+    esconderSugestoes();
   }
 
   function esconderSugestoes() {
@@ -6779,6 +6739,7 @@ function imprimirRelatorioAtual() {
       body.dark-mode .modelo-card-lite, body.dark-mode .modelo-texto-lite, body.dark-mode .model-suggest-box, body.dark-mode .model-suggest-item, body.dark-mode .modelo-modal { background:rgba(255,255,255,.03) !important; border-color:#374151 !important; color:#e5e7eb !important; }
       body.dark-mode .model-suggest-item:hover, body.dark-mode .model-suggest-item.active { background:#243243 !important; }
       body.dark-mode .model-suggest-head, body.dark-mode .model-suggest-main span, body.dark-mode .model-suggest-item small { color:#9fb0bd !important; }
+      .model-suggest-box { display:none !important; }
       @media (max-width: 900px) { .modelo-footer-lite { flex-direction:column; align-items:stretch; } .modelo-actions-lite { width:100%; } .modelo-actions-lite button { flex:1 1 100%; width:100%; } .modelos-filtros-grid { grid-template-columns:1fr !important; } }
     `;
     document.head.appendChild(style);
