@@ -2461,6 +2461,7 @@
       background: rgba(255,255,255,.36);
       border: 1px solid #d6dee2;
       margin-top: 12px;
+      transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
     }
     .prazo-atalho-checkbox-btn {
       width: 100%;
@@ -2477,11 +2478,48 @@
       text-align: left;
       line-height: 1.35;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
     .prazo-atalho-checkbox-btn:hover {
       background: transparent;
       color: #22313b;
       transform: none;
+    }
+    .prazo-atalho-checkbox-visual {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1px solid #9aa9b2;
+      background: #f6f8f9;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 18px;
+      box-sizing: border-box;
+      transition: background-color .18s ease, border-color .18s ease, transform .18s ease;
+      position: relative;
+    }
+    .prazo-atalho-checkbox-btn.active .prazo-atalho-checkbox-visual {
+      background: #748791;
+      border-color: #60717b;
+    }
+    .prazo-atalho-checkbox-btn.active .prazo-atalho-checkbox-visual::after {
+      content: "✓";
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      transform: translateY(-.5px);
+    }
+    .prazo-atalho-checkbox-btn.active {
+      color: #22313b;
+    }
+    .prazo-atalho-box:has(.prazo-atalho-checkbox-btn.active) {
+      border-color: #8fa1ab;
+      background: rgba(255,255,255,.48);
+      box-shadow: 0 0 0 3px rgba(116,135,145,.10);
     }
     body.dark-mode .prazo-atalho-box {
       background: rgba(255,255,255,.03) !important;
@@ -2489,6 +2527,18 @@
     }
     body.dark-mode .prazo-atalho-checkbox-btn {
       color: #e5e7eb !important;
+    }
+    body.dark-mode .prazo-atalho-checkbox-visual {
+      background: rgba(255,255,255,.04) !important;
+      border-color: #718096 !important;
+    }
+    body.dark-mode .prazo-atalho-checkbox-btn.active .prazo-atalho-checkbox-visual {
+      background: #8aa0ad !important;
+      border-color: #8aa0ad !important;
+    }
+    body.dark-mode .prazo-atalho-box:has(.prazo-atalho-checkbox-btn.active) {
+      border-color: #8aa0ad !important;
+      box-shadow: 0 0 0 3px rgba(138,160,173,.14) !important;
     }
     .relatorio-modal {
       width: min(980px, calc(100vw - 32px));
@@ -2646,7 +2696,6 @@
         </div>
         <div class="toolbar">
           <button type="button" class="theme-toggle" id="btnTema">🌙 Modo escuro</button>
-          <button type="button" class="outline" style="width:auto; min-width:150px;" id="btnAbrirRelatorio">Relatório</button>
           <button type="button" class="secondary" style="width:auto; min-width:220px;" id="btnNotificacao">Ativar notificações</button>
           <button type="button" class="danger" style="width:auto; min-width:140px;" id="btnSair">Sair</button>
         </div>
@@ -2657,6 +2706,7 @@
       <div class="tabs">
         <button type="button" id="tabProcessosBtn" class="tab-btn active">Processos</button>
         <button type="button" id="tabDashboardBtn" class="tab-btn">Dashboard</button>
+        <button type="button" id="btnAbrirRelatorio" class="tab-btn">Relatório</button>
       </div>
 
       <div id="abaProcessos">
@@ -2738,7 +2788,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                     </div>
                   </div>
                   <div class="checkbox-lux prazo-atalho-box">
-                    <button type="button" class="prazo-atalho-checkbox-btn" id="btnPrazo10Dias">Processo com prazo de 10 dias</button>
+                    <button type="button" class="prazo-atalho-checkbox-btn" id="btnPrazo10Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Processo com prazo de 10 dias</span></button>
                   </div>
                   <div class="checkbox-lux">
                     <label class="checkbox-inline" for="semPrazoManual"><input type="checkbox" id="semPrazoManual" /> <span>Processo sem prazo definido</span></label>
@@ -2970,14 +3020,11 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                 <div class="dashboard-section-title"><div><h4>Situação operacional</h4><small>Como os processos visíveis se distribuem por fase.</small></div></div>
                 <div class="chart-box"><canvas id="graficoSituacao"></canvas></div>
               </div>
-              <div class="card chart-card dashboard-chart-medium">
-                <div class="dashboard-section-title"><div><h4>Distribuição por área no organograma</h4><small>Comparação entre áreas a partir da visão filtrada.</small></div></div>
-                <div class="chart-box"><canvas id="graficoAreas"></canvas></div>
-              </div>
+
             </div>
-            <div class="card chart-card dashboard-chart-medium">
-              <div class="dashboard-section-title"><div><h4>Ranking de gerências mais críticas</h4><small>Peso maior para atrasados e vencimentos imediatos.</small></div></div>
-              <div class="chart-box"><canvas id="graficoCriticidadeGerencia"></canvas></div>
+            <div class="card chart-card dashboard-chart-tall">
+              <div class="dashboard-section-title"><div><h4>Distribuição por área no organograma</h4><small>Comparação entre áreas a partir da visão filtrada, agora em um quadro com mais espaço.</small></div></div>
+              <div class="chart-box"><canvas id="graficoAreas"></canvas></div>
             </div>
           </div>
           <div class="sidebar-cards">
@@ -3055,7 +3102,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         <div><label for="editHoraFinal">Hora de retorno (opcional)</label><input type="time" id="editHoraFinal" /></div>
       </div>
       <div class="checkbox-lux prazo-atalho-box modal-prazo-atalho-box" style="margin-top:10px;">
-        <button type="button" class="prazo-atalho-checkbox-btn" id="btnEditPrazo10Dias">Processo com prazo de 10 dias</button>
+        <button type="button" class="prazo-atalho-checkbox-btn" id="btnEditPrazo10Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Processo com prazo de 10 dias</span></button>
       </div>
       <label class="checkbox-inline" for="editSemPrazo"><input type="checkbox" id="editSemPrazo" /> <span>Processo sem prazo definido</span></label>
       <div class="btn-row"><button type="button" id="btnSalvarEdicao">Salvar alterações</button></div>
@@ -3972,6 +4019,19 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       campoData.value = addDays(todayISO(), dias);
       if (typeof salvarRascunhoCadastro === "function") salvarRascunhoCadastro();
       if (typeof renderPreviewCadastro === "function") renderPreviewCadastro();
+    }
+
+    function atualizarVisualPrazo10Dias(botao, campoData, campoSemPrazo) {
+      if (!botao || !campoData) return;
+      const dataEsperada = addDays(todayISO(), 10);
+      const ativo = !campoSemPrazo?.checked && campoData.value === dataEsperada;
+      botao.classList.toggle('active', ativo);
+      botao.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+    }
+
+    function sincronizarBotoesPrazo10Dias() {
+      atualizarVisualPrazo10Dias(btnPrazo10Dias, dataFinalManual, semPrazoManual);
+      atualizarVisualPrazo10Dias(btnEditPrazo10Dias, editDataFinal, editSemPrazo);
     }
 
     function obterDataCadastroItem(item) {
@@ -5131,12 +5191,6 @@ function imprimirRelatorioAtual() {
         options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: { x: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor }, grid: { display: false, drawBorder: false } } } }
       });
 
-      chartCriticidadeGerencia = new Chart($("graficoCriticidadeGerencia"), {
-        type: "bar",
-        data: { labels: rankingCritico.map(i => i[0]), datasets: [{ data: rankingCritico.map(i => i[1]), backgroundColor: '#8b6767', borderRadius: 12, maxBarThickness: 30 }] },
-        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc', callbacks: { label: ctx => `Pontuação crítica: ${ctx.raw}` } } }, scales: { x: { beginAtZero: true, ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor, callback: function(value) { const label = this.getLabelForValue(value); return ABREVIACOES_SGI[label] || label; } }, grid: { display: false, drawBorder: false } } } }
-      });
-
       chartSGI = new Chart($("graficoSGI"), {
         type: "bar",
         data: { labels: Object.keys(mapSGI), datasets: [{ data: Object.values(mapSGI), backgroundColor: '#748791', borderRadius: 12, maxBarThickness: 34, borderSkipped: false }] },
@@ -5296,6 +5350,7 @@ function imprimirRelatorioAtual() {
       if (editDataFinal) editDataFinal.value = item.dataFinal || '';
       if (editSemPrazo) editSemPrazo.checked = !!item.semPrazo;
       if (editDataFinal) editDataFinal.disabled = !!item.semPrazo;
+      sincronizarBotoesPrazo10Dias();
       modalOverlay?.classList.remove('hidden');
     }
     function fecharModal() {
@@ -5927,14 +5982,18 @@ function imprimirRelatorioAtual() {
         dataFinalManual.disabled = semPrazoManual.checked;
         if (horaFinalManual) horaFinalManual.disabled = semPrazoManual.checked;
         if (semPrazoManual.checked) { dataFinalManual.value = ""; if (horaFinalManual) horaFinalManual.value = ""; }
+        sincronizarBotoesPrazo10Dias();
       });
       editSemPrazo.addEventListener("change", () => {
         editDataFinal.disabled = editSemPrazo.checked;
         if (editHoraFinal) editHoraFinal.disabled = editSemPrazo.checked;
         if (editSemPrazo.checked) { editDataFinal.value = ""; if (editHoraFinal) editHoraFinal.value = ""; }
+        sincronizarBotoesPrazo10Dias();
       });
-      if (btnPrazo10Dias) btnPrazo10Dias.addEventListener("click", () => aplicarPrazoRapido(dataFinalManual, semPrazoManual, 10, horaFinalManual));
-      if (btnEditPrazo10Dias) btnEditPrazo10Dias.addEventListener("click", () => aplicarPrazoRapido(editDataFinal, editSemPrazo, 10, editHoraFinal));
+      if (dataFinalManual) dataFinalManual.addEventListener("change", sincronizarBotoesPrazo10Dias);
+      if (editDataFinal) editDataFinal.addEventListener("change", sincronizarBotoesPrazo10Dias);
+      if (btnPrazo10Dias) btnPrazo10Dias.addEventListener("click", () => { aplicarPrazoRapido(dataFinalManual, semPrazoManual, 10, horaFinalManual); sincronizarBotoesPrazo10Dias(); });
+      if (btnEditPrazo10Dias) btnEditPrazo10Dias.addEventListener("click", () => { aplicarPrazoRapido(editDataFinal, editSemPrazo, 10, editHoraFinal); sincronizarBotoesPrazo10Dias(); });
       if (btnAbrirRelatorio) btnAbrirRelatorio.addEventListener("click", abrirRelatorio);
       if (btnFecharRelatorio) btnFecharRelatorio.addEventListener("click", fecharRelatorio);
       if (relatorioOverlay) relatorioOverlay.addEventListener("click", (e) => { if (e.target === relatorioOverlay) fecharRelatorio(); });
