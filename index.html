@@ -1905,6 +1905,18 @@
     .dashboard-chart-tall { min-height: 380px; overflow: hidden; }
     .dashboard-chart-medium { min-height: 320px; overflow: hidden; }
     .dashboard-chart-short { min-height: 280px; overflow: hidden; }
+    .dashboard-areas-card {
+      min-height: 520px !important;
+      overflow: visible !important;
+    }
+    .chart-box-areas {
+      min-height: 420px;
+      padding: 18px 18px 18px 26px;
+      overflow: visible !important;
+    }
+    .chart-box-areas canvas {
+      min-height: 380px !important;
+    }
 
     /* ===== Correções do grid do dashboard para evitar sobreposição ===== */
     .dashboard-grid {
@@ -2504,29 +2516,22 @@
     }
     .prazo-atalhos-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      grid-template-columns: 1fr;
+      gap: 10px;
       align-items: stretch;
     }
     .prazo-checkbox-full {
-      grid-column: 1 / -1;
+      grid-column: auto;
     }
-    .prazo-atalho-box {
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.42);
-      border: 1px solid #d6dee2;
-      margin-top: 0;
-      transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
-      min-height: 74px;
-      display: flex;
-      align-items: center;
-    }
+    .prazo-atalho-box,
     .prazo-checkbox-full {
       padding: 16px 18px;
       border-radius: 18px;
       background: rgba(255,255,255,.42);
       border: 1px solid #d6dee2;
+      margin-top: 0;
+      transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
+      min-height: auto;
       display: flex;
       align-items: center;
     }
@@ -2541,9 +2546,9 @@
       box-shadow: none;
       color: #334854;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 600;
       text-align: left;
-      line-height: 1.42;
+      line-height: 1.38;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -2639,8 +2644,9 @@
         grid-template-columns: 1fr;
       }
       .prazo-field-card,
-      .prazo-atalho-box {
-        min-height: 58px;
+      .prazo-atalho-box,
+      .prazo-checkbox-full {
+        min-height: auto;
       }
     }
     .relatorio-modal {
@@ -3135,9 +3141,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               </div>
 
             </div>
-            <div class="card chart-card dashboard-chart-tall">
+            <div class="card chart-card dashboard-chart-tall dashboard-areas-card">
               <div class="dashboard-section-title"><div><h4>Distribuição por área no organograma</h4><small>Comparação entre áreas a partir da visão filtrada, agora em um quadro com mais espaço.</small></div></div>
-              <div class="chart-box"><canvas id="graficoAreas"></canvas></div>
+              <div class="chart-box chart-box-areas"><canvas id="graficoAreas"></canvas></div>
             </div>
           </div>
           <div class="sidebar-cards">
@@ -5323,8 +5329,21 @@ function imprimirRelatorioAtual() {
       const areasOrdenadas = Object.entries(areaMap).sort((a,b) => b[1]-a[1]).slice(0, 8);
       chartAreas = new Chart($("graficoAreas"), {
         type: "bar",
-        data: { labels: areasOrdenadas.map(i => i[0]), datasets: [{ data: areasOrdenadas.map(i => i[1]), backgroundColor: ['#748791','#8f7c58','#60717d','#8b6767','#6f8577','#9aa7ad','#5f6f79','#a7926c'], borderRadius: 10, maxBarThickness: 44 }] },
-        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: { x: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } }, y: { ticks: { color: tickColor }, grid: { display: false, drawBorder: false } } } }
+        data: { labels: areasOrdenadas.map(i => i[0]), datasets: [{ data: areasOrdenadas.map(i => i[1]), backgroundColor: ['#748791','#8f7c58','#60717d','#8b6767','#6f8577','#9aa7ad','#5f6f79','#a7926c'], borderRadius: 10, maxBarThickness: 36 }] },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          layout: { padding: { left: 28, right: 12, top: 6, bottom: 6 } },
+          plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } },
+          scales: {
+            x: { ticks: { color: tickColor, precision: 0 }, grid: { color: gridColor, drawBorder: false } },
+            y: {
+              ticks: { color: tickColor, autoSkip: false, padding: 10 },
+              grid: { display: false, drawBorder: false }
+            }
+          }
+        }
       });
 
       chartSGI = new Chart($("graficoSGI"), {
