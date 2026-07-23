@@ -404,6 +404,7 @@
 
     .badge-situacao, .badge-area { background: var(--surface-soft); color: #344054; border: 1px solid #d0d5dd; }
     .badge-situacao.concluido { background: #dde5df; color: #027a48; border-color: #abefc6; }
+    .badge-situacao.respondido { background: #dbe7df; color: #05603a; border-color: #b7dfc6; }
     .badge-situacao.andamento { background: #dce4e7; color: #175cd3; border-color: #b2ddff; }
     .badge-situacao.pendente { background: #e8dfd4; color: #c2410c; border-color: #fdba74; }
     .badge-situacao.arquivado { background: #d6dee2; color: #344054; border-color: #d0d5dd; }
@@ -759,6 +760,12 @@
       background: transparent;
       color: #8b5e5d;
       border: 1px solid #d6b8b8;
+    }
+    .acoes button[data-action="respondido"],
+    #drawerBtnRespondido {
+      background: linear-gradient(180deg, #7fa08a 0%, #668974 100%);
+      color: #fff;
+      border: 1px solid transparent;
     }
     .badge-vencendo, .badge-vence-hoje, .badge-atrasado { font-weight: 800; }
     .badge-area { background: transparent; color: #6b7280; border-color: #d5dde2; }
@@ -3193,6 +3200,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     </div>
     <div class="btn-row">
       <button type="button" id="drawerBtnEditar">Editar</button>
+      <button type="button" class="success hidden" id="drawerBtnRespondido">Marcar como respondido</button>
       <button type="button" class="danger" id="drawerBtnExcluir">Excluir</button>
     </div>
   </aside>
@@ -3439,7 +3447,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const TODAS_UNIDADES = Object.values(ESTRUTURA_ORGANIZACIONAL).flat();
 
     const COLLECTION_PROCESSOS = "processos";
-    const STATUS_OPERACIONAIS = ["Em análise", "Pendente", "Em andamento", "Concluído", "Arquivado"];
+    const STATUS_OPERACIONAIS = ["Em análise", "Pendente", "Em andamento", "Respondido", "Concluído", "Arquivado"];
     const STATUS_PRAZO_LIST = ["No prazo", "Vence hoje", "Vencendo", "Atrasado", "Sem prazo"];
     const STORAGE_KEYS = { filtros: "sgp_clean_filters_v1", aba: "sgp_clean_aba_v1" };
 
@@ -3762,6 +3770,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const drawerSubtitulo = $("drawerSubtitulo");
     const drawerConteudo = $("drawerConteudo");
     const drawerBtnEditar = $("drawerBtnEditar");
+    const drawerBtnRespondido = $("drawerBtnRespondido");
     const drawerBtnPendente = $("drawerBtnPendente");
     const drawerBtnConcluir = $("drawerBtnConcluir");
     const drawerBtnArquivar = $("drawerBtnArquivar");
@@ -3834,6 +3843,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
 
     function classeSituacaoBadge(situacao) {
       const s = normalizarBusca(situacao);
+      if (s.includes("respondido")) return "respondido";
       if (s.includes("concluido")) return "concluido";
       if (s.includes("pendente")) return "pendente";
       if (s.includes("andamento") || s.includes("analise")) return "andamento";
@@ -4851,7 +4861,7 @@ function imprimirRelatorioAtual() {
       return duplicado;
     }
 
-    async function atualizarDocumento(id, dadosAtualizados) {
+    async function atualizarDocumento(id, dadosAtualizados, detalheHistorico = "Dados do processo atualizados") {
       const usuario = auth.currentUser;
       const payload = { ...dadosAtualizados };
       if (payload.gerencia !== undefined) {
@@ -4860,7 +4870,7 @@ function imprimirRelatorioAtual() {
       }
       await db.collection(COLLECTION_PROCESSOS).doc(id).update({
         ...payload,
-        historico: firebase.firestore.FieldValue.arrayUnion(criarEventoHistorico('atualização', 'Dados do processo atualizados')),
+        historico: firebase.firestore.FieldValue.arrayUnion(criarEventoHistorico('atualização', detalheHistorico)),
         alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
         alteradoPor: usuario?.email || ""
       });
@@ -5013,6 +5023,33 @@ function imprimirRelatorioAtual() {
       }
     }
 
+    function processoComPrazoPendente(item) {
+      return !!(item && !item.semPrazo && item.dataFinal && !["Respondido", "Concluído", "Arquivado"].includes(item.situacao));
+    }
+
+    async function marcarProcessoRespondido(id) {
+      if (!id) return;
+      const item = allItems.find(i => i.id === id);
+      if (!item) return toast("Processo não encontrado.", "warning");
+      if (!processoComPrazoPendente(item)) {
+        return toast("Este processo não possui pendência de prazo ativa.", "info");
+      }
+      try {
+        await atualizarDocumento(id, {
+          situacao: "Respondido",
+          semPrazo: true,
+          dataFinal: "",
+          horaFinal: "",
+          prazoFinalISO: ""
+        }, "Processo marcado como respondido; prazo removido da pendência");
+        toast("Processo marcado como respondido e removido das pendências de prazo.", "success");
+        if (selectedDrawerId === id) abrirDrawer(id);
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao marcar processo como respondido.", "error");
+      }
+    }
+
     async function alterarSituacaoRapida(id, situacao) {
       if (!id) return;
       try {
@@ -5119,6 +5156,7 @@ function imprimirRelatorioAtual() {
         const unidadeExibida = item.gerencia || item.area;
         const badgePrazo = gerarBadgePrazo(item.dataFinal, item.semPrazo).replace('class="badge ', 'class="badge status-strong ');
         const ultimaAlteracao = formatarDataHora(item.alteradoEm);
+        const botaoRespondido = processoComPrazoPendente(item) ? '<button type="button" class="success" data-action="respondido">Respondido</button>' : '';
         return `
           <tr class="main-row ${classeLinha}" data-id="${item.id}">
             <td data-label="Processo">
@@ -5137,6 +5175,7 @@ function imprimirRelatorioAtual() {
             <td data-label="Ações">
               <div class="acoes">
                 <button type="button" data-action="view">Ver</button>
+                ${botaoRespondido}
                 <button type="button" class="secondary" data-action="edit">Editar</button>
                 <button type="button" class="danger" data-action="delete">Excluir</button>
               </div>
@@ -5180,7 +5219,7 @@ function imprimirRelatorioAtual() {
 
     function renderAlertas(itens, enviarNotificacao = false) {
       const limite = parseInt(limiteVencendo.value, 10) || 3;
-      const alertaveis = itens.filter(i => !i.semPrazo && i.diasRestantes !== null && i.diasRestantes <= limite && !["Concluído", "Arquivado"].includes(i.situacao));
+      const alertaveis = itens.filter(i => !i.semPrazo && i.diasRestantes !== null && i.diasRestantes <= limite && !["Respondido", "Concluído", "Arquivado"].includes(i.situacao));
       if (!alertaveis.length) {
         alertasPrazo.classList.add("hidden");
         alertasPrazo.innerHTML = "";
@@ -5457,6 +5496,7 @@ function imprimirRelatorioAtual() {
           <div class="detail-group-title">Essencial</div>
           <div class="detail-grid-2">
             <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || '-')}</div></div>
+            <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || '-')}</span></div></div>
             <div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || item.area || '-')}</div></div>
             <div class="drawer-box" style="grid-column:1 / -1;"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || '-')}</div></div>
           </div>
@@ -5471,6 +5511,7 @@ function imprimirRelatorioAtual() {
           </div>
         </div>`;
       const hist = Array.isArray(item.historico) ? [...item.historico].sort((a,b) => String(b.em || '').localeCompare(String(a.em || ''))).slice(0, 5) : [];
+      if (drawerBtnRespondido) drawerBtnRespondido.classList.toggle('hidden', !processoComPrazoPendente(item));
       if (drawerHistorico) drawerHistorico.innerHTML = hist.length ? hist.map(h => `
         <div class="history-item">
           <div class="ht">${escapeHtml(formatarDataHora(h.em))}</div>
@@ -6169,6 +6210,7 @@ function imprimirRelatorioAtual() {
       btnFecharDrawer.addEventListener("click", fecharDrawer);
       drawerOverlay.addEventListener("click", fecharDrawer);
       drawerBtnEditar.addEventListener("click", () => { if (selectedDrawerId) abrirModalEdicao(selectedDrawerId); });
+      if (drawerBtnRespondido) drawerBtnRespondido.addEventListener("click", () => { if (selectedDrawerId) marcarProcessoRespondido(selectedDrawerId); });
       if (drawerBtnPendente) drawerBtnPendente.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Pendente"));
       if (drawerBtnConcluir) drawerBtnConcluir.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Concluído"));
       if (drawerBtnArquivar) drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
@@ -6249,6 +6291,7 @@ function imprimirRelatorioAtual() {
         if (btn) {
           const action = btn.dataset.action;
           if (action === "view") { e.stopPropagation(); abrirDrawer(id); return; }
+          if (action === "respondido") { e.stopPropagation(); marcarProcessoRespondido(id); return; }
           if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
           if (action === "delete") { e.stopPropagation(); remover(id); return; }
         }
