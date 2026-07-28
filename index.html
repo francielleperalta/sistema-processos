@@ -5229,11 +5229,17 @@ function imprimirRelatorioAtual() {
 
       const lista = alertaveis.map(i => {
         const status = i.diasRestantes < 0 ? `atrasado há ${Math.abs(i.diasRestantes)} dia(s)` : i.diasRestantes === 0 ? "vence hoje" : `vence em ${i.diasRestantes} dia(s)`;
-        return `<li><strong>${escapeHtml(i.processo || "(sem número)")}</strong> — ${escapeHtml(i.assunto || "Sem assunto")} — ${escapeHtml(i.gerencia || "Sem gerência")} — ${escapeHtml(status)}</li>`;
+        return `<li><a href="#" class="alerta-processo-link" data-id="${i.id}"><strong>${escapeHtml(i.processo || "(sem número)")}</strong></a> — ${escapeHtml(i.assunto || "Sem assunto")} — ${escapeHtml(i.gerencia || "Sem gerência")} — ${escapeHtml(status)}</li>`;
       }).join("");
 
       alertasPrazo.innerHTML = `<strong>Avisos de prazo</strong><div>Processos que exigem resposta considerando o limite de ${limite} dia(s):</div><ul>${lista}</ul>`;
       alertasPrazo.classList.remove("hidden");
+      alertasPrazo.querySelectorAll('.alerta-processo-link').forEach(link=>{
+        link.addEventListener('click',(e)=>{
+          e.preventDefault();
+          abrirDrawer(link.dataset.id);
+        });
+      });
 
       if (enviarNotificacao && "Notification" in window && Notification.permission === "granted") {
         alertaveis.forEach(i => {
