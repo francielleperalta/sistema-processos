@@ -405,6 +405,7 @@
     .badge-situacao, .badge-area { background: var(--surface-soft); color: #344054; border: 1px solid #d0d5dd; }
     .badge-situacao.concluido { background: #dde5df; color: #027a48; border-color: #abefc6; }
     .badge-situacao.respondido { background: #dbe7df; color: #05603a; border-color: #b7dfc6; }
+    .badge-no-prazo { background: #dbe7df; color: #05603a; border-color: #b7dfc6; }
     .badge-situacao.andamento { background: #dce4e7; color: #175cd3; border-color: #b2ddff; }
     .badge-situacao.pendente { background: #e8dfd4; color: #c2410c; border-color: #fdba74; }
     .badge-situacao.arquivado { background: #d6dee2; color: #344054; border-color: #d0d5dd; }
@@ -1867,6 +1868,26 @@
     .dashboard-action-item .title { font-size: 13px; font-weight: 800; color: #243741; line-height: 1.35; }
     .dashboard-action-item .meta { font-size: 12px; color: #66747d; margin-top: 6px; line-height: 1.4; }
 
+    .central-pendencias { margin:14px 0 12px; padding:14px; border-radius:18px; border:1px solid #c8d2d7; background:linear-gradient(180deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.18) 100%); box-shadow:0 6px 16px rgba(16,24,40,.05); }
+    .central-pendencias.hidden { display:none !important; }
+    .central-pendencias-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:12px; }
+    .central-pendencias-title { font-size:15px; font-weight:850; color:#263a45; line-height:1.3; }
+    .central-pendencias-sub { margin-top:3px; font-size:12px; color:#66747d; line-height:1.45; }
+    .central-pendencias-counter { padding:7px 10px; border-radius:999px; background:#748791; color:#fff; font-size:12px; font-weight:800; white-space:nowrap; }
+    .central-pendencias-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px; }
+    .pendencia-card { border:1px solid #d4dde1; border-radius:16px; padding:12px; background:rgba(255,255,255,.46); display:grid; gap:8px; min-width:0; }
+    .pendencia-card.atrasado { border-color:#deb7b7; background:#f1e2e2; }
+    .pendencia-card.hoje { border-color:#e4c792; background:#f0e5ce; }
+    .pendencia-card.vencendo { border-color:#e1d39f; background:#eee7d0; }
+    .pendencia-card .p-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+    .pendencia-card .p-processo { font-weight:850; color:#263a45; line-height:1.35; word-break:break-word; }
+    .pendencia-card .p-meta { font-size:12px; color:#66747d; line-height:1.45; }
+    .pendencia-actions { display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
+    .pendencia-actions button { width:auto; min-width:88px; margin:0; padding:7px 9px; font-size:12px; border-radius:10px; box-shadow:none; }
+    .acoes button[data-action="prorrogar"], #drawerBtnProrrogar, .pendencia-actions button[data-pendencia-action="prorrogar"] { background:#eef2f4; color:#42545f; border:1px solid #c5cfd5; }
+    .pendencia-actions button[data-pendencia-action="view"] { background:#748791; color:#fff; border:1px solid transparent; }
+    .pendencia-actions button[data-pendencia-action="respondido"] { background:linear-gradient(180deg, #7fa08a 0%, #668974 100%); color:#fff; border:1px solid transparent; }
+
     .dashboard-empty {
       border: 1px dashed #c8d2d7;
       border-radius: 14px;
@@ -2822,6 +2843,7 @@
       <div class="tabs">
         <button type="button" id="tabProcessosBtn" class="tab-btn active">Processos</button>
         <button type="button" id="tabDashboardBtn" class="tab-btn">Dashboard</button>
+        <button type="button" id="tabRespondidosBtn" class="tab-btn">Respondidos</button>
         <button type="button" id="btnAbrirRelatorio" class="tab-btn">Relatório</button>
       </div>
 
@@ -3071,8 +3093,10 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Vencendo" id="counterVencendo">Vencendo: 0</button>
               <button type="button" class="quick-filter-chip" data-quick-type="statusPrazo" data-quick-value="Sem prazo" id="counterSemPrazo">Sem prazo: 0</button>
               <button type="button" class="quick-filter-chip quick-filter-chip-com-prazo" data-quick-type="prazo" data-quick-value="comPrazo" id="counterComPrazo">📅 Com prazo: 0</button>
+              <button type="button" class="quick-filter-chip" data-quick-type="pendencias" id="counterPendenciasReais">Pendências reais: 0</button>
               <button type="button" class="quick-filter-chip" data-quick-type="area" data-quick-value="Superintendência de Gestão Integrada" id="counterSGI">SGI: 0</button>
             </div>
+            <div id="centralPendencias" class="central-pendencias hidden"></div>
             <div id="listaProcessosResumo" style="margin:12px 0;padding:12px;border:1px solid #bcc8cd;border-radius:12px;display:none;background:#e6ecee"></div>
             <div id="alertasPrazo" class="alertas hidden"></div>
             <div id="noResults" class="no-results hidden">
@@ -3163,11 +3187,25 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                 <div class="mini-kpi"><div class="k">Vence hoje</div><div class="v" id="kpiHoje">0</div><div class="s">atenção imediata</div></div>
                 <div class="mini-kpi"><div class="k">Exige resposta</div><div class="v" id="kpiVencendo">0</div><div class="s">vencendo nos próximos dias</div></div>
                 <div class="mini-kpi"><div class="k">Atrasados</div><div class="v" id="kpiAtrasados">0</div><div class="s">estoque crítico</div></div>
+                <div class="mini-kpi"><div class="k">Pendências ativas</div><div class="v" id="kpiPendenciasAtivas">0</div><div class="s">ainda exigem resposta</div></div>
+                <div class="mini-kpi"><div class="k">Respondidos</div><div class="v" id="kpiRespondidos">0</div><div class="s">baixados da fila</div></div>
+                <div class="mini-kpi"><div class="k">Taxa de resposta</div><div class="v" id="kpiTaxaResposta">0%</div><div class="s">respondidos / total</div></div>
+                <div class="mini-kpi"><div class="k">No prazo</div><div class="v" id="kpiRespondidosNoPrazo">0</div><div class="s">respondidos até o vencimento</div></div>
+                <div class="mini-kpi"><div class="k">Fora do prazo</div><div class="v" id="kpiRespondidosForaPrazo">0</div><div class="s">respondidos após vencer</div></div>
+                <div class="mini-kpi"><div class="k">Tempo médio</div><div class="v" id="kpiTempoMedioResposta">-</div><div class="s">dias até resposta</div></div>
               </div>
             </div>
             <div class="card chart-card dashboard-chart-short">
               <div class="dashboard-section-title"><div><h4>SGI — gerências e seções</h4><small>Detalhamento da Superintendência de Gestão Integrada.</small></div></div>
               <div class="chart-box"><canvas id="graficoSGI"></canvas></div>
+            </div>
+            <div class="card chart-card dashboard-chart-short">
+              <div class="dashboard-section-title"><div><h4>Eficiência de respostas</h4><small>Respondidos no prazo, fora do prazo e sem base de comparação.</small></div></div>
+              <div class="chart-box"><canvas id="graficoRespostas"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="dashboard-section-title"><div><h4>Leitura gerencial</h4><small>Resumo automático da visão atual.</small></div></div>
+              <div id="dashboardRespostaResumo" class="dashboard-list"></div>
             </div>
             <div class="card">
               <div class="dashboard-section-title"><div><h4>Ação imediata</h4><small>Top 5 processos mais críticos da visão atual.</small></div></div>
@@ -3180,6 +3218,28 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           </div>
         </div>
       </div>
+
+      <div id="abaRespondidos" class="hidden">
+        <div class="card hero">
+          <div class="topbar">
+            <div>
+              <h3 style="margin-bottom:6px;">Processos respondidos</h3>
+              <div class="muted">Auditoria das baixas de pendência, com classificação no prazo e fora do prazo.</div>
+            </div>
+            <div class="toolbar">
+              <button type="button" class="outline" id="btnVoltarProcessosRespondidos">Voltar aos processos</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div id="respondidosResumo" class="dashboard-kpi-grid"></div>
+        </div>
+        <div class="card">
+          <div class="dashboard-section-title"><div><h4>Lista de respondidos</h4><small>Ordenado pela data mais recente de resposta.</small></div></div>
+          <div id="listaRespondidos" class="table-wrap"></div>
+        </div>
+      </div>
+
 
     </div>
   </div>
@@ -3202,6 +3262,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     <div class="btn-row">
       <button type="button" id="drawerBtnEditar">Editar</button>
       <button type="button" class="success hidden" id="drawerBtnRespondido">Marcar como respondido</button>
+      <button type="button" class="light hidden" id="drawerBtnProrrogar">Prorrogar prazo</button>
       <button type="button" class="danger" id="drawerBtnExcluir">Excluir</button>
     </div>
   </aside>
@@ -3246,6 +3307,47 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       <div class="btn-row"><button type="button" id="btnSalvarEdicao">Salvar alterações</button></div>
     </div>
   </div>
+
+
+
+  <div id="prorrogarOverlay" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h3 style="margin-bottom:6px;">Prorrogar prazo</h3>
+          <div class="muted" id="prorrogarProcessoTitulo">Escolha um novo prazo para o processo.</div>
+        </div>
+        <button type="button" class="modal-close" id="btnFecharProrrogar">Fechar</button>
+      </div>
+      <div class="prazo-atalhos-head" style="margin-top:8px;">Atalhos rápidos</div>
+      <div class="prazo-atalhos-grid modal-prazo-grid" style="margin-top:10px;">
+        <div class="checkbox-lux prazo-atalho-box modal-prazo-atalho-box">
+          <button type="button" class="prazo-atalho-checkbox-btn" id="btnProrrogar3Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Prorrogar por 3 dias</span></button>
+        </div>
+        <div class="checkbox-lux prazo-atalho-box modal-prazo-atalho-box">
+          <button type="button" class="prazo-atalho-checkbox-btn" id="btnProrrogar10Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Prorrogar por 10 dias</span></button>
+        </div>
+        <div class="checkbox-lux prazo-atalho-box modal-prazo-atalho-box">
+          <button type="button" class="prazo-atalho-checkbox-btn" id="btnProrrogar15Dias" aria-pressed="false"><span class="prazo-atalho-checkbox-visual" aria-hidden="true"></span><span>Prorrogar por 15 dias</span></button>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:14px;">
+        <div>
+          <label for="prorrogarDataFinal">Nova data final</label>
+          <input type="date" id="prorrogarDataFinal" />
+        </div>
+        <div>
+          <label for="prorrogarMotivo">Motivo/observação da prorrogação</label>
+          <input type="text" id="prorrogarMotivo" placeholder="Opcional" />
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:14px;">
+        <button type="button" id="btnSalvarProrrogacao">Salvar prorrogação</button>
+        <button type="button" class="outline" id="btnCancelarProrrogacao">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
 
   <div id="relatorioOverlay" class="modal-overlay hidden">
     <div class="modal relatorio-modal">
@@ -3459,6 +3561,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let chartEntradas = null;
     let chartSituacao = null;
     let chartAreas = null;
+    let chartRespostas = null;
     let chartCriticidadeGerencia = null;
     let ultimoRegistroExcluido = null;
     let unsubscribeSnapshot = null;
@@ -3466,6 +3569,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     let selectedDrawerId = null;
     let editingId = null;
     let chavesNotificadas = new Set();
+    let filtroPendenciasReaisAtivo = false;
+    let prorrogarTargetId = null;
 
     const $ = (id) => document.getElementById(id);
     function normalizarNomeInstitucional(valor) {
@@ -3506,6 +3611,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         itens.push(['Período', `${de} até ${ate}`]);
       }
       if (filtroAtrasados?.checked) itens.push(['Filtro ativo', 'Apenas atrasados']);
+      if (filtroPendenciasReaisAtivo) itens.push(['Filtro ativo', 'Pendências reais']);
       itens.push(['Ordenação', getOrdenacaoLabel(ordenacao?.value)]);
       return itens;
     }
@@ -3702,8 +3808,13 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const painelBuscaGlobal = $("painelBuscaGlobal");
     const tabProcessosBtn = $("tabProcessosBtn");
     const tabDashboardBtn = $("tabDashboardBtn");
+    const tabRespondidosBtn = $("tabRespondidosBtn");
     const abaProcessos = $("abaProcessos");
     const abaDashboard = $("abaDashboard");
+    const abaRespondidos = $("abaRespondidos");
+    const listaRespondidos = $("listaRespondidos");
+    const respondidosResumo = $("respondidosResumo");
+    const btnVoltarProcessosRespondidos = $("btnVoltarProcessosRespondidos");
     const entrada = $("entrada");
     const gerenciaManual = $("gerenciaManual");
     const gerenciaManual2 = $("gerenciaManual2");
@@ -3772,6 +3883,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const drawerConteudo = $("drawerConteudo");
     const drawerBtnEditar = $("drawerBtnEditar");
     const drawerBtnRespondido = $("drawerBtnRespondido");
+    const drawerBtnProrrogar = $("drawerBtnProrrogar");
     const drawerBtnPendente = $("drawerBtnPendente");
     const drawerBtnConcluir = $("drawerBtnConcluir");
     const drawerBtnArquivar = $("drawerBtnArquivar");
@@ -3790,6 +3902,16 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const editHoraFinal = $("editHoraFinal");
     const editSemPrazo = $("editSemPrazo");
     const btnSalvarEdicao = $("btnSalvarEdicao");
+    const prorrogarOverlay = $("prorrogarOverlay");
+    const btnFecharProrrogar = $("btnFecharProrrogar");
+    const btnCancelarProrrogacao = $("btnCancelarProrrogacao");
+    const btnProrrogar3Dias = $("btnProrrogar3Dias");
+    const btnProrrogar10Dias = $("btnProrrogar10Dias");
+    const btnProrrogar15Dias = $("btnProrrogar15Dias");
+    const btnSalvarProrrogacao = $("btnSalvarProrrogacao");
+    const prorrogarProcessoTitulo = $("prorrogarProcessoTitulo");
+    const prorrogarDataFinal = $("prorrogarDataFinal");
+    const prorrogarMotivo = $("prorrogarMotivo");
     const btnPrazo3Dias = $("btnPrazo3Dias");
     const btnPrazo10Dias = $("btnPrazo10Dias");
     const btnPrazo15Dias = $("btnPrazo15Dias");
@@ -4424,6 +4546,12 @@ function gerarRelatorioPeriodo() {
   const comPrazo = itens.filter(item => !item.semPrazo && !!item.dataFinal).length;
   const semPrazo = itens.filter(item => !!item.semPrazo || !item.dataFinal).length;
   const atrasados = itens.filter(item => obterStatusPrazo(item.dataFinal, item.semPrazo, item.horaFinal) === 'Atrasado').length;
+  const metricasResposta = calcularMetricasResposta(itens.map(item => ({
+    ...item,
+    diasRestantes: item.semPrazo ? null : calcDiasRestantes(item.dataFinal, item.horaFinal),
+    statusPrazo: obterStatusPrazo(item.dataFinal, item.semPrazo, item.horaFinal)
+  })));
+  const pendenciasAtivas = itens.filter(processoComPrazoPendente).length;
   const porArea = agruparContagem(itens, item => item.area || item.gerencia || 'Não informado').slice(0, 8);
   const porSituacao = agruparContagem(itens, item => item.situacao || 'Não informado');
   const porGerencia = agruparContagem(itens, item => item.gerencia || 'Não informado').slice(0, 8);
@@ -4438,6 +4566,10 @@ function gerarRelatorioPeriodo() {
       <div class="relatorio-kpi"><div class="k">Com prazo</div><div class="v">${comPrazo}</div></div>
       <div class="relatorio-kpi"><div class="k">Sem prazo</div><div class="v">${semPrazo}</div></div>
       <div class="relatorio-kpi"><div class="k">Atrasados hoje</div><div class="v">${atrasados}</div></div>
+      <div class="relatorio-kpi"><div class="k">Respondidos</div><div class="v">${metricasResposta.respondidos}</div></div>
+      <div class="relatorio-kpi"><div class="k">No prazo</div><div class="v">${metricasResposta.noPrazo}</div></div>
+      <div class="relatorio-kpi"><div class="k">Fora do prazo</div><div class="v">${metricasResposta.foraPrazo}</div></div>
+      <div class="relatorio-kpi"><div class="k">Pendências ativas</div><div class="v">${pendenciasAtivas}</div></div>
     </div>
     <div class="relatorio-graficos-grid">
       <div class="relatorio-chart-card"><h4>Distribuição por área no organograma</h4><div class="relatorio-chart-wrap"><canvas id="relatorioGraficoAreas"></canvas></div></div>
@@ -4460,6 +4592,12 @@ function gerarRelatorioPeriodo() {
       <div class="relatorio-card">
         <h4>Evolução no período</h4>
         <div class="relatorio-lista">${evolucao.map(item => `<div class="relatorio-lista-item"><span>${escapeHtml(item.label)}</span><strong>${item.total}</strong></div>`).join('')}</div>
+      </div>
+    </div>
+    <div class="relatorio-card" style="margin-top:14px;">
+      <h4>Relatório mensal automático de respostas</h4>
+      <div style="font-size:13px; line-height:1.65; color:var(--text-soft);">
+        No recorte de <strong>${escapeHtml(subtitulo)}</strong>, foram identificados <strong>${metricasResposta.respondidos}</strong> processo(s) respondido(s). Desses, <strong>${metricasResposta.noPrazo}</strong> foram respondidos dentro do prazo e <strong>${metricasResposta.foraPrazo}</strong> foram respondidos fora do prazo. A taxa de resposta no prazo foi de <strong>${metricasResposta.taxaNoPrazo}%</strong>. Permanecem <strong>${pendenciasAtivas}</strong> pendência(s) ativa(s), sendo <strong>${metricasResposta.pendenciasAtrasadas}</strong> atrasada(s) e <strong>${metricasResposta.pendencias1Dia}</strong> com vencimento em 1 dia.
       </div>
     </div>
     <div class="relatorio-card" style="margin-top:14px;">
@@ -4782,15 +4920,28 @@ function imprimirRelatorioAtual() {
       if (aba === "dashboard") {
         abaProcessos.classList.add("hidden");
         abaDashboard.classList.remove("hidden");
+        abaRespondidos?.classList.add("hidden");
         tabProcessosBtn.classList.remove("active");
         tabDashboardBtn.classList.add("active");
+        tabRespondidosBtn?.classList.remove("active");
         localStorage.setItem(STORAGE_KEYS.aba, "dashboard");
         renderDashboard(filteredItems);
+      } else if (aba === "respondidos") {
+        abaProcessos.classList.add("hidden");
+        abaDashboard.classList.add("hidden");
+        abaRespondidos?.classList.remove("hidden");
+        tabProcessosBtn.classList.remove("active");
+        tabDashboardBtn.classList.remove("active");
+        tabRespondidosBtn?.classList.add("active");
+        localStorage.setItem(STORAGE_KEYS.aba, "respondidos");
+        renderRespondidos();
       } else {
         abaProcessos.classList.remove("hidden");
         abaDashboard.classList.add("hidden");
+        abaRespondidos?.classList.add("hidden");
         tabProcessosBtn.classList.add("active");
         tabDashboardBtn.classList.remove("active");
+        tabRespondidosBtn?.classList.remove("active");
         localStorage.setItem(STORAGE_KEYS.aba, "processos");
       }
     }
@@ -4908,6 +5059,11 @@ function imprimirRelatorioAtual() {
             criadoPor: dados.criadoPor || "",
             alteradoEm: dados.alteradoEm || null,
             alteradoPor: dados.alteradoPor || "",
+            respondidoEm: dados.respondidoEm || null,
+            respondidoPor: dados.respondidoPor || "",
+            observacaoResposta: dados.observacaoResposta || "",
+            prazoOriginalResposta: dados.prazoOriginalResposta || "",
+            quantidadeProrrogacoes: dados.quantidadeProrrogacoes || 0,
             historico: Array.isArray(dados.historico) ? dados.historico : []
           });
         });
@@ -5024,6 +5180,57 @@ function imprimirRelatorioAtual() {
       }
     }
 
+
+    function dataJS(valor) {
+      if (!valor) return null;
+      try {
+        if (valor.toDate) return valor.toDate();
+        if (valor.seconds) return new Date(valor.seconds * 1000);
+        const d = new Date(valor);
+        return Number.isNaN(d.getTime()) ? null : d;
+      } catch (e) { return null; }
+    }
+    function dataBaseDia(valor) {
+      const d = dataJS(valor);
+      if (!d) return null;
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    }
+    function dataISOParaBase(iso) {
+      if (!iso) return null;
+      const partes = String(iso).split('-').map(Number);
+      if (partes.length < 3 || !partes[0] || !partes[1] || !partes[2]) return null;
+      return new Date(partes[0], partes[1] - 1, partes[2]);
+    }
+    function prazoReferenciaResposta(item) {
+      return item?.prazoOriginalResposta || item?.prazoAnterior || item?.dataFinal || "";
+    }
+    function classificarRespostaPrazo(item) {
+      if (!item || item.situacao !== "Respondido") return "Não respondido";
+      const prazoBase = dataISOParaBase(prazoReferenciaResposta(item));
+      const respBase = dataBaseDia(item.respondidoEm || item.alteradoEm);
+      if (!prazoBase || !respBase) return "Sem base";
+      return respBase.getTime() <= prazoBase.getTime() ? "No prazo" : "Fora do prazo";
+    }
+    function diasAteResposta(item) {
+      const inicio = dataBaseDia(item?.criadoEm || item?.dataCadastroISO || item?.dataCadastro);
+      const fim = dataBaseDia(item?.respondidoEm || item?.alteradoEm);
+      if (!inicio || !fim) return null;
+      return Math.max(0, Math.round((fim.getTime() - inicio.getTime()) / (1000 * 60 * 60 * 24)));
+    }
+    function calcularMetricasResposta(itens) {
+      const respondidos = (itens || []).filter(i => i.situacao === "Respondido");
+      const noPrazo = respondidos.filter(i => classificarRespostaPrazo(i) === "No prazo").length;
+      const foraPrazo = respondidos.filter(i => classificarRespostaPrazo(i) === "Fora do prazo").length;
+      const semBase = respondidos.filter(i => classificarRespostaPrazo(i) === "Sem base").length;
+      const dias = respondidos.map(diasAteResposta).filter(v => v !== null);
+      const tempoMedio = dias.length ? Math.round((dias.reduce((a,b) => a + b, 0) / dias.length) * 10) / 10 : null;
+      const pendencias = (itens || []).filter(processoComPrazoPendente).length;
+      const pendenciasAtrasadas = (itens || []).filter(i => processoComPrazoPendente(i) && i.statusPrazo === "Atrasado").length;
+      const pendencias1Dia = (itens || []).filter(i => processoComPrazoPendente(i) && i.diasRestantes === 1).length;
+      const taxaNoPrazo = respondidos.length ? Math.round((noPrazo / respondidos.length) * 100) : 0;
+      return { respondidos: respondidos.length, noPrazo, foraPrazo, semBase, tempoMedio, pendencias, pendenciasAtrasadas, pendencias1Dia, taxaNoPrazo };
+    }
+
     function processoComPrazoPendente(item) {
       return !!(item && !item.semPrazo && item.dataFinal && !["Respondido", "Concluído", "Arquivado"].includes(item.situacao));
     }
@@ -5035,20 +5242,95 @@ function imprimirRelatorioAtual() {
       if (!processoComPrazoPendente(item)) {
         return toast("Este processo não possui pendência de prazo ativa.", "info");
       }
+      const observacao = (prompt("Observação da resposta (opcional):", "") || "").trim();
       try {
         await atualizarDocumento(id, {
           situacao: "Respondido",
+          statusResposta: "Respondido",
           semPrazo: true,
           dataFinal: "",
           horaFinal: "",
-          prazoFinalISO: ""
-        }, "Processo marcado como respondido; prazo removido da pendência");
+          prazoFinalISO: "",
+          respondidoEm: firebase.firestore.FieldValue.serverTimestamp(),
+          respondidoPor: auth.currentUser?.email || "",
+          observacaoResposta: observacao,
+          prazoOriginalResposta: item.dataFinal || ""
+        }, "Processo marcado como respondido; prazo removido da pendência" + (observacao ? ` — ${observacao}` : ""));
         toast("Processo marcado como respondido e removido das pendências de prazo.", "success");
         if (selectedDrawerId === id) abrirDrawer(id);
       } catch (error) {
         console.error(error);
         toast("Erro ao marcar processo como respondido.", "error");
       }
+    }
+
+    function sincronizarBotoesProrrogacao() {
+      if (!prorrogarDataFinal) return;
+      [
+        [btnProrrogar3Dias, 3],
+        [btnProrrogar10Dias, 10],
+        [btnProrrogar15Dias, 15]
+      ].forEach(([botao, dias]) => {
+        if (!botao) return;
+        const ativo = prorrogarDataFinal.value === addDays(todayISO(), dias);
+        botao.classList.toggle('active', ativo);
+        botao.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+      });
+    }
+
+    function aplicarAtalhoProrrogacao(dias) {
+      if (!prorrogarDataFinal) return;
+      prorrogarDataFinal.value = addDays(todayISO(), dias);
+      sincronizarBotoesProrrogacao();
+    }
+
+    function abrirModalProrrogacao(id) {
+      if (!id) return;
+      const item = allItems.find(i => i.id === id);
+      if (!item) return toast("Processo não encontrado.", "warning");
+      prorrogarTargetId = id;
+      if (prorrogarProcessoTitulo) prorrogarProcessoTitulo.textContent = item.processo ? `Processo ${item.processo}` : "Processo selecionado";
+      if (prorrogarDataFinal) prorrogarDataFinal.value = item.dataFinal || todayISO();
+      if (prorrogarMotivo) prorrogarMotivo.value = "";
+      sincronizarBotoesProrrogacao();
+      prorrogarOverlay?.classList.remove("hidden");
+    }
+
+    function fecharModalProrrogacao() {
+      prorrogarOverlay?.classList.add("hidden");
+      prorrogarTargetId = null;
+      if (prorrogarMotivo) prorrogarMotivo.value = "";
+    }
+
+    async function salvarProrrogacaoModal() {
+      const id = prorrogarTargetId;
+      if (!id) return;
+      const item = allItems.find(i => i.id === id);
+      if (!item) return toast("Processo não encontrado.", "warning");
+      const novaData = (prorrogarDataFinal?.value || "").trim();
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(novaData)) return toast("Informe uma nova data final válida.", "warning");
+      const motivo = (prorrogarMotivo?.value || "").trim();
+      try {
+        await atualizarDocumento(id, {
+          situacao: item.situacao === "Respondido" ? "Em análise" : item.situacao,
+          statusResposta: "Pendente de resposta",
+          semPrazo: false,
+          dataFinal: novaData,
+          prazoFinalISO: `${novaData}T${normalizarHora(item.horaFinal || "") || '23:59'}:00`,
+          prazoAnterior: item.dataFinal || "",
+          quantidadeProrrogacoes: firebase.firestore.FieldValue.increment(1)
+        }, `Prazo prorrogado para ${formatarDataISOparaBR(novaData)}${motivo ? ' — ' + motivo : ''}`);
+        toast("Prazo prorrogado com sucesso.", "success");
+        fecharModalProrrogacao();
+        if (selectedDrawerId === id) abrirDrawer(id);
+      } catch (error) {
+        console.error(error);
+        toast("Erro ao prorrogar prazo.", "error");
+      }
+    }
+
+    async function prorrogarPrazoProcesso(id) {
+      abrirModalProrrogacao(id);
     }
 
     async function alterarSituacaoRapida(id, situacao) {
@@ -5116,6 +5398,7 @@ function imprimirRelatorioAtual() {
         if (prazo === "semPrazo" && !item.semPrazo) return false;
         if (statusPrazoFiltro && item.statusPrazo !== statusPrazoFiltro) return false;
         if (somenteAtrasados && item.statusPrazo !== "Atrasado") return false;
+        if (filtroPendenciasReaisAtivo && !processoComPrazoPendente(item)) return false;
         if (dataInicial && (item.semPrazo || !item.dataFinal || item.dataFinal < dataInicial)) return false;
         if (dataFim && (item.semPrazo || !item.dataFinal || item.dataFinal > dataFim)) return false;
         return true;
@@ -5158,6 +5441,7 @@ function imprimirRelatorioAtual() {
         const badgePrazo = gerarBadgePrazo(item.dataFinal, item.semPrazo).replace('class="badge ', 'class="badge status-strong ');
         const ultimaAlteracao = formatarDataHora(item.alteradoEm);
         const botaoRespondido = processoComPrazoPendente(item) ? '<button type="button" class="success" data-action="respondido">Respondido</button>' : '';
+        const botaoProrrogar = processoComPrazoPendente(item) ? '<button type="button" class="light" data-action="prorrogar">Prorrogar</button>' : '';
         return `
           <tr class="main-row ${classeLinha}" data-id="${item.id}">
             <td data-label="Processo">
@@ -5177,6 +5461,7 @@ function imprimirRelatorioAtual() {
               <div class="acoes">
                 <button type="button" data-action="view">Ver</button>
                 ${botaoRespondido}
+                ${botaoProrrogar}
                 <button type="button" class="secondary" data-action="edit">Editar</button>
                 <button type="button" class="danger" data-action="delete">Excluir</button>
               </div>
@@ -5190,6 +5475,8 @@ function imprimirRelatorioAtual() {
       const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
       const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
       const comPrazo = itens.filter(i => !i.semPrazo && !!i.dataFinal).length;
+      const pendenciasAtivas = itens.filter(processoComPrazoPendente).length;
+      const respondidos = itens.filter(i => i.situacao === "Respondido").length;
       const sgi = itens.filter(i => normalizarNomeInstitucional(i.area) === "Superintendência de Gestão Integrada").length;
       const concluidos = itens.filter(i => i.situacao === "Concluído").length;
 
@@ -5199,6 +5486,7 @@ function imprimirRelatorioAtual() {
       setTextIfExists(counterVencendo, `Vencendo: ${vencendo}`);
       setTextIfExists(counterSemPrazo, `Sem prazo: ${semPrazo}`);
       setTextIfExists(counterComPrazo, `📅 Com prazo: ${comPrazo}`);
+      setTextIfExists("counterPendenciasReais", `Pendências reais: ${pendenciasAtivas}`);
       setTextIfExists(counterSGI, `SGI: ${sgi}`);
       setTextIfExists(sumMostrando, itens.length);
       setTextIfExists(sumSGI, sgi);
@@ -5214,47 +5502,48 @@ function imprimirRelatorioAtual() {
       if (filtroStatusPrazo.value === "Vencendo") counterVencendo?.classList.add("active");
       if (filtroStatusPrazo.value === "Sem prazo") counterSemPrazo?.classList.add("active");
       if (filtroPrazo?.value === "comPrazo") counterComPrazo?.classList.add("active");
+      if (filtroPendenciasReaisAtivo) $("counterPendenciasReais")?.classList.add("active");
       if (normalizarNomeInstitucional(filtroArea.value) === "Superintendência de Gestão Integrada") counterSGI?.classList.add("active");
       renderResumoFiltrosAtivos();
     }
 
+    function prioridadePendencia(item) {
+      if (item.statusPrazo === "Atrasado") return 0;
+      if (item.statusPrazo === "Vence hoje") return 1;
+      if (item.statusPrazo === "Vencendo") return 2;
+      return 3;
+    }
+
+    function renderCentralPendencias(itens) {
+      const box = $("centralPendencias");
+      if (!box) return;
+      const pendencias = [...itens]
+        .filter(i => processoComPrazoPendente(i) && (i.diasRestantes === 1 || i.diasRestantes < 0))
+        .sort((a, b) => prioridadePendencia(a) - prioridadePendencia(b) || (a.diasRestantes ?? 9999) - (b.diasRestantes ?? 9999))
+        .slice(0, 8);
+      if (!pendencias.length) { box.classList.add("hidden"); box.innerHTML = ""; return; }
+      const cards = pendencias.map(item => {
+        const classe = item.statusPrazo === "Atrasado" ? "atrasado" : item.statusPrazo === "Vence hoje" ? "hoje" : "vencendo";
+        const dias = item.diasRestantes < 0 ? `Atrasado há ${Math.abs(item.diasRestantes)} dia(s)` : item.diasRestantes === 0 ? "Vence hoje" : `Vence em ${item.diasRestantes} dia(s)`;
+        return `<div class="pendencia-card ${classe}"><div class="p-top"><div class="p-processo">${escapeHtml(item.processo || '(sem número)')}</div><span class="badge ${gerarBadgePrazo(item.dataFinal, item.semPrazo).match(/badge-[a-z-]+/)?.[0] || 'badge-vencendo'}">${escapeHtml(item.statusPrazo)}</span></div><div class="p-meta">${escapeHtml(item.assunto || 'Sem assunto')}<br>${escapeHtml(item.gerencia || item.area || '-')} • ${escapeHtml(formatarDataISOparaBR(item.dataFinal))} • ${escapeHtml(dias)}</div><div class="pendencia-actions"><button type="button" data-pendencia-action="view" data-id="${item.id}">Ver</button><button type="button" data-pendencia-action="respondido" data-id="${item.id}">Respondido</button><button type="button" data-pendencia-action="prorrogar" data-id="${item.id}">Prorrogar</button></div></div>`;
+      }).join('');
+      box.innerHTML = `<div class="central-pendencias-head"><div><div class="central-pendencias-title">Central de pendências de resposta</div><div class="central-pendencias-sub">Exibe processos com prazo ativo que estão atrasados ou faltando exatamente 1 dia para vencer.</div></div><div class="central-pendencias-counter">${pendencias.length} pendência(s) crítica(s)</div></div><div class="central-pendencias-grid">${cards}</div>`;
+      box.classList.remove("hidden");
+      box.querySelectorAll("[data-pendencia-action]").forEach(btn => btn.addEventListener("click", (e) => { e.preventDefault(); const id = btn.dataset.id; const action = btn.dataset.pendenciaAction; if (action === "view") abrirDrawer(id); if (action === "respondido") marcarProcessoRespondido(id); if (action === "prorrogar") prorrogarPrazoProcesso(id); }));
+    }
+
     function renderAlertas(itens, enviarNotificacao = false) {
-      const limite = parseInt(limiteVencendo.value, 10) || 3;
-      const alertaveis = itens.filter(i => !i.semPrazo && i.diasRestantes !== null && i.diasRestantes <= limite && !["Respondido", "Concluído", "Arquivado"].includes(i.situacao));
-      if (!alertaveis.length) {
+      // A Central de pendências de resposta substitui a caixa antiga "Avisos de prazo".
+      // Mantemos esta função apenas para limpar qualquer conteúdo antigo e preservar compatibilidade.
+      if (alertasPrazo) {
         alertasPrazo.classList.add("hidden");
         alertasPrazo.innerHTML = "";
-        return;
-      }
-
-      const lista = alertaveis.map(i => {
-        const status = i.diasRestantes < 0 ? `atrasado há ${Math.abs(i.diasRestantes)} dia(s)` : i.diasRestantes === 0 ? "vence hoje" : `vence em ${i.diasRestantes} dia(s)`;
-        return `<li><a href="#" class="alerta-processo-link" data-id="${i.id}"><strong>${escapeHtml(i.processo || "(sem número)")}</strong></a> — ${escapeHtml(i.assunto || "Sem assunto")} — ${escapeHtml(i.gerencia || "Sem gerência")} — ${escapeHtml(status)}</li>`;
-      }).join("");
-
-      alertasPrazo.innerHTML = `<strong>Avisos de prazo</strong><div>Processos que exigem resposta considerando o limite de ${limite} dia(s):</div><ul>${lista}</ul>`;
-      alertasPrazo.classList.remove("hidden");
-      alertasPrazo.querySelectorAll('.alerta-processo-link').forEach(link=>{
-        link.addEventListener('click',(e)=>{
-          e.preventDefault();
-          abrirDrawer(link.dataset.id);
-        });
-      });
-
-      if (enviarNotificacao && "Notification" in window && Notification.permission === "granted") {
-        alertaveis.forEach(i => {
-          const chave = `${i.id}-${i.diasRestantes}`;
-          if (chavesNotificadas.has(chave)) return;
-          chavesNotificadas.add(chave);
-          const corpo = i.diasRestantes < 0 ? `${i.processo || "Processo"} está atrasado há ${Math.abs(i.diasRestantes)} dia(s).` : i.diasRestantes === 0 ? `${i.processo || "Processo"} vence hoje.` : `${i.processo || "Processo"} vence em ${i.diasRestantes} dia(s).`;
-          new Notification("Aviso de prazo", { body: corpo });
-        });
       }
     }
 
-    
+
     function destroyCharts() {
-      [chartPrazo, chartSGI, chartEntradas, chartSituacao, chartAreas, chartCriticidadeGerencia].forEach(c => { if (c) c.destroy(); });
+      [chartPrazo, chartSGI, chartEntradas, chartSituacao, chartAreas, chartRespostas, chartCriticidadeGerencia].forEach(c => { if (c) c.destroy(); });
     }
     function renderDashboardTopCriticos(itens) {
       const box = $("dashboardTopCriticos");
@@ -5305,6 +5594,10 @@ function imprimirRelatorioAtual() {
       const vencendo = itens.filter(i => i.statusPrazo === "Vencendo").length;
       const hoje = itens.filter(i => i.statusPrazo === "Vence hoje").length;
       const atrasados = itens.filter(i => i.statusPrazo === "Atrasado").length;
+      const pendenciasAtivas = itens.filter(processoComPrazoPendente).length;
+      const respondidos = itens.filter(i => i.situacao === "Respondido").length;
+      const metricasResposta = calcularMetricasResposta(itens);
+      const taxaResposta = total ? Math.round((respondidos / total) * 100) : 0;
 
       setTextIfExists("kpiTotal", total);
       setTextIfExists("kpiComPrazo", comPrazo);
@@ -5312,6 +5605,19 @@ function imprimirRelatorioAtual() {
       setTextIfExists("kpiHoje", hoje);
       setTextIfExists("kpiVencendo", vencendo);
       setTextIfExists("kpiAtrasados", atrasados);
+      setTextIfExists("kpiPendenciasAtivas", pendenciasAtivas);
+      setTextIfExists("kpiRespondidos", respondidos);
+      setTextIfExists("kpiTaxaResposta", `${taxaResposta}%`);
+      setTextIfExists("kpiRespondidosNoPrazo", metricasResposta.noPrazo);
+      setTextIfExists("kpiRespondidosForaPrazo", metricasResposta.foraPrazo);
+      setTextIfExists("kpiTempoMedioResposta", metricasResposta.tempoMedio === null ? '-' : `${metricasResposta.tempoMedio}d`);
+      const resumoResp = $("dashboardRespostaResumo");
+      if (resumoResp) {
+        resumoResp.innerHTML = `
+          <div class="dashboard-list-item"><div><strong>Eficiência no prazo</strong><span>${metricasResposta.taxaNoPrazo}% dos respondidos com base de prazo foram baixados dentro do vencimento.</span></div><div class="num">${metricasResposta.taxaNoPrazo}%</div></div>
+          <div class="dashboard-list-item"><div><strong>Pendências críticas</strong><span>Atrasadas: ${metricasResposta.pendenciasAtrasadas} • Faltando 1 dia: ${metricasResposta.pendencias1Dia}</span></div><div class="num">${metricasResposta.pendenciasAtrasadas + metricasResposta.pendencias1Dia}</div></div>
+          <div class="dashboard-list-item"><div><strong>Sem base para medir prazo</strong><span>Respondidos sem prazo original registrado.</span></div><div class="num">${metricasResposta.semBase}</div></div>`;
+      }
 
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao || 'Em análise'] = (situacaoMap[i.situacao || 'Em análise'] || 0) + 1);
@@ -5362,6 +5668,12 @@ function imprimirRelatorioAtual() {
         type: "line",
         data: { labels: serieMeses.map(i => i.rotulo), datasets: [{ label: 'Entradas', data: serieMeses.map(i => i.total), borderColor: '#677982', backgroundColor: 'rgba(103,121,130,.16)', fill: true, tension: 0.38, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#677982' }] },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } }, scales: commonScales }
+      });
+
+      chartRespostas = new Chart($("graficoRespostas"), {
+        type: "doughnut",
+        data: { labels: ["No prazo", "Fora do prazo", "Sem base"], datasets: [{ data: [metricasResposta.noPrazo, metricasResposta.foraPrazo, metricasResposta.semBase], backgroundColor: ['#6f8577','#8b6767','#9aa7ad'], borderWidth: 2 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom", labels: { color: tickColor } }, tooltip: { backgroundColor: tooltipBg, titleColor: '#fff', bodyColor: '#f8fafc' } } }
       });
 
       chartSituacao = new Chart($("graficoSituacao"), {
@@ -5415,12 +5727,42 @@ function imprimirRelatorioAtual() {
       });
     }
 
+
+    function renderRespondidos() {
+      if (!listaRespondidos || !respondidosResumo) return;
+      const respondidos = [...allItems]
+        .filter(i => i.situacao === "Respondido")
+        .sort((a, b) => (dataJS(b.respondidoEm || b.alteradoEm)?.getTime() || 0) - (dataJS(a.respondidoEm || a.alteradoEm)?.getTime() || 0));
+      const m = calcularMetricasResposta(allItems.map(item => ({
+        ...item,
+        diasRestantes: item.semPrazo ? null : calcDiasRestantes(item.dataFinal, item.horaFinal),
+        statusPrazo: obterStatusPrazo(item.dataFinal, item.semPrazo, item.horaFinal)
+      })));
+      respondidosResumo.innerHTML = `
+        <div class="mini-kpi"><div class="k">Respondidos</div><div class="v">${m.respondidos}</div><div class="s">total baixado</div></div>
+        <div class="mini-kpi"><div class="k">No prazo</div><div class="v">${m.noPrazo}</div><div class="s">até o vencimento</div></div>
+        <div class="mini-kpi"><div class="k">Fora do prazo</div><div class="v">${m.foraPrazo}</div><div class="s">após o vencimento</div></div>
+        <div class="mini-kpi"><div class="k">Taxa no prazo</div><div class="v">${m.taxaNoPrazo}%</div><div class="s">respondidos válidos</div></div>`;
+      if (!respondidos.length) {
+        listaRespondidos.innerHTML = '<div class="dashboard-empty">Nenhum processo marcado como respondido até o momento.</div>';
+        return;
+      }
+      listaRespondidos.innerHTML = `<table class="responsive-table"><thead><tr><th>Processo</th><th>Assunto</th><th>Gerência</th><th>Prazo referência</th><th>Respondido em</th><th>Resultado</th><th>Ação</th></tr></thead><tbody>${respondidos.map(item => {
+        const resultado = classificarRespostaPrazo(item);
+        const cls = resultado === 'No prazo' ? 'badge-no-prazo' : resultado === 'Fora do prazo' ? 'badge-atrasado' : 'badge-sem-prazo';
+        return `<tr data-id="${item.id}"><td><strong>${escapeHtml(item.processo || '(sem número)')}</strong></td><td>${escapeHtml(item.assunto || '-')}</td><td>${escapeHtml(item.gerencia || item.area || '-')}</td><td>${escapeHtml(prazoReferenciaResposta(item) ? formatarDataISOparaBR(prazoReferenciaResposta(item)) : '-')}</td><td>${escapeHtml(formatarDataHora(item.respondidoEm || item.alteradoEm))}</td><td><span class="badge ${cls}">${escapeHtml(resultado)}</span></td><td><button type="button" data-respondido-action="view" data-id="${item.id}">Ver</button></td></tr>`;
+      }).join('')}</tbody></table>`;
+      listaRespondidos.querySelectorAll('[data-respondido-action="view"]').forEach(btn => btn.addEventListener('click', () => abrirDrawer(btn.dataset.id)));
+    }
+
     function renderEverything(notificar = true) {
       filteredItems = getFilteredItems();
       renderTable(filteredItems);
       renderResumo(filteredItems);
       renderAlertas(filteredItems, notificar);
+      renderCentralPendencias(filteredItems);
       renderDashboard(filteredItems);
+      if (abaRespondidos && !abaRespondidos.classList.contains("hidden")) renderRespondidos();
       atualizarCardsAtivos();
       atualizarDrawerSeAberto();
       aplicarFiltrosVisuaisNosChips();
@@ -5488,6 +5830,7 @@ function imprimirRelatorioAtual() {
       if (filtroDataInicial) filtroDataInicial.value = '';
       if (filtroDataFinal) filtroDataFinal.value = '';
       if (filtroAtrasados) filtroAtrasados.checked = false;
+      filtroPendenciasReaisAtivo = false;
       if (ordenacao) ordenacao.value = 'dataCadastroDesc';
       if (ordenacaoTabela) ordenacaoTabela.value = 'dataCadastroDesc';
       salvarFiltros();
@@ -5539,10 +5882,14 @@ function imprimirRelatorioAtual() {
             <div class="drawer-box"><div class="label">Exige resposta</div><div class="value">${statusPrazo}</div></div>
             <div class="drawer-box"><div class="label">Dias restantes</div><div class="value">${escapeHtml(item.semPrazo ? 'Sem prazo' : textoDiasRestantes(calcDiasRestantes(item.dataFinal)))}</div></div>
             <div class="drawer-box"><div class="label">Última alteração</div><div class="value">${escapeHtml((item.alteradoPor || '-') + ' — ' + formatarDataHora(item.alteradoEm))}</div></div>
+            <div class="drawer-box"><div class="label">Resposta</div><div class="value">${escapeHtml(item.situacao === 'Respondido' ? ((item.respondidoPor || '-') + ' — ' + formatarDataHora(item.respondidoEm)) : 'Pendente')}</div></div>
+            <div class="drawer-box"><div class="label">Prorrogações</div><div class="value">${escapeHtml(String(item.quantidadeProrrogacoes || 0))}</div></div>
+            ${item.observacaoResposta ? `<div class="drawer-box" style="grid-column:1 / -1;"><div class="label">Observação da resposta</div><div class="value">${escapeHtml(item.observacaoResposta)}</div></div>` : ''}
           </div>
         </div>`;
       const hist = Array.isArray(item.historico) ? [...item.historico].sort((a,b) => String(b.em || '').localeCompare(String(a.em || ''))).slice(0, 5) : [];
       if (drawerBtnRespondido) drawerBtnRespondido.classList.toggle('hidden', !processoComPrazoPendente(item));
+      if (drawerBtnProrrogar) drawerBtnProrrogar.classList.toggle('hidden', !processoComPrazoPendente(item));
       if (drawerHistorico) drawerHistorico.innerHTML = hist.length ? hist.map(h => `
         <div class="history-item">
           <div class="ht">${escapeHtml(formatarDataHora(h.em))}</div>
@@ -6204,6 +6551,8 @@ function imprimirRelatorioAtual() {
       btnNotificacao.addEventListener("click", solicitarPermissaoNotificacao);
       tabProcessosBtn.addEventListener("click", () => abrirAba("processos"));
       tabDashboardBtn.addEventListener("click", () => abrirAba("dashboard"));
+      if (tabRespondidosBtn) tabRespondidosBtn.addEventListener("click", () => abrirAba("respondidos"));
+      if (btnVoltarProcessosRespondidos) btnVoltarProcessosRespondidos.addEventListener("click", () => abrirAba("processos"));
 
       semPrazoManual.addEventListener("change", () => {
         dataFinalManual.disabled = semPrazoManual.checked;
@@ -6238,10 +6587,19 @@ function imprimirRelatorioAtual() {
       btnSalvarEdicao.addEventListener("click", salvarEdicao);
       btnFecharModal.addEventListener("click", fecharModal);
       modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) fecharModal(); });
+      if (btnFecharProrrogar) btnFecharProrrogar.addEventListener("click", fecharModalProrrogacao);
+      if (btnCancelarProrrogacao) btnCancelarProrrogacao.addEventListener("click", fecharModalProrrogacao);
+      if (prorrogarOverlay) prorrogarOverlay.addEventListener("click", (e) => { if (e.target === prorrogarOverlay) fecharModalProrrogacao(); });
+      if (btnProrrogar3Dias) btnProrrogar3Dias.addEventListener("click", () => aplicarAtalhoProrrogacao(3));
+      if (btnProrrogar10Dias) btnProrrogar10Dias.addEventListener("click", () => aplicarAtalhoProrrogacao(10));
+      if (btnProrrogar15Dias) btnProrrogar15Dias.addEventListener("click", () => aplicarAtalhoProrrogacao(15));
+      if (btnSalvarProrrogacao) btnSalvarProrrogacao.addEventListener("click", salvarProrrogacaoModal);
+      if (prorrogarDataFinal) prorrogarDataFinal.addEventListener("change", sincronizarBotoesProrrogacao);
       btnFecharDrawer.addEventListener("click", fecharDrawer);
       drawerOverlay.addEventListener("click", fecharDrawer);
       drawerBtnEditar.addEventListener("click", () => { if (selectedDrawerId) abrirModalEdicao(selectedDrawerId); });
       if (drawerBtnRespondido) drawerBtnRespondido.addEventListener("click", () => { if (selectedDrawerId) marcarProcessoRespondido(selectedDrawerId); });
+      if (drawerBtnProrrogar) drawerBtnProrrogar.addEventListener("click", () => { if (selectedDrawerId) prorrogarPrazoProcesso(selectedDrawerId); });
       if (drawerBtnPendente) drawerBtnPendente.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Pendente"));
       if (drawerBtnConcluir) drawerBtnConcluir.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Concluído"));
       if (drawerBtnArquivar) drawerBtnArquivar.addEventListener("click", () => alterarSituacaoRapida(selectedDrawerId, "Arquivado"));
@@ -6273,21 +6631,30 @@ function imprimirRelatorioAtual() {
           const tipo = btn.dataset.quickType;
           const valor = btn.dataset.quickValue || "";
           if (tipo === "all") {
+            filtroPendenciasReaisAtivo = false;
             filtroArea.value = "";
             filtroStatusPrazo.value = "";
             if (filtroPrazo) filtroPrazo.value = "";
           } else if (tipo === "area") {
+            filtroPendenciasReaisAtivo = false;
             if (filtroPrazo) filtroPrazo.value = "";
             filtroStatusPrazo.value = "";
             filtroArea.value = filtroArea.value === valor ? "" : valor;
           } else if (tipo === "statusPrazo") {
+            filtroPendenciasReaisAtivo = false;
             if (filtroPrazo) filtroPrazo.value = "";
             filtroArea.value = "";
             filtroStatusPrazo.value = filtroStatusPrazo.value === valor ? "" : valor;
           } else if (tipo === "prazo") {
+            filtroPendenciasReaisAtivo = false;
             filtroArea.value = "";
             filtroStatusPrazo.value = "";
             if (filtroPrazo) filtroPrazo.value = filtroPrazo.value === valor ? "" : valor;
+          } else if (tipo === "pendencias") {
+            filtroPendenciasReaisAtivo = !filtroPendenciasReaisAtivo;
+            filtroArea.value = "";
+            filtroStatusPrazo.value = "";
+            if (filtroPrazo) filtroPrazo.value = "";
           }
           aplicarFiltrosEOrdenacao();
         });
@@ -6323,6 +6690,7 @@ function imprimirRelatorioAtual() {
           const action = btn.dataset.action;
           if (action === "view") { e.stopPropagation(); abrirDrawer(id); return; }
           if (action === "respondido") { e.stopPropagation(); marcarProcessoRespondido(id); return; }
+          if (action === "prorrogar") { e.stopPropagation(); prorrogarPrazoProcesso(id); return; }
           if (action === "edit") { e.stopPropagation(); abrirModalEdicao(id); return; }
           if (action === "delete") { e.stopPropagation(); remover(id); return; }
         }
@@ -6368,6 +6736,7 @@ function imprimirRelatorioAtual() {
         if (appBox.classList.contains("hidden") && e.key === "Enter") login();
         if (!appBox.classList.contains("hidden") && e.key === "Escape") {
           if (!modalOverlay.classList.contains("hidden")) fecharModal();
+          if (prorrogarOverlay && !prorrogarOverlay.classList.contains("hidden")) fecharModalProrrogacao();
           if (!drawer.classList.contains("hidden")) fecharDrawer();
         }
       });
