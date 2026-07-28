@@ -3073,6 +3073,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
               <button type="button" class="quick-filter-chip quick-filter-chip-com-prazo" data-quick-type="prazo" data-quick-value="comPrazo" id="counterComPrazo">📅 Com prazo: 0</button>
               <button type="button" class="quick-filter-chip" data-quick-type="area" data-quick-value="Superintendência de Gestão Integrada" id="counterSGI">SGI: 0</button>
             </div>
+            <div id="listaProcessosResumo" style="margin:12px 0;padding:12px;border:1px solid #bcc8cd;border-radius:12px;display:none;background:#e6ecee"></div>
             <div id="alertasPrazo" class="alertas hidden"></div>
             <div id="noResults" class="no-results hidden">
               <div class="empty-state">
@@ -5433,6 +5434,29 @@ function imprimirRelatorioAtual() {
       salvarFiltros();
       renderEverything();
     }
+    
+    function mostrarProcessosResumo() {
+      const box = document.getElementById("listaProcessosResumo");
+      if (!box) return;
+      const linhas = [...document.querySelectorAll("#tbodyProcessos tr.main-row")];
+      if (!linhas.length) { box.style.display="none"; return; }
+      let html = '<strong>Processos encontrados:</strong><div style="margin-top:8px">';
+      linhas.forEach(l => {
+        const id = l.dataset.id || '';
+        const proc = (l.cells[0]?.innerText || l.cells[1]?.innerText || 'Processo').trim();
+        html += `<a href="#" class="proc-resumo" data-id="${id}" style="display:block;padding:6px 0">${proc}</a>`;
+      });
+      html += '</div>';
+      box.innerHTML = html;
+      box.style.display = 'block';
+      box.querySelectorAll('.proc-resumo').forEach(a=>{
+        a.addEventListener('click',(e)=>{
+          e.preventDefault();
+          abrirDrawer(a.dataset.id);
+        });
+      });
+    }
+
     function aplicarResumoClicavel(card) {
       const type = card.dataset.summaryType;
       const value = card.dataset.summaryValue;
@@ -5442,6 +5466,7 @@ function imprimirRelatorioAtual() {
       alvo.value = alvo.value === value ? '' : value;
       salvarFiltros();
       renderEverything();
+      setTimeout(mostrarProcessosResumo,150);
     }
     function aplicarFiltrosEOrdenacao() {
       salvarFiltros();
