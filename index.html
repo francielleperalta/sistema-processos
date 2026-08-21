@@ -2789,7 +2789,218 @@
       .modal-prazo-atalho-box { margin-top: 10px; }
     }
 
-</style>
+  /* Encaminhamento para até três unidades */
+  .composer-panel .composer-card-grid-2, .encaminhamento-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  @media (max-width: 980px) { .composer-panel .composer-card-grid-2, .encaminhamento-grid { grid-template-columns:1fr; } }
+
+  /* ===== Tema preto com icones roxos ===== */
+  body.roxo-mode {
+    --bg: #050507;
+    --surface: #0d0d12;
+    --surface-soft: #15131d;
+    --text: #f3efff;
+    --muted: #aaa3b8;
+    --border: #312842;
+    --primary: #7c3aed;
+    --primary-dark: #5b21b6;
+    --primary-soft: #211738;
+    --success: #6d4ac7;
+    --warning: #8b5cf6;
+    --danger: #9333ea;
+    background: #050507;
+    color: #f3efff;
+  }
+  body.roxo-mode header {
+    background: linear-gradient(180deg, #09090d 0%, #111018 100%);
+    color: #f5f0ff;
+    border-bottom-color: #30233f;
+  }
+  body.roxo-mode .card,
+  body.roxo-mode .box-soft,
+  body.roxo-mode .table-wrap,
+  body.roxo-mode table,
+  body.roxo-mode .drawer,
+  body.roxo-mode .modal,
+  body.roxo-mode .toast,
+  body.roxo-mode .detail-mini,
+  body.roxo-mode .drawer-box,
+  body.roxo-mode .metric,
+  body.roxo-mode .user-box,
+  body.roxo-mode .counter-pill,
+  body.roxo-mode .table-toolbar,
+  body.roxo-mode .quick-filter-chip,
+  body.roxo-mode .empty-state,
+  body.roxo-mode input,
+  body.roxo-mode textarea,
+  body.roxo-mode select,
+  body.roxo-mode .outline,
+  body.roxo-mode .light,
+  body.roxo-mode .tab-btn,
+  body.roxo-mode .search-input-wrap,
+  body.roxo-mode .preview-card,
+  body.roxo-mode .active-filters-bar,
+  body.roxo-mode .active-filter-pill,
+  body.roxo-mode .history-item,
+  body.roxo-mode .table-scroll-proxy,
+  body.roxo-mode .global-search-input-wrap,
+  body.roxo-mode .global-search-panel,
+  body.roxo-mode .global-search-item,
+  body.roxo-mode .mini-kpi,
+  body.roxo-mode .dashboard-action-item,
+  body.roxo-mode .dashboard-list-item,
+  body.roxo-mode .dashboard-empty,
+  body.roxo-mode .relatorio-card,
+  body.roxo-mode .relatorio-kpi,
+  body.roxo-mode .relatorio-chart-card,
+  body.roxo-mode .relatorio-conteudo-box {
+    background: #0d0d12 !important;
+    color: #f3efff !important;
+    border-color: #312842 !important;
+  }
+  body.roxo-mode .hero,
+  body.roxo-mode .filters-card,
+  body.roxo-mode .chart-card,
+  body.roxo-mode .composer-card.lux,
+  body.roxo-mode .composer-hero,
+  body.roxo-mode .composer-shell-elevated,
+  body.roxo-mode .composer-panel,
+  body.roxo-mode .field-lux,
+  body.roxo-mode .checkbox-lux,
+  body.roxo-mode .preview-lux,
+  body.roxo-mode .prazo-panel,
+  body.roxo-mode .prazo-field-card,
+  body.roxo-mode .prazo-atalho-box,
+  body.roxo-mode .prazo-checkbox-full,
+  body.roxo-mode .encaminhamento-box,
+  body.roxo-mode .encaminhamento-note,
+  body.roxo-mode .select-prefix-note,
+  body.roxo-mode .select-badge-area,
+  body.roxo-mode .chart-box,
+  body.roxo-mode .drawer-hero,
+  body.roxo-mode .drawer-section {
+    background: linear-gradient(180deg, #121019 0%, #0b0a10 100%) !important;
+    color: #f3efff !important;
+    border-color: #312842 !important;
+  }
+  body.roxo-mode button {
+    background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
+    color: #ffffff;
+    border-color: #7c3aed;
+    box-shadow: 0 6px 16px rgba(124,58,237,.22);
+  }
+  body.roxo-mode .outline,
+  body.roxo-mode .light,
+  body.roxo-mode .tab-btn,
+  body.roxo-mode .chip,
+  body.roxo-mode .quick-filter-chip,
+  body.roxo-mode .theme-toggle {
+    background: #15131d !important;
+    color: #c4b5fd !important;
+    border-color: #4c3570 !important;
+    box-shadow: none;
+  }
+  body.roxo-mode .tab-btn.active,
+  body.roxo-mode .chip.active,
+  body.roxo-mode .quick-filter-chip.active {
+    background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%) !important;
+    color: #fff !important;
+    border-color: #8b5cf6 !important;
+  }
+  body.roxo-mode .metric .icon,
+  body.roxo-mode .icon,
+  body.roxo-mode .empty-state-icon,
+  body.roxo-mode .search-icon,
+  body.roxo-mode .composer-status-pill::before,
+  body.roxo-mode .composer-chip-soft .mini-dot,
+  body.roxo-mode .detail-group-title::before {
+    color: #a78bfa !important;
+  }
+  body.roxo-mode .metric .icon {
+    background: #1b1328 !important;
+    border-color: #513778 !important;
+    box-shadow: 0 0 18px rgba(139,92,246,.18);
+  }
+  body.roxo-mode .metric::before,
+  body.roxo-mode .metric.green::before,
+  body.roxo-mode .metric.amber::before,
+  body.roxo-mode .metric.red::before,
+  body.roxo-mode .metric.slate::before,
+  body.roxo-mode .metric.kpi-neutral::before,
+  body.roxo-mode .metric.kpi-sgi::before,
+  body.roxo-mode .metric.kpi-vencendo::before,
+  body.roxo-mode .metric.kpi-atrasado::before {
+    background: linear-gradient(90deg, #7c3aed 0%, #c084fc 100%) !important;
+  }
+  body.roxo-mode thead th,
+  body.roxo-mode #tabela thead th:nth-child(1),
+  body.roxo-mode #tabela thead th:nth-child(2),
+  body.roxo-mode #tabela thead th:last-child {
+    background: linear-gradient(180deg, #3b1f59 0%, #241333 100%) !important;
+    color: #faf7ff !important;
+    border-bottom-color: #5b3978 !important;
+  }
+  body.roxo-mode tbody td {
+    color: #eee9f8 !important;
+    border-bottom-color: #292231 !important;
+    background: transparent !important;
+  }
+  body.roxo-mode #tabela tbody td:nth-child(1),
+  body.roxo-mode #tabela tbody td:nth-child(2),
+  body.roxo-mode #tabela tbody td:last-child {
+    background: linear-gradient(180deg, rgba(17,15,23,.98) 0%, rgba(12,11,16,.98) 100%) !important;
+  }
+  body.roxo-mode tbody tr.main-row:hover td,
+  body.roxo-mode .global-search-item:hover,
+  body.roxo-mode .global-search-item.active {
+    background: #1b1425 !important;
+  }
+  body.roxo-mode .muted,
+  body.roxo-mode .muted-mini,
+  body.roxo-mode .page-note,
+  body.roxo-mode .field-caption,
+  body.roxo-mode .select-helper,
+  body.roxo-mode .drawer-box .label,
+  body.roxo-mode .history-item .ht,
+  body.roxo-mode .table-toolbar label,
+  body.roxo-mode .table-toolbar .title small,
+  body.roxo-mode .mini-kpi .k,
+  body.roxo-mode .mini-kpi .s,
+  body.roxo-mode .dashboard-list-item span,
+  body.roxo-mode .global-search-item-meta {
+    color: #aaa3b8 !important;
+  }
+  body.roxo-mode .composer-hero h3,
+  body.roxo-mode .composer-panel-title,
+  body.roxo-mode .field-lux label,
+  body.roxo-mode .drawer-hero-title,
+  body.roxo-mode .drawer-box .value,
+  body.roxo-mode .mini-kpi .v,
+  body.roxo-mode .dashboard-list-item strong,
+  body.roxo-mode .table-toolbar .title {
+    color: #f5f0ff !important;
+  }
+  body.roxo-mode canvas { background: #0b0a10 !important; }
+  body.roxo-mode input:focus,
+  body.roxo-mode textarea:focus,
+  body.roxo-mode select:focus {
+    border-color: #8b5cf6 !important;
+    box-shadow: 0 0 0 4px rgba(139,92,246,.16) !important;
+  }
+
+
+  /* ===== Dashboard executivo orientado a decisão ===== */
+  .dashboard-executive-shell{display:grid;gap:18px}.dashboard-command-card,.dashboard-priority-card{margin-bottom:0}
+  .dashboard-kpi-principal{grid-template-columns:repeat(4,minmax(0,1fr))}.mini-kpi.kpi-danger{border-color:#d7b2b2}.mini-kpi.kpi-warning{border-color:#dab091}.mini-kpi.kpi-attention{border-color:#d7c09a}
+  .decision-status{padding:8px 12px;border-radius:999px;color:#fff;font-size:12px;font-weight:850;white-space:nowrap;background:#668974}.decision-status.atencao{background:#8f7c58}.decision-status.critico{background:#8b6767}
+  .executive-synthesis{margin-top:14px;padding:15px 16px;border:1px solid #c8d2d7;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,.18));font-size:13px;line-height:1.6;color:#334854}
+  .executive-synthesis strong{color:#243741}.dashboard-actions-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .dashboard-action-buttons{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.dashboard-action-buttons button{width:auto;min-width:78px;margin:0;padding:7px 9px;font-size:12px;box-shadow:none}
+  .dashboard-main-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.dashboard-insight-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.dashboard-main-grid>.card,.dashboard-insight-grid>.card{margin-bottom:0;min-width:0}
+  body.dark-mode .executive-synthesis,body.roxo-mode .executive-synthesis{background:rgba(255,255,255,.03)!important;border-color:#374151!important;color:#e5e7eb!important}body.dark-mode .executive-synthesis strong,body.roxo-mode .executive-synthesis strong{color:#f3f4f6!important}
+  @media(max-width:1100px){.dashboard-kpi-principal{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-main-grid,.dashboard-insight-grid{grid-template-columns:1fr}}
+  @media(max-width:620px){.dashboard-kpi-principal{grid-template-columns:1fr}.dashboard-actions-grid{grid-template-columns:1fr}}
+
+.process-link-field{margin-top:12px}.processo-link{display:inline-flex;align-items:center;gap:7px;color:#365f75;font-weight:800;text-decoration:none;line-height:1.35;word-break:break-word}.processo-link:hover{text-decoration:underline}.processo-link::after{content:"↗";font-size:12px;opacity:.75}.processo-sem-link{font-weight:750}.drawer-process-link{display:inline-flex;width:auto;margin-top:8px;padding:8px 11px;border-radius:11px;background:#748791;color:#fff!important;text-decoration:none;font-size:12px;font-weight:800}body.dark-mode .processo-link{color:#93c5fd}body.roxo-mode .processo-link{color:#c4b5fd}body.patricinha-mode .processo-link{color:#b44f83}</style>
 </head>
 <body>
   <header>
@@ -2843,7 +3054,6 @@
       <div class="tabs">
         <button type="button" id="tabProcessosBtn" class="tab-btn active">Processos</button>
         <button type="button" id="tabDashboardBtn" class="tab-btn">Dashboard</button>
-        <button type="button" id="tabRespondidosBtn" class="tab-btn">Respondidos</button>
         <button type="button" id="btnAbrirRelatorio" class="tab-btn">Relatório</button>
       </div>
 
@@ -2874,6 +3084,11 @@ OU
 OFÍCIO Nº 4702/2026/SEAD
 Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inservíveis."></textarea>
                 </div>
+                <div class="field-lux process-link-field">
+                  <label for="linkProcessoManual">Link do processo (opcional)</label>
+                  <div class="field-caption">Cole o endereço completo. Se houver um link no texto, ele será identificado automaticamente.</div>
+                  <input type="url" id="linkProcessoManual" placeholder="https://..." inputmode="url" autocomplete="url" />
+                </div>
 
                 <div class="composer-panel">
                   <div class="composer-panel-header">
@@ -2881,7 +3096,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                       <div class="composer-panel-kicker">2. Encaminhamento</div>
                       <h4 class="composer-panel-title">Gerências responsáveis</h4>
                     </div>
-                    <div class="composer-chip-soft"><span class="mini-dot"></span> Até 2 unidades</div>
+                    <div class="composer-chip-soft"><span class="mini-dot"></span> Até 3 unidades</div>
                   </div>
                   <div class="select-badges-row">
                   </div>
@@ -2891,8 +3106,12 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                       <select id="gerenciaManual"><option value="">Selecione...</option></select>
                     </div>
                     <div class="field-lux select-structured">
-                      <label for="gerenciaManual2">Gerência/Seção complementar</label>
+                      <label for="gerenciaManual2">Gerência/Seção complementar 1</label>
                       <select id="gerenciaManual2"><option value="">Selecione...</option></select>
+                    </div>
+                    <div class="field-lux select-structured">
+                      <label for="gerenciaManual3">Gerência/Seção complementar 2</label>
+                      <select id="gerenciaManual3"><option value="">Selecione...</option></select>
                     </div>
                   </div>
                 </div>
@@ -3155,90 +3374,70 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       </div>
       
       <div id="abaDashboard" class="hidden">
-        <div class="dashboard-grid">
-          <div class="charts-stack">
-            <div class="card chart-card dashboard-chart-tall">
-              <div class="dashboard-section-title"><div><h4>Radar de prioridade</h4><small>Leitura imediata do volume por status de prazo.</small></div></div>
+        <div class="dashboard-executive-shell">
+          <section class="card dashboard-command-card">
+            <div class="dashboard-section-title"><div><h3>Resumo executivo</h3><small>Visão consolidada da carteira filtrada e das ações prioritárias.</small></div><span id="dashboardNivelGeral" class="decision-status controlado">Controlado</span></div>
+            <div class="dashboard-kpi-grid dashboard-kpi-principal">
+              <div class="mini-kpi"><div class="k">Pendências ativas</div><div class="v" id="kpiPendenciasAtivas">0</div><div class="s">ainda exigem resposta</div></div>
+              <div class="mini-kpi kpi-danger"><div class="k">Atrasados</div><div class="v" id="kpiAtrasados">0</div><div class="s">ação imediata</div></div>
+              <div class="mini-kpi kpi-warning"><div class="k">Vence hoje</div><div class="v" id="kpiHoje">0</div><div class="s">prioridade do dia</div></div>
+              <div class="mini-kpi kpi-attention"><div class="k">Vencendo</div><div class="v" id="kpiVencendo">0</div><div class="s">próximos dias</div></div>
+              <div class="mini-kpi"><div class="k">Total visível</div><div class="v" id="kpiTotal">0</div><div class="s">processos únicos</div></div>
+              <div class="mini-kpi"><div class="k">Com prazo</div><div class="v" id="kpiComPrazo">0</div><div class="s">com data final</div></div>
+              <div class="mini-kpi"><div class="k">Sem prazo</div><div class="v" id="kpiSemPrazo">0</div><div class="s">requer revisão cadastral</div></div>
+              <div class="mini-kpi"><div class="k">Cumprimento no prazo</div><div class="v" id="kpiTaxaNoPrazo">0%</div><div class="s">histórico com base válida</div></div>
+            </div>
+            <div id="dashboardSinteseExecutiva" class="executive-synthesis"></div>
+          </section>
+
+          <section class="card dashboard-priority-card">
+            <div class="dashboard-section-title"><div><h3>Fila de ação imediata</h3><small>Processos ordenados por criticidade, com ações disponíveis no próprio painel.</small></div></div>
+            <div id="dashboardTopCriticos" class="dashboard-actions dashboard-actions-grid"></div>
+          </section>
+
+          <div class="dashboard-main-grid">
+            <section class="card chart-card dashboard-chart-tall">
+              <div class="dashboard-section-title"><div><h4>Pressão de prazo</h4><small>Distribuição da carteira conforme a urgência.</small></div></div>
               <div class="chart-box"><canvas id="graficoPrazo"></canvas></div>
-            </div>
-            <div class="card chart-card dashboard-chart-tall">
-              <div class="dashboard-section-title"><div><h4>Evolução de entradas</h4><small>Cadastros nos últimos 12 meses.</small></div></div>
-              <div class="chart-box"><canvas id="graficoEntradas"></canvas></div>
-            </div>
-            <div class="dashboard-two-cols">
-              <div class="card chart-card dashboard-chart-medium">
-                <div class="dashboard-section-title"><div><h4>Situação operacional</h4><small>Como os processos visíveis se distribuem por fase.</small></div></div>
-                <div class="chart-box"><canvas id="graficoSituacao"></canvas></div>
-              </div>
-
-            </div>
-            <div class="card chart-card dashboard-chart-tall dashboard-areas-card">
-              <div class="dashboard-section-title"><div><h4>Distribuição por área no organograma</h4><small>Comparação entre áreas a partir da visão filtrada, agora em um quadro com mais espaço.</small></div></div>
+            </section>
+            <section class="card chart-card dashboard-chart-tall">
+              <div class="dashboard-section-title"><div><h4>Carga por área</h4><small>Volume de processos únicos por área principal.</small></div></div>
               <div class="chart-box chart-box-areas"><canvas id="graficoAreas"></canvas></div>
-            </div>
+            </section>
+            <section class="card chart-card dashboard-chart-medium">
+              <div class="dashboard-section-title"><div><h4>Tendência de demanda</h4><small>Entradas registradas nos últimos 12 meses.</small></div></div>
+              <div class="chart-box"><canvas id="graficoEntradas"></canvas></div>
+            </section>
+            <section class="card chart-card dashboard-chart-medium">
+              <div class="dashboard-section-title"><div><h4>Situação da carteira</h4><small>Distribuição por estágio operacional.</small></div></div>
+              <div class="chart-box"><canvas id="graficoSituacao"></canvas></div>
+            </section>
           </div>
-          <div class="sidebar-cards">
-            <div class="card">
-              <h4>Painel executivo reformulado</h4>
-              <div class="dashboard-kpi-grid">
-                <div class="mini-kpi"><div class="k">Total visível</div><div class="v" id="kpiTotal">0</div><div class="s">registros na visão atual</div></div>
-                <div class="mini-kpi"><div class="k">Com prazo</div><div class="v" id="kpiComPrazo">0</div><div class="s">processos com data final</div></div>
-                <div class="mini-kpi"><div class="k">Sem prazo</div><div class="v" id="kpiSemPrazo">0</div><div class="s">pontos sem definição</div></div>
-                <div class="mini-kpi"><div class="k">Vence hoje</div><div class="v" id="kpiHoje">0</div><div class="s">atenção imediata</div></div>
-                <div class="mini-kpi"><div class="k">Exige resposta</div><div class="v" id="kpiVencendo">0</div><div class="s">vencendo nos próximos dias</div></div>
-                <div class="mini-kpi"><div class="k">Atrasados</div><div class="v" id="kpiAtrasados">0</div><div class="s">estoque crítico</div></div>
-                <div class="mini-kpi"><div class="k">Pendências ativas</div><div class="v" id="kpiPendenciasAtivas">0</div><div class="s">ainda exigem resposta</div></div>
-                <div class="mini-kpi"><div class="k">Respondidos</div><div class="v" id="kpiRespondidos">0</div><div class="s">baixados da fila</div></div>
-                <div class="mini-kpi"><div class="k">Taxa de resposta</div><div class="v" id="kpiTaxaResposta">0%</div><div class="s">respondidos / total</div></div>
-                <div class="mini-kpi"><div class="k">No prazo</div><div class="v" id="kpiRespondidosNoPrazo">0</div><div class="s">respondidos até o vencimento</div></div>
-                <div class="mini-kpi"><div class="k">Fora do prazo</div><div class="v" id="kpiRespondidosForaPrazo">0</div><div class="s">respondidos após vencer</div></div>
-                <div class="mini-kpi"><div class="k">Tempo médio</div><div class="v" id="kpiTempoMedioResposta">-</div><div class="s">dias até resposta</div></div>
-              </div>
-            </div>
-            <div class="card chart-card dashboard-chart-short">
-              <div class="dashboard-section-title"><div><h4>SGI — gerências e seções</h4><small>Detalhamento da Superintendência de Gestão Integrada.</small></div></div>
-              <div class="chart-box"><canvas id="graficoSGI"></canvas></div>
-            </div>
-            <div class="card chart-card dashboard-chart-short">
-              <div class="dashboard-section-title"><div><h4>Eficiência de respostas</h4><small>Respondidos no prazo, fora do prazo e sem base de comparação.</small></div></div>
-              <div class="chart-box"><canvas id="graficoRespostas"></canvas></div>
-            </div>
-            <div class="card">
-              <div class="dashboard-section-title"><div><h4>Leitura gerencial</h4><small>Resumo automático da visão atual.</small></div></div>
-              <div id="dashboardRespostaResumo" class="dashboard-list"></div>
-            </div>
-            <div class="card">
-              <div class="dashboard-section-title"><div><h4>Ação imediata</h4><small>Top 5 processos mais críticos da visão atual.</small></div></div>
-              <div id="dashboardTopCriticos" class="dashboard-actions"></div>
-            </div>
-            <div class="card">
-              <div class="dashboard-section-title"><div><h4>Ranking de áreas por atrasos</h4><small>Onde concentrar resposta e apoio.</small></div></div>
+
+          <div class="dashboard-insight-grid">
+            <section class="card">
+              <div class="dashboard-section-title"><div><h4>Carga por unidade da SGI</h4><small>Conta cada encaminhamento responsável, inclusive unidades complementares.</small></div></div>
+              <div class="chart-box dashboard-chart-short"><canvas id="graficoSGI"></canvas></div>
+            </section>
+            <section class="card">
+              <div class="dashboard-section-title"><div><h4>Áreas que exigem apoio</h4><small>Criticidade ponderada por atrasos e vencimentos próximos.</small></div></div>
               <div id="dashboardRankingAtrasos" class="dashboard-list"></div>
-            </div>
+            </section>
+            <section class="card">
+              <div class="dashboard-section-title"><div><h4>Qualidade cadastral</h4><small>Registros que reduzem a confiabilidade dos indicadores.</small></div></div>
+              <div id="dashboardQualidadeCadastro" class="dashboard-list"></div>
+            </section>
+            <section class="card">
+              <div class="dashboard-section-title"><div><h4>Histórico de cumprimento</h4><small>Resultado das respostas sem criar uma área operacional separada.</small></div></div>
+              <div class="chart-box dashboard-chart-short"><canvas id="graficoRespostas"></canvas></div>
+              <div id="dashboardRespostaResumo" class="dashboard-list"></div>
+            </section>
           </div>
         </div>
       </div>
 
-      <div id="abaRespondidos" class="hidden">
-        <div class="card hero">
-          <div class="topbar">
-            <div>
-              <h3 style="margin-bottom:6px;">Processos respondidos</h3>
-              <div class="muted">Auditoria das baixas de pendência, com classificação no prazo e fora do prazo.</div>
-            </div>
-            <div class="toolbar">
-              <button type="button" class="outline" id="btnVoltarProcessosRespondidos">Voltar aos processos</button>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div id="respondidosResumo" class="dashboard-kpi-grid"></div>
-        </div>
-        <div class="card">
-          <div class="dashboard-section-title"><div><h4>Lista de respondidos</h4><small>Ordenado pela data mais recente de resposta.</small></div></div>
-          <div id="listaRespondidos" class="table-wrap"></div>
-        </div>
-      </div>
+
+      
 
 
     </div>
@@ -3261,7 +3460,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     </div>
     <div class="btn-row">
       <button type="button" id="drawerBtnEditar">Editar</button>
-      <button type="button" class="success hidden" id="drawerBtnRespondido">Marcar como respondido</button>
+      <button type="button" class="success hidden" id="drawerBtnRespondido" aria-label="Confirmar processo como respondido">✓ Marcar como respondido</button>
       <button type="button" class="light hidden" id="drawerBtnProrrogar">Prorrogar prazo</button>
       <button type="button" class="danger" id="drawerBtnExcluir">Excluir</button>
     </div>
@@ -3281,9 +3480,11 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         <div><label for="editInteressado">Interessado</label><input type="text" id="editInteressado" /></div>
       </div>
       <div><label for="editAssunto">Assunto</label><textarea id="editAssunto" style="min-height:100px;"></textarea></div>
+      <div class="field-lux process-link-field" style="margin-top:12px;"><label for="editLinkProcesso">Link do processo (opcional)</label><span class="select-helper">Use o endereço completo da página.</span><input type="url" id="editLinkProcesso" placeholder="https://..." inputmode="url" autocomplete="url" /></div>
       <div class="encaminhamento-grid" style="margin-top:6px;">
         <div class="encaminhamento-box select-structured"><label for="editGerencia">Gerência/Seção principal</label><span class="select-helper">Unidades agrupadas conforme a estrutura atual da SEAD.</span><select id="editGerencia"><option value="">Selecione...</option></select></div>
-        <div class="encaminhamento-box select-structured"><label for="editGerencia2">Gerência/Seção complementar</label><span class="select-helper">Escolha adicional opcional.</span><select id="editGerencia2"><option value="">Selecione...</option></select></div>
+        <div class="encaminhamento-box select-structured"><label for="editGerencia2">Gerência/Seção complementar 1</label><span class="select-helper">Escolha adicional opcional.</span><select id="editGerencia2"><option value="">Selecione...</option></select></div>
+        <div class="encaminhamento-box select-structured"><label for="editGerencia3">Gerência/Seção complementar 2</label><span class="select-helper">Terceira unidade opcional.</span><select id="editGerencia3"><option value="">Selecione...</option></select></div>
       </div>
       <div class="prazo-grid prazo-grid-edit" style="margin-top:10px;">
         <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
@@ -3632,13 +3833,18 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const em = new Date().toLocaleString('pt-BR');
       return { usuario, em, filtros, total, escopo: apenasVisiveis ? 'Registros visíveis (filtrados)' : 'Todos os registros' };
     }
+    function extrairPrimeiroLink(texto) { const m=String(texto||'').match(/https?:\/\/[^\s<>"']+/i); return m?m[0].replace(/[),.;]+$/,''):''; }
+    function normalizarLinkProcesso(valor) { const v=String(valor||'').trim(); if(!v)return ''; try{const u=new URL(v);return ['http:','https:'].includes(u.protocol)?u.href:'';}catch{return '';} }
+    function obterLinkCadastro(texto='') { return normalizarLinkProcesso(linkProcessoManual?.value || extrairPrimeiroLink(texto)); }
+    function htmlProcessoClicavel(item,conteudo=null) { const c=conteudo??escapeHtml(item?.processo||'(sem número)'),l=normalizarLinkProcesso(item?.linkProcesso||''); return l?`<a class="processo-link" href="${escapeHtml(l)}" target="_blank" rel="noopener noreferrer" title="Abrir página do processo">${c}</a>`:`<span class="processo-sem-link">${c}</span>`; }
     function obterPreviewCadastro() {
       const texto = entrada?.value?.trim() || '';
       const processo = extrairIdentificadorPrincipal(texto) || '-';
       const interessado = extrairCampo(texto, [/Interessado\(a\)\s*:?\s*(.+)/i, /Interessado\s*:?\s*(.+)/i, /Destinat[áa]rio\s*:?\s*(.+)/i]) || '-';
       const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]) || '-';
       const dataFinal = semPrazoManual?.checked ? '' : (dataFinalManual?.value || extrairDataFinalOuPrazo(texto));
-      const gerencia = resolverGerenciaPorTexto((gerenciaManual?.value || extrairGerencia(texto))) || '-';
+      const gerencias = obterGerenciasSelecionadas(gerenciaManual?.value, gerenciaManual2?.value, gerenciaManual3?.value, texto);
+      const gerencia = gerencias.length ? gerencias.join(' • ') : '-';
       const prazo = dataFinal ? `${formatarDataISOparaBR(dataFinal)} • ${calcDiasRestantes(dataFinal, horaFinalManual?.value || '')} dia(s)` : 'Sem prazo';
       return { processo, interessado, assunto, prazo, gerencia };
     }
@@ -3656,6 +3862,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         entrada: entrada?.value || '',
         gerenciaManual: gerenciaManual?.value || '',
         gerenciaManual2: gerenciaManual2?.value || '',
+        gerenciaManual3: gerenciaManual3?.value || '',
         dataFinalManual: dataFinalManual?.value || '',
         horaFinalManual: horaFinalManual?.value || '',
         semPrazoManual: !!semPrazoManual?.checked
@@ -3669,6 +3876,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         if (entrada && !entrada.value) entrada.value = r.entrada || '';
         if (gerenciaManual && !gerenciaManual.value) gerenciaManual.value = r.gerenciaManual || '';
         if (gerenciaManual2 && !gerenciaManual2.value) gerenciaManual2.value = r.gerenciaManual2 || '';
+        if (gerenciaManual3 && !gerenciaManual3.value) gerenciaManual3.value = r.gerenciaManual3 || '';
         if (dataFinalManual && !dataFinalManual.value) dataFinalManual.value = r.dataFinalManual || '';
         if (horaFinalManual && !horaFinalManual.value) horaFinalManual.value = r.horaFinalManual || '';
         if (semPrazoManual) semPrazoManual.checked = !!r.semPrazoManual;
@@ -3763,13 +3971,15 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     function obterTemaAtual() {
       if (document.body.classList.contains("dark-mode")) return "dark";
       if (document.body.classList.contains("patricinha-mode")) return "patricinha";
+      if (document.body.classList.contains("roxo-mode")) return "roxo";
       return "light";
     }
     function aplicarTema(modo = "light") {
-      document.body.classList.remove("dark-mode", "patricinha-mode");
+      document.body.classList.remove("dark-mode", "patricinha-mode", "roxo-mode");
       if (modo === "dark") document.body.classList.add("dark-mode");
       if (modo === "patricinha") document.body.classList.add("patricinha-mode");
-      const rotulos = { light: "☀️ Claro", dark: "🌙 Escuro", patricinha: "🎀 Patricinha" };
+      if (modo === "roxo") document.body.classList.add("roxo-mode");
+      const rotulos = { light: "☀️ Claro", dark: "🌙 Escuro", patricinha: "🎀 Patricinha", roxo: "🟣 Preto + roxo" };
       if (btnTema) btnTema.textContent = `Tema: ${rotulos[modo]}`;
       localStorage.setItem("sgp_theme_mode", modo);
       // mantém compatibilidade com preferências antigas
@@ -3781,7 +3991,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       }
     }
     function alternarTema() {
-      const ordem = ["light", "dark", "patricinha"];
+      const ordem = ["light", "dark", "patricinha", "roxo"];
       const atual = obterTemaAtual();
       const idx = ordem.indexOf(atual);
       aplicarTema(ordem[(idx + 1) % ordem.length]);
@@ -3816,8 +4026,10 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const respondidosResumo = $("respondidosResumo");
     const btnVoltarProcessosRespondidos = $("btnVoltarProcessosRespondidos");
     const entrada = $("entrada");
+    const linkProcessoManual = $("linkProcessoManual");
     const gerenciaManual = $("gerenciaManual");
     const gerenciaManual2 = $("gerenciaManual2");
+    const gerenciaManual3 = $("gerenciaManual3");
     const situacaoManual = $("situacaoManual");
     const dataFinalManual = $("dataFinalManual");
     const horaFinalManual = $("horaFinalManual");
@@ -3895,9 +4107,11 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const editProcesso = $("editProcesso");
     const editInteressado = $("editInteressado");
     const editAssunto = $("editAssunto");
+    const editLinkProcesso = $("editLinkProcesso");
     const editSituacao = $("editSituacao");
     const editGerencia = $("editGerencia");
     const editGerencia2 = $("editGerencia2");
+    const editGerencia3 = $("editGerencia3");
     const editDataFinal = $("editDataFinal");
     const editHoraFinal = $("editHoraFinal");
     const editSemPrazo = $("editSemPrazo");
@@ -4554,7 +4768,7 @@ function gerarRelatorioPeriodo() {
   const pendenciasAtivas = itens.filter(processoComPrazoPendente).length;
   const porArea = agruparContagem(itens, item => item.area || item.gerencia || 'Não informado').slice(0, 8);
   const porSituacao = agruparContagem(itens, item => item.situacao || 'Não informado');
-  const porGerencia = agruparContagem(itens, item => item.gerencia || 'Não informado').slice(0, 8);
+  const porGerencia = agruparContagem(expandirItensPorGerencia(itens), item => item.gerencia || 'Não informado').slice(0, 8);
   const evolucao = montarSerieEvolucao(itens, modo, inicio, fim);
   const subtitulo = gerenciaFiltro ? `${tituloPeriodo} • filtro: ${gerenciaFiltro}` : tituloPeriodo;
   relatorioConteudo.innerHTML = `
@@ -4732,15 +4946,29 @@ function imprimirRelatorioAtual() {
       const horaFmt = normalizarHora(hora);
       return horaFmt ? `${base} às ${horaFmt}` : base;
     }
-    function obterGerenciasSelecionadas(valor1, valor2, textoFallback='') {
+    function obterGerenciasSelecionadas(valor1, valor2, valor3, textoFallback='') {
       const itens = [];
-      const g1 = normalizarNomeInstitucional(resolverGerenciaPorTexto(valor1 || extrairGerencia(textoFallback) || ''));
-      const g2 = normalizarNomeInstitucional(resolverGerenciaPorTexto(valor2 || '') || '');
-      [g1, g2].forEach(v => { if (v && !itens.includes(v)) itens.push(v); });
+      [valor1 || extrairGerencia(textoFallback) || '', valor2 || '', valor3 || ''].forEach(valor => {
+        const unidade = normalizarNomeInstitucional(resolverGerenciaPorTexto(valor) || '');
+        if (unidade && !itens.includes(unidade) && itens.length < 3) itens.push(unidade);
+      });
       return itens;
     }
     function formatarListaGerencias(item) {
-      return Array.isArray(item?.gerencias) && item.gerencias.length ? item.gerencias : [item?.gerencia, item?.gerenciaSecundaria].filter(Boolean);
+      const base = Array.isArray(item?.gerencias) && item.gerencias.length
+        ? item.gerencias : [item?.gerencia, item?.gerenciaSecundaria, item?.gerenciaTerciaria];
+      return [...new Set(base.map(normalizarNomeInstitucional).filter(Boolean))].slice(0,3);
+    }
+    function formatarGerenciasTexto(item, separador=' • ') {
+      return formatarListaGerencias(item).join(separador) || item?.area || '-';
+    }
+    function expandirItensPorGerencia(itens) {
+      return (itens || []).flatMap(item => {
+        const gs = formatarListaGerencias(item);
+        return (gs.length ? gs : [item.gerencia || item.area || 'Não informado']).map(gerencia => ({
+          ...item, gerencia, areaDaGerencia: obterAreaPorUnidade(gerencia)
+        }));
+      });
     }
     function obterDescricaoTempoRestante(item) {
       if (item?.semPrazo || !item?.dataFinal) return 'Sem prazo';
@@ -4819,7 +5047,9 @@ function imprimirRelatorioAtual() {
       filtroGerencia.innerHTML = '<option value="">Todas</option>';
       editGerencia.innerHTML = '<option value="">Selecione...</option>';
       if (gerenciaManual2) gerenciaManual2.innerHTML = '<option value="">Selecione...</option>';
+      if (gerenciaManual3) gerenciaManual3.innerHTML = '<option value="">Selecione...</option>';
       if (editGerencia2) editGerencia2.innerHTML = '<option value="">Selecione...</option>';
+      if (editGerencia3) editGerencia3.innerHTML = '<option value="">Selecione...</option>';
       filtroArea.innerHTML = '<option value="">Todas</option>';
       if (situacaoManual) situacaoManual.innerHTML = '';
       if (filtroSituacao) filtroSituacao.innerHTML = '<option value="">Todas</option>';
@@ -4868,6 +5098,8 @@ function imprimirRelatorioAtual() {
         if (editGerencia2) editGerencia2.appendChild(grupos[4]);
       });
 
+      if (gerenciaManual3 && gerenciaManual2) gerenciaManual3.innerHTML = gerenciaManual2.innerHTML;
+      if (editGerencia3 && editGerencia2) editGerencia3.innerHTML = editGerencia2.innerHTML;
       STATUS_OPERACIONAIS.forEach(s => {
         [situacaoManual, filtroSituacao, editSituacao].filter(Boolean).forEach(sel => {
           const op = document.createElement('option');
@@ -4926,15 +5158,6 @@ function imprimirRelatorioAtual() {
         tabRespondidosBtn?.classList.remove("active");
         localStorage.setItem(STORAGE_KEYS.aba, "dashboard");
         renderDashboard(filteredItems);
-      } else if (aba === "respondidos") {
-        abaProcessos.classList.add("hidden");
-        abaDashboard.classList.add("hidden");
-        abaRespondidos?.classList.remove("hidden");
-        tabProcessosBtn.classList.remove("active");
-        tabDashboardBtn.classList.remove("active");
-        tabRespondidosBtn?.classList.add("active");
-        localStorage.setItem(STORAGE_KEYS.aba, "respondidos");
-        renderRespondidos();
       } else {
         abaProcessos.classList.remove("hidden");
         abaDashboard.classList.add("hidden");
@@ -5020,6 +5243,14 @@ function imprimirRelatorioAtual() {
         payload.gerencia = normalizarNomeInstitucional(resolverGerenciaPorTexto(payload.gerencia) || payload.gerencia);
         payload.area = normalizarNomeInstitucional(obterAreaPorUnidade(payload.gerencia));
       }
+      if (Array.isArray(payload.gerencias)) {
+        payload.gerencias = [...new Set(payload.gerencias.map(g => normalizarNomeInstitucional(resolverGerenciaPorTexto(g) || g)).filter(Boolean))].slice(0,3);
+        payload.gerencia = payload.gerencias[0] || '';
+        payload.gerenciaSecundaria = payload.gerencias[1] || '';
+        payload.gerenciaTerciaria = payload.gerencias[2] || '';
+        payload.areas = [...new Set(payload.gerencias.map(obterAreaPorUnidade).filter(Boolean))];
+        payload.area = payload.areas[0] || '';
+      }
       await db.collection(COLLECTION_PROCESSOS).doc(id).update({
         ...payload,
         historico: firebase.firestore.FieldValue.arrayUnion(criarEventoHistorico('atualização', detalheHistorico)),
@@ -5036,7 +5267,8 @@ function imprimirRelatorioAtual() {
           const dados = doc.data();
           const gerenciaNormalizada = normalizarNomeInstitucional(resolverGerenciaPorTexto(dados.gerencia || "") || dados.gerencia || "");
           const gerenciaSecundaria = normalizarNomeInstitucional(resolverGerenciaPorTexto(dados.gerenciaSecundaria || "") || dados.gerenciaSecundaria || "");
-          const gerenciasLista = Array.isArray(dados.gerencias) && dados.gerencias.length ? dados.gerencias.map(g => normalizarNomeInstitucional(g)).filter(Boolean) : [gerenciaNormalizada, gerenciaSecundaria].filter(Boolean);
+          const gerenciaTerciaria = normalizarNomeInstitucional(resolverGerenciaPorTexto(dados.gerenciaTerciaria || "") || dados.gerenciaTerciaria || "");
+          const gerenciasLista = Array.isArray(dados.gerencias) && dados.gerencias.length ? dados.gerencias.map(g => normalizarNomeInstitucional(g)).filter(Boolean) : [gerenciaNormalizada, gerenciaSecundaria, gerenciaTerciaria].filter(Boolean);
           const area = normalizarNomeInstitucional(dados.area || obterAreaPorUnidade(gerenciaNormalizada));
           allItems.push({
             id: doc.id,
@@ -5044,12 +5276,14 @@ function imprimirRelatorioAtual() {
             processoNormalizado: dados.processoNormalizado || normalizarProcesso(dados.processo || ""),
             interessado: dados.interessado || "",
             assunto: dados.assunto || "",
+            linkProcesso: normalizarLinkProcesso(dados.linkProcesso || dados.url || dados.link || ""),
             dataCadastro: dados.dataCadastro || "",
             dataCadastroISO: dados.dataCadastroISO || "",
             situacao: dados.situacao || ((!dados.dataFinal || dados.semPrazo) ? "Concluído" : "Em análise"),
             gerencia: gerenciaNormalizada,
-            gerenciaSecundaria: gerenciaSecundaria || "",
-            gerencias: gerenciasLista,
+            gerenciaSecundaria: gerenciasLista[1] || gerenciaSecundaria || "",
+            gerenciaTerciaria: gerenciasLista[2] || gerenciaTerciaria || "",
+            gerencias: [...new Set(gerenciasLista)].slice(0,3),
             area,
             dataFinal: dados.dataFinal || "",
             horaFinal: dados.horaFinal || "",
@@ -5084,11 +5318,14 @@ function imprimirRelatorioAtual() {
         const processo = extrairIdentificadorPrincipal(texto);
         const interessado = extrairCampo(texto, [/Interessado\(a\)\s*:?\s*(.+)/i, /Interessado\s*:?\s*(.+)/i, /Destinat[aá]rio\s*:?\s*(.+)/i]);
         const assunto = extrairCampo(texto, [/Assunto\s*:?\s*(.+)/i]);
+        const linkProcesso = obterLinkCadastro(texto);
+        if ((linkProcessoManual?.value || extrairPrimeiroLink(texto)) && !linkProcesso) return mostrarMensagem("Informe um link válido começando com http:// ou https://.", "warning");
         const dataFinal = semPrazoManual.checked ? "" : (dataFinalManual.value || extrairDataFinalOuPrazo(texto));
         const horaFinal = semPrazoManual.checked ? "" : (horaFinalManual?.value || extrairHoraFinal(texto));
-        const gerencias = obterGerenciasSelecionadas(gerenciaManual.value, gerenciaManual2?.value, texto);
+        const gerencias = obterGerenciasSelecionadas(gerenciaManual.value, gerenciaManual2?.value, gerenciaManual3?.value, texto);
         const gerencia = gerencias[0] || "";
         const gerenciaSecundaria = gerencias[1] || "";
+        const gerenciaTerciaria = gerencias[2] || "";
         const situacao = (!dataFinal || semPrazoManual.checked) ? "Concluído" : "Em análise";
         const area = normalizarNomeInstitucional(obterAreaPorUnidade(gerencia));
         const prazoFinalISO = dataFinal ? `${dataFinal}T${normalizarHora(horaFinal) || '23:59'}:00` : "";
@@ -5106,12 +5343,14 @@ function imprimirRelatorioAtual() {
           processoNormalizado: processo || "",
           interessado: interessado || "",
           assunto: assunto || "",
+          linkProcesso,
           dataCadastro: new Date().toLocaleDateString("pt-BR"),
           dataCadastroISO: todayISO(),
           situacao,
           area: area || "",
           gerencia: gerencia || "",
           gerenciaSecundaria: gerenciaSecundaria || "",
+          gerenciaTerciaria: gerenciaTerciaria || "",
           gerencias,
           dataFinal: dataFinal || "",
           horaFinal: normalizarHora(horaFinal),
@@ -5121,7 +5360,7 @@ function imprimirRelatorioAtual() {
           criadoPor: user?.email || "",
           alteradoEm: firebase.firestore.FieldValue.serverTimestamp(),
           alteradoPor: user?.email || "",
-          historico: [criarEventoHistorico("criação", `Processo cadastrado no sistema${gerenciaSecundaria ? ' com encaminhamento para duas gerências' : ''}`)]
+          historico: [criarEventoHistorico("criação", `Processo cadastrado no sistema com ${gerencias.length} unidade(s) responsável(is)`)]
         });
         limparRascunhoCadastro();
         limparFormulario();
@@ -5141,9 +5380,10 @@ function imprimirRelatorioAtual() {
       try {
         setLoading(btnSalvarEdicao, true, "Salvar alterações");
         const processoNormalizado = normalizarProcesso(editProcesso.value);
-        const gerencias = obterGerenciasSelecionadas(editGerencia.value, editGerencia2?.value, '');
+        const gerencias = obterGerenciasSelecionadas(editGerencia.value, editGerencia2?.value, editGerencia3?.value, '');
         const gerenciaResolvida = gerencias[0] || "";
         const gerenciaSecundaria = gerencias[1] || "";
+        const gerenciaTerciaria = gerencias[2] || "";
         const dataFinalEdicao = editSemPrazo.checked ? "" : (editDataFinal.value || "");
         const horaFinalEdicao = editSemPrazo.checked ? "" : (editHoraFinal?.value || "");
         const situacaoEdicao = (!dataFinalEdicao || editSemPrazo.checked) ? "Concluído" : "Em análise";
@@ -5152,9 +5392,11 @@ function imprimirRelatorioAtual() {
           processoNormalizado,
           interessado: editInteressado.value.trim(),
           assunto: editAssunto.value.trim(),
+          linkProcesso: normalizarLinkProcesso(editLinkProcesso?.value || ""),
           situacao: situacaoEdicao,
           gerencia: gerenciaResolvida,
           gerenciaSecundaria: gerenciaSecundaria || "",
+          gerenciaTerciaria: gerenciaTerciaria || "",
           gerencias,
           area: normalizarNomeInstitucional(obterAreaPorUnidade(gerenciaResolvida)),
           dataFinal: dataFinalEdicao,
@@ -5386,13 +5628,14 @@ function imprimirRelatorioAtual() {
           item.area,
           item.gerencia,
           item.gerenciaSecundaria,
+          item.gerenciaTerciaria,
           (item.gerencias || []).join(" "),
           item.statusPrazo,
           nomeCurtoSGI(item.gerencia)
         ].join(" "));
         if (termo && !textoBusca.includes(termo)) return false;
         if (area && normalizarNomeInstitucional(item.area) !== normalizarNomeInstitucional(area)) return false;
-        if (gerencia && item.gerencia !== gerencia && item.gerenciaSecundaria !== gerencia && !(item.gerencias || []).includes(gerencia)) return false;
+        if (gerencia && !formatarListaGerencias(item).includes(gerencia)) return false;
         if (situacao && item.situacao !== situacao) return false;
         if (prazo === "comPrazo" && item.semPrazo) return false;
         if (prazo === "semPrazo" && !item.semPrazo) return false;
@@ -5437,15 +5680,15 @@ function imprimirRelatorioAtual() {
       tabela.classList.remove("hidden");
       tbodyProcessos.innerHTML = itens.map(item => {
         const classeLinha = obterClasseLinha(item.statusPrazo);
-        const unidadeExibida = item.gerencia || item.area;
+        const unidadeExibida = formatarGerenciasTexto(item);
         const badgePrazo = gerarBadgePrazo(item.dataFinal, item.semPrazo).replace('class="badge ', 'class="badge status-strong ');
         const ultimaAlteracao = formatarDataHora(item.alteradoEm);
-        const botaoRespondido = processoComPrazoPendente(item) ? '<button type="button" class="success" data-action="respondido">Respondido</button>' : '';
+        const botaoRespondido = processoComPrazoPendente(item) ? '<button type="button" class="success" data-action="respondido" aria-label="Confirmar processo como respondido">✓ Respondido</button>' : '';
         const botaoProrrogar = processoComPrazoPendente(item) ? '<button type="button" class="light" data-action="prorrogar">Prorrogar</button>' : '';
         return `
           <tr class="main-row ${classeLinha}" data-id="${item.id}">
             <td data-label="Processo">
-              <div style="font-weight:750; color:inherit; line-height:1.35;">${highlightText(item.processo || "", termo) || "<span class='muted'>(sem número)</span>"}</div>
+              <div style="font-weight:750; color:inherit; line-height:1.35;">${htmlProcessoClicavel(item, highlightText(item.processo || "", termo) || "<span class='muted'>(sem número)</span>")}</div>
               <div class="muted-mini" style="margin-top:6px;">${escapeHtml(item.area || '-')}</div>
             </td>
             <td data-label="Interessado">${highlightText(item.interessado || "", termo) || "-"}</td>
@@ -5525,7 +5768,7 @@ function imprimirRelatorioAtual() {
       const cards = pendencias.map(item => {
         const classe = item.statusPrazo === "Atrasado" ? "atrasado" : item.statusPrazo === "Vence hoje" ? "hoje" : "vencendo";
         const dias = item.diasRestantes < 0 ? `Atrasado há ${Math.abs(item.diasRestantes)} dia(s)` : item.diasRestantes === 0 ? "Vence hoje" : `Vence em ${item.diasRestantes} dia(s)`;
-        return `<div class="pendencia-card ${classe}"><div class="p-top"><div class="p-processo">${escapeHtml(item.processo || '(sem número)')}</div><span class="badge ${gerarBadgePrazo(item.dataFinal, item.semPrazo).match(/badge-[a-z-]+/)?.[0] || 'badge-vencendo'}">${escapeHtml(item.statusPrazo)}</span></div><div class="p-meta">${escapeHtml(item.assunto || 'Sem assunto')}<br>${escapeHtml(item.gerencia || item.area || '-')} • ${escapeHtml(formatarDataISOparaBR(item.dataFinal))} • ${escapeHtml(dias)}</div><div class="pendencia-actions"><button type="button" data-pendencia-action="view" data-id="${item.id}">Ver</button><button type="button" data-pendencia-action="respondido" data-id="${item.id}">Respondido</button><button type="button" data-pendencia-action="prorrogar" data-id="${item.id}">Prorrogar</button></div></div>`;
+        return `<div class="pendencia-card ${classe}"><div class="p-top"><div class="p-processo">${escapeHtml(item.processo || '(sem número)')}</div><span class="badge ${gerarBadgePrazo(item.dataFinal, item.semPrazo).match(/badge-[a-z-]+/)?.[0] || 'badge-vencendo'}">${escapeHtml(item.statusPrazo)}</span></div><div class="p-meta">${escapeHtml(item.assunto || 'Sem assunto')}<br>${escapeHtml(formatarGerenciasTexto(item))} • ${escapeHtml(formatarDataISOparaBR(item.dataFinal))} • ${escapeHtml(dias)}</div><div class="pendencia-actions"><button type="button" data-pendencia-action="view" data-id="${item.id}">Ver</button><button type="button" data-pendencia-action="respondido" data-id="${item.id}" aria-label="Confirmar processo como respondido">✓ Respondido</button><button type="button" data-pendencia-action="prorrogar" data-id="${item.id}">Prorrogar</button></div></div>`;
       }).join('');
       box.innerHTML = `<div class="central-pendencias-head"><div><div class="central-pendencias-title">Central de pendências de resposta</div><div class="central-pendencias-sub">Exibe processos com prazo ativo que estão atrasados ou faltando exatamente 1 dia para vencer.</div></div><div class="central-pendencias-counter">${pendencias.length} pendência(s) crítica(s)</div></div><div class="central-pendencias-grid">${cards}</div>`;
       box.classList.remove("hidden");
@@ -5546,21 +5789,10 @@ function imprimirRelatorioAtual() {
       [chartPrazo, chartSGI, chartEntradas, chartSituacao, chartAreas, chartRespostas, chartCriticidadeGerencia].forEach(c => { if (c) c.destroy(); });
     }
     function renderDashboardTopCriticos(itens) {
-      const box = $("dashboardTopCriticos");
-      if (!box) return;
-      const prioridade = [...itens].filter(i => !i.semPrazo).sort((a, b) => {
-        const peso = (item) => item.statusPrazo === "Atrasado" ? -10000 + (item.diasRestantes || 0) : item.statusPrazo === "Vence hoje" ? -5000 : item.statusPrazo === "Vencendo" ? -1000 + (item.diasRestantes || 0) : 99999;
-        return peso(a) - peso(b) || (a.diasRestantes ?? 99999) - (b.diasRestantes ?? 99999);
-      }).slice(0, 5);
-      if (!prioridade.length) {
-        box.innerHTML = '<div class="dashboard-empty">Nenhum processo crítico na visão atual.</div>';
-        return;
-      }
-      box.innerHTML = prioridade.map(i => `
-        <div class="dashboard-action-item">
-          <div class="title">${escapeHtml(i.processo || '(sem número)')}</div>
-          <div class="meta">${escapeHtml(i.assunto || 'Sem assunto')}<br>${escapeHtml(i.gerencia || i.area || '-')} • ${escapeHtml(i.semPrazo ? 'Sem prazo' : formatarDataISOparaBR(i.dataFinal))} • ${escapeHtml(i.statusPrazo)}</div>
-        </div>`).join('');
+      const box = $("dashboardTopCriticos"); if (!box) return;
+      const prioridade = [...itens].filter(processoComPrazoPendente).sort((a,b) => prioridadePendencia(a)-prioridadePendencia(b) || (a.diasRestantes ?? 9999)-(b.diasRestantes ?? 9999)).slice(0,8);
+      if (!prioridade.length) { box.innerHTML = '<div class="dashboard-empty">Nenhuma pendência crítica na visão atual.</div>'; return; }
+      box.innerHTML = prioridade.map(i => `<div class="dashboard-action-item"><div class="title">${htmlProcessoClicavel(i)}</div><div class="meta">${escapeHtml(i.assunto || 'Sem assunto')}<br>${escapeHtml(formatarGerenciasTexto(i))} • ${escapeHtml(formatarPrazoCompleto(i.dataFinal,i.horaFinal))} • <strong>${escapeHtml(i.statusPrazo)}</strong></div><div class="dashboard-action-buttons"><button type="button" data-dashboard-action="view" data-id="${i.id}">Ver</button><button type="button" class="success" data-dashboard-action="respondido" data-id="${i.id}" aria-label="Confirmar processo como respondido">✓ Respondido</button><button type="button" class="light" data-dashboard-action="prorrogar" data-id="${i.id}">Prorrogar</button></div></div>`).join('');
     }
     function renderDashboardRankingAtrasos(itens) {
       const box = $("dashboardRankingAtrasos");
@@ -5587,6 +5819,23 @@ function imprimirRelatorioAtual() {
           <div class="num">${i.score}</div>
         </div>`).join('');
     }
+    function renderDiagnosticoDashboard(itens, metricas) {
+      const atrasados=itens.filter(i=>processoComPrazoPendente(i)&&i.statusPrazo==='Atrasado').length;
+      const hoje=itens.filter(i=>processoComPrazoPendente(i)&&i.statusPrazo==='Vence hoje').length;
+      const vencendo=itens.filter(i=>processoComPrazoPendente(i)&&i.statusPrazo==='Vencendo').length;
+      const pendentes=itens.filter(processoComPrazoPendente);
+      const concentracao=agruparContagem(expandirItensPorGerencia(pendentes),i=>i.gerencia||'Não informado')[0]||['Sem concentração',0];
+      const nivel=atrasados?'critico':(hoje||vencendo?'atencao':'controlado');
+      const nivelEl=$("dashboardNivelGeral"); if(nivelEl){nivelEl.className=`decision-status ${nivel}`;nivelEl.textContent=nivel==='critico'?'Crítico':nivel==='atencao'?'Atenção':'Controlado';}
+      let acao='Manter o acompanhamento da carteira e revisar os registros sem definição de prazo.';
+      if(atrasados) acao=`Priorizar ${atrasados} processo(s) atrasado(s), começando por ${concentracao[0]}.`;
+      else if(hoje) acao=`Tratar os ${hoje} processo(s) que vencem hoje antes das demais demandas.`;
+      else if(vencendo) acao=`Antecipar a atuação sobre ${vencendo} processo(s) próximos do vencimento.`;
+      const sintese=$("dashboardSinteseExecutiva"); if(sintese) sintese.innerHTML=`<strong>Situação ${nivel==='critico'?'crítica':nivel==='atencao'?'de atenção':'controlada'}.</strong> Há <strong>${pendentes.length}</strong> pendência(s) ativa(s), com <strong>${atrasados}</strong> atrasada(s), <strong>${hoje}</strong> vencendo hoje e <strong>${vencendo}</strong> próxima(s) do vencimento. A maior concentração está em <strong>${escapeHtml(concentracao[0])}</strong>, com ${concentracao[1]} encaminhamento(s). <strong>Recomendação:</strong> ${escapeHtml(acao)}`;
+      const semPrazo=itens.filter(i=>i.semPrazo||!i.dataFinal).length, semUnidade=itens.filter(i=>!formatarListaGerencias(i).length).length, semInteressado=itens.filter(i=>!(i.interessado||'').trim()).length, semAssunto=itens.filter(i=>!(i.assunto||'').trim()).length, semNumero=itens.filter(i=>!(i.processo||'').trim()).length;
+      const qualidade=$("dashboardQualidadeCadastro"); if(qualidade) qualidade.innerHTML=[['Sem prazo',semPrazo,'Revisar se deveriam possuir data final'],['Sem unidade responsável',semUnidade,'Definir ao menos uma unidade'],['Sem interessado',semInteressado,'Completar identificação'],['Sem assunto',semAssunto,'Descrever o objeto'],['Sem número',semNumero,'Completar identificador processual']].map(([k,v,d])=>`<div class="dashboard-list-item"><div><strong>${k}</strong><span>${d}</span></div><div class="num">${v}</div></div>`).join('');
+      setTextIfExists('kpiTaxaNoPrazo',`${metricas.taxaNoPrazo}%`);
+    }
     function renderDashboard(itens) {
       const total = itens.length;
       const semPrazo = itens.filter(i => i.statusPrazo === "Sem prazo").length;
@@ -5598,6 +5847,7 @@ function imprimirRelatorioAtual() {
       const respondidos = itens.filter(i => i.situacao === "Respondido").length;
       const metricasResposta = calcularMetricasResposta(itens);
       const taxaResposta = total ? Math.round((respondidos / total) * 100) : 0;
+      renderDiagnosticoDashboard(itens, metricasResposta);
 
       setTextIfExists("kpiTotal", total);
       setTextIfExists("kpiComPrazo", comPrazo);
@@ -5622,7 +5872,7 @@ function imprimirRelatorioAtual() {
       const prazoMap = {}; STATUS_PRAZO_LIST.forEach(s => prazoMap[s] = 0); itens.forEach(i => prazoMap[i.statusPrazo] = (prazoMap[i.statusPrazo] || 0) + 1);
       const situacaoMap = {}; STATUS_OPERACIONAIS.forEach(s => situacaoMap[s] = 0); itens.forEach(i => situacaoMap[i.situacao || 'Em análise'] = (situacaoMap[i.situacao || 'Em análise'] || 0) + 1);
       const areaMap = {}; itens.forEach(i => { const k = i.area || 'Sem área'; areaMap[k] = (areaMap[k] || 0) + 1; });
-      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); itens.filter(i => normalizarNomeInstitucional(i.area) === "Superintendência de Gestão Integrada").forEach(i => mapSGI[i.gerencia] = (mapSGI[i.gerencia] || 0) + 1);
+      const mapSGI = {}; ESTRUTURA_ORGANIZACIONAL["Superintendência de Gestão Integrada"].forEach(u => mapSGI[u] = 0); expandirItensPorGerencia(itens).filter(i => normalizarNomeInstitucional(i.areaDaGerencia) === "Superintendência de Gestão Integrada").forEach(i => { if (i.gerencia in mapSGI) mapSGI[i.gerencia] += 1; });
       const criticidadeGerencia = {};
       itens.forEach(i => {
         const chave = i.gerencia || i.area || 'Sem identificação';
@@ -5762,7 +6012,7 @@ function imprimirRelatorioAtual() {
       renderAlertas(filteredItems, notificar);
       renderCentralPendencias(filteredItems);
       renderDashboard(filteredItems);
-      if (abaRespondidos && !abaRespondidos.classList.contains("hidden")) renderRespondidos();
+      if (abaRespondidos && !abaRespondidos?.classList.contains("hidden")) renderRespondidos();
       atualizarCardsAtivos();
       atualizarDrawerSeAberto();
       aplicarFiltrosVisuaisNosChips();
@@ -5839,8 +6089,10 @@ function imprimirRelatorioAtual() {
     }
     function limparFormulario() {
       if (entrada) entrada.value = '';
+      if (linkProcessoManual) linkProcessoManual.value = '';
       if (gerenciaManual) gerenciaManual.value='';
       if (gerenciaManual2) gerenciaManual2.value='';
+      if (gerenciaManual3) gerenciaManual3.value='';
       if (dataFinalManual) dataFinalManual.value='';
       if (horaFinalManual) horaFinalManual.value='';
       if (semPrazoManual) semPrazoManual.checked=false;
@@ -5855,11 +6107,11 @@ function imprimirRelatorioAtual() {
       const item = allItems.find(i => i.id === id);
       if (!item) return;
       const statusPrazo = gerarBadgePrazo(item.dataFinal, item.semPrazo);
-      const unidade = item.gerencia || item.area || '-';
+      const unidade = formatarGerenciasTexto(item);
       if (drawerSubtitulo) drawerSubtitulo.textContent = item.processo || '(sem número)';
       if (drawerConteudo) drawerConteudo.innerHTML = `
         <div class="drawer-hero">
-          <div class="drawer-hero-title">${escapeHtml(item.processo || '(sem número)')}</div>
+          <div class="drawer-hero-title">${htmlProcessoClicavel(item)}</div>${item.linkProcesso ? `<a class="drawer-process-link" href="${escapeHtml(item.linkProcesso)}" target="_blank" rel="noopener noreferrer">Abrir página do processo ↗</a>` : ''}
           <div class="drawer-hero-sub">
             <span class="drawer-subpill">${escapeHtml(item.area || '-')}</span>
             <span class="drawer-subpill">${escapeHtml(unidade)}</span>
@@ -5918,7 +6170,11 @@ function imprimirRelatorioAtual() {
       if (editProcesso) editProcesso.value = item.processo || '';
       if (editInteressado) editInteressado.value = item.interessado || '';
       if (editAssunto) editAssunto.value = item.assunto || '';
-      if (editGerencia) editGerencia.value = item.gerencia || '';
+      if (editLinkProcesso) editLinkProcesso.value = item.linkProcesso || '';
+      const gerenciasEdicao = formatarListaGerencias(item);
+      if (editGerencia) editGerencia.value = gerenciasEdicao[0] || '';
+      if (editGerencia2) editGerencia2.value = gerenciasEdicao[1] || '';
+      if (editGerencia3) editGerencia3.value = gerenciasEdicao[2] || '';
       if (editDataFinal) editDataFinal.value = item.dataFinal || '';
       if (editHoraFinal) editHoraFinal.value = item.horaFinal || '';
       if (editSemPrazo) editSemPrazo.checked = !!item.semPrazo;
@@ -5938,12 +6194,12 @@ function imprimirRelatorioAtual() {
     function obterHTMLTabelaExportacao(dados) {
       const linhas = dados.map(d => `
         <tr>
-          <td>${escapeHtml(d.processo)}</td>
+          <td>${d.linkProcesso ? `<a href="${escapeHtml(d.linkProcesso)}">${escapeHtml(d.processo)}</a>` : escapeHtml(d.processo)}</td>
           <td>${escapeHtml(d.interessado)}</td>
           <td>${escapeHtml(d.assunto)}</td>
           <td>${escapeHtml(formatarDataHora(d.criadoEm) !== '-' ? formatarDataHora(d.criadoEm) : d.dataCadastro)}</td>
           <td>${escapeHtml(d.area || '-')}</td>
-          <td>${escapeHtml((d.gerencias || [d.gerencia, d.gerenciaSecundaria].filter(Boolean)).join(" • ") || "")}</td>
+          <td>${escapeHtml(formatarGerenciasTexto(d))}</td>
           <td>${escapeHtml(d.semPrazo ? 'Sem prazo' : formatarPrazoCompleto(d.dataFinal, d.horaFinal))}</td>
           <td>${escapeHtml(d.statusPrazo)}</td>
           <td>${escapeHtml(obterDescricaoTempoRestante(d))}</td>
@@ -6610,7 +6866,8 @@ function imprimirRelatorioAtual() {
         el.addEventListener(evt, aplicarFiltrosEOrdenacao);
       });
 
-      [entrada, gerenciaManual, gerenciaManual2, dataFinalManual, horaFinalManual, semPrazoManual].filter(Boolean).forEach(el => { const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input"); el.addEventListener(evt, () => { salvarRascunhoCadastro(); renderPreviewCadastro(); }); });
+      [entrada, linkProcessoManual, gerenciaManual, gerenciaManual2, gerenciaManual3, dataFinalManual, horaFinalManual, semPrazoManual].filter(Boolean).forEach(el => { const evt = el.type === "checkbox" ? "change" : (el.tagName === "SELECT" ? "change" : "input"); el.addEventListener(evt, () => { salvarRascunhoCadastro(); renderPreviewCadastro(); }); });
+      if (entrada && linkProcessoManual) entrada.addEventListener('input', () => { if (!linkProcessoManual.value.trim()) { const l=extrairPrimeiroLink(entrada.value); if(l) linkProcessoManual.value=l; } });
       if (btnLimparBusca) btnLimparBusca.addEventListener("click", () => { busca.value = ""; aplicarFiltrosEOrdenacao(); renderPreviewCadastro(); busca.focus(); });
       if (btnSalvarPreset) btnSalvarPreset.addEventListener("click", salvarPresetAtual);
       if (btnAplicarPreset) btnAplicarPreset.addEventListener("click", aplicarPresetSelecionado);
@@ -6680,6 +6937,14 @@ function imprimirRelatorioAtual() {
         aplicarResumoClicavel(summary);
       });
 
+      const dashboardTopCriticos = $("dashboardTopCriticos");
+      if (dashboardTopCriticos) dashboardTopCriticos.addEventListener("click", (e) => {
+        const btn=e.target.closest("[data-dashboard-action]"); if(!btn)return;
+        const id=btn.dataset.id, action=btn.dataset.dashboardAction;
+        if(action==='view') abrirDrawer(id);
+        if(action==='respondido') marcarProcessoRespondido(id);
+        if(action==='prorrogar') prorrogarPrazoProcesso(id);
+      });
       tbodyProcessos.addEventListener("click", (e) => {
         const btn = e.target.closest("button");
         const row = e.target.closest("tr.main-row");
