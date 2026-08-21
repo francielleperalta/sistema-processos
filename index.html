@@ -3000,7 +3000,116 @@
   @media(max-width:1100px){.dashboard-kpi-principal{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-main-grid,.dashboard-insight-grid{grid-template-columns:1fr}}
   @media(max-width:620px){.dashboard-kpi-principal{grid-template-columns:1fr}.dashboard-actions-grid{grid-template-columns:1fr}}
 
-.process-link-field{margin-top:12px}.processo-link{display:inline-flex;align-items:center;gap:7px;color:#365f75;font-weight:800;text-decoration:none;line-height:1.35;word-break:break-word}.processo-link:hover{text-decoration:underline}.processo-link::after{content:"↗";font-size:12px;opacity:.75}.processo-sem-link{font-weight:750}.drawer-process-link{display:inline-flex;width:auto;margin-top:8px;padding:8px 11px;border-radius:11px;background:#748791;color:#fff!important;text-decoration:none;font-size:12px;font-weight:800}body.dark-mode .processo-link{color:#93c5fd}body.roxo-mode .processo-link{color:#c4b5fd}body.patricinha-mode .processo-link{color:#b44f83}</style>
+.process-link-field{margin-top:12px}.processo-link{display:inline-flex;align-items:center;gap:7px;color:#365f75;font-weight:800;text-decoration:none;line-height:1.35;word-break:break-word}.processo-link:hover{text-decoration:underline}.processo-link::after{content:"↗";font-size:12px;opacity:.75}.processo-sem-link{font-weight:750}.drawer-process-link{display:inline-flex;width:auto;margin-top:8px;padding:8px 11px;border-radius:11px;background:#748791;color:#fff!important;text-decoration:none;font-size:12px;font-weight:800}body.dark-mode .processo-link{color:#93c5fd}body.roxo-mode .processo-link{color:#c4b5fd}body.patricinha-mode .processo-link{color:#b44f83}
+  /* ===== Tema preto + roxo: contraste e legibilidade revisados ===== */
+  body.roxo-mode {
+    --bg:#07070b; --surface:#12121a; --surface-soft:#1a1823;
+    --text:#f7f5ff; --muted:#c1bacf; --border:#4b3d61;
+    --primary:#8b5cf6; --primary-dark:#6d28d9; --primary-soft:#291b45;
+  }
+  body.roxo-mode, body.roxo-mode p, body.roxo-mode div, body.roxo-mode span,
+  body.roxo-mode label { color:inherit; }
+  body.roxo-mode .card, body.roxo-mode .box-soft, body.roxo-mode .modal,
+  body.roxo-mode .drawer, body.roxo-mode .table-wrap, body.roxo-mode .table-toolbar,
+  body.roxo-mode .filters-card, body.roxo-mode .composer-card.lux,
+  body.roxo-mode .composer-panel, body.roxo-mode .composer-shell-elevated,
+  body.roxo-mode .field-lux, body.roxo-mode .encaminhamento-box,
+  body.roxo-mode .prazo-panel, body.roxo-mode .prazo-field-card,
+  body.roxo-mode .prazo-atalho-box, body.roxo-mode .prazo-checkbox-full,
+  body.roxo-mode .preview-lux, body.roxo-mode .chart-card,
+  body.roxo-mode .chart-box, body.roxo-mode .mini-kpi,
+  body.roxo-mode .dashboard-action-item, body.roxo-mode .dashboard-list-item,
+  body.roxo-mode .executive-synthesis, body.roxo-mode .central-pendencias,
+  body.roxo-mode .pendencia-card, body.roxo-mode .drawer-section,
+  body.roxo-mode .drawer-box, body.roxo-mode .history-item,
+  body.roxo-mode .relatorio-card, body.roxo-mode .relatorio-kpi,
+  body.roxo-mode .relatorio-chart-card, body.roxo-mode .relatorio-conteudo-box {
+    background:#12121a !important; color:#f7f5ff !important; border-color:#4b3d61 !important;
+  }
+  body.roxo-mode .composer-hero, body.roxo-mode .drawer-hero,
+  body.roxo-mode .active-filters-bar, body.roxo-mode .preview-card {
+    background:linear-gradient(180deg,#1c1827 0%,#14121c 100%) !important;
+    color:#f7f5ff !important; border-color:#55436f !important;
+  }
+  body.roxo-mode h1, body.roxo-mode h2, body.roxo-mode h3, body.roxo-mode h4,
+  body.roxo-mode .section-title, body.roxo-mode .composer-panel-title,
+  body.roxo-mode .composer-hero h3, body.roxo-mode .dashboard-section-title,
+  body.roxo-mode .dashboard-action-item .title, body.roxo-mode .dashboard-list-item strong,
+  body.roxo-mode .dashboard-list-item .num, body.roxo-mode .mini-kpi .v,
+  body.roxo-mode .drawer-hero-title, body.roxo-mode .drawer-box .value,
+  body.roxo-mode .table-toolbar .title, body.roxo-mode .central-pendencias-title,
+  body.roxo-mode .pendencia-card .p-processo { color:#ffffff !important; }
+  body.roxo-mode .muted, body.roxo-mode .muted-mini, body.roxo-mode small,
+  body.roxo-mode .field-caption, body.roxo-mode .select-helper,
+  body.roxo-mode .composer-panel-kicker, body.roxo-mode .composer-panel-desc,
+  body.roxo-mode .composer-hero p, body.roxo-mode .page-note,
+  body.roxo-mode .mini-kpi .k, body.roxo-mode .mini-kpi .s,
+  body.roxo-mode .dashboard-action-item .meta, body.roxo-mode .dashboard-list-item span,
+  body.roxo-mode .dashboard-section-title small, body.roxo-mode .drawer-box .label,
+  body.roxo-mode .history-item .ht, body.roxo-mode .pendencia-card .p-meta,
+  body.roxo-mode .central-pendencias-sub { color:#c8c2d3 !important; }
+  body.roxo-mode input, body.roxo-mode textarea, body.roxo-mode select {
+    background:#09090f !important; color:#ffffff !important;
+    border:1px solid #65517f !important; caret-color:#c4b5fd;
+  }
+  body.roxo-mode input::placeholder, body.roxo-mode textarea::placeholder { color:#aaa2b7 !important; opacity:1; }
+  body.roxo-mode select option, body.roxo-mode select optgroup { background:#111118 !important; color:#ffffff !important; }
+  body.roxo-mode input:disabled, body.roxo-mode textarea:disabled, body.roxo-mode select:disabled {
+    background:#1b1921 !important; color:#ada7b7 !important; opacity:1;
+  }
+  body.roxo-mode input:focus, body.roxo-mode textarea:focus, body.roxo-mode select:focus {
+    border-color:#a78bfa !important; box-shadow:0 0 0 4px rgba(167,139,250,.22) !important;
+  }
+  body.roxo-mode .outline, body.roxo-mode .light, body.roxo-mode .tab-btn,
+  body.roxo-mode .chip, body.roxo-mode .quick-filter-chip, body.roxo-mode .theme-toggle,
+  body.roxo-mode .drawer-close, body.roxo-mode .modal-close,
+  body.roxo-mode .acoes button[data-action="edit"], body.roxo-mode .acoes button[data-action="delete"],
+  body.roxo-mode .acoes button[data-action="prorrogar"] {
+    background:#211b2c !important; color:#f3edff !important; border:1px solid #715694 !important;
+  }
+  body.roxo-mode button:hover { filter:brightness(1.16); }
+  body.roxo-mode button:focus-visible, body.roxo-mode a:focus-visible {
+    outline:3px solid #d8b4fe !important; outline-offset:2px;
+  }
+  body.roxo-mode .success, body.roxo-mode [data-action="respondido"],
+  body.roxo-mode [data-dashboard-action="respondido"], body.roxo-mode [data-pendencia-action="respondido"] {
+    background:linear-gradient(180deg,#2f855a 0%,#246b49 100%) !important; color:#fff !important; border-color:#5fbd8b !important;
+  }
+  body.roxo-mode .danger, body.roxo-mode [data-action="delete"] {
+    background:#321c29 !important; color:#fecdd3 !important; border-color:#9f5368 !important;
+  }
+  body.roxo-mode .warning { background:#4b351a !important; color:#fff7d6 !important; border-color:#9a7635 !important; }
+  body.roxo-mode .badge-no-prazo { background:#153525 !important;color:#b9f6d2 !important;border-color:#39785a !important; }
+  body.roxo-mode .badge-vencendo { background:#3a2f16 !important;color:#ffe7a3 !important;border-color:#8c7133 !important; }
+  body.roxo-mode .badge-vence-hoje { background:#432818 !important;color:#ffd6a8 !important;border-color:#a26436 !important; }
+  body.roxo-mode .badge-atrasado { background:#3c2028 !important;color:#ffc7d0 !important;border-color:#9d4f62 !important; }
+  body.roxo-mode .badge-sem-prazo, body.roxo-mode .badge-area,
+  body.roxo-mode .tag-gerencia, body.roxo-mode .drawer-subpill {
+    background:#24202e !important;color:#ede9fe !important;border-color:#625278 !important;
+  }
+  body.roxo-mode thead th, body.roxo-mode #tabela thead th:nth-child(1),
+  body.roxo-mode #tabela thead th:nth-child(2), body.roxo-mode #tabela thead th:last-child {
+    background:linear-gradient(180deg,#56307a 0%,#38204e 100%) !important;color:#fff !important;border-color:#76539a !important;
+  }
+  body.roxo-mode tbody td { color:#f5f2fa !important;border-bottom-color:#393142 !important; }
+  body.roxo-mode tbody tr.main-row:nth-of-type(4n+1) td { background:rgba(255,255,255,.025) !important; }
+  body.roxo-mode #tabela tbody td:nth-child(1), body.roxo-mode #tabela tbody td:nth-child(2),
+  body.roxo-mode #tabela tbody td:last-child { background:#15131b !important; }
+  body.roxo-mode tbody tr.main-row:hover td { background:#272032 !important; }
+  body.roxo-mode .processo-link { color:#d8b4fe !important; text-decoration-thickness:2px; }
+  body.roxo-mode .processo-link:hover { color:#f3e8ff !important; }
+  body.roxo-mode .search-mark { background:#6d4bb0 !important;color:#fff !important; }
+  body.roxo-mode canvas { background:#111118 !important; }
+  body.roxo-mode .decision-status.controlado { background:#28704d !important; }
+  body.roxo-mode .decision-status.atencao { background:#856221 !important; }
+  body.roxo-mode .decision-status.critico { background:#8f4054 !important; }
+  body.roxo-mode .metric .icon, body.roxo-mode .empty-state-icon,
+  body.roxo-mode .search-icon { color:#c4b5fd !important; }
+  body.roxo-mode .metric .icon { background:#291b40 !important;border-color:#7653a0 !important; }
+  body.roxo-mode .toast { background:#17131f !important;color:#fff !important;border-color:#8b5cf6 !important; }
+  @media(max-width:760px){body.roxo-mode #tabela tr.main-row{background:#12121a !important;border-color:#4b3d61 !important}body.roxo-mode #tabela tr.main-row td::before{color:#c8c2d3 !important}}
+
+</style>
 </head>
 <body>
   <header>
@@ -4718,7 +4827,7 @@ function renderGraficosRelatorio(itens, modo, inicio, fim) {
   const situacaoCanvas = $("relatorioGraficoSituacao");
   const evolucaoCanvas = $("relatorioGraficoEvolucao");
   if (!areaCanvas || !situacaoCanvas || !evolucaoCanvas) return;
-  const dark = document.body.classList.contains('dark-mode');
+  const dark = document.body.classList.contains('dark-mode') || document.body.classList.contains('roxo-mode');
   const tickColor = dark ? '#cbd5e1' : '#485a65';
   const gridColor = dark ? 'rgba(148,163,184,.18)' : 'rgba(98,115,125,.12)';
   const tooltipBg = dark ? '#111827' : '#334854';
@@ -5884,10 +5993,11 @@ function imprimirRelatorioAtual() {
       const rankingCritico = Object.entries(criticidadeGerencia).filter(([,v]) => v > 0).sort((a,b) => b[1]-a[1]).slice(0, 10);
 
       destroyCharts();
-      const dark = document.body.classList.contains('dark-mode');
+      const dark = document.body.classList.contains('dark-mode') || document.body.classList.contains('roxo-mode');
       const tickColor = dark ? '#d7e1e8' : '#5f6f79';
       const gridColor = dark ? 'rgba(148,163,184,.18)' : 'rgba(98,115,125,.12)';
-      const chartBg = dark ? '#314153' : '#d7dfe2';
+      const roxo = document.body.classList.contains('roxo-mode');
+      const chartBg = roxo ? '#17131f' : (dark ? '#314153' : '#d7dfe2');
       const tooltipBg = dark ? '#111827' : '#334854';
       const commonScales = {
         x: { ticks: { color: tickColor }, grid: { color: gridColor, drawBorder: false } },
