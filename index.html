@@ -2334,6 +2334,15 @@
       padding: 5px 8px;
       pointer-events: none;
     }
+    .area-search-box {
+      margin: 4px 0 12px;
+      padding: 12px;
+      border: 1px solid #d6dee2;
+      border-radius: 16px;
+      background: rgba(255,255,255,.34);
+    }
+    .area-search-box > label { display:block; font-size:13px; font-weight:800; color:#30434f; }
+    body.dark-mode .area-search-box, body.roxo-mode .area-search-box { background:rgba(255,255,255,.03)!important; border-color:#374151!important; }
     .select-badges-row {
       display:flex;
       flex-wrap:wrap;
@@ -3215,6 +3224,15 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                     </div>
                     <div class="composer-chip-soft"><span class="mini-dot"></span> Até 3 unidades</div>
                   </div>
+                  <div class="area-search-box">
+                    <label for="buscaUnidadeCadastro">Pesquisar área, subsecretaria, superintendência, gerência ou sigla</label>
+                    <div class="search-input-wrap">
+                      <span class="search-icon" aria-hidden="true">🔎</span>
+                      <input id="buscaUnidadeCadastro" type="search" placeholder="Ex.: SGDP, SCTP, GEFROTAS ou patrimônio" autocomplete="off" />
+                      <button type="button" class="search-clear hidden" id="btnLimparBuscaUnidadeCadastro" aria-label="Limpar pesquisa de unidades">✕</button>
+                    </div>
+                    <span class="select-helper">A pesquisa reduz as opções exibidas nos três campos de encaminhamento, sem alterar as unidades já escolhidas.</span>
+                  </div>
                   <div class="select-badges-row">
                   </div>
                   <div class="composer-card-grid-2">
@@ -3766,7 +3784,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       ],
       "Diretoria Executiva de Liquidação de Estatais": [
             "Gerência de Governança de Estatais",
-            "Gerência de Programas"
+            "Gerência de Programas",
+            "Gerência de Gestão Financeira",
+            "Gerência de Gestão Administrativa"
       ],
       "Diretoria Executiva de Saúde e Segurança do Servidor": [
             "Gerência Central de Saúde e Segurança do Servidor",
@@ -3794,8 +3814,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
             "Superintendência Central de Desenvolvimento Estratégico de Pessoal",
             "Gerência de Gestão do Conhecimento e Competências",
             "Gerência do Controle de Gasto com Pessoal",
-            "Coordenação dos Aprendizes do Futuro",
-            "Diretoria Executiva da Escola de Governo",
+            "Coordenação dos Aprendizes do Futuro"
+      ],
+      "Diretoria Executiva da Escola de Governo": [
             "Coordenação Administrativa",
             "Gerência do Ensino Superior e Projetos Pedagógicos",
             "Gerência de Desenvolvimento Profissional",
@@ -3863,7 +3884,33 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       "Gerência de Contabilidade": "GECONT",
       "Gerência de Modernização Institucional e Processos": "GEMOP"
 };
-    const SIGLAS_PARA_UNIDADE = Object.fromEntries(Object.entries(ABREVIACOES_SGI).map(([nome, sigla]) => [sigla.toUpperCase(), nome]));
+    const SIGLAS_PRINCIPAIS = {
+      ...ABREVIACOES_SGI,
+      "Subsecretaria de Gestão e Desenvolvimento de Pessoas": "SGDP",
+      "Superintendência de Recrutamento e Seleção": "SURES",
+      "Subsecretaria de Inovação da Gestão e dos Serviços Públicos": "SUBINOVAÇÃO",
+      "Superintendência Central de Transformação Pública": "SCTP",
+      "Superintendência de Inovação da Gestão Pública": "SUPERINOVA",
+      "Superintendência da Gestão do Atendimento ao Cidadão": "SGAC",
+      "Subsecretaria de Logística e Patrimônio": "SUBLP",
+      "Superintendência Central do Patrimônio Imobiliário": "SUPATI",
+      "Superintendência Central de Compras e Contratos": "SCC",
+      "Diretoria Executiva de Liquidação de Estatais": "DELE",
+      "Diretoria Executiva de Saúde e Segurança do Servidor": "DESSS",
+      "Diretoria Executiva da Escola de Governo": "EGOV",
+      "Superintendência de Gestão Integrada": "SGI",
+      "Superintendência de Sistemas de Informação": "SSI",
+      "Gerência da Secretaria-Geral": "GESG",
+      "Comunicação Setorial": "COMSET",
+      "Gerência de Governança de Estatais": "ESTATAIS",
+      "Comissão de Avaliação do Contrato de Gestão": "CACG",
+      "Gerência da Ouvidoria Setorial": "GEOS",
+      "Procuradoria Setorial": "PROCSET",
+      "Gerência do Escritório de Processos": "PMO",
+      "Gerência de Logística Documental": "GELD",
+      "Gerência de Frotas": "GEFROTAS"
+    };
+    const SIGLAS_PARA_UNIDADE = Object.fromEntries(Object.entries(SIGLAS_PRINCIPAIS).map(([nome, sigla]) => [sigla.toUpperCase(), nome]));
     const AREAS = Object.keys(ESTRUTURA_ORGANIZACIONAL);
     const TODAS_UNIDADES = Object.values(ESTRUTURA_ORGANIZACIONAL).flat();
 
@@ -4147,6 +4194,8 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     const gerenciaManual = $("gerenciaManual");
     const gerenciaManual2 = $("gerenciaManual2");
     const gerenciaManual3 = $("gerenciaManual3");
+    const buscaUnidadeCadastro = $("buscaUnidadeCadastro");
+    const btnLimparBuscaUnidadeCadastro = $("btnLimparBuscaUnidadeCadastro");
     const situacaoManual = $("situacaoManual");
     const dataFinalManual = $("dataFinalManual");
     const horaFinalManual = $("horaFinalManual");
@@ -4282,7 +4331,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     }
 
     function nomeCurtoSGI(unidade) {
-      return ABREVIACOES_SGI[unidade] || unidade;
+      return SIGLAS_PRINCIPAIS[unidade] || unidade;
     }
 
     function resolverGerenciaPorTexto(texto) {
@@ -5162,6 +5211,36 @@ function imprimirRelatorioAtual() {
       return error.message || "erro desconhecido.";
     }
 
+    let htmlCompletoSelectUnidades = '';
+    function filtrarSelectUnidades(select, termo) {
+      if (!select || !htmlCompletoSelectUnidades) return;
+      const valorAtual = select.value;
+      const q = normalizarBusca(termo || '');
+      const temp = document.createElement('select');
+      temp.innerHTML = htmlCompletoSelectUnidades;
+      if (q) {
+        [...temp.querySelectorAll('optgroup')].forEach(grupo => {
+          const grupoCombina = normalizarBusca(grupo.label).includes(q);
+          [...grupo.querySelectorAll('option')].forEach(op => {
+            const combina = grupoCombina || normalizarBusca(`${op.textContent} ${op.value} ${SIGLAS_PRINCIPAIS[op.value] || ''}`).includes(q);
+            if (!combina && op.value !== valorAtual) op.remove();
+          });
+          if (!grupo.querySelector('option')) grupo.remove();
+        });
+        [...temp.querySelectorAll(':scope > option')].forEach(op => {
+          if (!op.value) return;
+          const combina = normalizarBusca(`${op.textContent} ${op.value} ${SIGLAS_PRINCIPAIS[op.value] || ''}`).includes(q);
+          if (!combina && op.value !== valorAtual) op.remove();
+        });
+      }
+      select.innerHTML = temp.innerHTML;
+      if ([...select.options].some(op => op.value === valorAtual)) select.value = valorAtual;
+    }
+    function aplicarPesquisaUnidadesCadastro() {
+      const termo = buscaUnidadeCadastro?.value || '';
+      [gerenciaManual, gerenciaManual2, gerenciaManual3].filter(Boolean).forEach(sel => filtrarSelectUnidades(sel, termo));
+      btnLimparBuscaUnidadeCadastro?.classList.toggle('hidden', !termo.trim());
+    }
     function preencherSelects() {
       gerenciaManual.innerHTML = '<option value="">Selecione...</option>';
       filtroGerencia.innerHTML = '<option value="">Todas</option>';
@@ -5186,7 +5265,7 @@ function imprimirRelatorioAtual() {
         [gerenciaManual, gerenciaManual2, filtroGerencia, editGerencia, editGerencia2].filter(Boolean).forEach(sel => {
           const op = document.createElement('option');
           op.value = areaNormalizada;
-          op.textContent = areaNormalizada;
+          op.textContent = SIGLAS_PRINCIPAIS[areaNormalizada] ? `${areaNormalizada} (${SIGLAS_PRINCIPAIS[areaNormalizada]})` : areaNormalizada;
           sel.appendChild(op);
         });
 
@@ -5200,8 +5279,8 @@ function imprimirRelatorioAtual() {
         grupos.forEach(g => g.label = areaNormalizada);
 
         ESTRUTURA_ORGANIZACIONAL[area].forEach(unidade => {
-          const baseLabel = areaNormalizada === 'Superintendência de Gestão Integrada' && ABREVIACOES_SGI[unidade]
-            ? `${unidade} (${ABREVIACOES_SGI[unidade]})`
+          const baseLabel = SIGLAS_PRINCIPAIS[unidade]
+            ? `${unidade} (${SIGLAS_PRINCIPAIS[unidade]})`
             : unidade;
           grupos.forEach(grupo => {
             const op = document.createElement('option');
@@ -5230,6 +5309,8 @@ function imprimirRelatorioAtual() {
       });
       if (situacaoManual) situacaoManual.value = 'Em análise';
       if (editSituacao) editSituacao.value = 'Em análise';
+      htmlCompletoSelectUnidades = gerenciaManual.innerHTML;
+      aplicarPesquisaUnidadesCadastro();
     }
 
     function salvarFiltros() {
@@ -6904,6 +6985,8 @@ function imprimirRelatorioAtual() {
 
     function registrarEventos() {
       if (btnTema) btnTema.addEventListener("click", alternarTema);
+      if (buscaUnidadeCadastro) buscaUnidadeCadastro.addEventListener("input", aplicarPesquisaUnidadesCadastro);
+      if (btnLimparBuscaUnidadeCadastro) btnLimparBuscaUnidadeCadastro.addEventListener("click", () => { buscaUnidadeCadastro.value = ''; aplicarPesquisaUnidadesCadastro(); buscaUnidadeCadastro.focus(); });
       if (buscaGlobal) buscaGlobal.addEventListener("input", renderBuscaGlobal);
       if (btnLimparBuscaGlobal) btnLimparBuscaGlobal.addEventListener("click", () => { buscaGlobal.value = ""; fecharBuscaGlobal(); btnLimparBuscaGlobal.classList.add("hidden"); buscaGlobal.focus(); });
       if (painelBuscaGlobal) painelBuscaGlobal.addEventListener("click", async (e) => {
@@ -8033,3 +8116,4 @@ mount();org();mode();const oa=abrirAba;abrirAba=function(a){if(a==='clarinha'){[
 </script>
 </body>
 </html>
+
