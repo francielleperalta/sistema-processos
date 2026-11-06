@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sistema de Gestão de Processos</title>
+  <!-- Atualizado: inclusão de secretarias e órgãos estaduais -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -3118,7 +3119,37 @@
   body.roxo-mode .toast { background:#17131f !important;color:#fff !important;border-color:#8b5cf6 !important; }
   @media(max-width:760px){body.roxo-mode #tabela tr.main-row{background:#12121a !important;border-color:#4b3d61 !important}body.roxo-mode #tabela tr.main-row td::before{color:#c8c2d3 !important}}
 
+
+  /* ===== Gestão de unidades, seleção múltipla e perfis ===== */
+  .multi-unit-shell{display:grid;gap:10px}.multi-unit-selected{display:flex;flex-wrap:wrap;gap:8px;min-height:42px;padding:10px;border:1px solid var(--border);border-radius:14px;background:rgba(255,255,255,.26)}
+  .multi-unit-empty{font-size:12px;color:var(--muted);align-self:center}.multi-unit-tag{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid #cbd5db;border-radius:999px;background:var(--surface);font-size:12px;font-weight:750;color:var(--text)}
+  .multi-unit-tag button{width:22px;min-width:22px;height:22px;margin:0;padding:0;border-radius:999px;background:transparent;color:inherit;border:1px solid currentColor;box-shadow:none;line-height:1}
+  .unit-type{display:inline-flex;padding:4px 8px;border-radius:999px;background:var(--primary-soft);border:1px solid var(--border);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+  .profile-pill{display:inline-flex;align-items:center;padding:7px 10px;border-radius:999px;background:var(--primary-soft);border:1px solid var(--border);font-size:12px;font-weight:800}
+  .admin-grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px}.admin-list{display:grid;gap:9px;max-height:65vh;overflow:auto}.admin-item{display:grid;grid-template-columns:1fr auto;gap:8px;padding:11px;border:1px solid var(--border);border-radius:13px;background:var(--surface-soft)}
+  .admin-item-title{font-size:13px;font-weight:800}.admin-item-meta{font-size:11px;color:var(--muted);margin-top:4px}.admin-item-actions{display:flex;gap:5px}.admin-item-actions button{width:auto;min-width:50px;margin:0;padding:6px 8px;font-size:11px}
+  .permission-hidden{display:none!important}.dirty-indicator{color:#b54708;font-size:12px;font-weight:800}
+  @media(max-width:980px){.admin-grid{grid-template-columns:1fr}.admin-list{max-height:none}}
+
 </style>
+<style>
+/* REFINAMENTO_VISUAL_RESPONSIVO_V2 */
+:root{--content-max:1680px;--focus-ring:0 0 0 4px rgba(98,115,125,.18)}
+html{scroll-behavior:smooth}body{min-height:100vh}button,input,textarea,select{min-height:44px}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid #526b79;outline-offset:2px}
+.container{max-width:var(--content-max)}header{position:sticky;top:0;z-index:50;padding:14px 16px;background:rgba(199,210,216,.94);backdrop-filter:blur(10px)}header h1{font-size:22px}
+.card{padding:20px}.hero{position:relative}.tabs{position:sticky;top:66px;z-index:35;padding:8px;border-radius:14px;background:rgba(230,236,238,.94);backdrop-filter:blur(9px);border:1px solid var(--border)}.tab-btn{min-width:140px;min-height:42px}
+.workspace-grid{grid-template-columns:minmax(340px,400px) minmax(0,1fr)}.left-pane{scrollbar-width:thin}.right-pane{min-width:0}.composer-card.lux{content-visibility:auto}
+.table-toolbar{top:126px}.table-wrap{max-height:calc(100vh - 225px)}thead th{top:0}.acoes button{min-height:34px}
+.global-search-panel{overscroll-behavior:contain}.modal-overlay,.drawer-overlay{overscroll-behavior:contain}.modal{width:min(900px,100%)}
+.metric .value{font-variant-numeric:tabular-nums}.badge,.badge-area,.badge-situacao{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:1200px){header{position:static}.tabs{top:8px}.table-toolbar{top:70px}.table-wrap{max-height:none}.workspace-grid{grid-template-columns:1fr}.left-pane{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);align-items:start}.left-pane>.composer-card{grid-row:1 / span 2}.right-pane{overflow:visible}}
+@media(max-width:900px){.left-pane{display:flex}.tabs{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:thin}.tab-btn{flex:0 0 auto}.topbar>.toolbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.topbar>.toolbar button{min-width:0!important}.compact-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-main-grid,.dashboard-insight-grid{grid-template-columns:1fr}.table-toolbar{position:static}.table-wrap{overflow:visible}}
+@media(max-width:760px){body{font-size:14px}.container{margin:12px auto;padding:0 10px 18px}header h1{font-size:19px}.card,.box-soft,.composer-card.lux{padding:13px;border-radius:16px}.hero .topbar{align-items:stretch}.user-box{display:flex;flex-wrap:wrap}.global-search-shell{margin-top:12px}.tabs{margin:0 -3px;padding:6px}.tab-btn{min-width:122px;font-size:12px;padding:9px 10px}.topbar>.toolbar{grid-template-columns:1fr}.topbar>.toolbar button{width:100%!important}.compact-kpis{grid-template-columns:1fr 1fr;gap:8px}.metric{padding:13px;border-radius:15px}.metric .value{font-size:25px}.metric .label{font-size:10px}.composer-hero h3{font-size:19px}.composer-panel-header{align-items:flex-start}.composer-chip-soft{white-space:normal}.multi-unit-selected{padding:8px}.multi-unit-tag{width:100%;justify-content:space-between;border-radius:12px}.prazo-atalho-box,.prazo-checkbox-full{padding:13px}.composer-toolbar-lux{position:sticky;bottom:8px;z-index:12;padding:8px;border:1px solid var(--border);border-radius:14px;background:rgba(230,236,238,.96);backdrop-filter:blur(9px);box-shadow:0 8px 24px rgba(16,24,40,.16)}.composer-toolbar-lux button{min-height:44px}.quick-filters{margin:0 -3px}.drawer{width:100vw;max-width:none}.modal-overlay{padding:0;align-items:flex-end}.modal{width:100%;max-height:94vh;border-radius:20px 20px 0 0;padding:15px}.modal-header{position:sticky;top:-15px;z-index:5;padding:12px 0;background:var(--surface);border-bottom:1px solid var(--border)}#tabela tr.main-row td{display:grid;grid-template-columns:minmax(105px,.38fr) minmax(0,.62fr)}#tabela tr.main-row td::before{min-width:0}.acoes{width:100%;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}.acoes button{min-height:40px}.admin-grid{display:block}.admin-grid .card{margin-bottom:12px}}
+@media(max-width:420px){.compact-kpis{grid-template-columns:1fr}.metric .value{font-size:28px}#tabela tr.main-row td{grid-template-columns:1fr;gap:4px}.acoes{grid-template-columns:1fr!important}.preview-grid{grid-template-columns:1fr}.profile-pill{width:100%;justify-content:center}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+body.dark-mode header,body.roxo-mode header{backdrop-filter:blur(10px)}body.dark-mode .tabs,body.roxo-mode .tabs{background:rgba(31,41,55,.94)!important}body.patricinha-mode .tabs{background:rgba(255,248,252,.94)!important}
+</style>
+
 </head>
 <body>
   <header>
@@ -3158,7 +3189,7 @@
       <div class="topbar">
         <div>
           <h3 style="margin-bottom:6px;">Painel de Processos</h3>
-          <div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong></div>
+          <div class="user-box">Usuário logado: <strong id="usuarioLogado">-</strong> <span id="perfilUsuario" class="profile-pill">Consulta</span></div>
         </div>
         <div class="toolbar">
           <button type="button" class="theme-toggle" id="btnTema">🌙 Modo escuro</button>
@@ -3170,7 +3201,7 @@
         <label for="buscaGlobal" class="muted" style="display:block; margin-bottom:6px;">Pesquisa geral</label>
         <div class="search-input-wrap global-search-input-wrap">
           <span class="search-icon" aria-hidden="true">🔎</span>
-          <input id="buscaGlobal" type="search" placeholder="Pesquisar processos, interessados, assuntos, áreas, gerências ou modelos..." autocomplete="off" spellcheck="false" aria-controls="painelBuscaGlobal" aria-expanded="false" />
+          <input id="buscaGlobal" type="search" placeholder="Pesquisar processos, interessados, assuntos, áreas, secretarias, órgãos ou unidades..." autocomplete="off" spellcheck="false" aria-controls="painelBuscaGlobal" aria-expanded="false" />
           <button type="button" class="search-clear hidden" id="btnLimparBuscaGlobal" aria-label="Limpar pesquisa">✕</button>
         </div>
         <div id="painelBuscaGlobal" class="global-search-panel hidden" role="region" aria-live="polite" aria-label="Resultados da pesquisa"></div>
@@ -3220,15 +3251,15 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                   <div class="composer-panel-header">
                     <div>
                       <div class="composer-panel-kicker">2. Encaminhamento</div>
-                      <h4 class="composer-panel-title">Gerências responsáveis</h4>
+                      <h4 class="composer-panel-title">Unidades responsáveis</h4>
                     </div>
                     <div class="composer-chip-soft"><span class="mini-dot"></span> Até 3 unidades</div>
                   </div>
                   <div class="area-search-box">
-                    <label for="buscaUnidadeCadastro">Pesquisar área, subsecretaria, superintendência, gerência ou sigla</label>
+                    <label for="buscaUnidadeCadastro">Pesquisar secretaria, órgão, área, subsecretaria, superintendência, gerência ou sigla</label>
                     <div class="search-input-wrap">
                       <span class="search-icon" aria-hidden="true">🔎</span>
-                      <input id="buscaUnidadeCadastro" type="search" placeholder="Ex.: SGDP, SCTP, GEFROTAS ou patrimônio" autocomplete="off" />
+                      <input id="buscaUnidadeCadastro" type="search" placeholder="Ex.: SEAD, SEDUC, SGDP, GEFROTAS ou patrimônio" autocomplete="off" />
                       <button type="button" class="search-clear hidden" id="btnLimparBuscaUnidadeCadastro" aria-label="Limpar pesquisa de unidades">✕</button>
                     </div>
                     <span class="select-helper">A pesquisa reduz as opções exibidas nos três campos de encaminhamento, sem alterar as unidades já escolhidas.</span>
@@ -3237,15 +3268,15 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                   </div>
                   <div class="composer-card-grid-2">
                     <div class="field-lux select-structured">
-                      <label for="gerenciaManual">Gerência 1</label>
+                      <label for="gerenciaManual">Unidade 1</label>
                       <select id="gerenciaManual"><option value="">Selecione...</option></select>
                     </div>
                     <div class="field-lux select-structured">
-                      <label for="gerenciaManual2">Gerência 2 </label>
+                      <label for="gerenciaManual2">Unidade 2 </label>
                       <select id="gerenciaManual2"><option value="">Selecione...</option></select>
                     </div>
                     <div class="field-lux select-structured">
-                      <label for="gerenciaManual3">Gerência 3 </label>
+                      <label for="gerenciaManual3">Unidade 3 </label>
                       <select id="gerenciaManual3"><option value="">Selecione...</option></select>
                     </div>
                   </div>
@@ -3306,7 +3337,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                     <div><span>Interessado</span><strong id="previewInteressado">-</strong></div>
                     <div><span>Assunto</span><strong id="previewAssunto">-</strong></div>
                     <div><span>Prazo</span><strong id="previewPrazo">-</strong></div>
-                    <div><span>Gerência/Área</span><strong id="previewGerencia">-</strong></div>
+                    <div><span>Unidade/Área</span><strong id="previewGerencia">-</strong></div>
                   </div>
                 </div>
 
@@ -3328,7 +3359,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                     <label for="busca">Busca rápida</label>
                     <div class="search-input-wrap">
                       <span class="search-icon">🔎</span>
-                      <input id="busca" placeholder="Buscar por processo, interessado, assunto, área ou gerência..." />
+                      <input id="busca" placeholder="Buscar por processo, interessado, assunto, área, secretaria, órgão ou gerência..." />
                       <button type="button" class="search-clear hidden" id="btnLimparBusca" aria-label="Limpar busca">✕</button>
                     </div>
                   </div>
@@ -3337,7 +3368,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
                     <select id="filtroArea"><option value="">Todas</option></select>
                   </div>
                   <div>
-                    <label for="filtroGerencia">Gerência/Seção</label>
+                    <label for="filtroGerencia">Unidade responsável</label>
                     <select id="filtroGerencia"><option value="">Todas</option></select>
                   </div>
                   <div>
@@ -3508,6 +3539,29 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         </div>
       </div>
       
+
+      <div id="abaAdministracao" class="hidden">
+        <div class="admin-grid">
+          <section class="card">
+            <h3 style="margin-top:0;">Estrutura organizacional</h3>
+            <div class="muted">Cadastre, edite, ordene ou desative secretarias, órgãos e unidades internas. As alterações são salvas no Firestore.</div>
+            <div class="field-lux" style="margin-top:14px;"><label for="adminUnidadeNome">Nome</label><input id="adminUnidadeNome" placeholder="Nome oficial da unidade"></div>
+            <div class="grid-2" style="margin-top:10px;">
+              <div><label for="adminUnidadeSigla">Sigla</label><input id="adminUnidadeSigla" placeholder="Ex.: SEDUC"></div>
+              <div><label for="adminUnidadeTipo">Tipo</label><select id="adminUnidadeTipo"><option>Secretaria</option><option>Órgão</option><option>Autarquia</option><option>Empresa pública</option><option>Subsecretaria</option><option>Superintendência</option><option>Diretoria</option><option>Gerência</option><option>Coordenação</option><option>Seção</option><option>Entidade vinculada</option><option>Outro</option></select></div>
+            </div>
+            <div style="margin-top:10px;"><label for="adminUnidadeSuperior">Órgão/área superior</label><input id="adminUnidadeSuperior" placeholder="Ex.: Secretaria da Administração (SEAD)"></div>
+            <div class="grid-2" style="margin-top:10px;"><div><label for="adminUnidadeOrdem">Ordem</label><input id="adminUnidadeOrdem" type="number" min="0" value="100"></div><div><label for="adminUnidadeAtivo">Situação</label><select id="adminUnidadeAtivo"><option value="true">Ativa</option><option value="false">Inativa</option></select></div></div>
+            <div class="btn-row"><button id="btnAdminSalvarUnidade" type="button">Salvar unidade</button><button id="btnAdminLimparUnidade" type="button" class="outline">Limpar</button></div>
+            <div class="feedback info">As regras do Firestore devem permitir gravação apenas para administradores.</div>
+          </section>
+          <section class="card">
+            <div class="topbar"><div><h3 style="margin:0;">Unidades cadastradas</h3><div class="muted" id="adminUnidadesResumo">Carregando...</div></div><div style="min-width:260px;"><input id="adminBuscaUnidade" type="search" placeholder="Pesquisar nome, sigla ou tipo"></div></div>
+            <div id="adminListaUnidades" class="admin-list" style="margin-top:14px;"></div>
+          </section>
+        </div>
+      </div>
+
       <div id="abaDashboard" class="hidden">
         <div class="dashboard-executive-shell">
           <section class="card dashboard-command-card">
@@ -3617,9 +3671,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       <div><label for="editAssunto">Assunto</label><textarea id="editAssunto" style="min-height:100px;"></textarea></div>
       <div class="field-lux process-link-field" style="margin-top:12px;"><label for="editLinkProcesso">Link do processo (opcional)</label><span class="select-helper">Use o endereço completo da página.</span><input type="url" id="editLinkProcesso" placeholder="https://..." inputmode="url" autocomplete="url" /></div>
       <div class="encaminhamento-grid" style="margin-top:6px;">
-        <div class="encaminhamento-box select-structured"><label for="editGerencia">Gerência/Seção principal</label><span class="select-helper">Unidades agrupadas conforme a estrutura atual da SEAD.</span><select id="editGerencia"><option value="">Selecione...</option></select></div>
-        <div class="encaminhamento-box select-structured"><label for="editGerencia2">Gerência/Seção complementar 1</label><span class="select-helper">Escolha adicional opcional.</span><select id="editGerencia2"><option value="">Selecione...</option></select></div>
-        <div class="encaminhamento-box select-structured"><label for="editGerencia3">Gerência/Seção complementar 2</label><span class="select-helper">Terceira unidade opcional.</span><select id="editGerencia3"><option value="">Selecione...</option></select></div>
+        <div class="encaminhamento-box select-structured"><label for="editGerencia">Unidade principal</label><span class="select-helper">Unidades agrupadas conforme a estrutura atual da SEAD.</span><select id="editGerencia"><option value="">Selecione...</option></select></div>
+        <div class="encaminhamento-box select-structured"><label for="editGerencia2">Unidade complementar 1</label><span class="select-helper">Escolha adicional opcional.</span><select id="editGerencia2"><option value="">Selecione...</option></select></div>
+        <div class="encaminhamento-box select-structured"><label for="editGerencia3">Unidade complementar 2</label><span class="select-helper">Terceira unidade opcional.</span><select id="editGerencia3"><option value="">Selecione...</option></select></div>
       </div>
       <div class="prazo-grid prazo-grid-edit" style="margin-top:10px;">
         <div><label for="editDataFinal">Data final</label><input type="date" id="editDataFinal" /></div>
@@ -3702,7 +3756,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           </select>
         </div>
         <div>
-          <label for="relatorioGerenciaFiltro">Gerência/Área (opcional)</label>
+          <label for="relatorioGerenciaFiltro">Unidade/Área (opcional)</label>
           <select id="relatorioGerenciaFiltro"><option value="">Todas</option></select>
         </div>
       </div>
@@ -3867,6 +3921,27 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       "Entidades vinculadas": [
             "AGR",
             "GOIASPREV"
+      ],
+      "Secretarias e órgãos estaduais": [
+            "Secretaria da Administração (SEAD)",
+            "Secretaria da Agricultura, Pecuária e Abastecimento (SEAPA)",
+            "Secretaria da Casa Civil (CASACIVIL)",
+            "Secretaria de Comunicação (SECOM)",
+            "Secretaria de Estado da Economia (ECONOMIA)",
+            "Secretaria de Estado da Educação (SEDUC)",
+            "Secretaria de Estado de Indústria, Comércio e Serviços (SIC)",
+            "Secretaria-Geral de Governo (SGG)",
+            "Secretaria de Estado da Retomada (RETOMADA)",
+            "Secretaria de Estado de Relações Institucionais (SERINT)",
+            "Secretaria da Saúde do Estado de Goiás (SES)",
+            "Secretaria de Segurança Pública (SSP)",
+            "Secretaria de Estado de Meio Ambiente e Desenvolvimento Sustentável (SEMAD)",
+            "Empresa de Assistência Técnica e Extensão Rural do Estado de Goiás (EMATER)",
+            "Companhia de Investimentos e Parcerias do Estado de Goiás (Goiás Parcerias)",
+            "Goiás Previdência (GOIASPREV)",
+            "Secretaria de Estado da Ciência, Tecnologia e Inovação (SECTI)",
+            "Secretaria de Estado de Desenvolvimento Social (SEDS)",
+            "Secretaria de Estado de Esporte e Lazer (SEEL)"
       ]
 };
     const ABREVIACOES_SGI = {
@@ -3908,7 +3983,26 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       "Procuradoria Setorial": "PROCSET",
       "Gerência do Escritório de Processos": "PMO",
       "Gerência de Logística Documental": "GELD",
-      "Gerência de Frotas": "GEFROTAS"
+      "Gerência de Frotas": "GEFROTAS",
+      "Secretaria da Administração (SEAD)": "SEAD",
+      "Secretaria da Agricultura, Pecuária e Abastecimento (SEAPA)": "SEAPA",
+      "Secretaria da Casa Civil (CASACIVIL)": "CASACIVIL",
+      "Secretaria de Comunicação (SECOM)": "SECOM",
+      "Secretaria de Estado da Economia (ECONOMIA)": "ECONOMIA",
+      "Secretaria de Estado da Educação (SEDUC)": "SEDUC",
+      "Secretaria de Estado de Indústria, Comércio e Serviços (SIC)": "SIC",
+      "Secretaria-Geral de Governo (SGG)": "SGG",
+      "Secretaria de Estado da Retomada (RETOMADA)": "RETOMADA",
+      "Secretaria de Estado de Relações Institucionais (SERINT)": "SERINT",
+      "Secretaria da Saúde do Estado de Goiás (SES)": "SES",
+      "Secretaria de Segurança Pública (SSP)": "SSP",
+      "Secretaria de Estado de Meio Ambiente e Desenvolvimento Sustentável (SEMAD)": "SEMAD",
+      "Empresa de Assistência Técnica e Extensão Rural do Estado de Goiás (EMATER)": "EMATER",
+      "Companhia de Investimentos e Parcerias do Estado de Goiás (Goiás Parcerias)": "GOIASPARCERIAS",
+      "Goiás Previdência (GOIASPREV)": "GOIASPREV",
+      "Secretaria de Estado da Ciência, Tecnologia e Inovação (SECTI)": "SECTI",
+      "Secretaria de Estado de Desenvolvimento Social (SEDS)": "SEDS",
+      "Secretaria de Estado de Esporte e Lazer (SEEL)": "SEEL"
     };
     const SIGLAS_PARA_UNIDADE = Object.fromEntries(Object.entries(SIGLAS_PRINCIPAIS).map(([nome, sigla]) => [sigla.toUpperCase(), nome]));
     const AREAS = Object.keys(ESTRUTURA_ORGANIZACIONAL);
@@ -4457,7 +4551,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         .replace(/'/g, "&#039;");
     }
 
-    let globalSearchResults = { processos: [], modelos: [] };
+    let globalSearchResults = { processos: [] };
     let globalSearchFlat = [];
     let globalSearchIndex = -1;
 
@@ -4489,7 +4583,7 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
     function pesquisarGlobal(termo) {
       const q = normalizarTextoGlobal(termo);
       if (!q) {
-        globalSearchResults = { processos: [], modelos: [] };
+        globalSearchResults = { processos: [] };
         globalSearchFlat = [];
         globalSearchIndex = -1;
         return globalSearchResults;
@@ -4507,18 +4601,9 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
         item.area,
         (item.gerencias || []).join(' ')
       ].join(' ')).includes(q)).slice(0, 8);
-      const modelos = obterModelosBuscaGlobal().filter(modelo => normalizarTextoGlobal([
-        modelo.nome,
-        modelo.categoria,
-        modelo.gerenciaRelacionada,
-        modelo.atalho,
-        modelo.texto,
-        modelo.equipeAcesso
-      ].join(' ')).includes(q)).slice(0, 8);
-      globalSearchResults = { processos, modelos };
+      globalSearchResults = { processos };
       globalSearchFlat = [
-        ...processos.map((item, idx) => ({ tipo: 'processo', id: item.id, idx })),
-        ...modelos.map((item, idx) => ({ tipo: 'modelo', id: item.id, idx }))
+        ...processos.map((item, idx) => ({ tipo: 'processo', id: item.id, idx }))
       ];
       globalSearchIndex = globalSearchFlat.length ? 0 : -1;
       return globalSearchResults;
@@ -4581,9 +4666,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const secoes = [];
       if (resultados.processos.length) {
         secoes.push(`<div class="global-search-section"><div class="global-search-section-title">Processos (${resultados.processos.length})</div><div class="global-search-list">${resultados.processos.map((item, idx) => htmlResultadoProcesso(item, termo, globalSearchFlat[globalSearchIndex]?.tipo === 'processo' && globalSearchFlat[globalSearchIndex]?.id === item.id)).join('')}</div></div>`);
-      }
-      if (resultados.modelos.length) {
-        secoes.push(`<div class="global-search-section"><div class="global-search-section-title">Modelos (${resultados.modelos.length})</div><div class="global-search-list">${resultados.modelos.map((item, idx) => htmlResultadoModelo(item, termo, globalSearchFlat[globalSearchIndex]?.tipo === 'modelo' && globalSearchFlat[globalSearchIndex]?.id === item.id)).join('')}</div></div>`);
       }
       if (!secoes.length) {
         painelBuscaGlobal.innerHTML = `<div class="global-search-empty">Nenhum resultado para <strong>${escapeHtml(termo)}</strong>.</div>`;
@@ -6325,7 +6407,7 @@ function imprimirRelatorioAtual() {
           <div class="detail-grid-2">
             <div class="drawer-box"><div class="label">Interessado</div><div class="value">${escapeHtml(item.interessado || '-')}</div></div>
             <div class="drawer-box"><div class="label">Situação</div><div class="value"><span class="badge-situacao ${classeSituacaoBadge(item.situacao)}">${escapeHtml(item.situacao || '-')}</span></div></div>
-            <div class="drawer-box"><div class="label">Gerência/Seção</div><div class="value">${escapeHtml(item.gerencia || item.area || '-')}</div></div>
+            <div class="drawer-box"><div class="label">Unidade responsável</div><div class="value">${escapeHtml(item.gerencia || item.area || '-')}</div></div>
             <div class="drawer-box" style="grid-column:1 / -1;"><div class="label">Assunto</div><div class="value">${escapeHtml(item.assunto || '-')}</div></div>
           </div>
         </div>
@@ -6407,7 +6489,7 @@ function imprimirRelatorioAtual() {
           <td>${escapeHtml(obterDescricaoTempoRestante(d))}</td>
           <td>${escapeHtml(d.alteradoPor || '-')} - ${escapeHtml(formatarDataHora(d.alteradoEm))}</td>
         </tr>`).join('');
-      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data/hora do preenchimento</th><th>Área</th><th>Gerência/Seção</th><th>Data final</th><th>Exige resposta</th><th>Dias restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
+      return `<table><thead><tr><th>Processo</th><th>Interessado</th><th>Assunto</th><th>Data/hora do preenchimento</th><th>Área</th><th>Unidade responsável</th><th>Data final</th><th>Exige resposta</th><th>Dias restantes</th><th>Última alteração</th></tr></thead><tbody>${linhas}</tbody></table>`;
     }
     function exportarExcel(apenasVisiveis=false) {
       const dados = obterDadosExportacao(apenasVisiveis);
@@ -7247,873 +7329,89 @@ function imprimirRelatorioAtual() {
     }, 60000);
   </script>
 
-<!-- MODELOS_AVANCADOS_PATCH -->
 <script>
+/* PATCH_GESTAO_UNIDADES_PERFIS_V1 */
 (function(){
-  const COLLECTION_MODELOS = 'modelos_texto';
-  const LOCAL_STORAGE_MODELOS = 'sgp_modelos_offline_v3';
-  const STORAGE = {
-    busca: 'sgp_modelos_busca_v3',
-    gerencia: 'sgp_modelos_gerencia_v3',
-    somenteFavoritos: 'sgp_modelos_favoritos_v3',
-    equipe: 'sgp_modelos_equipe_v3'
-  };
-
-  let remoteModels = [];
-  let localModels = [];
-  let unsubscribeModelos = null;
-  let editingModelId = null;
-  let sugestoes = [];
-  let sugestaoIndex = 0;
-
-  function textoNorm(v) {
-    return String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  const COLLECTION_UNIDADES='estrutura_organizacional';
+  const COLLECTION_USUARIOS='usuarios';
+  const PERFIS={consulta:1,operador:2,gestor:3,administrador:4};
+  let perfilAtual='consulta', unidadesRemotas=[], adminEditingId='', cadastroAlterado=false;
+  const byId=id=>document.getElementById(id);
+  const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+  const esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+  function inferirTipo(nome,superior=''){
+    const n=norm(nome); if(n.includes('secretaria'))return 'Secretaria'; if(n.includes('autarquia'))return 'Autarquia'; if(n.includes('empresa')||n.includes('companhia'))return 'Empresa pública';
+    if(n.includes('subsecretaria'))return 'Subsecretaria'; if(n.includes('superintendencia'))return 'Superintendência'; if(n.includes('diretoria'))return 'Diretoria'; if(n.includes('gerencia'))return 'Gerência'; if(n.includes('coordenacao'))return 'Coordenação'; if(n.includes('secao'))return 'Seção'; return superior?'Unidade':'Órgão';
   }
-
-  function atalhoSeguro(v) {
-    return String(v || '')
-      .toLowerCase()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9\-_]/g, '')
-      .slice(0, 40);
+  function pode(min){return (PERFIS[perfilAtual]||0)>=(PERFIS[min]||99)}
+  function aplicarPermissoes(){
+    const mapa=[['btnGerarProcesso','operador'],['btnSalvarEdicao','operador'],['drawerBtnRespondido','gestor'],['drawerBtnProrrogar','gestor'],['drawerBtnExcluir','administrador'],['btnCadastrar','administrador']];
+    mapa.forEach(([id,p])=>byId(id)?.classList.toggle('permission-hidden',!pode(p)));
+    document.querySelectorAll('[data-action="delete"], [data-model-action="delete"]').forEach(el=>el.classList.toggle('permission-hidden',!pode('administrador')));
+    document.querySelectorAll('[data-action="edit"], [data-model-action="edit"]').forEach(el=>el.classList.toggle('permission-hidden',!pode('operador')));
+    byId('tabAdministracaoBtn')?.classList.toggle('permission-hidden',!pode('administrador'));
+    if(!pode('administrador')&&!byId('abaAdministracao')?.classList.contains('hidden')) abrirAba('processos');
+    if(byId('perfilUsuario')) byId('perfilUsuario').textContent=perfilAtual.charAt(0).toUpperCase()+perfilAtual.slice(1);
   }
-
-  function emailAtualModelo() {
-    return auth.currentUser?.email || '';
+  async function carregarPerfil(user){
+    perfilAtual='consulta';
+    try{const doc=await db.collection(COLLECTION_USUARIOS).doc(user.uid).get(); if(doc.exists) perfilAtual=String(doc.data().perfil||'consulta').toLowerCase();}
+    catch(e){console.warn('Perfil não carregado:',e)}
+    aplicarPermissoes();
   }
-
-  function equipeAtualModelo() {
-    return localStorage.getItem(STORAGE.equipe) || '';
-  }
-
-  function opcoesEquipesModelos() {
-    const arr = [...AREAS, ...TODAS_UNIDADES].map(v => normalizarNomeInstitucional(v)).filter(Boolean);
-    return [...new Set(arr)].sort((a,b) => a.localeCompare(b, 'pt-BR'));
-  }
-
-  function carregarLocaisModelos() {
-    try {
-      localModels = JSON.parse(localStorage.getItem(LOCAL_STORAGE_MODELOS) || '[]');
-      if (!Array.isArray(localModels)) localModels = [];
-    } catch {
-      localModels = [];
-    }
-  }
-
-  function salvarLocaisModelos() {
-    localStorage.setItem(LOCAL_STORAGE_MODELOS, JSON.stringify(localModels));
-  }
-
-  function obterTodosModelos() {
-    const mapa = new Map();
-    [...remoteModels, ...localModels].forEach(m => mapa.set(m.id, m));
-    return [...mapa.values()];
-  }
-
-  function modeloEhFavorito(modelo) {
-    const email = emailAtualModelo();
-    return !!email && Array.isArray(modelo.favoritosEmails) && modelo.favoritosEmails.includes(email);
-  }
-
-  function modeloEhVisivel(modelo) {
-    const email = emailAtualModelo();
-    if (!email) return false;
-    if ((modelo.criadoPor || '') === email) return true;
-    if (modelo.armazenamento === 'local') return false;
-    const vis = modelo.visibilidade || 'publico';
-    if (vis === 'publico') return true;
-    if (vis === 'usuario') return false;
-    if (vis === 'equipe') {
-      const equipe = modelo.equipeAcesso || '';
-      return !!equipe && normalizarNomeInstitucional(equipe) === normalizarNomeInstitucional(equipeAtualModelo());
-    }
-    return false;
-  }
-
-  function resumoAcesso(modelo) {
-    if (modelo.armazenamento === 'local') return 'Local neste navegador';
-    if ((modelo.criadoPor || '') === emailAtualModelo()) return 'Seu modelo';
-    if ((modelo.visibilidade || 'publico') === 'publico') return 'Público';
-    if ((modelo.visibilidade || 'publico') === 'usuario') return 'Privado';
-    return modelo.equipeAcesso ? `Equipe: ${modelo.equipeAcesso}` : 'Equipe';
-  }
-
-  function traduzirErroModelo(error) {
-    const code = error?.code || '';
-    if (code.includes('permission-denied')) return 'Sem permissão no Firestore para gravar em modelos_texto';
-    if (code.includes('failed-precondition')) return 'A coleção modelos_texto precisa de configuração no Firestore';
-    if (code.includes('unavailable')) return 'Firestore indisponível no momento';
-    return error?.message || 'Erro ao salvar modelo';
-  }
-
-  function obterPlaceholdersPadrao() {
-    const p = typeof obterPreviewCadastro === 'function' ? obterPreviewCadastro() : { processo:'', interessado:'', assunto:'', gerencia:'', prazo:'' };
-    const dt = new Date();
-    return {
-      nome: p.interessado === '-' ? '' : p.interessado,
-      interessado: p.interessado === '-' ? '' : p.interessado,
-      processo: p.processo === '-' ? '' : p.processo,
-      assunto: p.assunto === '-' ? '' : p.assunto,
-      gerencia: p.gerencia === '-' ? '' : p.gerencia,
-      prazo: p.prazo === '-' ? '' : p.prazo,
-      data: dt.toLocaleDateString('pt-BR'),
-      hora: dt.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' }),
-      email: emailAtualModelo()
+  function montarAbaAdmin(){
+    const tabs=document.querySelector('.tabs'); if(!tabs||byId('tabAdministracaoBtn'))return;
+    const b=document.createElement('button'); b.type='button'; b.id='tabAdministracaoBtn'; b.className='tab-btn'; b.textContent='Administração'; tabs.appendChild(b);
+    b.addEventListener('click',()=>abrirAba('administracao'));
+    const original=abrirAba;
+    abrirAba=function(aba){
+      const adm=byId('abaAdministracao');
+      if(aba==='administracao'&&pode('administrador')){
+        ['abaProcessos','abaDashboard'].forEach(id=>byId(id)?.classList.add('hidden')); adm?.classList.remove('hidden'); document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderAdmin(); return;
+      }
+      adm?.classList.add('hidden'); b.classList.remove('active'); return original(aba);
     };
   }
-
-  function extrairVariaveis(texto) {
-    return [...new Set((String(texto || '').match(/\{([^}]+)\}/g) || []).map(v => v.replace(/[{}]/g, '').trim()).filter(Boolean))];
+  function unidadeOptions(){
+    if(unidadesRemotas.length) return unidadesRemotas.filter(u=>u.ativo!==false).sort((a,b)=>(a.ordem||100)-(b.ordem||100)||a.nome.localeCompare(b.nome,'pt-BR'));
+    const out=[]; Object.entries(ESTRUTURA_ORGANIZACIONAL).forEach(([sup,arr],i)=>{out.push({nome:sup,sigla:SIGLAS_PRINCIPAIS[sup]||'',tipo:inferirTipo(sup),superior:'',ordem:i*100,ativo:true}); arr.forEach((nome,j)=>out.push({nome,sigla:SIGLAS_PRINCIPAIS[nome]||'',tipo:inferirTipo(nome,sup),superior:sup,ordem:i*100+j+1,ativo:true}))}); return out;
   }
-
-  async function resolverVariaveis(textoBase) {
-    let texto = String(textoBase || '');
-    const vars = extrairVariaveis(texto);
-    if (!vars.length) return texto;
-    const placeholders = obterPlaceholdersPadrao();
-    for (const nome of vars) {
-      const padrao = placeholders[textoNorm(nome)] || placeholders[nome] || '';
-      const resposta = prompt(`Informe o valor para {${nome}}`, padrao);
-      if (resposta === null) return null;
-      const rx = new RegExp('\\\\{' + nome.replace(/[.*+?^${}()|[\]\\]/g, '\\\\$&') + '\\\\}', 'g');
-      texto = texto.replace(rx, resposta);
-    }
-    return texto;
+  function reconstruirSelects(){
+    const opts=unidadeOptions(), ids=['gerenciaManual','gerenciaManual2','gerenciaManual3','editGerencia','editGerencia2','editGerencia3','filtroGerencia','relatorioGerenciaFiltro'];
+    ids.forEach(id=>{const s=byId(id);if(!s)return;const atual=s.value, vazio=id.includes('filtro')||id==='relatorioGerenciaFiltro'?'Todas':'Selecione...'; const grupos={}; opts.forEach(u=>{const g=u.superior||u.tipo||'Outras unidades';(grupos[g]??=[]).push(u)}); s.innerHTML=`<option value="">${vazio}</option>`+Object.entries(grupos).map(([g,list])=>`<optgroup label="${esc(g)}">${list.map(u=>`<option value="${esc(u.nome)}" data-tipo="${esc(u.tipo)}">[${esc(u.tipo)}] ${esc(u.nome)}${u.sigla?' ('+esc(u.sigla)+')':''}</option>`).join('')}</optgroup>`).join(''); if([...s.options].some(o=>o.value===atual))s.value=atual;});
+    if(typeof htmlCompletoSelectUnidades!=='undefined'&&byId('gerenciaManual')) htmlCompletoSelectUnidades=byId('gerenciaManual').innerHTML;
+    atualizarSelecaoMultipla();
   }
-
-  function preencherSelectsModelos() {
-    const ids = ['modeloGerencia', 'filtroGerenciaModelo', 'modeloEquipeAcesso', 'contextoEquipeModelos'];
-    const equipes = opcoesEquipesModelos();
-    ids.forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const atual = el.value;
-      const rotuloVazio = id === 'modeloEquipeAcesso' ? 'Selecione a equipe' : (id === 'contextoEquipeModelos' ? 'Selecione sua equipe/gerência' : 'Todas');
-      el.innerHTML = `<option value="">${rotuloVazio}</option>`;
-      equipes.forEach(eq => {
-        const op = document.createElement('option');
-        op.value = eq;
-        op.textContent = eq;
-        el.appendChild(op);
-      });
-      if ([...el.options].some(op => op.value === atual)) el.value = atual;
-    });
+  function criarSelecaoMultipla(){
+    const grid=byId('gerenciaManual')?.closest('.composer-card-grid-2'); if(!grid||byId('multiUnitSelected'))return;
+    grid.insertAdjacentHTML('beforebegin','<div class="multi-unit-shell"><div id="multiUnitSelected" class="multi-unit-selected"><span class="multi-unit-empty">Nenhuma unidade selecionada.</span></div><div class="select-helper">Escolha até três unidades. As etiquetas permitem revisar ou remover uma seleção sem procurar novamente.</div></div>');
+    ['gerenciaManual','gerenciaManual2','gerenciaManual3'].forEach(id=>byId(id)?.addEventListener('change',atualizarSelecaoMultipla));
   }
-
-  function atualizarCampoEquipeAcesso() {
-    const vis = document.getElementById('modeloVisibilidade');
-    const box = document.getElementById('boxEquipeAcessoModelo');
-    if (!vis || !box) return;
-    box.classList.toggle('hidden', vis.value !== 'equipe');
+  function atualizarSelecaoMultipla(){
+    const box=byId('multiUnitSelected');if(!box)return;const ids=['gerenciaManual','gerenciaManual2','gerenciaManual3'];const vals=ids.map(id=>({id,value:byId(id)?.value||'',tipo:byId(id)?.selectedOptions?.[0]?.dataset?.tipo||''})).filter(x=>x.value);
+    box.innerHTML=vals.length?vals.map(x=>`<span class="multi-unit-tag"><span class="unit-type">${esc(x.tipo||inferirTipo(x.value))}</span>${esc(x.value)}<button type="button" data-remove-unit="${x.id}" aria-label="Remover ${esc(x.value)}">×</button></span>`).join(''):'<span class="multi-unit-empty">Nenhuma unidade selecionada.</span>';
+    box.querySelectorAll('[data-remove-unit]').forEach(b=>b.onclick=()=>{const s=byId(b.dataset.removeUnit);if(s){s.value='';s.dispatchEvent(new Event('change',{bubbles:true}))}});
   }
-
-  function modeloPayloadBase(base={}) {
-    const visibilidade = document.getElementById('modeloVisibilidade')?.value || 'publico';
-    return {
-      ...base,
-      nome: document.getElementById('modeloNome')?.value.trim() || '',
-      categoria: document.getElementById('modeloCategoria')?.value.trim() || '',
-      gerenciaRelacionada: normalizarNomeInstitucional(document.getElementById('modeloGerencia')?.value || ''),
-      atalho: atalhoSeguro(document.getElementById('modeloAtalho')?.value || ''),
-      visibilidade,
-      equipeAcesso: visibilidade === 'equipe' ? normalizarNomeInstitucional(document.getElementById('modeloEquipeAcesso')?.value || '') : '',
-      texto: document.getElementById('modeloTexto')?.value.trim() || '',
-      alteradoPor: emailAtualModelo(),
-      alteradoEm: new Date().toISOString()
-    };
+  function monitorarFormulario(){
+    ['entrada','linkProcessoManual','gerenciaManual','gerenciaManual2','gerenciaManual3','dataFinalManual','horaFinalManual','semPrazoManual'].forEach(id=>{const e=byId(id);if(e)e.addEventListener(e.type==='checkbox'?'change':'input',()=>cadastroAlterado=true)});
+    byId('btnGerarProcesso')?.addEventListener('click',()=>setTimeout(()=>cadastroAlterado=false,700)); byId('btnLimparFormulario')?.addEventListener('click',()=>cadastroAlterado=false);
+    window.addEventListener('beforeunload',e=>{if(cadastroAlterado){e.preventDefault();e.returnValue=''}});
   }
-
-  function limparModalModelo() {
-    editingModelId = null;
-    ['modeloNome','modeloCategoria','modeloGerencia','modeloAtalho','modeloEquipeAcesso','modeloTexto'].forEach(id => {
-      const el = document.getElementById(id); if (el) el.value = '';
-    });
-    const vis = document.getElementById('modeloVisibilidade');
-    if (vis) vis.value = 'publico';
-    atualizarCampoEquipeAcesso();
-    const titulo = document.getElementById('modeloModalTitulo');
-    if (titulo) titulo.textContent = 'Novo modelo';
+  function bindAdmin(){
+    byId('btnAdminSalvarUnidade')?.addEventListener('click',salvarAdmin); byId('btnAdminLimparUnidade')?.addEventListener('click',limparAdmin); byId('adminBuscaUnidade')?.addEventListener('input',renderAdmin);
+    byId('adminListaUnidades')?.addEventListener('click',async e=>{const b=e.target.closest('[data-admin-action]');if(!b)return;const u=unidadesRemotas.find(x=>x.id===b.dataset.id);if(!u)return;if(b.dataset.adminAction==='edit'){adminEditingId=u.id;byId('adminUnidadeNome').value=u.nome||'';byId('adminUnidadeSigla').value=u.sigla||'';byId('adminUnidadeTipo').value=u.tipo||'Outro';byId('adminUnidadeSuperior').value=u.superior||'';byId('adminUnidadeOrdem').value=u.ordem??100;byId('adminUnidadeAtivo').value=String(u.ativo!==false)}else if(b.dataset.adminAction==='toggle'){await db.collection(COLLECTION_UNIDADES).doc(u.id).update({ativo:u.ativo===false,alteradoEm:firebase.firestore.FieldValue.serverTimestamp(),alteradoPor:auth.currentUser?.email||''})}});
   }
-
-  function abrirModalModelo(id=null) {
-    editingModelId = id;
-    const overlay = document.getElementById('modeloModalOverlay');
-    if (!overlay) return;
-    limparModalModelo();
-    if (id) {
-      const modelo = obterTodosModelos().find(m => m.id === id);
-      if (modelo) {
-        const titulo = document.getElementById('modeloModalTitulo');
-        if (titulo) titulo.textContent = 'Editar modelo';
-        document.getElementById('modeloNome').value = modelo.nome || '';
-        document.getElementById('modeloCategoria').value = modelo.categoria || '';
-        document.getElementById('modeloGerencia').value = modelo.gerenciaRelacionada || '';
-        document.getElementById('modeloAtalho').value = modelo.atalho || '';
-        document.getElementById('modeloVisibilidade').value = modelo.visibilidade || 'publico';
-        document.getElementById('modeloEquipeAcesso').value = modelo.equipeAcesso || '';
-        document.getElementById('modeloTexto').value = modelo.texto || '';
-      }
-    }
-    atualizarCampoEquipeAcesso();
-    overlay.classList.remove('hidden');
-  }
-
-  function fecharModalModelo() {
-    document.getElementById('modeloModalOverlay')?.classList.add('hidden');
-    limparModalModelo();
-  }
-
-  function obterModelosFiltrados() {
-    const busca = textoNorm(document.getElementById('buscaModelo')?.value || '');
-    const gerencia = normalizarNomeInstitucional(document.getElementById('filtroGerenciaModelo')?.value || '');
-    const somenteFav = !!document.getElementById('somenteFavoritosModelos')?.checked;
-    return obterTodosModelos()
-      .filter(modeloEhVisivel)
-      .filter(m => !gerencia || normalizarNomeInstitucional(m.gerenciaRelacionada || '') === gerencia)
-      .filter(m => !somenteFav || modeloEhFavorito(m))
-      .filter(m => {
-        if (!busca) return true;
-        const alvo = textoNorm([m.nome, m.categoria, m.gerenciaRelacionada, m.atalho, m.texto].join(' '));
-        return alvo.includes(busca);
-      })
-      .sort((a,b) => {
-        const favDiff = Number(modeloEhFavorito(b)) - Number(modeloEhFavorito(a));
-        if (favDiff) return favDiff;
-        const usoDiff = (b.usoCount || 0) - (a.usoCount || 0);
-        if (usoDiff) return usoDiff;
-        return String(a.nome || '').localeCompare(String(b.nome || ''), 'pt-BR', { sensitivity: 'base' });
-      });
-  }
-
-  function renderResumoModelos(modelos) {
-    const alvo = document.getElementById('resumoModelosStats');
-    if (!alvo) return;
-    const favoritos = modelos.filter(modeloEhFavorito).length;
-    const top = [...modelos].sort((a,b) => (b.usoCount || 0) - (a.usoCount || 0))[0];
-    alvo.innerHTML = `
-      <div class="dashboard-kpi-grid" style="margin-top:0;">
-        <div class="mini-kpi"><div class="k">Modelos visíveis</div><div class="v">${modelos.length}</div><div class="s">catálogo atual</div></div>
-        <div class="mini-kpi"><div class="k">Favoritos</div><div class="v">${favoritos}</div><div class="s">marcados por você</div></div>
-        <div class="mini-kpi"><div class="k">Com atalho</div><div class="v">${modelos.filter(m => !!m.atalho).length}</div><div class="s">uso por /comando</div></div>
-        <div class="mini-kpi"><div class="k">Mais usado</div><div class="v">${top ? (top.usoCount || 0) : 0}</div><div class="s">${top ? escapeHtml(top.nome) : 'Sem uso ainda'}</div></div>
-      </div>`;
-  }
-
-  function encurtar(texto, limite=180) {
-    const t = String(texto || '').replace(/\s+/g, ' ').trim();
-    return t.length <= limite ? t : t.slice(0, limite - 1) + '…';
-  }
-
-  function renderListaModelos() {
-    const lista = document.getElementById('listaModelos');
-    if (!lista) return;
-    const modelos = obterModelosFiltrados();
-    renderResumoModelos(modelos);
-    if (!modelos.length) {
-      lista.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><h4>Nenhum modelo disponível</h4><p>Clique em <strong>Novo modelo</strong> para cadastrar ou ajuste os filtros.</p></div>';
-      return;
-    }
-    lista.innerHTML = modelos.map(modelo => {
-      const favorito = modeloEhFavorito(modelo);
-      const editavel = (modelo.criadoPor || '') === emailAtualModelo();
-      const tags = [
-        modelo.armazenamento === 'local' ? '<span class="tag-gerencia">💾 LOCAL</span>' : '',
-        modelo.categoria ? `<span class="tag-gerencia">🏷️ ${escapeHtml(modelo.categoria)}</span>` : '',
-        modelo.gerenciaRelacionada ? `<span class="tag-gerencia">📌 ${escapeHtml(modelo.gerenciaRelacionada)}</span>` : '',
-        modelo.atalho ? `<span class="tag-gerencia">/${escapeHtml(modelo.atalho)}</span>` : '',
-        `<span class="tag-gerencia">${escapeHtml(resumoAcesso(modelo))}</span>`
-      ].filter(Boolean).join('');
-      return `
-        <div class="modelo-card-lite">
-          <div class="modelo-card-header-lite">
-            <div style="min-width:0;">
-              <div class="modelo-titulo-lite">${escapeHtml(modelo.nome || '(sem nome)')}</div>
-              <div class="select-badges-row" style="margin-top:8px;">${tags}</div>
-            </div>
-            <button type="button" class="modelo-fav-btn-lite ${favorito ? 'active' : ''}" data-model-action="fav" data-model-id="${modelo.id}" title="Favoritar">${favorito ? '⭐' : '☆'}</button>
-          </div>
-          <div class="modelo-texto-lite">${escapeHtml(encurtar(modelo.texto || ''))}</div>
-          <div class="modelo-footer-lite">
-            <div class="muted-mini">Criado por ${escapeHtml(modelo.criadoPor || '-')} • uso ${modelo.usoCount || 0}x</div>
-            <div class="modelo-actions-lite">
-              <button type="button" data-model-action="use" data-model-id="${modelo.id}">Usar</button>
-              <button type="button" class="light" data-model-action="copy" data-model-id="${modelo.id}">Copiar</button>
-              ${editavel ? `<button type="button" class="secondary" data-model-action="edit" data-model-id="${modelo.id}">Editar</button>` : ''}
-              ${editavel ? `<button type="button" class="danger" data-model-action="delete" data-model-id="${modelo.id}">Excluir</button>` : ''}
-            </div>
-          </div>
-        </div>`;
-    }).join('');
-  }
-
-  function renderSugestoes() {
-    esconderSugestoes();
-  }
-
-  function esconderSugestoes() {
-    const box = document.getElementById('sugestoesModelosBox');
-    if (!box) return;
-    box.classList.add('hidden');
-    box.innerHTML = '';
-    sugestoes = [];
-    sugestaoIndex = 0;
-  }
-
-  function moverSelecaoSugestao(delta) {
-    const box = document.getElementById('sugestoesModelosBox');
-    if (!box || !sugestoes.length) return;
-    sugestaoIndex = (sugestaoIndex + delta + sugestoes.length) % sugestoes.length;
-    box.querySelectorAll('.model-suggest-item').forEach((el, idx) => el.classList.toggle('active', idx === sugestaoIndex));
-  }
-
-  async function usarModelo(id, modo='inserir') {
-    const modelo = obterTodosModelos().find(m => m.id === id && modeloEhVisivel(m));
-    if (!modelo) return toast('Modelo não encontrado.', 'warning');
-    const textoResolvido = await resolverVariaveis(modelo.texto || '');
-    if (textoResolvido === null) return;
-    if (modo === 'copy') {
-      const copiou = await copiarTextoComFallback(textoResolvido);
-      if (copiou) {
-        await registrarUsoModelo(id, 'copia');
-        toast('Texto copiado.', 'success');
-      } else {
-        toast('Não foi possível copiar. Se o arquivo estiver aberto direto do computador, tente usar a versão publicada/https.', 'error');
-      }
-      return;
-    }
-    inserirTextoNaEntrada(textoResolvido);
-    await registrarUsoModelo(id, 'uso');
-    toast(`Modelo "${modelo.nome}" inserido no texto.`, 'success');
-    esconderSugestoes();
-    abrirAba('processos');
-  }
-
-  function inserirTextoNaEntrada(textoInserir) {
-    if (!entrada) return;
-    const start = entrada.selectionStart ?? entrada.value.length;
-    const end = entrada.selectionEnd ?? entrada.value.length;
-    const antes = entrada.value.slice(0, start);
-    const depois = entrada.value.slice(end);
-    const sa = antes && !/(?:\n\s*\n|\n)$/.test(antes) ? '\n\n' : '';
-    const sd = depois && !depois.startsWith('\n') ? '\n' : '';
-    entrada.value = antes + sa + textoInserir + sd + depois;
-    const pos = (antes + sa + textoInserir).length;
-    entrada.focus();
-    entrada.setSelectionRange(pos, pos);
-    if (typeof salvarRascunhoCadastro === 'function') salvarRascunhoCadastro();
-    if (typeof renderPreviewCadastro === 'function') renderPreviewCadastro();
-  }
-
-  async function copiarTextoComFallback(texto) {
-    const valor = String(texto || '');
-    if (!valor) return false;
-    try {
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(valor);
-        return true;
-      }
-    } catch (error) {
-      console.warn('Clipboard API falhou, tentando fallback.', error);
-    }
-    try {
-      const area = document.createElement('textarea');
-      area.value = valor;
-      area.setAttribute('readonly', 'readonly');
-      area.style.position = 'fixed';
-      area.style.top = '-9999px';
-      area.style.left = '-9999px';
-      area.style.opacity = '0';
-      document.body.appendChild(area);
-      area.focus();
-      area.select();
-      area.setSelectionRange(0, area.value.length);
-      const ok = document.execCommand('copy');
-      area.remove();
-      return !!ok;
-    } catch (error) {
-      console.error('Fallback de cópia falhou.', error);
-      return false;
-    }
-  }
-
-  function substituirAtalhoQuandoCabivel() {
-    if (!entrada) return false;
-    const valor = entrada.value;
-    const pos = entrada.selectionStart ?? valor.length;
-    const antes = valor.slice(0, pos);
-    const m = antes.match(/(?:^|\s)\/([a-z0-9\-_]+)(?:\s|\n)$/i);
-    if (!m) return false;
-    const atalho = atalhoSeguro(m[1]);
-    if (!atalho) return false;
-    const modelo = obterTodosModelos().find(x => modeloEhVisivel(x) && (x.atalho || '') === atalho);
-    if (!modelo) return false;
-    const inicio = antes.lastIndexOf('/' + m[1]);
-    const fim = pos;
-    resolverVariaveis(modelo.texto || '').then(async textoResolvido => {
-      if (textoResolvido === null) return;
-      entrada.value = valor.slice(0, inicio) + textoResolvido + valor.slice(fim);
-      const novaPos = (valor.slice(0, inicio) + textoResolvido).length;
-      entrada.focus();
-      entrada.setSelectionRange(novaPos, novaPos);
-      if (typeof salvarRascunhoCadastro === 'function') salvarRascunhoCadastro();
-      if (typeof renderPreviewCadastro === 'function') renderPreviewCadastro();
-      await registrarUsoModelo(modelo.id, 'uso');
-      toast(`Atalho /${atalho} aplicado.`, 'success');
-      renderSugestoes();
-    });
-    return true;
-  }
-
-  function iniciarEscutaModelos() {
-    if (unsubscribeModelos) unsubscribeModelos();
-    unsubscribeModelos = db.collection(COLLECTION_MODELOS).onSnapshot(snapshot => {
-      remoteModels = [];
-      snapshot.forEach(doc => {
-        const d = doc.data() || {};
-        remoteModels.push({
-          id: doc.id,
-          nome: d.nome || '',
-          categoria: d.categoria || '',
-          gerenciaRelacionada: normalizarNomeInstitucional(d.gerenciaRelacionada || ''),
-          atalho: atalhoSeguro(d.atalho || ''),
-          visibilidade: d.visibilidade || 'publico',
-          equipeAcesso: normalizarNomeInstitucional(d.equipeAcesso || ''),
-          texto: d.texto || '',
-          criadoPor: d.criadoPor || '',
-          favoritosEmails: Array.isArray(d.favoritosEmails) ? d.favoritosEmails : [],
-          usoCount: Number(d.usoCount || 0),
-          copiasCount: Number(d.copiasCount || 0),
-          armazenamento: 'firestore'
-        });
-      });
-      renderListaModelos();
-      renderSugestoes();
-    }, error => {
-      console.error(error);
-      toast(`Modelos online indisponíveis: ${traduzirErroModelo(error)}. Os modelos locais continuam disponíveis.`, 'warning');
-      remoteModels = [];
-      renderListaModelos();
-    });
-  }
-
-  function montarInterfaceModelos() {
-    if (document.getElementById('tabModelosBtn')) return;
-    const tabs = document.querySelector('.tabs');
-    if (tabs) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.id = 'tabModelosBtn';
-      btn.className = 'tab-btn';
-      btn.textContent = 'Modelos';
-      tabs.appendChild(btn);
-    }
-
-    const after = document.getElementById('abaDashboard');
-    if (after) {
-      after.insertAdjacentHTML('afterend', `
-        <div id="abaModelos" class="hidden">
-          <div class="card hero modelos-hero-card">
-            <div class="topbar">
-              <div>
-                <h3 style="margin-bottom:6px;">Biblioteca de modelos</h3>
-              </div>
-              <div class="toolbar">
-                <button type="button" id="btnNovoModeloModal">Novo modelo</button>
-                <button type="button" class="outline" id="btnVoltarProcessosModelos">Voltar aos processos</button>
-              </div>
-            </div>
-          </div>
-          <div class="card chart-card"><div id="resumoModelosStats"></div></div>
-          <div class="card filters-card">
-            <div class="composer-card-grid-3 modelos-filtros-grid">
-              <div class="field-lux"><label for="buscaModelo">Busca rápida</label><input id="buscaModelo" placeholder="Nome, categoria, texto ou /atalho"></div>
-              <div class="field-lux select-structured"><label for="filtroGerenciaModelo">Gerência relacionada</label><select id="filtroGerenciaModelo"></select></div>
-              <div class="field-lux select-structured"><label for="contextoEquipeModelos">Minha equipe/gerência</label><select id="contextoEquipeModelos"></select><span class="select-helper">Escolha sua equipe para ver os modelos restritos por equipe.</span></div>
-            </div>
-            <div class="toolbar" style="margin-top:12px; justify-content:space-between;">
-              <label class="checkbox-inline" for="somenteFavoritosModelos" style="margin-top:0;"><input type="checkbox" id="somenteFavoritosModelos"> <span>Somente favoritos</span></label>
-              <button type="button" class="light" id="btnLimparFiltrosModelos" style="width:auto; min-width:150px; margin-top:0;">Limpar filtros</button>
-            </div>
-          </div>
-          <div class="card"><div class="dashboard-section-title"><div><h4>Modelos disponíveis</h4></small></div></div><div id="listaModelos"></div></div>
-        </div>
-        <div id="modeloModalOverlay" class="modal-overlay hidden">
-          <div class="modal modelo-modal">
-            <div class="modal-header">
-              <div>
-                <h3 id="modeloModalTitulo" style="margin-bottom:6px;">Novo modelo</h3>
-                <div class="muted">Se o Firestore bloquear, o sistema salva localmente neste navegador para você não perder o texto.</div>
-              </div>
-              <button type="button" class="modal-close" id="btnFecharModeloModal">Fechar</button>
-            </div>
-            <div class="composer-card-grid-2">
-              <div class="field-lux"><label for="modeloNome">Nome do modelo</label><input id="modeloNome" placeholder="Ex.: Encaminhamento padrão"></div>
-              <div class="field-lux"><label for="modeloCategoria">Categoria</label><input id="modeloCategoria" placeholder="Ex.: Ofícios, pareceres, LGPD"></div>
-              <div class="field-lux select-structured"><label for="modeloGerencia">Gerência relacionada</label><select id="modeloGerencia"></select></div>
-              <div class="field-lux"><label for="modeloAtalho">Atalho</label><input id="modeloAtalho" placeholder="Ex.: oficio"></div>
-              <div class="field-lux select-structured"><label for="modeloVisibilidade">Quem pode ver</label><select id="modeloVisibilidade"><option value="publico">Todos</option><option value="usuario">Somente eu</option><option value="equipe">Minha equipe/gerência</option></select></div>
-              <div class="field-lux select-structured hidden" id="boxEquipeAcessoModelo"><label for="modeloEquipeAcesso">Equipe/Gerência autorizada</label><select id="modeloEquipeAcesso"></select></div>
-            </div>
-            <div class="field-lux" style="margin-top:12px;"><label for="modeloTexto">Texto do modelo</label><textarea id="modeloTexto" style="min-height:180px;" placeholder="Use variáveis como {nome}, {data}, {processo}, {assunto}, {gerencia} e {prazo}."></textarea></div>
-            <div class="toolbar" style="margin-top:14px; justify-content:space-between;">
-              <button type="button" class="outline" id="btnExemploModelo">Inserir exemplo</button>
-              <div class="toolbar">
-                <button type="button" class="outline" id="btnLimparModeloAvancado">Limpar</button>
-                <button type="button" id="btnSalvarModeloAvancado">Salvar modelo</button>
-              </div>
-            </div>
-          </div>
-        </div>`);
-    }
-
-    const composerToolbar = document.querySelector('.composer-toolbar-lux');
-    if (composerToolbar && !document.getElementById('btnAbrirBibliotecaModelos')) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.id = 'btnAbrirBibliotecaModelos';
-      btn.className = 'outline';
-      btn.textContent = 'Modelos';
-      composerToolbar.appendChild(btn);
-    }
-
-    const entradaWrap = entrada?.closest('.composer-shell-elevated');
-    if (entradaWrap && !document.getElementById('sugestoesModelosBox')) {
-      const box = document.createElement('div');
-      box.id = 'sugestoesModelosBox';
-      box.className = 'model-suggest-box hidden';
-      entradaWrap.appendChild(box);
-    }
-
-    const style = document.createElement('style');
-    style.textContent = `
-      .modelos-hero-card { margin-bottom: 16px; }
-      .modelo-card-lite { border: 1px solid #d5dfe3; border-radius: 18px; padding: 16px; background: linear-gradient(180deg, rgba(255,255,255,.30) 0%, rgba(255,255,255,.12) 100%); box-shadow: 0 6px 18px rgba(16,24,40,.04); }
-      .modelo-card-lite + .modelo-card-lite { margin-top: 12px; }
-      .modelo-card-header-lite { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
-      .modelo-titulo-lite { font-size:16px; font-weight:800; color:#2b404b; line-height:1.3; }
-      .modelo-fav-btn-lite { width:auto; min-width:42px; margin-top:0; padding:8px 10px; border-radius:999px; border:1px solid #e5d28a; background:#fff5cf; color:#8a6200; box-shadow:none; }
-      .modelo-fav-btn-lite.active { background:#ffe08c; }
-      .modelo-texto-lite { margin-top:12px; padding:12px 14px; border-radius:14px; border:1px dashed #d0dade; background:rgba(255,255,255,.40); color:#32444f; line-height:1.55; white-space: pre-wrap; }
-      .modelo-footer-lite { margin-top:14px; display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; }
-      .modelo-actions-lite { display:flex; gap:8px; flex-wrap:wrap; }
-      .modelo-actions-lite button { width:auto; min-width:96px; margin-top:0; }
-      .modelo-modal { width:min(880px, 100%); }
-      .model-suggest-box { position:relative; margin-top:10px; border:1px solid #cfd8dd; border-radius:16px; background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(236,242,244,.98) 100%); box-shadow:0 12px 26px rgba(16,24,40,.10); overflow:hidden; }
-      .model-suggest-head { padding:10px 12px; font-size:12px; font-weight:800; color:#5a6b75; text-transform:uppercase; letter-spacing:.06em; background:rgba(116,135,145,.10); border-bottom:1px solid #d4dde1; }
-      .model-suggest-item { width:100%; margin-top:0; text-align:left; border:0; border-bottom:1px solid #e1e8eb; background:transparent; color:#22313b; box-shadow:none; border-radius:0; padding:12px; }
-      .model-suggest-item:last-of-type { border-bottom:0; }
-      .model-suggest-item:hover, .model-suggest-item.active { background:#dde6ea; }
-      .model-suggest-main { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
-      .model-suggest-main span { font-size:12px; color:#667782; }
-      .model-suggest-item small { display:block; margin-top:6px; color:#56656f; line-height:1.45; }
-      body.dark-mode .modelo-card-lite, body.dark-mode .modelo-texto-lite, body.dark-mode .model-suggest-box, body.dark-mode .model-suggest-item, body.dark-mode .modelo-modal { background:rgba(255,255,255,.03) !important; border-color:#374151 !important; color:#e5e7eb !important; }
-      body.dark-mode .model-suggest-item:hover, body.dark-mode .model-suggest-item.active { background:#243243 !important; }
-      body.dark-mode .model-suggest-head, body.dark-mode .model-suggest-main span, body.dark-mode .model-suggest-item small { color:#9fb0bd !important; }
-      .model-suggest-box { display:none !important; }
-      @media (max-width: 900px) { .modelo-footer-lite { flex-direction:column; align-items:stretch; } .modelo-actions-lite { width:100%; } .modelo-actions-lite button { flex:1 1 100%; width:100%; } .modelos-filtros-grid { grid-template-columns:1fr !important; } }
-    `;
-    document.head.appendChild(style);
-    preencherSelectsModelos();
-  }
-
-  function registrarEventosModelos() {
-    const originalAbrirAba = abrirAba;
-    if (!window.__sgpModelosPatchV3) {
-      abrirAba = function(aba) {
-        const abaModelos = document.getElementById('abaModelos');
-        const tabModelos = document.getElementById('tabModelosBtn');
-        if (aba === 'modelos') {
-          document.getElementById('abaProcessos')?.classList.add('hidden');
-          document.getElementById('abaDashboard')?.classList.add('hidden');
-          abaModelos?.classList.remove('hidden');
-          document.getElementById('tabProcessosBtn')?.classList.remove('active');
-          document.getElementById('tabDashboardBtn')?.classList.remove('active');
-          tabModelos?.classList.add('active');
-          localStorage.setItem(STORAGE_KEYS.aba, 'modelos');
-          renderListaModelos();
-          return;
-        }
-        abaModelos?.classList.add('hidden');
-        tabModelos?.classList.remove('active');
-        return originalAbrirAba(aba);
-      };
-      window.__sgpModelosPatchV3 = true;
-    }
-
-    document.getElementById('tabModelosBtn')?.addEventListener('click', () => abrirAba('modelos'));
-    document.getElementById('btnAbrirBibliotecaModelos')?.addEventListener('click', () => abrirAba('modelos'));
-    document.getElementById('btnVoltarProcessosModelos')?.addEventListener('click', () => abrirAba('processos'));
-    document.getElementById('btnNovoModeloModal')?.addEventListener('click', () => abrirModalModelo());
-    document.getElementById('btnFecharModeloModal')?.addEventListener('click', fecharModalModelo);
-    document.getElementById('modeloModalOverlay')?.addEventListener('click', (e) => { if (e.target.id === 'modeloModalOverlay') fecharModalModelo(); });
-    document.getElementById('modeloVisibilidade')?.addEventListener('change', atualizarCampoEquipeAcesso);
-    document.getElementById('btnLimparModeloAvancado')?.addEventListener('click', limparModalModelo);
-    document.getElementById('btnExemploModelo')?.addEventListener('click', () => {
-      const area = document.getElementById('modeloTexto');
-      const exemplo = `Encaminho o processo {processo} ao(à) {gerencia} para análise e manifestação até {data}.\nInteressado(a): {nome}.\nAssunto: {assunto}.`;
-      if (area) area.value = area.value ? area.value + '\n\n' + exemplo : exemplo;
-    });
-    document.getElementById('btnSalvarModeloAvancado')?.addEventListener('click', async () => {
-      const nome = document.getElementById('modeloNome')?.value.trim() || '';
-      const textoModelo = document.getElementById('modeloTexto')?.value.trim() || '';
-      if (!nome || !textoModelo) return toast('Preencha nome e texto do modelo.', 'warning');
-      if (!emailAtualModelo()) return toast('Faça login para gerenciar os modelos.', 'warning');
-      const todos = obterTodosModelos();
-      const atalho = atalhoSeguro(document.getElementById('modeloAtalho')?.value || '');
-      if (atalho) {
-        const dup = todos.find(m => atalhoSeguro(m.atalho) === atalho && m.id !== editingModelId && modeloEhVisivel(m));
-        if (dup) return toast(`O atalho /${atalho} já está em uso.`, 'warning');
-      }
-      const e = editingModelId ? todos.find(m => m.id === editingModelId) : null;
-      const base = modeloPayloadBase({
-        criadoPor: e?.criadoPor || emailAtualModelo(),
-        favoritosEmails: e?.favoritosEmails || [],
-        usoCount: e?.usoCount || 0,
-        copiasCount: e?.copiasCount || 0,
-        ultimoUsoEm: e?.ultimoUsoEm || '',
-        ultimoUsoPor: e?.ultimoUsoPor || ''
-      });
-      try {
-        const remoto = { ...base, criadoEm: e?.criadoEmRemoto || firebase.firestore.FieldValue.serverTimestamp(), alteradoEm: firebase.firestore.FieldValue.serverTimestamp() };
-        if (editingModelId && !String(editingModelId).startsWith('local_')) {
-          await db.collection(COLLECTION_MODELOS).doc(editingModelId).set(remoto, { merge: true });
-        } else {
-          await db.collection(COLLECTION_MODELOS).add(remoto);
-        }
-        toast('Modelo salvo com sucesso.', 'success');
-        fecharModalModelo();
-      } catch (error) {
-        console.error(error);
-        const offline = { ...base, id: editingModelId && String(editingModelId).startsWith('local_') ? editingModelId : `local_${Date.now()}`, criadoEm: e?.criadoEm || new Date().toISOString(), armazenamento: 'local', visibilidade: 'usuario' };
-        const idx = localModels.findIndex(m => m.id === offline.id);
-        if (idx >= 0) localModels[idx] = offline; else localModels.push(offline);
-        salvarLocaisModelos();
-        renderListaModelos();
-        fecharModalModelo();
-        toast(`${traduzirErroModelo(error)}. O modelo foi salvo localmente neste navegador.`, 'warning');
-        if ((error?.code || '').includes('permission-denied')) {
-          mostrarMensagem('O Firestore não liberou a coleção modelos_texto. Mesmo assim, o modelo ficou salvo localmente neste navegador.', 'warning');
-        }
-      }
-    });
-
-    const busca = document.getElementById('buscaModelo');
-    busca?.addEventListener('input', () => { localStorage.setItem(STORAGE.busca, busca.value || ''); renderListaModelos(); });
-    const filtroG = document.getElementById('filtroGerenciaModelo');
-    filtroG?.addEventListener('change', () => { localStorage.setItem(STORAGE.gerencia, filtroG.value || ''); renderListaModelos(); });
-    const equipe = document.getElementById('contextoEquipeModelos');
-    equipe?.addEventListener('change', () => { localStorage.setItem(STORAGE.equipe, equipe.value || ''); renderListaModelos(); renderSugestoes(); });
-    const fav = document.getElementById('somenteFavoritosModelos');
-    fav?.addEventListener('change', () => { localStorage.setItem(STORAGE.somenteFavoritos, fav.checked ? '1' : '0'); renderListaModelos(); });
-    document.getElementById('btnLimparFiltrosModelos')?.addEventListener('click', () => {
-      if (busca) busca.value = '';
-      if (filtroG) filtroG.value = '';
-      if (fav) fav.checked = false;
-      localStorage.setItem(STORAGE.busca, '');
-      localStorage.setItem(STORAGE.gerencia, '');
-      localStorage.setItem(STORAGE.somenteFavoritos, '0');
-      renderListaModelos();
-    });
-
-    document.getElementById('listaModelos')?.addEventListener('click', async (e) => {
-      const btn = e.target.closest('[data-model-action]');
-      if (!btn) return;
-      const id = btn.dataset.modelId;
-      const action = btn.dataset.modelAction;
-      if (!id) return;
-      if (action === 'fav') return alternarFavoritoModelo(id);
-      if (action === 'use') return usarModelo(id, 'inserir');
-      if (action === 'copy') return usarModelo(id, 'copy');
-      if (action === 'edit') return abrirModalModelo(id);
-      if (action === 'delete') return excluirModeloAvancado(id);
-    });
-
-    document.getElementById('sugestoesModelosBox')?.addEventListener('mousedown', (e) => {
-      e.preventDefault();
-      esconderSugestoes();
-    });
-
-    entrada?.addEventListener('focus', esconderSugestoes);
-    entrada?.addEventListener('blur', esconderSugestoes);
-    entrada?.addEventListener('input', esconderSugestoes);
-    entrada?.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') esconderSugestoes();
-    });
-  }
-
-  function restaurarPreferencias() {
-    const busca = document.getElementById('buscaModelo');
-    const gerencia = document.getElementById('filtroGerenciaModelo');
-    const equipe = document.getElementById('contextoEquipeModelos');
-    const fav = document.getElementById('somenteFavoritosModelos');
-    if (busca) busca.value = localStorage.getItem(STORAGE.busca) || '';
-    if (gerencia) gerencia.value = localStorage.getItem(STORAGE.gerencia) || '';
-    if (equipe) equipe.value = localStorage.getItem(STORAGE.equipe) || '';
-    if (fav) fav.checked = localStorage.getItem(STORAGE.somenteFavoritos) === '1';
-  }
-
-  function iniciarModelos() {
-    montarInterfaceModelos();
-    carregarLocaisModelos();
-    preencherSelectsModelos();
-    restaurarPreferencias();
-    atualizarCampoEquipeAcesso();
-    registrarEventosModelos();
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        iniciarEscutaModelos();
-        renderListaModelos();
-      } else {
-        if (unsubscribeModelos) { unsubscribeModelos(); unsubscribeModelos = null; }
-        remoteModels = [];
-        renderListaModelos();
-        esconderSugestoes();
-      }
-    });
-  }
-
-  window.__sgpGetVisibleModels = function() { try { return obterTodosModelos().filter(modeloEhVisivel); } catch (e) { console.warn(e); return []; } };
-  window.__sgpUseModel = usarModelo;
-  iniciarModelos();
+  async function salvarAdmin(){if(!pode('administrador'))return;const nome=byId('adminUnidadeNome').value.trim();if(!nome)return toast('Informe o nome da unidade.','warning');const data={nome,sigla:byId('adminUnidadeSigla').value.trim().toUpperCase(),tipo:byId('adminUnidadeTipo').value,superior:byId('adminUnidadeSuperior').value.trim(),ordem:Number(byId('adminUnidadeOrdem').value||100),ativo:byId('adminUnidadeAtivo').value==='true',alteradoEm:firebase.firestore.FieldValue.serverTimestamp(),alteradoPor:auth.currentUser?.email||''};try{adminEditingId?await db.collection(COLLECTION_UNIDADES).doc(adminEditingId).set(data,{merge:true}):await db.collection(COLLECTION_UNIDADES).add({...data,criadoEm:firebase.firestore.FieldValue.serverTimestamp(),criadoPor:auth.currentUser?.email||''});limparAdmin();toast('Unidade salva.','success')}catch(e){console.error(e);toast('Não foi possível salvar. Verifique as regras do Firestore.','error')}}
+  function limparAdmin(){adminEditingId='';['adminUnidadeNome','adminUnidadeSigla','adminUnidadeSuperior'].forEach(id=>byId(id).value='');byId('adminUnidadeTipo').value='Secretaria';byId('adminUnidadeOrdem').value='100';byId('adminUnidadeAtivo').value='true'}
+  function renderAdmin(){const box=byId('adminListaUnidades');if(!box)return;const q=norm(byId('adminBuscaUnidade')?.value);const list=unidadesRemotas.filter(u=>!q||norm([u.nome,u.sigla,u.tipo,u.superior].join(' ')).includes(q)).sort((a,b)=>(a.ordem||100)-(b.ordem||100)||a.nome.localeCompare(b.nome,'pt-BR'));byId('adminUnidadesResumo').textContent=`${list.length} unidade(s) exibida(s)`;box.innerHTML=list.length?list.map(u=>`<div class="admin-item"><div><div class="admin-item-title">${esc(u.nome)} ${u.ativo===false?'<span class="unit-type">Inativa</span>':''}</div><div class="admin-item-meta">${esc(u.tipo||'Outro')}${u.sigla?' • '+esc(u.sigla):''}${u.superior?' • '+esc(u.superior):''} • ordem ${u.ordem??100}</div></div><div class="admin-item-actions"><button data-admin-action="edit" data-id="${u.id}">Editar</button><button class="outline" data-admin-action="toggle" data-id="${u.id}">${u.ativo===false?'Ativar':'Desativar'}</button></div></div>`).join(''):'<div class="empty-state"><p>Nenhuma unidade encontrada.</p></div>'}
+  function escutarUnidades(){return db.collection(COLLECTION_UNIDADES).onSnapshot(s=>{unidadesRemotas=[];s.forEach(d=>unidadesRemotas.push({id:d.id,...d.data()}));reconstruirSelects();renderAdmin()},e=>{console.warn('Usando estrutura local:',e);reconstruirSelects()})}
+  function importarEstruturaInicial(){if(!pode('administrador')||localStorage.getItem('estrutura_importada_v1'))return;db.collection(COLLECTION_UNIDADES).limit(1).get().then(async s=>{if(!s.empty)return;const batch=db.batch();unidadeOptions().forEach(u=>batch.set(db.collection(COLLECTION_UNIDADES).doc(),{...u,criadoEm:firebase.firestore.FieldValue.serverTimestamp(),criadoPor:auth.currentUser?.email||''}));await batch.commit();localStorage.setItem('estrutura_importada_v1','1');toast('Estrutura organizacional inicial importada para o Firestore.','success')}).catch(console.warn)}
+  const observer=new MutationObserver(aplicarPermissoes);observer.observe(document.body,{childList:true,subtree:true});
+  montarAbaAdmin();criarSelecaoMultipla();monitorarFormulario();bindAdmin();
+  auth.onAuthStateChanged(user=>{if(user){carregarPerfil(user).then(importarEstruturaInicial);escutarUnidades()}else{perfilAtual='consulta';aplicarPermissoes()}});
 })();
 </script>
 
-<!-- CONTROLE_CLARINHA_CLARO -->
-<style>
-.cc{display:grid;gap:16px}.cc-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:18px}.cc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.cc-box{background:var(--surface-soft);border:1px solid var(--border);border-radius:16px;padding:14px}.cc-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.cc-actions,.cc-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:end}.cc-actions button,.cc-toolbar button{width:auto;margin:0;min-width:110px}.cc-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.cc-list{display:grid;gap:12px}.cc-item{border:1px solid var(--border);border-left:6px solid var(--primary);border-radius:16px;padding:14px;background:var(--surface)}.cc-item.late{border-left-color:#b42318}.cc-item.today{border-left-color:#b54708}.cc-head{display:flex;justify-content:space-between;gap:12px}.cc-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.cc-side,.cc-detail{background:var(--surface-soft);border:1px solid var(--border);border-radius:12px;padding:10px}.cc-side div,.cc-detail{font-size:13px;line-height:1.5}.cc-meta{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}.cc-label{font-size:11px;text-transform:uppercase;font-weight:800;color:var(--muted)}.cc-pill{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800;margin:3px}.cc-help{padding:11px;border:1px solid var(--border);border-radius:12px;background:var(--surface-soft);font-size:12px;line-height:1.5}.cc-table-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px}.cc-table{width:100%;min-width:1300px;border-collapse:collapse}.cc-table th,.cc-table td{padding:9px;border-bottom:1px solid var(--border);font-size:12px;text-align:left}.cc-table th{background:var(--primary);color:#fff;position:sticky;top:0}.cc-hide{display:none!important}.cc-edit{background:#667883!important;color:#fff!important}.cc-delete{background:#8b4f52!important;color:#fff!important}.cc-priority{display:grid;gap:7px;margin-top:10px}.cc-priority>div{padding:10px;border:1px solid var(--border);border-radius:11px;background:var(--surface)}
-@media(max-width:1000px){.cc-kpis{grid-template-columns:repeat(2,1fr)}.cc-meta{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.cc-grid,.cc-pair,.cc-fields,.cc-meta{grid-template-columns:1fr}}
-</style>
-<script>
-(function(){const C='processos_clarinha',g=id=>document.getElementById(id),h=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');let rows=[],editing='',unsub=null;const F=['tipo','sei','objSei','vigIniSei','vigFimSei','vencSei','statusSei','movSei','sis','objSis','vigIniSis','vigFimSis','vencSis','statusSis','responsavel','unidade','cobrar','providencia','prevista','cumprida','prioridade','avisar'];const fmt=d=>d?new Date(d+'T12:00:00').toLocaleDateString('pt-BR'):'Não informada';function left(d){if(!d)return null;const n=new Date(),a=new Date(n.getFullYear(),n.getMonth(),n.getDate()),b=new Date(d+'T12:00:00');return Math.round((b-a)/86400000)}function procDate(r){return [r.vencSei,r.vencSis].filter(Boolean).sort()[0]||''}function ps(r){if(r.arquivado)return'Arquivado';if(r.concluido)return'Concluído';const d=left(procDate(r));return d===null?'Sem prazo':d<0?'Processo atrasado':d===0?'Processo vence hoje':d<=Number(r.avisar||3)?'Processo vencendo':'Processo no prazo'}function pvs(r){if(r.cumprida)return'Providência cumprida';if(!r.providencia)return'Sem providência';const d=left(r.prevista);return d===null?'Providência sem data':d<0?'Providência atrasada':d===0?'Providência para hoje':d<=Number(r.avisar||3)?'Providência próxima':'Providência no prazo'}function show(r,side){return r.tipo==='ambos'||r.tipo===side||!!r[side==='sei'?'sei':'sis']}
-function mount(){const tabs=document.querySelector('.tabs');const b=document.createElement('button');b.id='ccTab';b.className='tab-btn';b.textContent='Controle da Clarinha';tabs.appendChild(b);g('abaDashboard').insertAdjacentHTML('afterend',`<div id="ccAba" class="hidden"><div class="cc">
-<div class="cc-card"><h3 style="margin:0">Controle da Clarinha</h3><div class="muted">Controle claro de processos, prazo da próxima providência e de quem cobrar.</div></div>
-<div id="ccAgenda" class="cc-card"></div>
-<div class="cc-card"><h3 id="ccTitle" style="margin-top:0">Cadastrar acompanhamento</h3><div class="cc-help"><strong>1.</strong> Escolha o tipo. <strong>2.</strong> Preencha o processo. <strong>3.</strong> Informe a próxima providência, a data e de quem cobrar.</div><label>O que deseja cadastrar?</label><select id="ccTipo"><option value="sei">Somente SEI</option><option value="sis">Somente SISLOG</option><option value="ambos">SEI e SISLOG vinculados</option></select><div class="cc-grid" style="margin-top:12px"><div id="ccSeiBox" class="cc-box"><h4>Processo SEI</h4><label>Nº do processo</label><input id="ccSei"><label>Objeto</label><textarea id="ccObjSei"></textarea><div class="cc-fields"><div><label>Início da vigência</label><input type="date" id="ccVigIniSei"></div><div><label>Fim da vigência</label><input type="date" id="ccVigFimSei"></div><div><label>Vencimento</label><input type="date" id="ccVencSei"></div><div><label>Status</label><select id="ccStatusSei"><option>Não iniciado</option><option>Em andamento</option><option>Aguardando informação</option><option>Concluído</option><option>Cancelado</option></select></div><div><label>Última movimentação SEI</label><input type="date" id="ccMovSei"></div></div></div><div id="ccSisBox" class="cc-box"><h4>Processo SISLOG</h4><label>Nº do processo</label><input id="ccSis"><label>Objeto</label><textarea id="ccObjSis"></textarea><div class="cc-fields"><div><label>Início da vigência</label><input type="date" id="ccVigIniSis"></div><div><label>Fim da vigência</label><input type="date" id="ccVigFimSis"></div><div><label>Vencimento</label><input type="date" id="ccVencSis"></div><div><label>Status</label><select id="ccStatusSis"><option>Não cadastrado</option><option>Em elaboração</option><option>Em tramitação</option><option>Aguardando providência</option><option>Concluído</option><option>Cancelado</option></select></div></div></div></div>
-<div class="cc-box" style="margin-top:12px"><h4>Próxima providência e cobrança</h4><div class="cc-fields"><div><label>Responsável pelo acompanhamento</label><input id="ccResponsavel"></div><div><label>Unidade responsável</label><select id="ccUnidade"><option value="">Selecione no organograma da SEAD</option></select></div><div><label>De quem cobrar</label><input id="ccCobrar" placeholder="Pessoa, empresa, unidade ou órgão"></div><div><label>Prioridade</label><select id="ccPrioridade"><option>Normal</option><option>Alta</option><option>Urgente</option></select></div><div style="grid-column:1/-1"><label>Próxima providência</label><textarea id="ccProvidencia"></textarea></div><div><label>Data prevista da providência</label><input type="date" id="ccPrevista"></div><div><label>Data em que foi cumprida</label><input type="date" id="ccCumprida"></div><div><label>Avisar quando faltar</label><select id="ccAvisar"><option value="1">1 dia</option><option value="3" selected>3 dias</option><option value="5">5 dias</option><option value="7">7 dias</option></select></div></div></div><div class="cc-actions" style="margin-top:12px"><button id="ccSave">Salvar processo</button><button id="ccClear" class="outline">Cancelar/Limpar</button></div></div>
-<div class="cc-kpis"><div class="mini-kpi"><div class="k">Ativos</div><div class="v" id="ccK0">0</div></div><div class="mini-kpi"><div class="k">Providências atrasadas</div><div class="v" id="ccK1">0</div></div><div class="mini-kpi"><div class="k">Providências hoje</div><div class="v" id="ccK2">0</div></div><div class="mini-kpi"><div class="k">Processos atrasados</div><div class="v" id="ccK3">0</div></div><div class="mini-kpi"><div class="k">Processos vencem hoje</div><div class="v" id="ccK4">0</div></div></div>
-<div class="cc-card"><div class="cc-toolbar"><div><label>Pesquisar</label><input id="ccSearch"></div><div><label>Filtrar</label><select id="ccFilter"><option value="">Ativos</option><option value="provHoje">Providências hoje</option><option value="provAtrasada">Providências atrasadas</option><option value="procHoje">Processos vencem hoje</option><option value="procAtrasado">Processos atrasados</option><option value="concluido">Concluídos</option><option value="arquivado">Arquivados</option></select></div><button id="ccExcel" class="outline">Excel da lista atual</button><button id="ccPDF" class="outline">PDF da lista atual</button></div><div class="cc-help" style="margin-top:10px">Nos cartões, use <strong>Editar</strong> para alterar um processo, <strong>Arquivar</strong> para guardar fora da lista ativa e <strong>Apagar</strong> somente para excluir definitivamente.</div><div class="cc-actions" style="margin-top:10px"><button id="ccCards" class="secondary">Cartões detalhados</button><button id="ccTableBtn" class="outline">Planilha consolidada</button></div><div id="ccList" class="cc-list" style="margin-top:12px"></div><div id="ccTableWrap" class="cc-table-wrap cc-hide" style="margin-top:12px"><table class="cc-table"><thead><tr><th>Processo</th><th>Tipo</th><th>Objeto</th><th>Prazo processo</th><th>Providência</th><th>Prazo providência</th><th>Cobrar de</th><th>Responsável</th><th>Unidade</th><th>Status</th></tr></thead><tbody id="ccTbody"></tbody></table></div></div></div></div>`)}
-function org(){Object.entries(ESTRUTURA_ORGANIZACIONAL).forEach(([a,u])=>{const z=document.createElement('optgroup');z.label=a;[a,...u].forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;z.appendChild(o)});g('ccUnidade').appendChild(z)})}function mode(){const t=g('ccTipo').value;g('ccSeiBox').classList.toggle('cc-hide',t==='sis');g('ccSisBox').classList.toggle('cc-hide',t==='sei')}function vals(){const o={};F.forEach(k=>o[k]=g('cc'+k[0].toUpperCase()+k.slice(1))?.value||'');o.avisar=Number(o.avisar||3);return o}function clear(){editing='';F.forEach(k=>{const e=g('cc'+k[0].toUpperCase()+k.slice(1));if(e)e.value=k==='tipo'?'sei':k==='avisar'?'3':''});g('ccStatusSei').value='Não iniciado';g('ccStatusSis').value='Não cadastrado';g('ccPrioridade').value='Normal';g('ccTitle').textContent='Cadastrar acompanhamento';g('ccSave').textContent='Salvar processo';mode()}
-async function save(){const v=vals();if(v.tipo==='sei'&&!v.sei)return toast('Informe o número SEI. O SISLOG é opcional.','warning');if(v.tipo==='sis'&&!v.sis)return toast('Informe o número SISLOG. O SEI é opcional.','warning');try{const z={...v,alteradoEm:firebase.firestore.FieldValue.serverTimestamp()};editing?await db.collection(C).doc(editing).update(z):await db.collection(C).add({...z,concluido:false,arquivado:false,criadoEm:firebase.firestore.FieldValue.serverTimestamp()});toast('Processo salvo.','success');clear()}catch(e){toast('Erro ao salvar. Confira as regras do Firebase.','error')}}function edit(id){const r=rows.find(x=>x.id===id);editing=id;F.forEach(k=>{const e=g('cc'+k[0].toUpperCase()+k.slice(1));if(e)e.value=r[k]??''});g('ccTitle').textContent='Editar processo já cadastrado';g('ccSave').textContent='Salvar alterações';mode();g('ccAba').scrollIntoView({behavior:'smooth'})}async function del(id){const r=rows.find(x=>x.id===id);if(!confirm(`Apagar definitivamente o processo ${r.sei||r.sis||''}? Faça backup antes. Esta ação não pode ser desfeita.`))return;try{await db.collection(C).doc(id).delete();toast('Processo apagado.','success')}catch(e){toast('Sem permissão para apagar. Atualize as regras do Firebase.','error')}}async function upd(id,z){await db.collection(C).doc(id).update(z)}
-function filtered(all=false){if(all)return rows;const z=g('ccSearch').value.toLowerCase(),f=g('ccFilter').value;return rows.filter(r=>{if(![r.sei,r.sis,r.objSei,r.objSis,r.responsavel,r.unidade,r.cobrar,r.providencia].join(' ').toLowerCase().includes(z))return false;if(f==='provHoje'&&pvs(r)!=='Providência para hoje')return false;if(f==='provAtrasada'&&pvs(r)!=='Providência atrasada')return false;if(f==='procHoje'&&ps(r)!=='Processo vence hoje')return false;if(f==='procAtrasado'&&ps(r)!=='Processo atrasado')return false;if(f==='concluido'&&!r.concluido)return false;if(f==='arquivado'&&!r.arquivado)return false;if(!f&&(r.concluido||r.arquivado))return false;return true}).sort((a,b)=>(left(a.prevista)??99999)-(left(b.prevista)??99999))}
-function render(){if(!g('ccList'))return;const a=rows.filter(r=>!r.arquivado);g('ccK0').textContent=a.filter(r=>!r.concluido).length;g('ccK1').textContent=a.filter(r=>pvs(r)==='Providência atrasada').length;g('ccK2').textContent=a.filter(r=>pvs(r)==='Providência para hoje').length;g('ccK3').textContent=a.filter(r=>ps(r)==='Processo atrasado').length;g('ccK4').textContent=a.filter(r=>ps(r)==='Processo vence hoje').length;const pri=a.filter(r=>!r.concluido&&['Providência atrasada','Providência para hoje','Providência próxima'].includes(pvs(r))).sort((x,y)=>(left(x.prevista)??999)-(left(y.prevista)??999)).slice(0,8);g('ccAgenda').innerHTML=`<h3 style="margin:0">Agenda de cobrança</h3><div class="muted">A providência vem antes do vencimento final do processo.</div><div class="cc-priority">${pri.length?pri.map(r=>`<div><strong>${h(r.sei||r.sis)}</strong> • ${h(pvs(r))}<br><span class="muted">${h(r.providencia||'-')} | Cobrar de: ${h(r.cobrar||'Não informado')} | ${h(fmt(r.prevista))}</span></div>`).join(''):'<div>Nenhuma providência urgente.</div>'}</div>`;const l=filtered();g('ccList').innerHTML=l.length?l.map(r=>`<div class="cc-item ${pvs(r)==='Providência atrasada'?'late':pvs(r)==='Providência para hoje'?'today':''}"><div class="cc-head"><div><strong>${h(r.sei||r.sis)}</strong><div><span class="cc-pill">${h(ps(r))}</span><span class="cc-pill">${h(pvs(r))}</span></div></div></div><div class="cc-pair">${show(r,'sei')?`<div class="cc-side"><b>SEI</b><div>Nº: ${h(r.sei||'-')}</div><div>Objeto: ${h(r.objSei||'-')}</div><div>Vigência: ${h(fmt(r.vigIniSei))} a ${h(fmt(r.vigFimSei))}</div><div>Vencimento: ${h(fmt(r.vencSei))}</div><div>Status: ${h(r.statusSei)}</div></div>`:''}${show(r,'sis')?`<div class="cc-side"><b>SISLOG</b><div>Nº: ${h(r.sis||'-')}</div><div>Objeto: ${h(r.objSis||'-')}</div><div>Vigência: ${h(fmt(r.vigIniSis))} a ${h(fmt(r.vigFimSis))}</div><div>Vencimento: ${h(fmt(r.vencSis))}</div><div>Status: ${h(r.statusSis)}</div></div>`:''}</div><div class="cc-meta"><div class="cc-detail"><span class="cc-label">Providência</span><br>${h(r.providencia||'-')}</div><div class="cc-detail"><span class="cc-label">Prazo</span><br>${h(fmt(r.prevista))}</div><div class="cc-detail"><span class="cc-label">Cobrar de</span><br>${h(r.cobrar||'-')}</div><div class="cc-detail"><span class="cc-label">Responsável</span><br>${h(r.responsavel||'-')}</div><div class="cc-detail"><span class="cc-label">Unidade</span><br>${h(r.unidade||'-')}</div></div><div class="cc-actions" style="margin-top:12px"><button class="cc-edit" data-a="edit" data-id="${r.id}">✎ Editar</button>${!r.concluido?`<button class="success" data-a="done" data-id="${r.id}">✓ Concluir</button>`:''}<button class="light" data-a="arc" data-id="${r.id}">Arquivar</button><button class="cc-delete" data-a="del" data-id="${r.id}">Apagar</button></div></div>`).join(''):'<div class="cc-help">Nenhum processo encontrado.</div>';g('ccTbody').innerHTML=l.map(r=>`<tr><td>${h(r.sei||r.sis)}</td><td>${h(r.tipo)}</td><td>${h(r.objSei||r.objSis)}</td><td>${h(fmt(procDate(r)))}</td><td>${h(r.providencia)}</td><td>${h(fmt(r.prevista))}</td><td>${h(r.cobrar)}</td><td>${h(r.responsavel)}</td><td>${h(r.unidade)}</td><td>${h(pvs(r))} / ${h(ps(r))}</td></tr>`).join('')}
-function table(a){return `<table><tr><th>Tipo</th><th>SEI</th><th>Objeto SEI</th><th>Vigência SEI início</th><th>Vigência SEI fim</th><th>Vencimento SEI</th><th>SISLOG</th><th>Objeto SISLOG</th><th>Vigência SISLOG início</th><th>Vigência SISLOG fim</th><th>Vencimento SISLOG</th><th>Providência</th><th>Data prevista</th><th>Cumprida</th><th>Cobrar de</th><th>Responsável</th><th>Unidade</th><th>Status providência</th><th>Status processo</th></tr>${a.map(r=>`<tr>${[r.tipo,r.sei,r.objSei,fmt(r.vigIniSei),fmt(r.vigFimSei),fmt(r.vencSei),r.sis,r.objSis,fmt(r.vigIniSis),fmt(r.vigFimSis),fmt(r.vencSis),r.providencia,fmt(r.prevista),fmt(r.cumprida),r.cobrar,r.responsavel,r.unidade,pvs(r),ps(r)].map(v=>`<td>${h(v)}</td>`).join('')}</tr>`).join('')}</table>`}function excel(a,name){if(!a.length)return toast('Não há registros.','warning');const b=new Blob([`<html><meta charset="UTF-8"><body><h2>Controle da Clarinha</h2>${table(a)}</body></html>`],{type:'application/vnd.ms-excel'}),l=document.createElement('a');l.href=URL.createObjectURL(b);l.download=name;l.click()}function pdf(){const a=filtered(),w=window.open('','_blank');if(!w)return;w.document.write(`<style>@page{size:A3 landscape}table{border-collapse:collapse}th,td{border:1px solid;padding:4px;font:7px Arial}</style>${table(a)}`);w.document.close();setTimeout(()=>w.print(),200)}
-mount();org();mode();const oa=abrirAba;abrirAba=function(a){if(a==='clarinha'){['abaProcessos','abaDashboard','abaModelos'].forEach(i=>g(i)?.classList.add('hidden'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));g('ccAba').classList.remove('hidden');g('ccTab').classList.add('active');render();return}g('ccAba')?.classList.add('hidden');g('ccTab')?.classList.remove('active');return oa(a)};g('ccTab').onclick=()=>abrirAba('clarinha');g('ccTipo').onchange=mode;g('ccSave').onclick=save;g('ccClear').onclick=clear;g('ccSearch').oninput=render;g('ccFilter').onchange=render;g('ccExcel').onclick=()=>excel(filtered(),'controle_clarinha_lista.xls');g('ccPDF').onclick=pdf;g('ccCards').onclick=()=>{g('ccList').classList.remove('cc-hide');g('ccTableWrap').classList.add('cc-hide')};g('ccTableBtn').onclick=()=>{g('ccList').classList.add('cc-hide');g('ccTableWrap').classList.remove('cc-hide')};g('ccList').onclick=e=>{const b=e.target.closest('[data-a]');if(!b)return;if(b.dataset.a==='edit')edit(b.dataset.id);if(b.dataset.a==='del')del(b.dataset.id);if(b.dataset.a==='done')upd(b.dataset.id,{concluido:true});if(b.dataset.a==='arc')upd(b.dataset.id,{arquivado:true})};auth.onAuthStateChanged(u=>{if(u){if(unsub)unsub();unsub=db.collection(C).onSnapshot(s=>{rows=[];s.forEach(d=>rows.push({id:d.id,...d.data()}));render()},()=>g('ccList').innerHTML='<div class="feedback error">Libere a coleção processos_clarinha no Firebase.</div>')}else if(unsub)unsub()})})();
-</script>
-<!-- CLARINHA_LAYOUT_HIBRIDO_FINAL -->
-<style>
-  .cc-hero-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.cc-hero-actions button{width:auto;min-width:150px;margin:0}
-  .cc-modebar{display:flex;gap:8px;flex-wrap:wrap;padding:10px;border:1px solid var(--border);border-radius:14px;background:var(--surface-soft)}
-  .cc-modebar button{width:auto;min-width:145px;margin:0}.cc-modal-overlay{position:fixed;inset:0;z-index:1400;background:rgba(15,23,42,.52);display:flex;align-items:center;justify-content:center;padding:18px}
-  .cc-modal-overlay.cc-hide{display:none!important}.cc-modal-shell{width:min(1120px,100%);max-height:94vh;overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:22px;box-shadow:0 24px 70px rgba(15,23,42,.30);padding:18px}
-  .cc-modal-head{position:sticky;top:-18px;z-index:5;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:14px 4px 12px;background:var(--surface);border-bottom:1px solid var(--border);margin-bottom:14px}
-  .cc-modal-head h3{margin:0}.cc-modal-close{width:auto!important;min-width:100px!important;margin:0!important}.cc-agenda-focus .cc-priority>div{border-left:5px solid #b54708;padding:12px}.cc-agenda-focus .cc-priority>div:first-child{border-left-color:#b42318}
-  .cc-section-caption{font-size:12px;color:var(--muted);margin-top:5px}.cc-mobile-sticky{position:sticky;bottom:-18px;z-index:4;background:linear-gradient(180deg,transparent 0%,var(--surface) 30%);padding:18px 0 4px}
-  @media(max-width:760px){.cc-modal-overlay{padding:0;align-items:stretch}.cc-modal-shell{width:100%;max-height:100vh;border-radius:0;padding:14px}.cc-modal-head{top:-14px}.cc-hero-actions,.cc-modebar{display:grid;grid-template-columns:1fr}.cc-hero-actions button,.cc-modebar button{width:100%}.cc-modal-shell .cc-actions{display:grid;grid-template-columns:1fr}.cc-modal-shell .cc-actions button{width:100%;min-height:46px}}
-</style>
-<script>
-(function(){
-  function initHybrid(){
-    const aba=document.getElementById('ccAba'); if(!aba||document.getElementById('ccNovo')) return;
-    const cards=aba.querySelectorAll(':scope > .cc > .cc-card');
-    const hero=cards[0], agenda=document.getElementById('ccAgenda'), formCard=cards[2], consulta=cards[3];
-    if(!hero||!agenda||!formCard||!consulta) return;
-    hero.insertAdjacentHTML('beforeend','<div class="cc-hero-actions"><button type="button" id="ccNovo">+ Novo acompanhamento</button></div>');
-    agenda.classList.add('cc-agenda-focus');
-    agenda.insertAdjacentHTML('beforebegin','<div class="cc-modebar"><button type="button" class="secondary" id="ccModoAgenda">Agenda de cobrança</button><button type="button" class="outline" id="ccModoPlanilha">Planilha consolidada</button><button type="button" class="outline" id="ccModoCartoes">Cartões detalhados</button></div>');
-    const overlay=document.createElement('div'); overlay.id='ccFormOverlay'; overlay.className='cc-modal-overlay cc-hide'; overlay.innerHTML='<div class="cc-modal-shell" role="dialog" aria-modal="true" aria-labelledby="ccModalTitulo"><div class="cc-modal-head"><div><h3 id="ccModalTitulo">Novo acompanhamento</h3><div class="cc-section-caption">Preencha o processo e, principalmente, a próxima providência, a data e de quem cobrar.</div></div><button type="button" class="outline cc-modal-close" id="ccFecharForm">Fechar</button></div><div id="ccFormSlot"></div></div>';
-    document.body.appendChild(overlay); document.getElementById('ccFormSlot').appendChild(formCard); formCard.style.margin='0';
-    const formActions=formCard.querySelector('.cc-actions'); if(formActions) formActions.classList.add('cc-mobile-sticky');
-    function openForm(editing=false){overlay.classList.remove('cc-hide');document.body.style.overflow='hidden';document.getElementById('ccModalTitulo').textContent=editing?'Editar acompanhamento':'Novo acompanhamento';setTimeout(()=>document.getElementById('ccTipo')?.focus(),50)}
-    function closeForm(){overlay.classList.add('cc-hide');document.body.style.overflow=''}
-    function mode(which){
-      agenda.classList.toggle('cc-hide',which!=='agenda');
-      document.getElementById('ccList').classList.toggle('cc-hide',which!=='cards');
-      document.getElementById('ccTableWrap').classList.toggle('cc-hide',which!=='table');
-      ['Agenda','Planilha','Cartoes'].forEach(n=>{const b=document.getElementById('ccModo'+n);if(b)b.className=(n.toLowerCase()===(which==='cards'?'cartoes':which==='table'?'planilha':'agenda'))?'secondary':'outline'});
-      consulta.scrollIntoView({behavior:'smooth',block:'start'});
-    }
-    document.getElementById('ccNovo').onclick=()=>{document.getElementById('ccClear')?.click();openForm(false)};
-    
-    document.getElementById('ccFecharForm').onclick=closeForm; overlay.addEventListener('click',e=>{if(e.target===overlay)closeForm()});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!overlay.classList.contains('cc-hide'))closeForm()});
-    document.getElementById('ccModoAgenda').onclick=()=>mode('agenda');document.getElementById('ccModoPlanilha').onclick=()=>mode('table');document.getElementById('ccModoCartoes').onclick=()=>mode('cards');
-    document.getElementById('ccCards').style.display='none';document.getElementById('ccTableBtn').style.display='none';
-    document.getElementById('ccList').addEventListener('click',e=>{if(e.target.closest('[data-a="edit"]'))setTimeout(()=>openForm(true),0)},true);
-    document.getElementById('ccClear').addEventListener('click',closeForm);
-    document.getElementById('ccSave').addEventListener('click',()=>setTimeout(()=>{if(!document.getElementById('ccSave').disabled)closeForm()},650));
-    mode('agenda');
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(initHybrid,0));else setTimeout(initHybrid,0);
-})();
-</script>
-<!-- CLARINHA_MONITORAMENTO_AVANCADO -->
-<style>
-.cc-extra-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.cc-extra-panel{padding:13px;border:1px solid var(--border);border-radius:14px;background:var(--surface-soft)}.cc-extra-panel .n{font-size:27px;font-weight:800;margin-top:5px}.cc-agenda-groups{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}.cc-agenda-group{border:1px solid var(--border);border-radius:14px;padding:11px;background:var(--surface)}.cc-agenda-group h4{margin:0 0 8px;font-size:14px}.cc-agenda-row{padding:8px;border:1px solid var(--border);border-radius:10px;background:var(--surface-soft);font-size:12px;line-height:1.45;margin-top:7px}.cc-agenda-row.late{border-left:5px solid #b42318}.cc-agenda-row.today{border-left:5px solid #b54708}.cc-agenda-row.soon{border-left:5px solid #d4a72c}.cc-quick-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.cc-quick-actions button{width:auto;min-width:118px;margin:0;padding:8px 10px;font-size:12px}.cc-quick-done{background:#668974!important}.cc-quick-charge{background:#6b7d88!important}.cc-charge-history{margin-top:8px;padding:8px;border:1px dashed var(--border);border-radius:10px;font-size:11px;color:var(--muted);line-height:1.5}.cc-dup-warning{padding:10px 12px;border-radius:12px;background:#efe6d8;border:1px solid #d7c09a;color:#7a541e;font-size:12px;margin-top:8px}.cc-security-menu{position:relative;display:inline-block}.cc-security-pop{position:absolute;right:0;top:calc(100% + 7px);z-index:20;min-width:220px;padding:8px;border:1px solid var(--border);border-radius:12px;background:var(--surface);box-shadow:var(--shadow)}.cc-security-pop button{width:100%;margin:4px 0}.cc-summary-day{font-size:14px;line-height:1.55;margin-top:8px;padding:12px;border-radius:13px;background:var(--surface-soft);border:1px solid var(--border)}
-@media(max-width:1100px){.cc-agenda-groups{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.cc-extra-kpis,.cc-agenda-groups{grid-template-columns:1fr}.cc-quick-actions button{width:100%}}
-</style>
-<script>
-(function(){
- const COL='processos_clarinha', $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
- let advItems=[],advUnsub=null;
- function dayDiff(iso){if(!iso)return null;const n=new Date(),a=new Date(n.getFullYear(),n.getMonth(),n.getDate()),b=new Date(iso+'T12:00:00');return Math.round((b-a)/86400000)}
- function chargeStatus(i){if(i.cumprida)return'Providência cumprida';if(!i.providencia)return'Sem próxima providência';const d=dayDiff(i.prevista);if(d===null)return'Providência sem data';if(d<0)return'Providência atrasada';if(d===0)return'Providência para hoje';if(d===1)return'Providência para amanhã';if(d<=7)return'Próximos 7 dias';return'Programada'}
- function fmt(d){return d?new Date(d+'T12:00:00').toLocaleDateString('pt-BR'):'Não informada'}
- function mountExtra(){
-   if($('ccExtraKpis'))return;
-   const kpis=document.querySelector('#ccAba .cc-kpis');
-   if(kpis)kpis.insertAdjacentHTML('afterend','<div id="ccExtraKpis" class="cc-extra-kpis"><div class="cc-extra-panel"><div class="cc-label">Sem próxima providência</div><div class="n" id="ccKSemProv">0</div></div><div class="cc-extra-panel"><div class="cc-label">Sem pessoa para cobrar</div><div class="n" id="ccKSemCobrar">0</div></div><div class="cc-extra-panel"><div class="cc-label">Cumprida sem nova ação</div><div class="n" id="ccKSemNova">0</div></div></div>');
-   const agenda=$('ccAgenda');if(agenda){agenda.insertAdjacentHTML('beforeend','<div id="ccResumoDia" class="cc-summary-day"></div><div id="ccAgendaGrupos" class="cc-agenda-groups"></div>')}
-   const form=$('ccTitle')?.parentElement;if(form){
-     const box=[...form.querySelectorAll('.cc-box')].find(b=>b.textContent.includes('Próxima providência'));
-     if(box&&!$('ccStatusCobranca'))box.querySelector('.cc-fields').insertAdjacentHTML('beforeend','<div><label>Situação da cobrança</label><select id="ccStatusCobranca"><option>Ainda não cobrado</option><option>Cobrança programada</option><option>Cobrado, aguardando resposta</option><option>Resposta recebida</option><option>Providência parcialmente cumprida</option><option>Providência cumprida</option><option>Sem retorno</option><option>Cobrança dispensada</option></select></div><div><label>Data da última cobrança</label><input type="date" id="ccDataUltimaCobranca"></div><div><label>Próxima tentativa de cobrança</label><input type="date" id="ccProximaTentativa"></div><div><label>Meio da cobrança</label><select id="ccMeioCobranca"><option value="">Selecione</option><option>E-mail</option><option>Telefone</option><option>WhatsApp</option><option>SEI</option><option>SISLOG</option><option>Reunião</option><option>Outro</option></select></div><div style="grid-column:1/-1"><label>Resultado da última cobrança</label><input id="ccResultadoCobranca" placeholder="Ex.: aguardando retorno ou documentos recebidos"></div>');
-     const numSei=$('ccSei'),numSis=$('ccSis'); if(numSei)numSei.insertAdjacentHTML('afterend','<div id="ccDupSei" class="cc-dup-warning cc-hide"></div>');if(numSis)numSis.insertAdjacentHTML('afterend','<div id="ccDupSis" class="cc-dup-warning cc-hide"></div>');
-   }
-   const hero=document.querySelector('#ccAba .cc-hero-actions');if(hero&&!$('ccSecurity'))hero.insertAdjacentHTML('beforeend','<div class="cc-security-menu"><button type="button" class="success" id="ccSecurity">Segurança e backup ▾</button><div id="ccSecurityPop" class="cc-security-pop cc-hide"><div style="padding:6px 6px 8px;font-weight:800">Backup completo</div><button type="button" class="success" id="ccBackupExcelAdv">Baixar backup em Excel</button><button type="button" class="outline" id="ccBackupJson">Baixar backup técnico (JSON)</button><div class="muted" id="ccLastBackup" style="padding:6px"></div></div></div>');
-   bindExtra();
- }
- function bindExtra(){
-   $('ccSecurity')?.addEventListener('click',(e)=>{e.stopPropagation();$('ccSecurityPop').classList.toggle('cc-hide')});document.addEventListener('click',(e)=>{if(!e.target.closest('.cc-security-menu'))$('ccSecurityPop')?.classList.add('cc-hide')});
-   $('ccBackupExcelAdv')?.addEventListener('click',backupExcelCompleto);
-   $('ccBackupJson')?.addEventListener('click',backupJson);
-   ['ccSei','ccSis'].forEach(id=>$(id)?.addEventListener('input',checkDuplicate));
-   $('ccClear')?.addEventListener('click',()=>setTimeout(clearExtraForm,0));
-   $('ccSave')?.addEventListener('click',()=>setTimeout(saveExtraFields,250));
-   document.addEventListener('click',quickAction);
-   updateBackupLabel();
- }
- function clearExtraForm(){['ccStatusCobranca','ccDataUltimaCobranca','ccProximaTentativa','ccMeioCobranca','ccResultadoCobranca'].forEach(id=>{const e=$(id);if(e)e.value=id==='ccStatusCobranca'?'Ainda não cobrado':''});['ccDupSei','ccDupSis'].forEach(id=>$(id)?.classList.add('cc-hide'))}
- async function saveExtraFields(){
-   const title=$('ccTitle')?.textContent||''; if(!title.includes('Editar'))return;
-   const openNumber=$('ccSei')?.value||$('ccSis')?.value;const item=advItems.find(i=>(i.sei&&i.sei===$('ccSei')?.value)||(i.sis&&i.sis===$('ccSis')?.value));if(!item)return;
-   try{await db.collection(COL).doc(item.id).set({statusCobranca:$('ccStatusCobranca')?.value||'',dataUltimaCobranca:$('ccDataUltimaCobranca')?.value||'',proximaTentativa:$('ccProximaTentativa')?.value||'',meioCobranca:$('ccMeioCobranca')?.value||'',resultadoCobranca:$('ccResultadoCobranca')?.value||''},{merge:true})}catch(e){console.warn(e)}
- }
- function checkDuplicate(e){const isSei=e.target.id==='ccSei',val=e.target.value.trim(),box=$(isSei?'ccDupSei':'ccDupSis');const found=advItems.find(i=>String(isSei?i.sei:i.sis).trim()===val);box.classList.toggle('cc-hide',!val||!found);if(val&&found)box.innerHTML=`Este número já está cadastrado. <button type="button" class="outline" style="width:auto;margin:0 0 0 8px;padding:5px 8px" data-adv-edit="${found.id}">Editar existente</button>`}
- function quickAction(e){
-   const du=e.target.closest('[data-adv-edit]');if(du){const card=document.querySelector(`[data-id="${du.dataset.advEdit}"][data-a="edit"]`);card?.click();return}
-   const b=e.target.closest('[data-adv-action]');if(!b)return;const id=b.dataset.id,item=advItems.find(i=>i.id===id);if(!item)return;
-   if(b.dataset.advAction==='done')registerDone(item);if(b.dataset.advAction==='charge')registerCharge(item);
- }
- async function registerDone(i){const result=prompt('Resultado da providência cumprida (opcional):','')??'';const nova=confirm('Existe uma nova providência para este processo?');let payload={cumprida:new Date().toISOString().slice(0,10),resultadoProvidencia:result,statusCobranca:'Providência cumprida',alteradoEm:firebase.firestore.FieldValue.serverTimestamp()};if(nova){const p=prompt('Informe a nova providência:','')??'';const d=prompt('Informe a nova data no formato AAAA-MM-DD:','')??'';payload={...payload,providencia:p,prevista:d,cumprida:'',statusCobranca:'Cobrança programada'}}try{await db.collection(COL).doc(i.id).update(payload);toast('Providência registrada.','success')}catch(e){toast('Não foi possível registrar a providência.','error')}}
- async function registerCharge(i){const meio=prompt('Meio da cobrança: E-mail, Telefone, WhatsApp, SEI, SISLOG, Reunião ou Outro','E-mail');if(meio===null)return;const resultado=prompt('Resultado da cobrança:','Aguardando retorno')??'';const now=new Date();const ev={em:now.toISOString(),meio,resultado,por:auth.currentUser?.email||''};try{await db.collection(COL).doc(i.id).update({dataUltimaCobranca:now.toISOString().slice(0,10),meioCobranca:meio,resultadoCobranca:resultado,statusCobranca:'Cobrado, aguardando resposta',quantidadeCobrancas:firebase.firestore.FieldValue.increment(1),historicoCobrancas:firebase.firestore.FieldValue.arrayUnion(ev),alteradoEm:firebase.firestore.FieldValue.serverTimestamp()});toast('Cobrança registrada.','success')}catch(e){toast('Não foi possível registrar a cobrança.','error')}}
- function enhanceCards(){document.querySelectorAll('#ccList .cc-item').forEach(card=>{if(card.dataset.advReady)return;const any=card.querySelector('[data-id]'),id=any?.dataset.id,item=advItems.find(i=>i.id===id);if(!item)return;card.dataset.advReady='1';const actions=card.querySelector('.cc-actions');if(actions)actions.insertAdjacentHTML('afterbegin',`<button type="button" class="cc-quick-done" data-adv-action="done" data-id="${id}">✓ Providência cumprida</button><button type="button" class="cc-quick-charge" data-adv-action="charge" data-id="${id}">Cobrado hoje</button>`);const hist=item.historicoCobrancas||[];if(hist.length)card.insertAdjacentHTML('beforeend',`<div class="cc-charge-history"><strong>Cobranças:</strong> ${item.quantidadeCobrancas||hist.length} • Última: ${fmt(item.dataUltimaCobranca)} • ${esc(item.meioCobranca||'')} • ${esc(item.resultadoCobranca||'')}</div>`)})}
- function renderAdvanced(){if(!$('ccExtraKpis'))return;const active=advItems.filter(i=>!i.arquivado&&!i.concluido);$('ccKSemProv').textContent=active.filter(i=>!i.providencia).length;$('ccKSemCobrar').textContent=active.filter(i=>i.providencia&&!i.cobrar).length;$('ccKSemNova').textContent=active.filter(i=>i.cumprida&&!i.providencia).length;const groups={late:[],today:[],tomorrow:[],soon:[]};active.forEach(i=>{const d=dayDiff(i.prevista);if(d===null)return;if(d<0)groups.late.push(i);else if(d===0)groups.today.push(i);else if(d===1)groups.tomorrow.push(i);else if(d<=7)groups.soon.push(i)});const mk=(title,a,cls)=>`<div class="cc-agenda-group"><h4>${title} (${a.length})</h4>${a.length?a.map(i=>`<div class="cc-agenda-row ${cls}"><strong>${esc(i.sei||i.sis||'Sem número')}</strong><br>${esc(i.providencia||'-')}<br><strong>Cobrar de:</strong> ${esc(i.cobrar||'Não informado')}<div class="cc-quick-actions"><button data-adv-action="charge" data-id="${i.id}">Cobrado hoje</button><button data-adv-action="done" data-id="${i.id}">Cumprida</button></div></div>`).join(''):'<div class="muted">Nenhum item.</div>'}</div>`;$('ccAgendaGrupos').innerHTML=mk('Atrasadas',groups.late,'late')+mk('Hoje',groups.today,'today')+mk('Amanhã',groups.tomorrow,'soon')+mk('Próximos 7 dias',groups.soon,'soon');$('ccResumoDia').innerHTML=`<strong>Resumo de hoje:</strong> ${groups.today.length} providência(s) para hoje, ${groups.late.length} atrasada(s) e ${active.filter(i=>{const d=dayDiff([i.vencSei,i.vencSis].filter(Boolean).sort()[0]);return d===0}).length} processo(s) com vencimento final hoje.`;enhanceCards();fillEditExtra()}
- function fillEditExtra(){if(!($('ccTitle')?.textContent||'').includes('Editar'))return;const item=advItems.find(i=>(i.sei&&i.sei===$('ccSei')?.value)||(i.sis&&i.sis===$('ccSis')?.value));if(!item)return;const map={ccStatusCobranca:'statusCobranca',ccDataUltimaCobranca:'dataUltimaCobranca',ccProximaTentativa:'proximaTentativa',ccMeioCobranca:'meioCobranca',ccResultadoCobranca:'resultadoCobranca'};Object.entries(map).forEach(([id,k])=>{if($(id)&&!$(id).value)$(id).value=item[k]||''})}
- function backupExcelCompleto(){
-   if(!advItems.length)return toast('Não há dados para backup.','warning');
-   const cols=['Tipo','SEI','Objeto SEI','Início vigência SEI','Fim vigência SEI','Vencimento SEI','SISLOG','Objeto SISLOG','Início vigência SISLOG','Fim vigência SISLOG','Vencimento SISLOG','Providência','Data prevista','Data cumprida','Cobrar de','Responsável','Unidade','Situação da cobrança','Última cobrança','Próxima tentativa','Meio da cobrança','Resultado','Quantidade de cobranças','Concluído','Arquivado'];
-   const linhas=advItems.map(i=>[i.tipo,i.sei,i.objSei,fmt(i.vigIniSei),fmt(i.vigFimSei),fmt(i.vencSei),i.sis,i.objSis,fmt(i.vigIniSis),fmt(i.vigFimSis),fmt(i.vencSis),i.providencia,fmt(i.prevista),fmt(i.cumprida),i.cobrar,i.responsavel,i.unidade,i.statusCobranca,fmt(i.dataUltimaCobranca),fmt(i.proximaTentativa),i.meioCobranca,i.resultadoCobranca,i.quantidadeCobrancas||0,i.concluido?'Sim':'Não',i.arquivado?'Sim':'Não']);
-   const tabela=`<table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${linhas.map(l=>`<tr>${l.map(v=>`<td>${esc(v??'')}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
-   const html=`<html><head><meta charset="UTF-8"></head><body><h2>Backup completo do Controle da Clarinha</h2><p>Gerado em ${new Date().toLocaleString('pt-BR')} | ${advItems.length} registro(s), incluindo concluídos e arquivados.</p>${tabela}</body></html>`;
-   const blob=new Blob([html],{type:'application/vnd.ms-excel;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`backup_completo_clarinha_${new Date().toISOString().slice(0,10)}.xls`;a.click();URL.revokeObjectURL(a.href);saveBackupDate();$('ccSecurityPop')?.classList.add('cc-hide');toast('Backup completo em Excel gerado.','success');
- }
- function backupJson(){const blob=new Blob([JSON.stringify({geradoEm:new Date().toISOString(),colecao:COL,total:advItems.length,dados:advItems},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`backup_tecnico_clarinha_${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);saveBackupDate();$('ccSecurityPop')?.classList.add('cc-hide')}
- function saveBackupDate(){localStorage.setItem('clarinha_ultimo_backup',new Date().toISOString());updateBackupLabel()}
- function updateBackupLabel(){const v=localStorage.getItem('clarinha_ultimo_backup');$('ccLastBackup').textContent=v?'Último backup neste navegador: '+new Date(v).toLocaleString('pt-BR'):'Nenhum backup registrado neste navegador.'}
- function listen(){if(advUnsub)advUnsub();advUnsub=db.collection(COL).onSnapshot(s=>{advItems=[];s.forEach(d=>advItems.push({id:d.id,...d.data()}));renderAdvanced();setTimeout(enhanceCards,50)})}
- function init(){mountExtra();auth.onAuthStateChanged(u=>{if(u)listen();else if(advUnsub)advUnsub});new MutationObserver(()=>{mountExtra();enhanceCards();fillEditExtra()}).observe(document.body,{childList:true,subtree:true})}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,50));else setTimeout(init,50)
-})();
-</script>
 </body>
 </html>
 
