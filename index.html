@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema de Gestão de Processos</title>
+  <title>Sistema de Gestão de Processos - Versão 3</title>
   <!-- Atualizado: inclusão de secretarias e órgãos estaduais -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -3153,7 +3153,7 @@ body.dark-mode header,body.roxo-mode header{backdrop-filter:blur(10px)}body.dark
 </head>
 <body>
   <header>
-    <h1>🏛️ Sistema de Gestão de Processos</h1>
+    <h1>🏛️ Sistema de Gestão de Processos <small style="font-size:11px;opacity:.7;vertical-align:middle;">v3 sem Modelos e sem Clarinha</small></h1>
   </header>
 
   <div class="toasts" id="toasts"></div>
@@ -4570,12 +4570,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       const rx = new RegExp('(' + escapeRegexLocal(t) + ')', 'ig');
       return safe.replace(rx, '<mark class="search-mark">$1</mark>');
     }
-
-    function obterModelosBuscaGlobal() {
-      try {
-        if (typeof window.__sgpGetVisibleModels === 'function') {
-          return window.__sgpGetVisibleModels() || [];
-        }
       } catch (e) { console.warn(e); }
       return [];
     }
@@ -4626,25 +4620,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
           <div class="global-search-item-actions">
             <button type="button" class="light" data-global-action="ver-processo" data-global-id="${item.id}">Ver</button>
             <button type="button" class="outline" data-global-action="editar-processo" data-global-id="${item.id}">Editar</button>
-          </div>
-        </button>`;
-    }
-
-    function htmlResultadoModelo(modelo, termo, active = false) {
-      const subtitulo = [modelo.categoria, modelo.gerenciaRelacionada, modelo.atalho ? '/' + modelo.atalho : ''].filter(Boolean).join(' • ');
-      return `
-        <button type="button" class="global-search-item ${active ? 'active' : ''}" data-global-type="modelo" data-global-id="${modelo.id}">
-          <div class="global-search-item-title">
-            <span>${highlightGlobal(modelo.nome || '(sem nome)', termo)}</span>
-            <span class="tag-gerencia">${modelo.atalho ? '/' + escapeHtml(modelo.atalho) : 'Modelo'}</span>
-          </div>
-          <div class="global-search-item-meta">
-            ${subtitulo ? highlightGlobal(subtitulo, termo) + '<br>' : ''}
-            ${highlightGlobal((modelo.texto || '').replace(/\s+/g, ' ').trim().slice(0, 180) + ((modelo.texto || '').length > 180 ? '…' : ''), termo)}
-          </div>
-          <div class="global-search-item-actions">
-            <button type="button" class="light" data-global-action="usar-modelo" data-global-id="${modelo.id}">Usar</button>
-            <button type="button" class="outline" data-global-action="copiar-modelo" data-global-id="${modelo.id}">Copiar</button>
           </div>
         </button>`;
     }
@@ -4700,16 +4675,6 @@ Assunto: Manifestação de interesse quanto ao recebimento de bens móveis inser
       }
       if (action === 'editar-processo') {
         abrirModalEdicao(id);
-        fecharBuscaGlobal();
-        return;
-      }
-      if (action === 'usar-modelo' && typeof window.__sgpUseModel === 'function') {
-        await window.__sgpUseModel(id, 'inserir');
-        fecharBuscaGlobal();
-        return;
-      }
-      if (action === 'copiar-modelo' && typeof window.__sgpUseModel === 'function') {
-        await window.__sgpUseModel(id, 'copy');
         fecharBuscaGlobal();
         return;
       }
@@ -5102,7 +5067,38 @@ function imprimirRelatorioAtual() {
   htmlExport = htmlExport.replace(/<canvas id="relatorioGraficoEvolucao"[^>]*><\/canvas>/, imgs[2] ? `<img src="${imgs[2]}" style="width:100%;max-height:260px;object-fit:contain;" />` : '');
   const w = window.open('', '_blank', 'width=1000,height=800');
   if (!w) return toast('O navegador bloqueou a janela de exportação.', 'warning');
-  w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><title>Relatório PDF</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#1f2937} h2,h3,h4{margin:0 0 10px} .relatorio-grid-kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px} .relatorio-graficos-grid,.relatorio-grid-duplo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px} .relatorio-kpi,.relatorio-card,.relatorio-chart-card{border:1px solid #d1d5db;border-radius:12px;padding:12px;background:#fff} .relatorio-lista-item{display:flex;justify-content:space-between;border-bottom:1px dashed #d1d5db;padding:6px 0;font-size:13px} .relatorio-lista-item:last-child{border-bottom:0} .relatorio-headline{margin-bottom:16px;line-height:1.5} img{display:block} @media print {body{padding:12px}.relatorio-grid-kpi{grid-template-columns:repeat(2,1fr)} .relatorio-graficos-grid,.relatorio-grid-duplo{grid-template-columns:1fr 1fr}}</style></head><body><h2>Relatório por período</h2>${htmlExport}</body></html>`);
+  w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><title>Relatório PDF</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#1f2937} h2,h3,h4{margin:0 0 10px} .relatorio-grid-kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px} .relatorio-graficos-grid,.relatorio-grid-duplo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px} .relatorio-kpi,.relatorio-card,.relatorio-chart-card{border:1px solid #d1d5db;border-radius:12px;padding:12px;background:#fff} .relatorio-lista-item{display:flex;justify-content:space-between;border-bottom:1px dashed #d1d5db;padding:6px 0;font-size:13px} .relatorio-lista-item:last-child{border-bottom:0} .relatorio-headline{margin-bottom:16px;line-height:1.5} img{display:block} @media print {body{padding:12px}.relatorio-grid-kpi{grid-template-columns:repeat(2,1fr)} .relatorio-graficos-grid,.relatorio-grid-duplo{grid-template-columns:1fr 1fr}}</style></head><body><h2>Relatório por período</h2>${htmlExport}
+<script>
+/* LIMPEZA_FORCADA_ABAS_OBSOLETAS_V3 */
+(function(){
+  const obsolete = ['modelos','biblioteca de modelos','controle da clarinha','clarinha'];
+  const clean = () => {
+    document.querySelectorAll('button,a,[role="tab"]').forEach(el => {
+      const txt=(el.textContent||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+      if(obsolete.some(x=>txt===x || txt.includes('controle da clarinha') || txt.includes('biblioteca de modelos'))){
+        const id=(el.id||'').toLowerCase();
+        if(id.includes('modelo')||id.includes('clarinha')||txt.includes('modelo')||txt.includes('clarinha')) el.remove();
+      }
+    });
+    document.querySelectorAll('[id*="modelo" i],[id*="clarinha" i],[class*="modelo" i],[class*="clarinha" i]').forEach(el=>{
+      if(!el.closest('#relatorioConteudo')) el.remove();
+    });
+    document.querySelectorAll('.toast,.feedback,[role="alert"]').forEach(el=>{
+      const txt=(el.textContent||'').toLowerCase();
+      if(txt.includes('modelos online indisponiveis')||txt.includes('modelos locais continuam indisponiveis')) el.remove();
+    });
+  };
+  const oldKeys=[];
+  for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i)||'';if(/modelo|clarinha/i.test(k))oldKeys.push(k)}
+  oldKeys.forEach(k=>localStorage.removeItem(k));
+  clean();
+  new MutationObserver(clean).observe(document.documentElement,{childList:true,subtree:true});
+  window.addEventListener('pageshow',clean);
+  document.addEventListener('DOMContentLoaded',clean);
+})();
+</script>
+
+</body></html>`);
   w.document.close();
   w.focus();
   w.print();
@@ -7084,7 +7080,6 @@ function imprimirRelatorioAtual() {
         const tipo = itemBtn.dataset.globalType;
         const id = itemBtn.dataset.globalId;
         if (tipo === "processo") { abrirDrawer(id); fecharBuscaGlobal(); return; }
-        if (tipo === "modelo" && typeof window.__sgpUseModel === "function") { await window.__sgpUseModel(id, "inserir"); fecharBuscaGlobal(); }
       });
       btnEntrar.addEventListener("click", login);
       btnCadastrar.addEventListener("click", cadastrar);
@@ -7277,7 +7272,6 @@ function imprimirRelatorioAtual() {
             if (alvo) {
               e.preventDefault();
               if (alvo.tipo === 'processo') { abrirDrawer(alvo.id); fecharBuscaGlobal(); return; }
-              if (alvo.tipo === 'modelo' && typeof window.__sgpUseModel === 'function') { await window.__sgpUseModel(alvo.id, 'inserir'); fecharBuscaGlobal(); return; }
             }
           }
           if (e.key === 'Escape') { fecharBuscaGlobal(); }
@@ -7347,8 +7341,8 @@ function imprimirRelatorioAtual() {
   function aplicarPermissoes(){
     const mapa=[['btnGerarProcesso','operador'],['btnSalvarEdicao','operador'],['drawerBtnRespondido','gestor'],['drawerBtnProrrogar','gestor'],['drawerBtnExcluir','administrador'],['btnCadastrar','administrador']];
     mapa.forEach(([id,p])=>byId(id)?.classList.toggle('permission-hidden',!pode(p)));
-    document.querySelectorAll('[data-action="delete"], [data-model-action="delete"]').forEach(el=>el.classList.toggle('permission-hidden',!pode('administrador')));
-    document.querySelectorAll('[data-action="edit"], [data-model-action="edit"]').forEach(el=>el.classList.toggle('permission-hidden',!pode('operador')));
+    document.querySelectorAll('[data-action="delete"]').forEach(el=>el.classList.toggle('permission-hidden',!pode('administrador')));
+    document.querySelectorAll('[data-action="edit"]').forEach(el=>el.classList.toggle('permission-hidden',!pode('operador')));
     byId('tabAdministracaoBtn')?.classList.toggle('permission-hidden',!pode('administrador'));
     if(!pode('administrador')&&!byId('abaAdministracao')?.classList.contains('hidden')) abrirAba('processos');
     if(byId('perfilUsuario')) byId('perfilUsuario').textContent=perfilAtual.charAt(0).toUpperCase()+perfilAtual.slice(1);
